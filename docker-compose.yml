@@ -3,7 +3,7 @@ services:
   postgres:
     image: postgres:15.3-alpine
     ports:
-      - "5433:5432"
+      - "5432:5432"
     environment:
       - POSTGRES_DB=technow
       - POSTGRES_USER=technow

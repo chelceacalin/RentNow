@@ -1,0 +1,26 @@
+# Database
+spring:
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/technow}
+    username: ${SPRING_DATASOURCE_USERNAME:technow}
+    password: ${SPRING_DATASOURCE_PASSWORD:technow}
+  servlet:
+    multipart:
+      max-file-size: 2MB
+      max-request-size: 2MB
+
+
+  # Jpa
+  jpa:
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        jdbc:
+          lob:
+            non_contextual_creation: true
+
+# Cors
+custom:
+  frontend:
+    app-url: ${FRONTEND_URL:http://localhost:3000}
