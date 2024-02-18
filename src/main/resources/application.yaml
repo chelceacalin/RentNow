@@ -9,7 +9,6 @@ spring:
       max-file-size: 2MB
       max-request-size: 2MB
 
-
   # Jpa
   jpa:
     show-sql: true
@@ -19,6 +18,9 @@ spring:
         jdbc:
           lob:
             non_contextual_creation: true
+
+    hibernate:
+      ddl-auto: create
 
 # Cors
 custom:
