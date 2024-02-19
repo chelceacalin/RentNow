@@ -14,8 +14,11 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
-import static com.example.TechNow.TechNow.specification.GenericSpecification.*;
-import static com.example.TechNow.TechNow.specification.UserSpecification.*;
+import java.util.Optional;
+
+import static com.example.TechNow.TechNow.specification.GenericSpecification.fieldNameLike;
+import static com.example.TechNow.TechNow.specification.UserSpecification.hasRole;
+import static com.example.TechNow.TechNow.specification.UserSpecification.hasUsernameEquals;
 import static com.example.TechNow.TechNow.util.UserConstants.*;
 import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
@@ -41,7 +44,7 @@ public class UserService {
 			pageable = PageRequest.of(pageNo, pageSize, Sort.by(sortDirection, dto.getSortField()));
 		}
 
-		return  userRepository.findAll(specification, pageable).map(UserMapper::toDTO);
+		return userRepository.findAll(specification, pageable).map(UserMapper::toDTO);
 	}
 
 	public <T> Specification<T> getSpecification(UserFilterDTO dto) {
@@ -69,4 +72,31 @@ public class UserService {
 		return specification;
 	}
 
+
+	public User updateUserRole(UserDTO userDTO, User.Role role) {
+		Optional<User> userOptional = userRepository.findByEmail(userDTO.getEmail());
+		User updatedUser = new User();
+		if (userOptional.isPresent()) {
+			User user = userOptional.get();
+			user.setRole(role);
+			updatedUser = userRepository.save(user);
+		}
+		return updatedUser;
+	}
+
+	public User.Role getUserRole(String email) {
+		return userRepository.findByEmail(email)
+				.map(User::getRole)
+				.orElseThrow(() -> new RuntimeException("User not found"));
+	}
+
+	public UserDTO findByEmail(String email) {
+		Optional<User> userOptional = userRepository.findByEmail(email);
+		if (userOptional.isPresent()) {
+			User user = userOptional.get();
+			return UserMapper.toDTO(user);
+		} else {
+			throw new RuntimeException("User with email " + email + " not found");
+		}
+	}
 }
