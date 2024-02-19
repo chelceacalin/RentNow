@@ -1,21 +1,18 @@
 package com.example.TechNow.TechNow.model;
 
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "Users")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class User {
 
 	@Id
@@ -30,11 +27,9 @@ public class User {
 
 	String username;
 
-	Role role;
-
-	LocalDateTime createdDate;
-
-	LocalDateTime updatedDate;
+	@Column
+	@Enumerated(value = EnumType.STRING)
+	private Role role;
 
 	public enum Role {
 		ADMIN, USER

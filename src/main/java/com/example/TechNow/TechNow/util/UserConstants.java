@@ -6,4 +6,5 @@ public interface UserConstants {
 	String LAST_NAME = "lastName";
 	String EMAIL = "email";
 	String USERNAME = "username";
+	String ROLE = "role";
 }

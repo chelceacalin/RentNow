@@ -20,9 +20,15 @@ spring:
             non_contextual_creation: true
 
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
+  # Enable virtual threads
+  threads:
+    virtual:
+      enabled: true
 
 # Cors
 custom:
   frontend:
     app-url: ${FRONTEND_URL:http://localhost:3000}
+
+
