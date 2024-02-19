@@ -1,14 +1,12 @@
 package com.example.TechNow.TechNow.repository;
 
-
-import com.example.TechNow.TechNow.model.User;
+import com.example.TechNow.TechNow.model.Movie;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
 
-import java.util.Optional;
+import java.util.UUID;
 
 @Repository
-public interface UserRepository extends JpaRepository<User, String>, JpaSpecificationExecutor<User> {
-	Optional<User> findByEmail(String email);
+public interface MovieRepository extends JpaRepository<Movie, UUID> , JpaSpecificationExecutor<Movie> {
 }
