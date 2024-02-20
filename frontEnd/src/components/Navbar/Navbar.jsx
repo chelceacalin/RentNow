@@ -58,7 +58,6 @@ function Navbar() {
             <AppIcon />
           </div>
 
-          {/* Submenus*/}
           <div className="overflow-y-auto">
             <ul className="flex flex-col pt-2 pb-4 space-y-1 text-sm ">
               <li className={`rounded-sm `}>
@@ -276,8 +275,6 @@ function Navbar() {
               </li>
             </ul>
           </div>
-
-          {/* Logout */}
           <div className="mt-auto">
             <ul className="pt-2 pb-4 space-y-1 text-sm">
               <li className="rounded-sm">
@@ -295,7 +292,7 @@ function Navbar() {
                     setIsLoggedIn(false);
                     setUsername(null);
                     setToken(null);
-                    window.location.href = url + "/logout";
+                    window.location.href=url+"/logout";
                   }}
                 >
                   <svg

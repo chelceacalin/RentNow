@@ -1,0 +1,20 @@
+/* App.css */
+.app-container {
+    display: flex;
+  }
+  
+  .sidebar {
+    flex: 0 0 240px; /* Set the width of the sidebar */
+    background-color: #f0f0f0; /* Sidebar background color */
+    padding: 16px;
+  }
+  
+  .content {
+    flex: 1; /* Allow content to expand and fill available space */
+    padding: 16px;
+  }
+  
+  body {
+    overflow: hidden;
+  }
+  

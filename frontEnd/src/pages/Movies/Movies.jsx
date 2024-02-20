@@ -1,9 +1,13 @@
-import React from 'react'
+import React from "react";
 
 function Movies() {
   return (
-    <div>Movies</div>
-  )
+    <>
+      <div className="filterContainer h-screen ">
+        <div>Movies</div>
+      </div>
+    </>
+  );
 }
 
-export default Movies
+export default Movies;
