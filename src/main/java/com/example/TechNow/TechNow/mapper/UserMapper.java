@@ -17,7 +17,7 @@ public class UserMapper {
                 .build();
     }
 
-    public static User toUserCineflix(UserDTO user) {
+    public static User toUser(UserDTO user) {
         return User.builder()
                 .id(user.getId())
                 .role(user.getRole())

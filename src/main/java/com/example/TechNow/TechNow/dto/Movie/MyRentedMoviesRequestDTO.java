@@ -19,7 +19,7 @@ import static com.example.TechNow.TechNow.util.MovieConstants.*;
 
 public class MyRentedMoviesRequestDTO {
 
-	private String rentUsername;
+	private String rentEmail;
 
 	private String title;
 

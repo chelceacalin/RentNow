@@ -1,11 +1,14 @@
 package com.example.TechNow.TechNow.service;
 
 
-import com.example.TechNow.TechNow.dto.Movie.MovieDTO;
-import com.example.TechNow.TechNow.dto.Movie.MovieFilterDTO;
+import com.example.TechNow.TechNow.dto.Movie.*;
+import com.example.TechNow.TechNow.dto.MovieHistory.MovieHistoryDTO;
+import com.example.TechNow.TechNow.dto.User.UserDTO;
 import com.example.TechNow.TechNow.mapper.MovieMapper;
+import com.example.TechNow.TechNow.model.Category;
 import com.example.TechNow.TechNow.model.Movie;
 import com.example.TechNow.TechNow.model.MovieHistory;
+import com.example.TechNow.TechNow.model.User;
 import com.example.TechNow.TechNow.repository.CategoryRepository;
 import com.example.TechNow.TechNow.repository.MovieHistoryRepository;
 import com.example.TechNow.TechNow.repository.MovieRepository;
@@ -17,8 +20,11 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
+import static com.example.TechNow.TechNow.mapper.MovieHistoryMapper.toMovieHistory;
 import static com.example.TechNow.TechNow.specification.GenericSpecification.fieldNameLike;
 import static com.example.TechNow.TechNow.specification.GenericSpecification.isAvailable;
 import static com.example.TechNow.TechNow.specification.MovieSpecification.hasCategory;
@@ -35,7 +41,6 @@ public class MovieService {
 	final MovieHistoryRepository movieHistoryRepository;
 	final UserService userService;
 	final CategoryRepository categoryRepository;
-
 
 	public Page<MovieDTO> findUserMovies(MovieFilterDTO movieFilter, int pageNo, int pageSize) {
 		Specification<Movie> specification = getSpecification(movieFilter);
@@ -97,5 +102,129 @@ public class MovieService {
 			specification = specification.and(MovieSpecification.rentedDateFieldEquals(movieFilter.getRentedUntil(), RENTED_UNTIL));
 		}
 		return specification;
+	}
+
+	public Optional<Movie> findById(UUID id) {
+		return movieRepository.findById(id);
+	}
+
+	public MovieAddDTO findMovieByID(UUID id) {
+		Optional<Movie> movieOptional = movieRepository.findById(id);
+		if (movieOptional.isPresent()) {
+			Movie movie = movieOptional.get();
+			return MovieMapper.toMovieAddDto(movie);
+		} else {
+			throw new RuntimeException("Movie with id " + id + " not found");
+		}
+	}
+
+	public void updateMovie(UUID id, MovieAddDTO movieDTO) {
+		Optional<Movie> optionalMovie = movieRepository.findById(id);
+		if (optionalMovie.isPresent()) {
+			Movie foundMovie = optionalMovie.get();
+			Optional<Category> categoryOptional = categoryRepository.findByNameIgnoreCase(movieDTO.getCategory());
+			if (categoryOptional.isPresent()) {
+				foundMovie.setCategory(categoryOptional.get());
+				foundMovie.setTitle(movieDTO.getTitle());
+				foundMovie.setDirector(movieDTO.getDirector());
+				foundMovie.setDescription(movieDTO.getDescription());
+				movieRepository.save(foundMovie);
+			} else {
+				throw new RuntimeException("Category not found");
+			}
+
+		} else {
+			throw new RuntimeException("Movie Not Found");
+		}
+	}
+
+	public void deleteMovieIfNotRented(UUID id) {
+		Movie movieFound = movieRepository.findById(id)
+				.orElseThrow(() -> new RuntimeException("Movie to be deleted does not exist"));
+		if (!movieFound.isAvailable()) {
+			String userName = getRentedBy(id);
+			throw new RuntimeException("Movie is being watched by: " + userName
+					+ ". You will be able to delete it after it's been returned");
+		}
+		movieHistoryRepository.deleteMovieHistoryByMovie_Id(id);
+		movieRepository.deleteById(id);
+	}
+
+	public String getRentedBy(UUID id) {
+		MovieHistory movieHistory = movieHistoryRepository.findMovieHistoryByRentedUntilMostRecent(id);
+		User user = movieHistory.getRentedBy();
+		String firstName = user.getFirstName();
+		String lastName = user.getLastName();
+		return movieHistory.getRentedBy().getEmail();
+	}
+
+	public MovieRentDTO findMovieToRent(UUID id) {
+		return movieRepository.findById(id)
+				.map(MovieMapper::toMovieRentDto)
+				.orElseThrow(() -> new RuntimeException("Movie not found"));
+	}
+
+	public MovieAddDTO addMovie(MovieAddDTO movie) {
+		UserDTO user = userService.findByEmail(movie.getOwner_email());
+		if (nonNull(user)) {
+			Optional<Category> categoryOptional = categoryRepository.findByNameIgnoreCase(movie.getCategory());
+			if (categoryOptional.isPresent()) {
+				Category category = categoryOptional.get();
+				Movie createdMovie = MovieMapper.toMovie(movie, user, category);
+				movieRepository.save(createdMovie);
+				return MovieMapper.toMovieAddDto(createdMovie);
+			} else {
+				throw new RuntimeException("Category not found");
+			}
+		} else {
+			throw new RuntimeException("User not found");
+		}
+	}
+
+	public void addMovieHistory(MovieHistoryDTO movieHistoryDTO) {
+		Optional<Movie> movieOptional = movieRepository.findById(movieHistoryDTO.getMovieId());
+		movieOptional.ifPresent(movie -> {
+			movie.setAvailable(false);
+			movieRepository.save(movie);
+		});
+		MovieHistory movieHistory = toMovieHistory(movieHistoryDTO);
+		movieHistoryRepository.save(movieHistory);
+	}
+
+	public Optional<String> validateMovieHistory(MovieHistoryDTO movieHistoryDTO) {
+		Optional<Movie> movie = movieRepository.findById(movieHistoryDTO.getMovieId());
+		if (movie.isEmpty()) {
+			return Optional.of("Movie not found");
+		}
+		if (!movie.get().isAvailable()) {
+			return Optional.of("Movie is not available, was rented by another user");
+		}
+		Optional<User> user = Optional.ofNullable(userService.findByIdNoDto(String.valueOf(movieHistoryDTO.getUserId())));
+		if (user.isEmpty()) {
+			return Optional.of("User not found");
+		}
+		return Optional.empty();
+	}
+
+	public Page<MovieDTO> findRentedMoviesForUser(MyRentedMoviesRequestDTO myRentedMoviesDTO, int pageNo, int pageSize) {
+		UserDTO user = userService.findByEmail(myRentedMoviesDTO.getRentEmail());
+		Pageable pageable = myRentedMoviesDTO.getPageableRented(pageNo, pageSize);
+
+		Page<MovieHistory> movieHistories = movieHistoryRepository.findAllByRentedBy_Id(user.getId(), pageable);
+		List<MovieDTO> rentedMovies = movieHistories.getContent().stream()
+				.map(history -> MovieMapper.toDto(history.getMovie(), history))
+				.collect(Collectors.toList());
+		return new PageImpl<>(rentedMovies, pageable, movieHistories.getTotalElements());
+	}
+
+	public void changeRentedMovieStatus(UUID id) {
+		Optional<Movie> movieOptional = movieRepository.findById(id);
+		if (movieOptional.isPresent()) {
+			Movie movie = movieOptional.get();
+			movie.setAvailable(true);
+			movieRepository.save(movie);
+		} else {
+			throw new RuntimeException("Movie is not found");
+		}
 	}
 }

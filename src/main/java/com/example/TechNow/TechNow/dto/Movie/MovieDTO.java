@@ -15,23 +15,24 @@ import java.util.UUID;
 @AllArgsConstructor
 public class MovieDTO {
 
-    private UUID id;
+	UUID id;
 
-    private String owner_username;
+	String owner_username;
+	String owner_email;
 
-    private String title;
+	String title;
 
-    private String director;
+	String director;
 
-    private String category;
+	String category;
 
-    private String description;
+	String description;
 
-    private Boolean isAvailable;
+	Boolean isAvailable;
 
-    private String rentedBy;
+	String rentedBy;
 
-    private LocalDate rentedDate;
+	LocalDate rentedDate;
 
-    private LocalDate rentedUntil;
+	LocalDate rentedUntil;
 }

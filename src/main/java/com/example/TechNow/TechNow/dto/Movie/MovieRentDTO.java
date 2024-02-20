@@ -10,7 +10,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class MovieRentDTO {
-    private String title;
-    private String director;
-    private String ownerUsername;
+	String title;
+	String director;
+	String ownerUsername;
+	String ownerEmail;
+
+
 }

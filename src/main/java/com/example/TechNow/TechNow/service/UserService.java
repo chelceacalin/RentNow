@@ -110,5 +110,9 @@ public class UserService {
 			throw new RuntimeException("User with id " + id + " not found");
 		}
 	}
+
+	public User findByIdNoDto(String id) {
+		return userRepository.findById(id).orElseThrow();
+	}
 }
 

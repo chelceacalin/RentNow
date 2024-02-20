@@ -19,6 +19,7 @@ public class MovieMapper {
 				.isAvailable(m.isAvailable())
 				.rentedBy(mh != null && mh.getRentedBy() != null ? mh.getRentedBy().getUsername() : "available")
 				.owner_username(m.getOwner().getUsername())
+				.owner_email(m.getOwner().getEmail())
 				.rentedDate(mh != null && mh.getRentedDate() != null ? mh.getRentedDate() : null)
 				.rentedUntil(mh != null && mh.getRentedUntil() != null ? mh.getRentedUntil() : null)
 				.build();
@@ -31,7 +32,7 @@ public class MovieMapper {
 				.isAvailable(dto.getIsAvailable())
 				.director(dto.getDirector())
 				.category(category)
-				.owner(UserMapper.toUserCineflix(userDTO))
+				.owner(UserMapper.toUser(userDTO))
 				.build();
 	}
 
@@ -42,6 +43,7 @@ public class MovieMapper {
 				.description(movie.getDescription())
 				.category(movie.getCategory().getName())
 				.owner_username(movie.getOwner().getUsername())
+				.owner_email(movie.getOwner().getEmail())
 				.isAvailable(movie.isAvailable())
 				.id(movie.getId())
 				.build();
@@ -52,6 +54,7 @@ public class MovieMapper {
 				.title(movie.getTitle())
 				.director(movie.getDirector())
 				.ownerUsername(movie.getOwner().getUsername())
+				.ownerEmail(movie.getOwner().getEmail())
 				.build();
 	}
 }

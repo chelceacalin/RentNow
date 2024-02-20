@@ -13,17 +13,19 @@ import java.util.UUID;
 @AllArgsConstructor
 public class MovieAddDTO {
 
-    private UUID id;
+	UUID id;
 
-    private String owner_username;
+	String owner_username;
 
-    private String title;
+	String owner_email;
 
-    private String director;
+	String title;
 
-    private String category;
+	String director;
 
-    private Boolean isAvailable;
+	String category;
 
-    private String description;
+	Boolean isAvailable;
+
+	String description;
 }
