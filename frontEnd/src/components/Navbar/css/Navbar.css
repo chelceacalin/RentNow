@@ -1,0 +1,33 @@
+.navbar a:hover path,
+.navbar .aBackgroundClick path {
+    fill: white;
+}
+
+.navbar a:hover span,
+.navbar .spanClick {
+    color: white;
+}
+
+.navbar a:hover {
+    background: #BE2517;
+}
+
+.navbar .aBackgroundClick {
+    background: #BE2517;
+}
+
+.navbar .aBackgroundRelease {
+    background: white;
+}
+
+.navbar .spanClick {
+    color: white;
+}
+
+.navbar .spanRelease {
+    color: black;
+}
+
+.navbar .aBackgroundRelease {
+    background: white;
+}

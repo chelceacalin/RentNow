@@ -1,0 +1,30 @@
+.notfound.container {
+    margin-left: 20%;
+    margin-right: 20%;
+}
+
+
+.notfound .error-page {
+    background-color: #1E1D5B;
+    opacity: 0.8;
+    padding: 2vw;
+    border-radius: 25px;
+
+}
+
+.notfound .ffont {
+    font-size: 2vw;
+}
+
+.notfound .ffont-btn {
+    font-size: 1vw;
+}
+
+.notfound .btn {
+    opacity: 1;
+    background-color: #BE2517;
+}
+
+.notfound .body-color {
+    background-color: lightblue;
+}
