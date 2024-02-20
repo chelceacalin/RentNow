@@ -99,4 +99,16 @@ public class UserService {
 			throw new RuntimeException("User with email " + email + " not found");
 		}
 	}
+
+
+	public UserDTO findById(String id) {
+		Optional<User> userOptional = userRepository.findById(id);
+		if (userOptional.isPresent()) {
+			User user = userOptional.get();
+			return UserMapper.toDTO(user);
+		} else {
+			throw new RuntimeException("User with id " + id + " not found");
+		}
+	}
 }
+

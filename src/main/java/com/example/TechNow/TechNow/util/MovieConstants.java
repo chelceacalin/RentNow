@@ -16,4 +16,5 @@ public interface MovieConstants {
 	String MOVIE_DIRECTOR = "movie.director";
 	String MOVIE_CATEGORY_NAME = "movie.category.name";
 	String MOVIE_TITLE = "movie.title";
+
 }
