@@ -1,20 +1,132 @@
 /* App.css */
 .app-container {
-    display: flex;
-  }
-  
-  .sidebar {
-    flex: 0 0 240px; /* Set the width of the sidebar */
-    background-color: #f0f0f0; /* Sidebar background color */
-    padding: 16px;
-  }
-  
-  .content {
-    flex: 1; /* Allow content to expand and fill available space */
-    padding: 16px;
-  }
-  
-  body {
-    overflow: hidden;
-  }
-  
+  display: flex;
+}
+
+.sidebar {
+  flex: 0 0 240px;
+  /* Set the width of the sidebar */
+  background-color: #f0f0f0;
+  /* Sidebar background color */
+  padding: 16px;
+}
+
+.content {
+  flex: 1;
+  /* Allow content to expand and fill available space */
+  padding: 16px;
+}
+
+body {
+  overflow: hidden;
+}
+
+.closeModalWindowButton {
+  position: relative;
+  top: 20px;
+  right: -230px;
+  width: 20px;
+  cursor: pointer;
+}
+
+.closeModalWindowButton {
+  position: relative;
+  top: 20px;
+  right: -230px;
+  width: 20px;
+  cursor: pointer;
+}
+
+.contained-button,
+.outlined-button {
+  margin-top: 10px;
+}
+
+.contained-button {
+  background-color: #1E1D5B !important;
+  border-radius: 0 !important;
+  color: white !important;
+  border: 1px solid #1E1D5B !important;
+}
+
+.contained-button:hover {
+  background-color: #E0812E !important;
+  border-color: #E0812E !important;
+}
+
+.outlined-button {
+  background-color: white !important;
+  color: #1E1D5B !important;
+  border-color: #1E1D5B !important;
+  border-radius: 0 !important;
+}
+
+.outlined-button:hover {
+  color: #E0812E !important;
+  border-color: #E0812E !important;
+}
+
+.modal-content {
+  margin-top: 9px;
+}
+
+.header-container {
+  display: flex;
+  align-items: center;
+}
+
+.header-title {
+  font-size: 1.2em;
+  font-weight: bold;
+  text-align: center;
+}
+
+.modal-body {
+  margin-bottom: 15px;
+}
+
+.fields-container {
+  margin-bottom: 20px;
+}
+
+.field-group {
+  margin-bottom: 20px;
+}
+
+
+.outlined-button {
+  background-color: white !important;
+  color: #1E1D5B !important;
+  border: 1px solid #1E1D5B !important;
+  border-radius: 0 !important;
+}
+
+.outlined-button:hover {
+  color: #E0812E !important;
+  border-color: #E0812E !important;
+}
+
+.hover:hover{
+  --tw-bg-opacity: 1;
+  background-color: rgb(215 50 56 / var(--tw-bg-opacity));
+}
+
+.contained-button {
+  background-color: #1E1D5B !important;
+  border-radius: 0 !important;
+}
+
+.contained-button:hover {
+  background-color: #E0812E !important;
+}
+
+
+.field-group input {
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+
+.css-hz1bth-MuiDialog-container{
+ 
+}
