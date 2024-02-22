@@ -12,6 +12,7 @@ import com.example.TechNow.TechNow.model.User;
 import com.example.TechNow.TechNow.repository.CategoryRepository;
 import com.example.TechNow.TechNow.repository.MovieHistoryRepository;
 import com.example.TechNow.TechNow.repository.MovieRepository;
+import com.example.TechNow.TechNow.repository.UserRepository;
 import com.example.TechNow.TechNow.specification.MovieSpecification;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -41,6 +42,7 @@ public class MovieService {
 	final MovieHistoryRepository movieHistoryRepository;
 	final UserService userService;
 	final CategoryRepository categoryRepository;
+	final UserRepository userRepository;
 
 	public Page<MovieDTO> findUserMovies(MovieFilterDTO movieFilter, int pageNo, int pageSize) {
 		Specification<Movie> specification = getSpecification(movieFilter);
@@ -199,7 +201,9 @@ public class MovieService {
 		if (!movie.get().isAvailable()) {
 			return Optional.of("Movie is not available, was rented by another user");
 		}
-		Optional<User> user = Optional.ofNullable(userService.findByIdNoDto(String.valueOf(movieHistoryDTO.getUserId())));
+
+
+		Optional<User> user = userRepository.findById(String.valueOf(movieHistoryDTO.getUserId()));
 		if (user.isEmpty()) {
 			return Optional.of("User not found");
 		}

@@ -112,7 +112,7 @@ public class UserService {
 	}
 
 	public User findByIdNoDto(String id) {
-		return userRepository.findById(id).orElseThrow();
+		return userRepository.findById(id).get();
 	}
 }
 

@@ -36,13 +36,18 @@ function RentMovieModalView({
 
   const rentMovie = () => {
     const url = "/movies/history";
+
+    let body={
+      rentedDate: today,
+      rentedUntil: date,
+      movieId: id,
+      userId: idUser,
+      description: description,
+    }
+    console.log(body)
     axios
       .post(url, {
-        rentedDate: today,
-        rentedUntil: date,
-        movieId: id,
-        userId: idUser,
-        description: description,
+       body
       })
       .then((response) => {
         showSuccess("You have rented the movie " + title);
@@ -78,7 +83,7 @@ function RentMovieModalView({
       ></FontAwesomeIcon>
       <DialogContent>
         <p className="text-center">
-          You are renting <span className="font-bold"> {title} </span>
+          You are renting <span className="font-bold">  {title} </span>
           directed by <span className="font-bold"> {director} </span> from
           <span className="font-bold"> {owner}</span>.
         </p>

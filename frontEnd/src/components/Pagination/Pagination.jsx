@@ -16,8 +16,8 @@ function Pagination({
   };
 
   return (
-    <div>
-      <ul className="list-style-none flex items-center justify-center mr-2 cursor-pointer">
+    <>
+      <ul className="list-style-none flex items-center justify-center mr-2 cursor-pointer ">
         <li
           onClick={(e) => {
             e.preventDefault();
@@ -161,7 +161,7 @@ function Pagination({
         }
       `}
       </style>
-    </div>
+    </>
   );
 }
 

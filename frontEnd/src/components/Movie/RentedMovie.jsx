@@ -115,7 +115,7 @@ function RentedMovie({
           className="Button font-normal"
           variant="contained" disabled={!isAvailable}
         >
-          Rent Movie
+        Rent Movie 
         </Button>
         {
           isRentModalOpen&&
