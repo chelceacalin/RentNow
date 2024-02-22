@@ -1,13 +1,13 @@
-.Button:enabled{
-    background-color:#1E1D5B;
+.Button:enabled {
+    background-color: #1E1D5B;
 }
 
-.Button:enabled:hover{
+.Button:enabled:hover {
     background-color: #E0812E;
     border-color: #E0812E;
 }
 
-.Button:hover{
+.Button:hover {
     background-color: #E0812E;
     border-color: #E0812E;
 }
