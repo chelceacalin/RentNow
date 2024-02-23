@@ -58,15 +58,8 @@ function ViewMovieDetailsModalWindow({
 
   return (
     <Dialog fullWidth maxWidth={"md"} open={isModalOpen} onClose={closeModal}>
-      <FontAwesomeIcon
-        className="closeModalWindowButton"
-        icon={faTimes}
-        onClick={closeModal}
-        transform="right-380 up-25"
-        size="6x"
-      />
       <div className="w-full">
-        <h2 className="header-title ml-6 mb-8 text-2xl">Movie details</h2>
+        <h2 className="header-title my-6 flex justify-center text-2xl">Movie details</h2>
       </div>
       <DialogContent>
         <Grid container spacing={0}>
@@ -272,11 +265,13 @@ function ViewMovieDetailsModalWindow({
               </div>
             )}
           </Grid>
-        
-
         </Grid>
-
       </DialogContent>
+     <div className="close flex  justify-center">
+     <button type="button" className="btn purpleBlueButton mb-6 mt-3"
+     onClick={closeModal}
+     >Close Modal</button>
+     </div>
     </Dialog>
   );
 }

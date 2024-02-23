@@ -25,7 +25,7 @@ const LogoutNavItem = ({ isAdmin, selectedItem, handleItemClick, setIsAdmin, set
         <span
           style={{ fontSize: 16 }}
           className={`${
-            selectedItem === "logout" ? "spanClick" : "spanRelease"
+            selectedItem === "logout" ? "spanClick" : ""
           }`}
         >
           Log Out

@@ -39,12 +39,12 @@ function RentedMovie({
   return (
     <tr key={title}>
       <td className={classes}>
-        <div variant="small" color="blue-gray" className="font-normal max-w-[100px] break-words">
-          {title}
+        <div variant="small" color="blue-gray" className="font-normal max-w-[200px] break-words">
+          {title} 
         </div>
       </td>
       <td className={classes}>
-        <div variant="small" color="blue-gray" className="font-normal max-w-[100px] break-words">
+        <div variant="small" color="blue-gray" className="font-normal  max-w-[200px] break-words">
           {director}
         </div>
       </td>
@@ -86,7 +86,7 @@ function RentedMovie({
       <td className={classes}>
         <Button
           onClick={handleDetailsOpen}
-          className="outlined-button font-normal mr-2"
+          className=" font-normal mr-2"
           variant="outlined"
         >
           Details
@@ -109,7 +109,8 @@ function RentedMovie({
      />}
              <Button
           onClick={handleOpenRentModal}
-          className="Button font-normal"
+          className="purpleBlueButton font-normal "
+          style={{ margin: '4px' }}
           variant="contained" disabled={!isAvailable}
         >
         Rent Movie 

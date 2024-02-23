@@ -21,7 +21,7 @@ const CategoryManagementItem = ({ isAdmin, selectedItem, handleItemClick, naviga
           <span
             style={{ fontSize: 16 }}
             className={`${
-              selectedItem === "categoryManagement" ? "spanClick" : "spanRelease"
+              selectedItem === "categoryManagement" ? "spanClick" : ""
             }`}
           >
             Category Management

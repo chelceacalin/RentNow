@@ -1,3 +1,4 @@
+import "../../variables.scss";
 function Pagination({
   pageNo,
   totalPages,
@@ -24,7 +25,7 @@ function Pagination({
             getPreviousPage();
           }}
         >
-          <div className="relative block rounded bg-transparent px-3 transition-all duration-300  text-white  hover:bg-red-600">
+          <div className="relative block rounded bg-transparent px-3 transition-all duration-300  text-white  mainBg p-2 me-2">
             Previous
           </div>
         </li>
@@ -147,7 +148,7 @@ function Pagination({
             getNextPage();
           }}
         >
-          <div className="relative block rounded bg-transparent px-3  text-sm  transition-all duration-300 text-white  hover:bg-red-600">
+          <div className="relative block rounded bg-transparent px-3  text-sm  transition-all duration-300 text-white mainBg p-2 ms-2">
             Next
           </div>
         </li>

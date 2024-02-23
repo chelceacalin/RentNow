@@ -1,10 +1,10 @@
-
 @import "variables.scss";
+
 .app-container {
   display: flex;
 }
 
-.main-text-color{
+.main-text-color {
   color: $main-color;
 }
 
@@ -19,10 +19,6 @@
   padding: 16px;
 }
 
-body {
-  overflow: hidden;
-}
-
 .closeModalWindowButton {
   position: relative;
   top: 20px;
@@ -32,69 +28,23 @@ body {
 }
 
 
-
-.contained-button {
-  background-color: #1E1D5B;
-  border-radius: 0;
+/* Button styles*/
+.purpleBlueButton {
   color: white;
-  border: 1px solid #1E1D5B;
+  padding: 10px;
+  border-radius: 10px;
 
   &:hover {
-    background-color: #E0812E;
-    border-color: #E0812E;
+    background-color: $main-color;
+    border-color: $main-color;
+  }
+
+  &:enabled {
+    background-color: #1E1D5B;
+
+    &:hover {
+      background-color: $main-color;
+      border-color: $main-color;
+    }
   }
 }
-
-.outlined-button {
-  background-color: white;
-  color: #1E1D5B;
-  border-color: #1E1D5B;
-  border-radius: 0;
-  margin-right: 5px !important;
-
-  &:hover {
-    color: #E0812E;
-    border-color: #E0812E;
-  }
-  
-}
-
-.modal-content {
-  margin-top: 9px;
-}
-
-.header-container {
-  display: flex;
-  align-items: center;
-}
-
-.header-title {
-  font-size: 1.2em;
-  font-weight: bold;
-  text-align: center;
-}
-
-.modal-body {
-  margin-bottom: 15px;
-}
-
-.fields-container {
-  margin-bottom: 20px;
-}
-
-.field-group {
-  margin-bottom: 20px;
-}
-
-.field-group input {
-  border: 1px solid #ccc;
-  border-radius: 4px;
-}
-
-
-.notFoundText.text-2xl{
-  align-items: center;
-}
-
-/* Movies.css */
-

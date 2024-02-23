@@ -19,7 +19,7 @@ const ProfileNavItem = ({ selectedItem, handleItemClick, navigate, username }) =
         <span
           style={{ fontSize: 16 }}
           className={`${
-            selectedItem === "profile" ? "spanClick" : "spanRelease"
+            selectedItem === "profile" ? "spanClick" : ""
           }`}
         >
           Profile

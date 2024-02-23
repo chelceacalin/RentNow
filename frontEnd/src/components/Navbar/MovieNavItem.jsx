@@ -18,7 +18,7 @@ const MovieNavItem = ({ selectedItem, handleItemClick, navigate }) => {
         <span
           style={{ fontSize: 16 }}
           className={`${
-            selectedItem === "Movies" ? "spanClick" : "spanRelease"
+            selectedItem === "Movies" ? "spanClick" : ""
           }`}
         >
           Movies

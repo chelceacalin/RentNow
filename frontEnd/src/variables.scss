@@ -1,14 +1,30 @@
-$main-color: #7eaaed;
+$main-color: #2b72de;
 $main-color-hover: #4887e6;
+$navIconColor:#000;
 
-
-.simpleMainBg{
+.simpleMainBg {
     background-color: $main-color;
 }
-.mainBg{
+
+.mainBg {
     background-color: $main-color;
 
-    &:hover{
+    &:hover {
         background-color: $main-color-hover;
     }
+}
+
+
+.appIcon {
+    rect,
+    path {
+        fill: $main-color;
+    }
+}
+
+
+.categoryManagementIcon,.logoutIcon,.roleManagementIcon, .profileIcon ,.moviesIcon{
+path{
+    fill: $navIconColor;
+}
 }

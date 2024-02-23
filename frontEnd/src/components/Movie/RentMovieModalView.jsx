@@ -126,7 +126,7 @@ function RentMovieModalView({
           </div>
           <div className="px-2 w-1/2">
             <Button
-              className="contained-button w-full"
+              className="purpleBlueButton w-full"
               variant="contained"
               onClick={rentMovie}
             >

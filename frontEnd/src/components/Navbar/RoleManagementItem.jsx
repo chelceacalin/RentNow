@@ -19,7 +19,7 @@ const RoleManagementItem = ({ isAdmin, selectedItem, handleItemClick, navigate }
           <span
             style={{ fontSize: 16 }}
             className={`${
-              selectedItem === "roleManagement" ? "spanClick" : "spanRelease"
+              selectedItem === "roleManagement" ? "spanClick" : ""
             }`}
           >
             Role Management

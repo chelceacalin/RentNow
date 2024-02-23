@@ -3,9 +3,9 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import axios from "axios";
 import { useContext, useEffect, useState } from "react";
-import * as moreClasses from "react-dom/test-utils";
 import DatePickerClear from "../../components/DatePicker/DatePickerClear";
 import { UserLoginContext } from "../../utils/context/LoginProvider";
+import { useDebouncedCallback } from "use-debounce";
 
 function MovieFilter({ filterInput }) {
   const [title, setTitle] = useState("");
@@ -35,62 +35,24 @@ function MovieFilter({ filterInput }) {
     });
   }, [url]);
 
-  let convertDate = (input) => {
-    const inputDate = new Date(input);
-    const year = inputDate.getFullYear();
-    const month = ("0" + (inputDate.getMonth() + 1)).slice(-2);
-    const day = ("0" + inputDate.getDate()).slice(-2);
-    return `${year}-${month}-${day}`;
-  };
+  const debouncedFilterInput = useDebouncedCallback((array) => {
+    filterInput(array);
+  }, 500);
 
   useEffect(() => {
     const rentedUntilField = rentedUntil ? convertDate(rentedUntil) : "";
     const rentedDateField = rentedDate ? convertDate(rentedDate) : "";
-    const array = [];
-    if (
-      (available === true && unavailable === true) ||
-      (available === false && unavailable === false)
-    ) {
-      array.push(
-        category,
-        director,
-        title,
-        "BOTH",
-        rentedUntilField,
-        rentedBy,
-        rentedDateField
-      );
-    } else if (available === true && unavailable === false) {
-      array.push(
-        category,
-        director,
-        title,
-        "true",
-        rentedUntilField,
-        rentedBy,
-        rentedDateField
-      );
-    } else if (available === false && unavailable == true) {
-      array.push(
-        category,
-        director,
-        title,
-        "false",
-        rentedUntilField,
-        rentedBy,
-        rentedDateField
-      );
-    } else
-      array.push(
-        category,
-        director,
-        title,
-        "",
-        rentedUntilField,
-        rentedBy,
-        rentedDateField
-      );
-    filterInput(array);
+    const array = [
+      category,
+      director,
+      title,
+      available ? "true" : "false",
+      rentedUntilField,
+      rentedBy,
+      rentedDateField,
+    ];
+
+    debouncedFilterInput(array);
   }, [
     category,
     director,
@@ -102,144 +64,123 @@ function MovieFilter({ filterInput }) {
     rentedDate,
   ]);
 
+  let convertDate = (input) => {
+    const inputDate = new Date(input);
+    const year = inputDate.getFullYear();
+    const month = ("0" + (inputDate.getMonth() + 1)).slice(-2);
+    const day = ("0" + inputDate.getDate()).slice(-2);
+    return `${year}-${month}-${day}`;
+  };
+
   return (
-    <div className="flex flex-wrap">
-      <div className="searchTopContainer">
-        <div className="">
-          <TextField
-            id="outlined-search"
-            name="title"
-            label="Search title"
-            type="search"
-            className="w-full"
-            onChange={(e) => setTitle(e.target.value)}
-            InputProps={{
-              style: { fontFamily: "Sanchez" },
-            }}
-            InputLabelProps={{
-              style: { fontFamily: "Sanchez" },
-            }}
-          />
-        </div>
-        <div className="">
-          <TextField
-            id="outlined-search"
-            name="director"
-            label="Search director"
-            type="search"
-            className="w-full"
-            onChange={(e) => setDirector(e.target.value)}
-            InputProps={{
-              style: { fontFamily: "Sanchez" },
-            }}
-            InputLabelProps={{
-              style: { fontFamily: "Sanchez" },
-            }}
-          />
-        </div>
+    <div className="flex flex-wrap items-start my-2 fContainer">
+      <div className="filterContainer">
+        <TextField
+          id="outlined-search-title"
+          name="title"
+          label="Search title"
+          type="search"
+          className="text"
+          size="small"
+          onChange={(e) => setTitle(e.target.value)}
+          InputProps={{ style: { fontFamily: "Sanchez" } }}
+          InputLabelProps={{ style: { fontFamily: "Sanchez" } }}
+        />
+        <TextField
+          id="outlined-search-director"
+          name="director"
+          label="Search director"
+          type="search"
+          className="text"
+          size="small"
+          onChange={(e) => setDirector(e.target.value)}
+          InputProps={{ style: { fontFamily: "Sanchez" } }}
+          InputLabelProps={{ style: { fontFamily: "Sanchez" } }}
+        />
       </div>
-
-      <div className="searchTopContainer">
-        <div className="">
-          <TextField
-            id="outlined-search"
-            name="category"
-            label="Search category"
-            type="search"
-            className="w-full"
-            onChange={(e) => setCategory(e.target.value)}
-            InputProps={{
-              style: { fontFamily: "Sanchez" },
-            }}
-            InputLabelProps={{
-              style: { fontFamily: "Sanchez" },
-            }}
-          />
-        </div>
-        <div className="">
-          <Autocomplete
-            sx={{ fontFamily: "Sanchez" }}
-            value={rentedBy}
-            onChange={(e, value) => {
-              setRentedBy(value);
-            }}
-            ListboxProps={{
-              style: { fontFamily: "Sanchez" },
-            }}
-            options={filteredUsers.map((m) => m.rentedBy)}
-            renderInput={(params) => (
-              <TextField
-                {...params}
-                InputLabelProps={{
-                  style: { fontFamily: "Sanchez" },
-                }}
-                InputProps={{
-                  ...params.InputProps,
-                  ...moreClasses.input,
-                  style: { fontFamily: "Sanchez" },
-                }}
-                sx={{ fontFamily: "Sanchez" }}
-                label="Rented by"
-              />
-            )}
-          />
-        </div>
-      </div>
-
-      <div className=" ">
-        <div className="w-52   ">
-          <div className="">Availability: </div>
-          <div className="">
-            <Checkbox
-              name="type"
-              label="Unavailable"
-              defaultChecked
-              onClick={(e) => {
-                setUnavailable(e.target.checked);
+  
+      <div className="filterContainer">
+        <TextField
+          id="outlined-search-category"
+          name="category"
+          label="Search category"
+          type="search"
+          size="small"
+          className="text"
+          onChange={(e) => setCategory(e.target.value)}
+          InputProps={{ style: { fontFamily: "Sanchez" } }}
+          InputLabelProps={{ style: { fontFamily: "Sanchez" } }}
+        />
+        <Autocomplete
+          className="text"
+          value={rentedBy}
+          onChange={(e, value) => setRentedBy(value)}
+          options={filteredUsers.map((m) => m.rentedBy)}
+          renderInput={(params) => (
+            <TextField
+              {...params}
+              size="small"
+              label="Rented by"
+              InputProps={{
+                ...params.InputProps,
+                style: { fontFamily: "Sanchez" },
               }}
+              InputLabelProps={{ style: { fontFamily: "Sanchez" } }}
             />
-            <label name="unavailable">Unavailable</label>
-          </div>
-          <div className="">
-            <Checkbox
-              name="type"
-              label="Available"
-              defaultChecked
-              onClick={(e) => {
-                setAvailable(e.target.checked);
-              }}
-            />
-            <label name="available">Available</label>
-          </div>
-        </div>
+          )}
+        />
       </div>
-
-
-      <div className="searchTopContainer ">
-      <div className=" ">
+  
+      <div className="filterContainer">
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <DatePickerClear
-            className="w-full"
+            className="text"
             value={rentedDate}
-            labelString={"Rented on"}
+            size="small"
+            labelString="Rented on"
             onClear={() => setRentedDate(null)}
             onChange={(newDate) => setRentedDate(newDate)}
           />
-        </LocalizationProvider>
-      </div>
-      <div className=" ">
-        <LocalizationProvider dateAdapter={AdapterDayjs}>
           <DatePickerClear
+            className="text"
             value={rentedUntil}
-            labelString={"Rented until"}
+            size="small"
+            slotProps={{ textField: { size: 'small' } }}
+            labelString="Rented until"
             onClear={() => setRentedUntil(null)}
             onChange={(newDate) => setRentedUntil(newDate)}
           />
         </LocalizationProvider>
       </div>
+  
+      <div className="filterContainer">
+        <div className="availabilityContainer">
+          <div className="ms-3">Availability:</div>
+          <div>
+            <Checkbox
+              name="type"
+              size="small"
+              label="Unavailable"
+              defaultChecked
+              onClick={(e) => setUnavailable(e.target.checked)}
+            />
+            <label>Unavailable</label>
+          </div>
+          <div>
+            <Checkbox
+              name="type"
+              size="small"
+              label="Available"
+              defaultChecked
+              onClick={(e) => setAvailable(e.target.checked)}
+            />
+            <label>Available</label>
+          </div>
+        </div>
       </div>
     </div>
   );
+  
 }
 
 export default MovieFilter;

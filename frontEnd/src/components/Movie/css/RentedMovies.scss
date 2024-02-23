@@ -1,13 +1,19 @@
-.Button:enabled {
-    background-color: #1E1D5B;
-}
+.fContainer{
 
-.Button:enabled:hover {
-    background-color: #E0812E;
-    border-color: #E0812E;
-}
+    .filterContainer {
+        display: flex;
+        flex-direction: column;
+      }
 
-.Button:hover {
-    background-color: #E0812E;
-    border-color: #E0812E;
+      .text{
+       margin: 5px;
+      }
+
+      .availabilityContainer{
+        div{
+        }
+        margin-top: 3px;
+        margin-left: 5px;
+      }
+      
 }

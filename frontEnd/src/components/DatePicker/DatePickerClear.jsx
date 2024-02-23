@@ -16,14 +16,7 @@ const DatePickerClear = (props) => {
       <DatePicker
         {...props}
         label={<span style={{ fontFamily: "Sanchez" }}>{labelString}</span>}
-        slotProps={{
-          textField: {
-            // readOnly: !props.value,
-            inputProps: {
-              style: { fontFamily: "Sanchez" },
-            },
-          },
-        }}
+        slotProps={{ textField: { size: 'small' } }}
         format="YYYY-MM-DD"
         slots={{
           textField: (params) => (
