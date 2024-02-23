@@ -31,3 +31,10 @@ build/
 
 ### VS Code ###
 .vscode/
+
+# Node modules
+frontEnd/node_modules
+frontEnd/dist
+.idea
+.mvn
+dist

@@ -1,0 +1,50 @@
+@import "variables.scss";
+
+.app-container {
+  display: flex;
+}
+
+.main-text-color {
+  color: $main-color;
+}
+
+.sidebar {
+  flex: 0 0 240px;
+  background-color: #f0f0f0;
+  padding: 16px;
+}
+
+.content {
+  flex: 1;
+  padding: 16px;
+}
+
+.closeModalWindowButton {
+  position: relative;
+  top: 20px;
+  right: -230px;
+  width: 20px;
+  cursor: pointer;
+}
+
+
+/* Button styles*/
+.purpleBlueButton {
+  color: white;
+  padding: 10px;
+  border-radius: 10px;
+
+  &:hover {
+    background-color: $main-color;
+    border-color: $main-color;
+  }
+
+  &:enabled {
+    background-color: #1E1D5B;
+
+    &:hover {
+      background-color: $main-color;
+      border-color: $main-color;
+    }
+  }
+}

@@ -19,8 +19,9 @@ public class RentForTwoWeeksValidator implements ConstraintValidator<RentForTwoW
 			return true;
 		}
 
-		LocalDate rentedDate = movieHistoryDTO.getRentedDate();
-		LocalDate rentedUntil = movieHistoryDTO.getRentedUntil();
+		LocalDate rentedDate = movieHistoryDTO.getRentedDate() != null ? movieHistoryDTO.getRentedDate() : LocalDate.now();
+		LocalDate rentedUntil = movieHistoryDTO.getRentedUntil() != null ? movieHistoryDTO.getRentedUntil() : LocalDate.now();
+
 
 		long daysBetween = Duration.between(rentedDate.atStartOfDay(), rentedUntil.atStartOfDay()).toDays();
 
