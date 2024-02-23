@@ -34,5 +34,7 @@ build/
 
 # Node modules
 frontEnd/node_modules
+frontEnd/dist
 .idea
 .mvn
+dist

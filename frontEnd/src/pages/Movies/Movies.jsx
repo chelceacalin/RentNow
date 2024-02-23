@@ -31,7 +31,7 @@ function Movies() {
   const [pageNo, setPageNo] = useState(1);
   const [pageSize, setPageSize] = useState(15);
   const [totalPages, setTotalPages] = useState("");
-  const [totalMovies, setTotalMovies] = useState(0);
+  const [totalMovies] = useState(0);
   const [triggerRefresh, setTriggerRefresh] = useState(false);
   const { username } = useContext(UserLoginContext);
   const [direction, setDirection] = useState(true);

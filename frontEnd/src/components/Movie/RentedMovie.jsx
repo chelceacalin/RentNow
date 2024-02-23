@@ -110,7 +110,7 @@ function RentedMovie({
              <Button
           onClick={handleOpenRentModal}
           className="purpleBlueButton font-normal "
-          style={{ margin: '4px' }}
+          style={{ marginLeft: '8px' }}
           variant="contained" disabled={!isAvailable}
         >
         Rent Movie 

@@ -153,7 +153,6 @@ function Pagination({
           </div>
         </li>
       </ul>
-
       <style>
         {`
         .current-page {
