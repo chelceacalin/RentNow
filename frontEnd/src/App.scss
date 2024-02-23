@@ -1,6 +1,11 @@
-/* App.css */
+
+@import "variables.scss";
 .app-container {
   display: flex;
+}
+
+.main-text-color{
+  color: $main-color;
 }
 
 .sidebar {
@@ -26,21 +31,18 @@ body {
   cursor: pointer;
 }
 
-.contained-button,
-.outlined-button {
-  margin-top: 10px;
-}
+
 
 .contained-button {
   background-color: #1E1D5B;
   border-radius: 0;
   color: white;
   border: 1px solid #1E1D5B;
-}
 
-.contained-button:hover {
-  background-color: #E0812E;
-  border-color: #E0812E;
+  &:hover {
+    background-color: #E0812E;
+    border-color: #E0812E;
+  }
 }
 
 .outlined-button {
@@ -48,11 +50,13 @@ body {
   color: #1E1D5B;
   border-color: #1E1D5B;
   border-radius: 0;
-}
+  margin-right: 5px !important;
 
-.outlined-button:hover {
-  color: #E0812E;
-  border-color: #E0812E;
+  &:hover {
+    color: #E0812E;
+    border-color: #E0812E;
+  }
+  
 }
 
 .modal-content {
@@ -87,9 +91,6 @@ body {
   border-radius: 4px;
 }
 
-.globalBg {
-  background-color: #BE2517;
-}
 
 .notFoundText.text-2xl{
   align-items: center;

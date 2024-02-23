@@ -1,12 +1,14 @@
 import { useNavigate } from "react-router-dom";
-import "./css/NotFound.css";
+import "./css/NotFound.scss";
 import { useEffect } from "react";
+import "../../variables.scss";
+
 function NotFound() {
   
     let navigate = useNavigate();
 
   useEffect(() => {
-    document.body.style.background = "#C63238";
+    document.body.style.background = "#7eaaed";
 
     return () => {
       document.body.style.background = "white";

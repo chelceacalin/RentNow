@@ -1,294 +1,154 @@
 import axios from "axios";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState, useCallback } from "react";
 import MovieFilter from "../../components/Movie/MovieFilter.jsx";
 import RentedMovie from "../../components/Movie/RentedMovie.jsx";
 import Pagination from "../../components/Pagination/Pagination";
 import { UserLoginContext } from "../../utils/context/LoginProvider";
 import SortIcon from "../../utils/icons/SortIcon.jsx";
-import "./css/Movies.css";
+import "./css/Movies.scss";
+import "../../variables.scss";
 
 function Movies() {
-  const TABLE_HEAD = [
-    "Title",
-    "Director",
-    "Category",
-    "Status",
-    "Owner",
-    "Rented On",
-    "Rented Until",
-    "Rented By",
-    "",
-    "",
-  ];
-  const [movies, setMovies] = useState([]);
-  const [initialized, setInitialized] = useState(false);
-  const [category, setCategory] = useState("");
-  const [director, setDirector] = useState("");
-  const [title, setTitle] = useState("");
-  const [isAvailable, setIsAvailable] = useState("");
-  const [rentedUntil, setRentedUntil] = useState("");
-  const [rentedBy, setRentedBy] = useState("");
-  const [rentedDate, setRentedDate] = useState("");
-  const [pageNo, setPageNo] = useState(1);
-  const [pageSize, setPageSize] = useState(15);
-  const [totalPages, setTotalPages] = useState("");
-  const [totalMovies, setTotalMovies] = useState(0);
-  const [triggerRefresh, setTriggerRefresh] = useState(false);
   const { username } = useContext(UserLoginContext);
-  const [direction, setDirection] = useState(true);
-  const [sortField, setSortField] = useState("title");
-  const [ownerUsername, setOwnerUsername] = useState("");
-  let moviesArray = [];
-  useEffect(() => {
-    const buildUrl = () => {
-      const params = new URLSearchParams({
-        sortField: sortField || "title",
-        direction: direction ? "ASC" : "DESC",
-        title: title,
-        director: director,
-        category: category,
-        isAvailable: isAvailable,
-        pageNo: pageNo - 1,
-        pageSize: pageSize,
-      });
+  const [movies, setMovies] = useState([]);
+  const [filterParams, setFilterParams] = useState({
+    category: "",
+    director: "",
+    title: "",
+    isAvailable: "",
+    rentedUntil: "",
+    rentedBy: "",
+    rentedDate: "",
+  });
+  const [pageDetails, setPageDetails] = useState({
+    pageNo: 1,
+    pageSize: 15,
+    totalPages: 0,
+    totalMovies: 0,
+  });
+  const [sortParams, setSortParams] = useState({
+    sortField: "title",
+    direction: true,
+  });
+  const [initialized, setInitialized] = useState(false);
+  const [triggerRefresh, setTriggerRefresh] = useState(false);
+
+  const fetchMovies = useCallback(() => {
+    // Initialize URLSearchParams with only relevant and non-empty parameters
+    const params = new URLSearchParams({
+      ...(filterParams.title && { title: filterParams.title }),
+      ...(filterParams.director && { director: filterParams.director }),
+      ...(filterParams.category && { category: filterParams.category }),
+      ...(filterParams.isAvailable !== "" && { isAvailable: filterParams.isAvailable }),
+      ...(filterParams.rentedUntil && { rentedUntil: filterParams.rentedUntil }),
+      ...(filterParams.rentedBy && { rentedBy: filterParams.rentedBy }),
+      ...(filterParams.rentedDate && { rentedDate: filterParams.rentedDate }),
+      sortField: sortParams.sortField,
+      direction: sortParams.direction ? "ASC" : "DESC",
+      pageNo: pageDetails.pageNo - 1,
+      pageSize: pageDetails.pageSize,
+    });
   
-      if (rentedUntil) params.append("rentedUntil", rentedUntil);
-      if (rentedDate) params.append("rentedDate", rentedDate);
-      if (rentedBy) params.append("rentedBy", rentedBy);
-  
-      let builtURL=`/movies?${params.toString()}`;
-      return builtURL;
-    };
-  
-    const url = buildUrl();
+    const url = `/movies?${params.toString()}`;
     axios.get(url)
       .then((response) => {
+        // Handle the response as before
         const { data } = response;
-        if (data.content.length === 0 && pageNo > 1) {
-          updatePageNumber(pageNo - 1);
-        } else {
-          setMovies(data.content);
-          setTotalPages(data.totalPages);
-        }
+        setMovies(data.content);
+        setPageDetails(prev => ({
+          ...prev,
+          totalPages: data.totalPages,
+          totalMovies: data.totalElements,
+        }));
         setInitialized(true);
       })
       .catch((error) => {
         console.error("Failed to fetch movies:", error);
         setInitialized(true);
       });
-  }, [triggerRefresh, sortField, direction, title, director, category, isAvailable, rentedUntil, rentedDate, rentedBy, pageSize, pageNo]);
+  }, [filterParams, pageDetails.pageNo, pageDetails.pageSize, sortParams]);
   
+  useEffect(() => {
+    fetchMovies();
+  }, [fetchMovies, triggerRefresh]);
 
-  let getFilterInput = (params) => {
-    setCategory(params[0]);
-    setDirector(params[1]);
-    setTitle(params[2]);
-    setIsAvailable(params[3] === "BOTH" ? "" : params[3]);
-    setRentedUntil(params[4]);
-    setRentedBy(params[5]);
-    setRentedDate(params[6]);
-  };
+  const updateFilterParams = useCallback((newParams) => {
+    setFilterParams(prev => ({ ...prev, ...newParams }));
+  }, []);
 
-  const handleSelectChange = (event) => {
+  const handleSelectChange = useCallback((event) => {
     const value = event.target.value;
-    setPageSize(value);
-  };
+    setPageDetails(prev => ({ ...prev, pageSize: value }));
+  }, []);
 
-  const updatePageNumber = (pgNo) => {
-    setPageNo(pgNo);
-  };
+  const updatePageNumber = useCallback((pgNo) => {
+    setPageDetails(prev => ({ ...prev, pageNo: pgNo }));
+  }, []);
+
+  const handleSort = useCallback((field) => {
+    setSortParams(prev => ({
+      sortField: field,
+      direction: prev.sortField === field ? !prev.direction : true,
+    }));
+  }, []);
 
   return (
-    <>
-      <div className="bg-grey-texture w-full h-screen px-5 py-10">
-        <div className="bg-basic-red mb-4 p-4 rounded-lg shadow-lg">
-          {" "}
-          {/* Added background, padding, and rounded corners to the filter container */}
-          <MovieFilter filterInput={getFilterInput} />
-        </div>
-        <div className="w-full h-full flex flex-col bg-white justify-between">
-          <div className="overflow-y-auto">
-          <table className="w-full min-w-max table-auto text-left border-b-2 ">
-              <thead className="bg-basic-red sticky top-0 z-30 text-white ">
-                <tr className="bg-red-700 text-center">
-                  {TABLE_HEAD.slice(0, TABLE_HEAD.length).map((elem) => {
-                    return (
-                      <th
-                        key={elem}
-                        className={`border-b-white p-4 ${
-                          elem.length > 2 ? "hover" : ""
-                        } cursor-pointer`}
-                        onClick={(e) => {
-                          e.preventDefault();
-                          if (e.target.textContent !== "Status") {
-                            if (e.target.textContent === "Title") {
-                              setSortField("title");
-                            } else if (e.target.textContent === "Director") {
-                              setSortField("director");
-                            } else if (e.target.textContent === "Category") {
-                              setSortField("category");
-                            }
-                            if (
-                              sortField === e.target.textContent.toLowerCase()
-                            ) {
-                              setDirection(!direction);
-                            } else {
-                              setDirection(true);
-                            }
-
-                            if (e.target.textContent === "Rented Until") {
-                              setSortField("rentedUntil");
-                              setDirection(!direction);
-                            } else if (e.target.textContent === "Rented By") {
-                              setSortField("rentedBy");
-                              setDirection(!direction);
-                            } else if (e.target.textContent === "Rented On") {
-                              setSortField("rentedDate");
-                              setDirection(!direction);
-                            } else if (e.target.textContent === "Owner") {
-                              setSortField("owner_username");
-                              setDirection(!direction);
-                            }
-                          }
-                        }}
-                      >
-                        <div className="">
-                          {elem}
-                          <svg
-                            data-column={elem}
-                            style={{ display: "inline-block" }}
-                            width="16"
-                            height="16"
-                            viewBox="0 0 16 16"
-                            fill="none"
-                            xmlns="http://www.w3.org/2000/svg"
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              setDirection(!direction);
-
-                              let column =
-                                e.currentTarget.getAttribute("data-column");
-                              if (column !== "Status") {
-                                if (column === "Title") {
-                                  setSortField("title");
-                                } else if (column === "Director") {
-                                  setSortField("director");
-                                } else if (column === "Category") {
-                                  setSortField("category");
-                                }
-                                if (sortField === column.toLowerCase()) {
-                                  setDirection(!direction);
-                                } else {
-                                  setDirection(true);
-                                }
-
-                                if (column === "Rented Until") {
-                                  setSortField("rentedUntil");
-                                  setDirection(!direction);
-                                } else if (column === "Rented By") {
-                                  setSortField("rentedBy");
-                                  setDirection(!direction);
-                                } else if (column === "Rented On") {
-                                  setSortField("rentedDate");
-                                  setDirection(!direction);
-                                } else if (column === "Owner") {
-                                  setSortField("owner_username");
-                                  setDirection(!direction);
-                                }
-                              }
-                            }}
-                          >
-                            {elem != "Status" && elem.length > 2 && (
-                              <SortIcon />
-                            )}
-                          </svg>
-                        </div>
-                      </th>
-                    );
-                  })}
+    <div className="bg-grey-texture h-screen ">
+      <div className="bg-basic-red rounded-lg shadow-lg">
+        <MovieFilter filterInput={updateFilterParams} />
+      </div>
+      <div className="w-full h-full flex flex-col bg-white justify-between">
+        <div className="overflow-y-auto">
+          <div className="overflow-x-auto">
+            <table className="w-full min-w-max table-auto text-left border-b-2">
+              <thead className="bg-basic-red sticky z-30 text-white ">
+                <tr className="simpleMainBg text-center">
+                  {["Title", "Director", "Category", "Status", "Owner", "Rented On", "Rented Until", "Rented By",""].map((elem) => (
+                    <th key={elem} className={`border-b-white p-4 ${elem.length > 2 ? "mainBg" : ""} cursor-pointer`}
+                        onClick={() => handleSort(elem.toLowerCase())}>
+                      {elem}
+                      {elem !== "Status" && <SortIcon />}
+                    </th>
+                  ))}
                 </tr>
               </thead>
-              <tbody className="text-blue-marine bg-red">
-                {movies.map(
-                  (
-                    {
-                      category,
-                      director,
-                      description,
-                      title,
-                      isAvailable,
-                      rentedUntil,
-                      rentedBy,
-                      id,
-                      rentedDate,
-                      owner_username,
-                    },
-                    index
-                  ) => {
-                    const isLast = index === movies.length - 1;
-                    const classes = isLast
-                      ? "px-2 py-2 justify-center text-center"
-                      : "px-2 py-2 border-b border-blue-gray-50  justify-center text-center";
-
-                    return (
-                      <RentedMovie
-                        id={id}
-                        title={title}
-                        category={category}
-                        director={director}
-                        isAvailable={isAvailable}
-                        rentedUntil={rentedUntil}
-                        owner_username={owner_username}
-                        rentedDate={rentedDate}
-                        rentedBy={rentedBy}
-                        key={index}
-                        description={description}
-                        classes={classes}
-                        triggerRefresh={triggerRefresh}
-                        setTriggerRefresh={setTriggerRefresh}
-                      />
-                    );
-                  }
-                )}
+              <tbody className="text-blue-marine">
+                {movies.map((movie, index) => (
+                  <RentedMovie key={index} {...movie} triggerRefresh={setTriggerRefresh} />
+                ))}
               </tbody>
             </table>
-
-            <div className=" ">
-              {!movies.length && initialized && (
-                <p className="text-center text-2xl notFoundText bg-white h-72 m-auto justify-center flex">
-                  No matching results found
-                </p>
+          </div>
+          {!movies.length && initialized && (
+            <p className="text-center text-2xl bg-white m-auto m-5 justify-center flex">No matching results found</p>
+          )}
+          <div className="shadow-lg simpleMainBg p-4  ">
+            <div className="flex justify-between">
+              <div className="flex items-center">
+                <p className="text-white">Results per page:</p>
+                <select className=" cursor-pointer text-black font-bold border-2 ms-4"
+                        onChange={handleSelectChange} value={pageDetails.pageSize}>
+                  <option value="15">15</option>
+                  <option value="10">10</option>
+                  <option value="5">5</option>
+                </select>
+                { (
+                <Pagination
+                  pageNo={pageDetails.pageNo}
+                  pageSize={pageDetails.pageSize}
+                  totalPages={pageDetails.totalPages}
+                  updatePageNumber={updatePageNumber}
+                  responseLength={pageDetails.totalMovies}
+                  nrCurrentMovies={movies.length}
+                />
               )}
-              <div className="shadow-lg globalBg p-4">
-                <div className="flex justify-between">
-                  <div className="flex items-center">
-                    <p className="text-white">Results per page:</p>
-                    <select
-                      className="bg-basic-red cursor-pointer text-black font-bold border-2 ms-4"
-                      onChange={handleSelectChange}
-                    >
-                      <option value="15">15</option>
-                      <option value="10">10</option>
-                      <option value="5">5</option>
-                    </select>
-                  </div>
-                  {movies.length > 0 && (
-                    <Pagination
-                      pageNo={pageNo}
-                      pageSize={pageSize}
-                      totalPages={totalPages}
-                      updatePageNumber={updatePageNumber}
-                      responseLength={totalMovies}
-                      nrCurrentMovies={movies.length}
-                    />
-                  )}
-                </div>
               </div>
+             
             </div>
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 }
 

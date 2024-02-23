@@ -1,3 +1,5 @@
+@import "../../../variables.scss";
+
 .notfound.container {
     margin-left: 20%;
     margin-right: 20%;
@@ -22,7 +24,7 @@
 
 .notfound .btn {
     opacity: 1;
-    background-color: #BE2517;
+    background-color: $main-color;
 }
 
 .notfound .body-color {

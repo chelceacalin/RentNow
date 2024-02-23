@@ -1,0 +1,37 @@
+@import "../../../variables.scss";
+.navbar {
+    a:hover path,
+    .aBackgro#ffffffick path {
+        fill: white;
+    }
+
+    a:hover span,
+    .spanClick {
+        color: white;
+    }
+
+    a:hover {
+        background: $main-color;
+    }
+
+    .aBackgroundClick {
+        background:  $main-color;
+    }
+
+    .aBackgroundRelease {
+        background: white;
+    }
+
+    .spanClick {
+        color: white;
+    }
+
+    .spanRelease {
+        color: black;
+    }
+
+    .aBackgroundRelease {
+        background: white;
+    }
+
+}

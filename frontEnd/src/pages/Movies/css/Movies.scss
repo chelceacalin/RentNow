@@ -1,3 +1,5 @@
+@import "../../../variables.scss";
+
 .outlined-button {
     background-color: white !important;
     color: #1E1D5B !important;
@@ -11,7 +13,7 @@
 
 .hover:hover{
     --tw-bg-opacity: 1;
-    background-color: rgb(215 50 56 / var(--tw-bg-opacity));
+    background-color: $main-color;
 }
 
 .contained-button {

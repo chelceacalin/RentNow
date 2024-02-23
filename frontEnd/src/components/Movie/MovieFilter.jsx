@@ -104,8 +104,8 @@ function MovieFilter({ filterInput }) {
 
   return (
     <div className="flex flex-wrap">
-      <div className="searchTopContainer mr-4">
-        <div className=" flex-grow mb-2">
+      <div className="searchTopContainer">
+        <div className="">
           <TextField
             id="outlined-search"
             name="title"
@@ -121,7 +121,7 @@ function MovieFilter({ filterInput }) {
             }}
           />
         </div>
-        <div className=" flex-grow">
+        <div className="">
           <TextField
             id="outlined-search"
             name="director"
@@ -139,8 +139,8 @@ function MovieFilter({ filterInput }) {
         </div>
       </div>
 
-      <div className="searchTopContainer mr-4">
-        <div className=" flex-grow mb-2">
+      <div className="searchTopContainer">
+        <div className="">
           <TextField
             id="outlined-search"
             name="category"
@@ -187,9 +187,9 @@ function MovieFilter({ filterInput }) {
       </div>
 
       <div className=" ">
-        <div className="w-52  flex-col ">
-          <div className=" mb-2 ps-2">Availability: </div>
-          <div className="flex items-center">
+        <div className="w-52   ">
+          <div className="">Availability: </div>
+          <div className="">
             <Checkbox
               name="type"
               label="Unavailable"
@@ -200,7 +200,7 @@ function MovieFilter({ filterInput }) {
             />
             <label name="unavailable">Unavailable</label>
           </div>
-          <div className="flex items-center">
+          <div className="">
             <Checkbox
               name="type"
               label="Available"
@@ -215,8 +215,8 @@ function MovieFilter({ filterInput }) {
       </div>
 
 
-      <div className="searchTopContainer mr-4">
-      <div className=" mb-2">
+      <div className="searchTopContainer ">
+      <div className=" ">
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <DatePickerClear
             className="w-full"

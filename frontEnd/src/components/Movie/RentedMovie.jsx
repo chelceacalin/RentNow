@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Button } from "@mui/material";
 import ViewMovieDetailsModalWindow from "./ViewMovieDetailsModalWindow.jsx";
 import RentMovieModalView from "./RentMovieModalView";
-import "./css/RentedMovies.css";
+import "./css/RentedMovies.scss";
 
 function RentedMovie({
   id,
@@ -86,7 +86,7 @@ function RentedMovie({
       <td className={classes}>
         <Button
           onClick={handleDetailsOpen}
-          className="outlined-button w-full font-normal"
+          className="outlined-button font-normal mr-2"
           variant="outlined"
         >
           Details
@@ -107,10 +107,7 @@ function RentedMovie({
          id={id}
          description={description}
      />}
-         
-      </td>
-      <td className={classes}>
-        <Button
+             <Button
           onClick={handleOpenRentModal}
           className="Button font-normal"
           variant="contained" disabled={!isAvailable}
@@ -131,6 +128,9 @@ function RentedMovie({
           description={description}
         />
         }
+      </td>
+      <td className={classes}>
+    
      
       </td>
     </tr>

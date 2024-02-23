@@ -1,0 +1,14 @@
+$main-color: #7eaaed;
+$main-color-hover: #4887e6;
+
+
+.simpleMainBg{
+    background-color: $main-color;
+}
+.mainBg{
+    background-color: $main-color;
+
+    &:hover{
+        background-color: $main-color-hover;
+    }
+}
