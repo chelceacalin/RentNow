@@ -9,16 +9,17 @@ import NotFound from "./pages/NotFound/NotFound";
 import Movies from "./pages/Movies/Movies";
 import LoginProvider from "./utils/context/LoginProvider";
 import { UserLoginContext } from "./utils/context/LoginProvider";
+import Login from "./pages/Login/Login";
 function App() {
   return (
     <div className="app-container">
-    <LoginProvider>
+      <LoginProvider>
         <Router>
-            <MainContent/>
+          <MainContent />
         </Router>
-        <ToastContainer/>
-    </LoginProvider>
-</div>
+        <ToastContainer />
+      </LoginProvider>
+    </div>
   );
 }
 
@@ -39,18 +40,29 @@ function MainContent() {
     setEmail,
   } = useContext(UserLoginContext);
 
-  
-  return (
-    <>
-      <div className="h-screen">
-        <Navbar />
-      </div>
+  useEffect(()=>{
+    setIsLoggedIn(false)
+  },[])
+
+
+  if (isLoggedIn) {
+    return (
+      <>
+        <div className="h-screen">
+          <Navbar />
+        </div>
+        <Routes>
+          <Route index path="/" element={<Movies />} />
+          <Route path="/*" element={<NotFound />} />
+        </Routes>
+      </>
+    );
+  } else
+    return (
       <Routes>
-        <Route index path="/" element={<Movies />} />
-        <Route path="/*" element={<NotFound />} />
+        <Route element={<Login />} index="/login" />
       </Routes>
-    </>
-  );
+    );
 }
 
 export default App;

@@ -13,7 +13,7 @@ function LoginProvider({ children }) {
 
   let loginHandler = (value) => {
     setIsLoggedIn(value)
-   sessionStorage.setItem('isLoggedIn', value);
+    sessionStorage.setItem('isLoggedIn', value);
   }
 
   return(
