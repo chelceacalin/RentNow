@@ -55,8 +55,10 @@ function Navbar() {
         <div className="flex flex-col h-full space-y-3 justify-between">
           <div className="flex items-center mt-10 ml-2">
             <AppIcon />
-          </div>
+            <div>
 
+            </div>
+          </div>
           <div className="overflow-y-auto">
             <ul className="flex flex-col pt-2 pb-4 space-y-1 text-sm ">
               <MovieNavItem

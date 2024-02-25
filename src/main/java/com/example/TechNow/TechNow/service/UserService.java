@@ -1,5 +1,7 @@
 package com.example.TechNow.TechNow.service;
 
+import com.example.TechNow.TechNow.dto.User.UserAddDTO;
+import com.example.TechNow.TechNow.dto.User.UserAddReponseDTO;
 import com.example.TechNow.TechNow.dto.User.UserDTO;
 import com.example.TechNow.TechNow.dto.User.UserFilterDTO;
 import com.example.TechNow.TechNow.mapper.UserMapper;
@@ -14,7 +16,9 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import javax.swing.text.html.Option;
 import java.util.Optional;
+import java.util.UUID;
 
 import static com.example.TechNow.TechNow.specification.GenericSpecification.fieldNameLike;
 import static com.example.TechNow.TechNow.specification.UserSpecification.hasRole;
@@ -108,6 +112,21 @@ public class UserService {
 			return UserMapper.toDTO(user);
 		} else {
 			throw new RuntimeException("User with id " + id + " not found");
+		}
+	}
+
+	public UserAddReponseDTO addUser(UserAddDTO userAddDTO) {
+		if (userAddDTO.getEmail() == null || userAddDTO.getEmail().isEmpty()) {
+			return null;
+		}
+		Optional<User> userOptional = userRepository.findByEmail(userAddDTO.getEmail());
+		if (userOptional.isPresent()) {
+			return UserMapper.toUserAddReponseDTOFromUser(userOptional.get());
+		} else {
+			User userToBeSaved = UserMapper.toUserFromUserAddDTO(userAddDTO);
+			userToBeSaved.setId(String.valueOf(UUID.randomUUID()));
+			userRepository.save(userToBeSaved);
+			return UserMapper.toUserAddReponseDTOFromUser(userToBeSaved);
 		}
 	}
 

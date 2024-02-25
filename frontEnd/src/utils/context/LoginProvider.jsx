@@ -4,12 +4,13 @@ import PropTypes from "prop-types";
 export const UserLoginContext = createContext();
 
 function LoginProvider({ children }) {
-  let [isLoggedIn, setIsLoggedIn] = useState(false);
+  let [isLoggedIn, setIsLoggedIn] = useState(sessionStorage.getItem('isLoggedIn'));
   let [isAdmin, setIsAdmin] = useState(false);
   let [username, setUsername] = useState("");
   let [email, setEmail] = useState("");
   let [token, setToken] = useState("");
   let [id, setID] = useState("");
+  let [photoUrl,setPhotoUrl] = useState("");
 
   let loginHandler = (value) => {
     setIsLoggedIn(value)
@@ -27,9 +28,11 @@ function LoginProvider({ children }) {
         isLoggedIn,
         setIsLoggedIn:loginHandler,
         id,
-        setID:{setID},
+        setID,
         email,
-        setEmail
+        setEmail,
+        photoUrl,
+        setPhotoUrl
       }} >
         {children}
     </UserLoginContext.Provider>

@@ -10,6 +10,7 @@ import Movies from "./pages/Movies/Movies";
 import LoginProvider from "./utils/context/LoginProvider";
 import { UserLoginContext } from "./utils/context/LoginProvider";
 import Login from "./pages/Login/Login";
+import Authenticated from "./utils/protected/Authenticated";
 function App() {
   return (
     <div className="app-container">
@@ -41,7 +42,6 @@ function MainContent() {
   } = useContext(UserLoginContext);
 
   useEffect(()=>{
-    setIsLoggedIn(false)
   },[])
 
 
@@ -52,8 +52,10 @@ function MainContent() {
           <Navbar />
         </div>
         <Routes>
+          <Route element={<Authenticated/>}>
           <Route index path="/" element={<Movies />} />
           <Route path="/*" element={<NotFound />} />
+          </Route>
         </Routes>
       </>
     );

@@ -6,7 +6,7 @@ import Pagination from "../../components/Pagination/Pagination";
 import { UserLoginContext } from "../../utils/context/LoginProvider";
 import SortIcon from "../../utils/icons/SortIcon.jsx";
 import "./css/Movies.scss";
-import "../../variables.scss"
+import "../../variables.scss";
 function Movies() {
   const TABLE_HEAD = [
     "Title",
@@ -33,7 +33,7 @@ function Movies() {
   const [totalPages, setTotalPages] = useState("");
   const [totalMovies] = useState(0);
   const [triggerRefresh, setTriggerRefresh] = useState(false);
-  const { username } = useContext(UserLoginContext);
+  const { username, email } = useContext(UserLoginContext);
   const [direction, setDirection] = useState(true);
   const [sortField, setSortField] = useState("title");
   const [ownerUsername, setOwnerUsername] = useState("");
@@ -50,17 +50,18 @@ function Movies() {
         pageNo: pageNo - 1,
         pageSize: pageSize,
       });
-  
+
       if (rentedUntil) params.append("rentedUntil", rentedUntil);
       if (rentedDate) params.append("rentedDate", rentedDate);
       if (rentedBy) params.append("rentedBy", rentedBy);
-  
-      let builtURL=`/movies?${params.toString()}`;
+
+      let builtURL = `/movies?${params.toString()}`;
       return builtURL;
     };
-  
+
     const url = buildUrl();
-    axios.get(url)
+    axios
+      .get(url)
       .then((response) => {
         const { data } = response;
         if (data.content.length === 0 && pageNo > 1) {
@@ -75,8 +76,20 @@ function Movies() {
         console.error("Failed to fetch movies:", error);
         setInitialized(true);
       });
-  }, [triggerRefresh, sortField, direction, title, director, category, isAvailable, rentedUntil, rentedDate, rentedBy, pageSize, pageNo]);
-  
+  }, [
+    triggerRefresh,
+    sortField,
+    direction,
+    title,
+    director,
+    category,
+    isAvailable,
+    rentedUntil,
+    rentedDate,
+    rentedBy,
+    pageSize,
+    pageNo,
+  ]);
 
   let getFilterInput = (params) => {
     setCategory(params[0]);
@@ -102,10 +115,11 @@ function Movies() {
       <div className="bg-grey-texture w-auto  ">
         <div className="">
           <MovieFilter filterInput={getFilterInput} />
+          {email}
         </div>
         <div className="w-full h-full flex flex-col bg-white justify-between">
           <div className="overflow-y-auto">
-          <table className="w-full min-w-max table-auto text-left border-b-2 ">
+            <table className="w-full min-w-max table-auto text-left border-b-2 ">
               <thead className=" sticky z-30 text-white ">
                 <tr className="simpleMainBg text-center">
                   {TABLE_HEAD.slice(0, TABLE_HEAD.length).map((elem) => {

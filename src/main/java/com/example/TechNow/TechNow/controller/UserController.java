@@ -1,5 +1,7 @@
 package com.example.TechNow.TechNow.controller;
 
+import com.example.TechNow.TechNow.dto.User.UserAddDTO;
+import com.example.TechNow.TechNow.dto.User.UserAddReponseDTO;
 import com.example.TechNow.TechNow.dto.User.UserDTO;
 import com.example.TechNow.TechNow.dto.User.UserFilterDTO;
 import com.example.TechNow.TechNow.model.User;
@@ -34,4 +36,9 @@ public class UserController {
 		return userService.findByEmail(email);
 	}
 
+
+	@PostMapping("/addUser")
+	public ResponseEntity<UserAddReponseDTO> addUser(@RequestBody UserAddDTO userAddDTO) {
+		return ResponseEntity.ok(userService.addUser(userAddDTO));
+	}
 }

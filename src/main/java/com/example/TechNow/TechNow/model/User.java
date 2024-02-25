@@ -27,6 +27,8 @@ public class User {
 
 	String username;
 
+	String photoUrl;
+
 	@Column
 	@Enumerated(value = EnumType.STRING)
 	private Role role;
