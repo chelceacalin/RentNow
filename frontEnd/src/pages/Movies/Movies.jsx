@@ -37,6 +37,8 @@ function Movies() {
   const [direction, setDirection] = useState(true);
   const [sortField, setSortField] = useState("title");
   const [ownerUsername, setOwnerUsername] = useState("");
+
+
   let moviesArray = [];
   useEffect(() => {
     const buildUrl = () => {
@@ -112,16 +114,15 @@ function Movies() {
 
   return (
     <>
-      <div className="bg-grey-texture w-auto  ">
+      <div className="bg-grey-texture w-auto">
         <div className="">
           <MovieFilter filterInput={getFilterInput} />
-          {email}
         </div>
         <div className="w-full h-full flex flex-col bg-white justify-between">
           <div className="overflow-y-auto">
             <table className="w-full min-w-max table-auto text-left border-b-2 ">
-              <thead className=" sticky z-30 text-white ">
-                <tr className="simpleMainBg text-center">
+              <thead className="sticky z-30 text-white ">
+                <tr className="text-center">
                   {TABLE_HEAD.slice(0, TABLE_HEAD.length).map((elem) => {
                     return (
                       <th

@@ -53,6 +53,7 @@ public class MovieService {
 		List<MovieDTO> movies = moviesPage.getContent().stream()
 				.map(movie -> {
 					MovieHistory history = movieHistoryRepository.findMovieHistoryByRentedUntilMostRecent(movie.getId());
+					System.out.println(movie.getOwner());
 					return MovieMapper.toDto(movie, history);
 				})
 				.collect(Collectors.toList());
@@ -194,6 +195,7 @@ public class MovieService {
 	}
 
 	public Optional<String> validateMovieHistory(MovieHistoryDTO movieHistoryDTO) {
+		System.out.println("Movie history "+movieHistoryDTO);
 		Optional<Movie> movie = movieRepository.findById(movieHistoryDTO.getMovieId());
 		if (movie.isEmpty()) {
 			return Optional.of("Movie not found");

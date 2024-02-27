@@ -27,7 +27,7 @@ function RentMovieModalView({
   });
   const today = dayjs();
   const maxDate = today.add(14, "day");
-  const [idUser, setIdUser] = useState("");
+  const [idUser, setIdUser] = useState(sessionStorage.getItem("id"));
   const [date, setDate] = useState(new Date());
 
   useEffect(() => {
@@ -37,18 +37,17 @@ function RentMovieModalView({
   const rentMovie = () => {
     const url = "/movies/history";
 
-    let body={
+    let body = {
       rentedDate: today,
       rentedUntil: date,
       movieId: id,
       userId: idUser,
       description: description,
     }
-    console.log(body)
+
+    console.log("body ",body)
     axios
-      .post(url, {
-       body
-      })
+      .post(url, body)
       .then((response) => {
         showSuccess("You have rented the movie " + title);
         closeRentModal();

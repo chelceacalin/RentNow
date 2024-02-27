@@ -59,13 +59,9 @@ public class MovieController {
 
 	@PostMapping("/history")
 	public ResponseEntity<?> addMovieHistory(@Valid @RequestBody MovieHistoryDTO movieHistoryDTO, BindingResult bindingResult) {
-		System.out.println("Movie history "+movieHistoryDTO);
-
 		if (bindingResult.hasErrors()) {
 			return new ResponseEntity<>(bindingResult.getAllErrors().get(0).getDefaultMessage(), HttpStatus.BAD_REQUEST);
 		}
-
-
 		Optional<String> errorOptional = movieService.validateMovieHistory(movieHistoryDTO);
 
 		if (errorOptional.isEmpty()) {

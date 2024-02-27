@@ -1,12 +1,12 @@
-import React, { useContext } from "react";
-import axios from "axios";
-import { Button, Box } from "@mui/material";
-import "./css/Login.scss";
-import AppIcon from "../../utils/icons/AppIcon";
-import { auth, provider } from "../../utils/firebase/firebase.js";
-import { signInWithPopup } from "firebase/auth";
 import GoogleIcon from "@mui/icons-material/Google";
+import { Box, Button } from "@mui/material";
+import axios from "axios";
+import { signInWithPopup } from "firebase/auth";
+import { useContext } from "react";
 import { UserLoginContext } from "../../utils/context/LoginProvider.jsx";
+import { auth, provider } from "../../utils/firebase/firebase.js";
+import AppIcon from "../../utils/icons/AppIcon";
+import "./css/Login.scss";
 
 function Login() {
   let url = axios.defaults.baseURL;
@@ -45,8 +45,6 @@ function Login() {
             setEmail(data.email);
             setID(data.id);
             setIsAdmin(data.role == "ADMIN");
-            console.log(data.role);
-            sessionStorage.setItem("isAdmin", data.role == "ADMIN");
             setIsLoggedIn(true);
           }
         });
