@@ -310,7 +310,7 @@ function DetailsMovieModalView({
               <Button
                 type="button"
                 onClick={handleSave}
-                className="Button w-full"
+                className="purpleBlueButton Button w-full"
                 disabled={!isAvailable}
               >
                 Save
@@ -322,6 +322,7 @@ function DetailsMovieModalView({
                 type="button"
                 onClick={closeModal}
                 className="outlined-button w-full"
+                variant="outlined"
               >
                 Close
               </Button>

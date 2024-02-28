@@ -18,7 +18,7 @@ function MyProfileRiredirectButtons() {
   return (
     <div>
       <button
-        className={`p-4 w-60 border text-blac  ${myMoviesClass} mt-8`}
+        className={`p-4 w-60 border text-blac  ${myMoviesClass}`}
         onClick={(e) => {
           e.preventDefault();
           navigate(`/myprofile/${username}`);
@@ -29,7 +29,7 @@ function MyProfileRiredirectButtons() {
       </button>
 
       <button
-        className={`p-4  w-60 border text-black ${myRentedMoviesClass} mt-8`}
+        className={`p-4  w-60 border text-black ${myRentedMoviesClass}`}
         onClick={(e) => {
           e.preventDefault();
           navigate(`/myprofile/myRentedMovies/${email}`);

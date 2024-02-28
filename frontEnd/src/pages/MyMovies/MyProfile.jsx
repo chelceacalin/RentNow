@@ -1,14 +1,13 @@
-import Button from "@mui/material/Button";
 import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import AddNewMovieModalWindow from "../../components/MyMovies/AddNewMovieModalWindow";
+import Movie from "../../components/MyMovies/Movie";
+import MyProfileFilterComponent from "../../components/MyMovies/MyProfileFilterComponent";
+import MyProfileRiredirectButtons from "../../components/MyMovies/MyProfileRiredirectButtons";
+import Pagination from "../../components/Pagination/Pagination";
 import { UserLoginContext } from "../../utils/context/LoginProvider";
 import SortIcon from "../../utils/icons/SortIcon";
-import Pagination from "../../components/Pagination/Pagination";
-import AddNewMovieModalWindow from "./AddNewMovieModalWindow";
-import Movie from "./Movie";
-import MyProfileFilterComponent from "./MyProfileFilterComponent";
-import MyProfileRiredirectButtons from "./MyProfileRiredirectButtons";
 
 function MyProfile() {
   const TABLE_HEAD = [
@@ -18,6 +17,8 @@ function MyProfile() {
     "Status",
     "Rented Until",
     "Rented By",
+    "Actions",
+    ""
   ];
   const [movies, setMovies] = useState([]);
   const [category, setCategory] = useState("");
@@ -144,7 +145,7 @@ function MyProfile() {
 
   return (
     <>
-      <div className=" min-h-screen px-10">
+      <div className=" w-full px-10">
         <div className="my-4">
           <MyProfileFilterComponent filterInput={getFilterInput} />
         </div>
@@ -153,7 +154,7 @@ function MyProfile() {
         </div>
         <div className="w-full flex flex-col bg-white justify-between border-2">
           <div className="overflow-y-auto">
-            <table className="w-full min-w-max bg-white border-b-2 table-auto text-left">
+            <table className="w-full min-w-max bg-white table-auto text-left">
               <thead className="simpleMainBg sticky top-0 z-30 text-white">
                 <tr>
                   {TABLE_HEAD.slice(0, TABLE_HEAD.length - 1).map((elem) => (
@@ -262,19 +263,14 @@ function MyProfile() {
                     </th>
                   ))}
                   <th className="border-b-white p-2 text-center">
-                    <div>Actions</div>
-                  </th>
-                  <th className="border-b-white p-1">
-                    <div className="flex items-center justify-center">
-                      <button
+                  <button
                         onClick={handleOpen}
-                        className="purpleOrangeButton w-full"
+                        className="purpleOrangeButton w-full flex justify-center me-4"
                         variant="outlined"
                       >
                         Add New
                       </button>
-                    </div>
-                    <AddNewMovieModalWindow
+                      <AddNewMovieModalWindow
                       isModalOpen={open}
                       closeModal={handleClose}
                       title={title}

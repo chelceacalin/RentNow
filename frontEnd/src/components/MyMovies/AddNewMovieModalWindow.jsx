@@ -21,7 +21,7 @@ function AddNewMovieModalWindow({
   const [categorySelect, setCategorySelect] = useState("");
   const [selectedImage, setSelectedImage] = useState(null);
   const [availableCategories, setAvailableCategories] = useState([]);
-  const { username } = useContext(UserLoginContext);
+  const { username,email } = useContext(UserLoginContext);
   const [owner_username, setOwnerUsername] = useState(username);
 
   const validationChecks = [
@@ -109,24 +109,15 @@ function AddNewMovieModalWindow({
         isAvailable: true,
         category: category,
         owner_username: owner_username,
+        owner_email:email
       };
+
+      console.log(movie);
 
       if (selectedImage) {
         axios
           .post(urlAddMovie, movie)
-          .then((data) => {
-            if (data.data) {
-              let urlAddMovieImage = `/images/${data.data.id}`;
-              const formData = new FormData();
-              formData.append("image", selectedImage);
-              axios
-                .post(urlAddMovieImage, formData)
-                .then((response) => {
-                  showSuccess("Movie added successfully!", "bg-green-500");
-                })
-                .catch((error) => {});
-            } else {
-            }
+          .then((data)=>{
             setTriggerRefresh(!triggerRefresh);
             resetForm();
           })

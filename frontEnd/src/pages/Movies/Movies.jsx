@@ -114,13 +114,13 @@ function Movies() {
 
   return (
     <>
-      <div className="bg-grey-texture w-auto">
+      <div className="w-full px-10">
         <div className="">
           <MovieFilter filterInput={getFilterInput} />
         </div>
         <div className="w-full h-full flex flex-col bg-white justify-between">
           <div className="overflow-y-auto">
-            <table className="w-full min-w-max table-auto text-left border-b-2 ">
+            <table className="w-full min-w-max table-auto text-left">
               <thead className="sticky z-30 text-white ">
                 <tr className="text-center">
                   {TABLE_HEAD.slice(0, TABLE_HEAD.length).map((elem) => {
@@ -265,38 +265,38 @@ function Movies() {
               </tbody>
             </table>
 
-            <div className=" simpleMainBg">
-              {!movies.length && initialized && (
-                <p className="text-center text-2xl notFoundText bg-white p-4 m-auto justify-center flex">
-                  No matching results found
-                </p>
-              )}
-              <div className="shadow-lg globalBg p-4">
-                <div className="flex justify-between">
-                  <div className="flex items-center">
-                    <p className="text-white">Results per page:</p>
-                    <select
-                      className="bg-basic-red cursor-pointer text-black font-bold border-2 ms-4"
-                      onChange={handleSelectChange}
-                    >
-                      <option value="15">15</option>
-                      <option value="10">10</option>
-                      <option value="5">5</option>
-                    </select>
-                  </div>
-                  {movies.length > 0 && (
-                    <Pagination
-                      pageNo={pageNo}
-                      pageSize={pageSize}
-                      totalPages={totalPages}
-                      updatePageNumber={updatePageNumber}
-                      responseLength={totalMovies}
-                      nrCurrentMovies={movies.length}
-                    />
-                  )}
+            <div className=" simpleMainBg w-full px-10">
+            {!movies.length && initialized && (
+              <p className="text-center text-2xl notFoundText bg-white p-4 m-auto justify-center flex">
+                No matching results found
+              </p>
+            )}
+            <div className="shadow-lg globalBg p-4">
+              <div className="flex justify-between">
+                <div className="flex items-center">
+                  <p className="text-white">Results per page:</p>
+                  <select
+                    className="bg-basic-red cursor-pointer text-black font-bold border-2 ms-4"
+                    onChange={handleSelectChange}
+                  >
+                    <option value="15">15</option>
+                    <option value="10">10</option>
+                    <option value="5">5</option>
+                  </select>
                 </div>
+                {movies.length > 0 && (
+                  <Pagination
+                    pageNo={pageNo}
+                    pageSize={pageSize}
+                    totalPages={totalPages}
+                    updatePageNumber={updatePageNumber}
+                    responseLength={totalMovies}
+                    nrCurrentMovies={movies.length}
+                  />
+                )}
               </div>
             </div>
+          </div>
           </div>
         </div>
       </div>

@@ -5,8 +5,8 @@ import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import * as moreClasses from "react-dom/test-utils";
 import { UserLoginContext } from "../../utils/context/LoginProvider";
-import DatePickerClear from "../../components/DatePicker/DatePickerClear";
-
+import DatePickerClear from "../DatePicker/DatePickerClear";
+import "./css/MyProfileFilter.scss"
 function MyProfileFilterComponent({ filterInput }) {
   let [title, setTitle] = useState("");
   let [director, setDirector] = useState("");
@@ -60,7 +60,8 @@ function MyProfileFilterComponent({ filterInput }) {
   ]);
 
   return (
-    <div className=" flex">
+    <div className=" flex flexContainer">
+         <div className="filterContainer">
       <div className="">
         <TextField
           id="outlined-search"
@@ -95,6 +96,9 @@ function MyProfileFilterComponent({ filterInput }) {
           }}
         />
       </div>
+      </div>
+
+      <div className="filterContainer">
       <div className="">
         <TextField
           id="outlined-search"
@@ -112,45 +116,7 @@ function MyProfileFilterComponent({ filterInput }) {
           }}
         />
       </div>
-      <div className="">
-        <div className="">Availability: </div>
-        <div>
-          <div>
-            <Checkbox
-              name="type"
-              label="Unavailable"
-              defaultChecked
-              size="small"
-              onClick={(e) => {
-                setUnavailable(e.target.checked);
-              }}
-            />
-            <label name="unavailable">Unavailable</label>
-          </div>
-          <div>
-            <Checkbox
-              name="type"
-              label="Available"
-              defaultChecked
-              size="small"
-              onClick={(e) => {
-                setAvailable(e.target.checked);
-              }}
-            />
-            <label name="available">Available</label>
-          </div>
-        </div>
-      </div>
-      <div className="">
-        <LocalizationProvider dateAdapter={AdapterDayjs}>
-          <DatePickerClear
-            labelString={"Rented until"}
-            value={rentedUntil}
-            onClear={() => setRentedUntil(null)}
-            onChange={(newDate) => setRentedUntil(newDate)}
-          />
-        </LocalizationProvider>
-      </div>
+
       <div className="">
         <Autocomplete
           sx={{ fontFamily: "Sanchez" }}
@@ -179,6 +145,48 @@ function MyProfileFilterComponent({ filterInput }) {
             />
           )}
         />
+      </div>
+</div>
+
+<div className="filterContainer">
+<div className="">
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
+          <DatePickerClear
+            labelString={"Rented until"}
+            value={rentedUntil}
+            onClear={() => setRentedUntil(null)}
+            onChange={(newDate) => setRentedUntil(newDate)}
+          />
+        </LocalizationProvider>
+      </div>
+
+      <div className="flex">
+        <div className="flex ms-2 mt-2">Availability: </div>
+          <div>
+            <Checkbox
+              name="type"
+              label="Unavailable"
+              defaultChecked
+              size="small"
+              onClick={(e) => {
+                setUnavailable(e.target.checked);
+              }}
+            />
+            <label name="unavailable">Unavailable</label>
+          </div>
+          <div>
+            <Checkbox
+              name="type"
+              label="Available"
+              defaultChecked
+              size="small"
+              onClick={(e) => {
+                setAvailable(e.target.checked);
+              }}
+            />
+            <label name="available">Available</label>
+          </div>
+      </div>
       </div>
     </div>
   );

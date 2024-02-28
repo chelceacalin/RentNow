@@ -1,0 +1,47 @@
+.flexContainer {
+    display: flex;
+    gap: 10px;
+  
+    .filterContainer {
+      display: flex;
+      flex-direction: column;
+      gap: 10px; 
+  
+      > div { 
+  
+        &:last-child {
+          margin-bottom: 0;
+        }
+  
+        .w-48 {
+          margin-right: 5px;
+          &:last-child {
+            margin-right: 0;
+          }
+        }
+  
+        .flex {
+          display: flex;
+          align-items: center;
+          gap: 5px;
+  
+          > div {
+            margin-right: 5px; 
+  
+            &:last-child {
+              margin-right: 0; 
+            }
+          }
+        }
+  
+        .ms-2 {
+          margin-left: 2px;
+        }
+  
+        .mt-2 {
+          margin-top: 2px; 
+        }
+      }
+    }
+  }
+  

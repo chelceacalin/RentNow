@@ -39,7 +39,7 @@ function Movie({
         <div
           variant="small"
           color="blue-gray"
-          className="font-normal max-w-[100px] break-words"
+          className="font-normal max-w-[200px] break-words"
         >
           {director}
         </div>
