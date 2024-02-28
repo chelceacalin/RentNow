@@ -1,2 +1,4 @@
 - Server side filering, sorting, pagination
-- Debounce
+- Google login and user permissions and roles and authentication
+- Debounce inputs
+- Posibility to add a movie and rent movie from other users
