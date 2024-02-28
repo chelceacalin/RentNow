@@ -73,7 +73,6 @@ function MainContent() {
     return (
       <Routes>
         <Route element={<Login />} index="/login" />
-       
       </Routes>
     );
   }

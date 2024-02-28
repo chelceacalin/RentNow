@@ -310,7 +310,7 @@ function DetailsMovieModalView({
               <Button
                 type="button"
                 onClick={handleSave}
-                className="purpleBlueButton Button w-full"
+                className="purpleBlueButton w-full"
                 disabled={!isAvailable}
               >
                 Save
