@@ -44,8 +44,6 @@ function RentMovieModalView({
       userId: idUser,
       description: description,
     }
-
-    console.log("body ",body)
     axios
       .post(url, body)
       .then((response) => {
