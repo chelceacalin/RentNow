@@ -42,11 +42,24 @@ function MovieFilter({ filterInput }) {
   useEffect(() => {
     const rentedUntilField = rentedUntil ? convertDate(rentedUntil) : "";
     const rentedDateField = rentedDate ? convertDate(rentedDate) : "";
+
+
+    let availabilityFilter;
+    if (available && unavailable) {
+      availabilityFilter = "BOTH";
+    } else if (available) {
+      availabilityFilter = "true";
+    } else if (unavailable) {
+      availabilityFilter = "false";
+    } else {
+      availabilityFilter = "BOTH";
+    }
+
     const array = [
       category,
       director,
       title,
-      available ? "true" : "false",
+      availabilityFilter,
       rentedUntilField,
       rentedBy,
       rentedDateField,

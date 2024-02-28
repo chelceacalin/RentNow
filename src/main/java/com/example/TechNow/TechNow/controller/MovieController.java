@@ -1,18 +1,12 @@
 package com.example.TechNow.TechNow.controller;
 
-import com.example.TechNow.TechNow.dto.Movie.*;
-import com.example.TechNow.TechNow.dto.MovieHistory.MovieHistoryDTO;
+import com.example.TechNow.TechNow.dto.Movie.MovieAddDTO;
+import com.example.TechNow.TechNow.dto.Movie.MovieDTO;
+import com.example.TechNow.TechNow.dto.Movie.MovieFilterDTO;
 import com.example.TechNow.TechNow.service.MovieService;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Optional;
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/movies")
@@ -59,13 +53,9 @@ public class MovieController {
 
 	@PostMapping("/history")
 	public ResponseEntity<?> addMovieHistory(@Valid @RequestBody MovieHistoryDTO movieHistoryDTO, BindingResult bindingResult) {
-		System.out.println("Movie history "+movieHistoryDTO);
-
 		if (bindingResult.hasErrors()) {
 			return new ResponseEntity<>(bindingResult.getAllErrors().get(0).getDefaultMessage(), HttpStatus.BAD_REQUEST);
 		}
-
-
 		Optional<String> errorOptional = movieService.validateMovieHistory(movieHistoryDTO);
 
 		if (errorOptional.isEmpty()) {

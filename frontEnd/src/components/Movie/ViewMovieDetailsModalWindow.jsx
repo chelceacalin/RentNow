@@ -134,10 +134,7 @@ function ViewMovieDetailsModalWindow({
                 }}
               />
             </div>
-          
-          </Grid>
-          <Grid item xs={5}>
-          <div className=" ml-20 mb-5">
+            <div className=" ml-20 mb-5 mt-6">
               <TextField
                 id="outlined-read-only-input"
                 label="Status"
@@ -154,6 +151,9 @@ function ViewMovieDetailsModalWindow({
                 }}
               />
             </div>
+          </Grid>
+          <Grid item xs={5}>
+      
             <div className="ml-20">
               <TextField
                 id="outlined-read-only-input"
@@ -219,7 +219,7 @@ function ViewMovieDetailsModalWindow({
               </div>
             )}
             {!isAvailable && (
-              <div className="mt-6 ml-28">
+              <div className="mt-6 ml-20">
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <DatePicker
                     label={

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState,useContext } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import AppIcon from "../../utils/icons/AppIcon";
 import CategoryManagementItem from "./CategoryManagementItem";
@@ -8,11 +8,12 @@ import ProfileNavItem from "./ProfileNavItem";
 import RoleManagementItem from "./RoleManagementItem";
 import "./css/Navbar.scss";
 import axios from "axios"
+import { UserLoginContext } from "../../utils/context/LoginProvider";
 function Navbar() {
   let navigate = useNavigate();
   let location = useLocation();
-
   let url=axios.defaults.baseURL;
+  
   const [selectedItem, setSelectedItem] = useState("");
   const [selectedColor, setSelectedColor] = useState("");
   const {
@@ -24,16 +25,7 @@ function Navbar() {
     setToken,
     isLoggedIn,
     setIsLoggedIn,
-  } = {
-    isAdmin: true,
-    setIsAdmin: true,
-    username: false,
-    setUsername: false,
-    token: false,
-    setToken: false,
-    isLoggedIn: true,
-    setIsLoggedIn: true,
-  };
+  } = useContext(UserLoginContext);
 
   useEffect(() => {
     if (location.pathname === "/") {
@@ -63,8 +55,10 @@ function Navbar() {
         <div className="flex flex-col h-full space-y-3 justify-between">
           <div className="flex items-center mt-10 ml-2">
             <AppIcon />
-          </div>
+            <div>
 
+            </div>
+          </div>
           <div className="overflow-y-auto">
             <ul className="flex flex-col pt-2 pb-4 space-y-1 text-sm ">
               <MovieNavItem

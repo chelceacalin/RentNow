@@ -2,7 +2,6 @@
 import React from 'react';
 import LogoutIcon from "../../utils/icons/LogoutIcon";
 const LogoutNavItem = ({ isAdmin, selectedItem, handleItemClick, setIsAdmin, setIsLoggedIn, setUsername, setToken, url }) => {
-  if (!isAdmin) return null;
 
   return (
     <li className="rounded-sm">
@@ -18,7 +17,6 @@ const LogoutNavItem = ({ isAdmin, selectedItem, handleItemClick, setIsAdmin, set
           setIsLoggedIn(false);
           setUsername(null);
           setToken(null);
-          window.location.href = url + "/logout";
         }}
       >
         <LogoutIcon isSelected={selectedItem === "logout"} />
