@@ -168,6 +168,7 @@ public class MovieService {
 	}
 
 	public MovieAddDTO addMovie(MovieAddDTO movie) {
+		System.out.println("Movie "+movie);
 		UserDTO user = userService.findByEmail(movie.getOwner_email());
 		if (nonNull(user)) {
 			Optional<Category> categoryOptional = categoryRepository.findByNameIgnoreCase(movie.getCategory());
