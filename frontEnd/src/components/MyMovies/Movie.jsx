@@ -10,9 +10,7 @@ function Movie({
   isAvailable,
   rentedUntil,
   rentedBy,
-  rating,
   classes,
-  updateMovie,
   id,
   triggerRefresh,
   setTriggerRefresh,
@@ -65,13 +63,13 @@ function Movie({
       </td>
       <td className={classes}>
         <div variant="small" color="blue-gray" className="font-normal">
-          {rentedBy == "available" && isAvailable ? "" : rentedBy}
+          {rentedBy === "available" && isAvailable ? "" : rentedBy}
         </div>
       </td>
       <td className={classes}>
         <Button
           onClick={handleDetailsOpen}
-          className="outlined-button w-full font-normal"
+          className="outlined-button font-normal"
           variant="outlined"
         >
           Details
@@ -90,11 +88,10 @@ function Movie({
             triggerRefresh={triggerRefresh}
           />
         )}
-      </td>
-      <td className={classes}>
+
         <Button
           onClick={handleDeleteOpen}
-          className="font-normal Button"
+          className="font-normal"
           variant="contained"
           disabled={!isAvailable}
         >

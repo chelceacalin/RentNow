@@ -119,7 +119,7 @@ function MyProfile() {
     setCategory(params[0]);
     setDirector(params[1]);
     setTitle(params[2]);
-    setIsAvailable(params[3] == "BOTH" ? "" : params[3]);
+    setIsAvailable(params[3] === "BOTH" ? "" : params[3]);
     setRentedUntil(params[4]);
     setRentedBy(params[5]);
   };
@@ -145,17 +145,33 @@ function MyProfile() {
 
   return (
     <>
-      <div className=" w-full px-10">
-        <div className="my-4">
-          <MyProfileFilterComponent filterInput={getFilterInput} />
+    <div className="px-10 w-full"> {/* Ensure the container takes full width with padding */}
+      <div className="my-4">
+        <MyProfileFilterComponent filterInput={getFilterInput} />
+      </div>
+      <div className="flex items-center justify-start w-full"> {/* Adjust to full width */}
+        <MyProfileRiredirectButtons />
+        <button
+          onClick={handleOpen}
+          className="text-white flex justify-center ms-1 mainBg  p-4"
+        >
+          Add New
+                      </button>
+                      <AddNewMovieModalWindow
+                      isModalOpen={open}
+                      closeModal={handleClose}
+                      title={title}
+                      director={director}
+                      category={category}
+                      addMovie={addMovie}
+                      triggerRefresh={triggerRefresh}
+                      setTriggerRefresh={setTriggerRefresh}
+                    />
         </div>
-        <div>
-          <MyProfileRiredirectButtons />
-        </div>
-        <div className="w-full flex flex-col bg-white justify-between border-2">
-          <div className="overflow-y-auto">
-            <table className="w-full min-w-max bg-white table-auto text-left">
-              <thead className="simpleMainBg sticky top-0 z-30 text-white">
+        <div className="flex flex-col bg-white justify-between w-full"> {/* Adjust to full width */}
+          <div className="overflow-x-auto w-full"> {/* Ensure table container is full width */}
+            <table className="w-full text-left"> {/* Ensure table takes full width */}
+              <thead className="sticky top-0 z-30  text-white">
                 <tr>
                   {TABLE_HEAD.slice(0, TABLE_HEAD.length - 1).map((elem) => (
                     <th
@@ -215,7 +231,7 @@ function MyProfile() {
                     >
                       <div>
                         {elem}
-                        {elem != "Status" && (
+                        {elem !== "Status" && (
                           <svg
                             data-column={elem}
                             style={{ display: "inline-block" }}
@@ -263,23 +279,7 @@ function MyProfile() {
                     </th>
                   ))}
                   <th className="border-b-white p-2 text-center">
-                  <button
-                        onClick={handleOpen}
-                        className="purpleOrangeButton w-full flex justify-center me-4"
-                        variant="outlined"
-                      >
-                        Add New
-                      </button>
-                      <AddNewMovieModalWindow
-                      isModalOpen={open}
-                      closeModal={handleClose}
-                      title={title}
-                      director={director}
-                      category={category}
-                      addMovie={addMovie}
-                      triggerRefresh={triggerRefresh}
-                      setTriggerRefresh={setTriggerRefresh}
-                    />
+           
                   </th>
                 </tr>
               </thead>
@@ -301,7 +301,7 @@ function MyProfile() {
             </table>
           </div>
 
-          <div className=" simpleMainBg">
+          <div className="simpleMainBg w-auto me-7">
             {!movies.length && initialized && (
               <p className="text-center text-2xl notFoundText bg-white p-4 m-auto justify-center flex">
                 No matching results found

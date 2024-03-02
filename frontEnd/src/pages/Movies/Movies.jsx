@@ -1,12 +1,13 @@
 import axios from "axios";
-import React, { useContext, useEffect, useState } from "react";
+import React, {useContext, useEffect, useState} from "react";
 import MovieFilter from "../../components/Movie/MovieFilter.jsx";
 import RentedMovie from "../../components/Movie/RentedMovie.jsx";
 import Pagination from "../../components/Pagination/Pagination";
-import { UserLoginContext } from "../../utils/context/LoginProvider";
+import {UserLoginContext} from "../../utils/context/LoginProvider";
 import SortIcon from "../../utils/icons/SortIcon.jsx";
 import "./css/Movies.scss";
 import "../../variables.scss";
+
 function Movies() {
   const TABLE_HEAD = [
     "Title",
@@ -57,8 +58,7 @@ function Movies() {
       if (rentedDate) params.append("rentedDate", rentedDate);
       if (rentedBy) params.append("rentedBy", rentedBy);
 
-      let builtURL = `/movies?${params.toString()}`;
-      return builtURL;
+      return `/movies?${params.toString()}`;
     };
 
     const url = buildUrl();
@@ -114,7 +114,7 @@ function Movies() {
 
   return (
     <>
-      <div className="w-full px-10">
+     <div className=" w-screen px-10">
         <div className="">
           <MovieFilter filterInput={getFilterInput} />
         </div>
@@ -210,7 +210,7 @@ function Movies() {
                               }
                             }}
                           >
-                            {elem != "Status" && elem.length > 2 && (
+                            {elem !== "Status" && elem.length > 2 && (
                               <SortIcon />
                             )}
                           </svg>
@@ -265,13 +265,13 @@ function Movies() {
               </tbody>
             </table>
 
-            <div className=" simpleMainBg w-full px-10">
+            <div className="me-6">
             {!movies.length && initialized && (
               <p className="text-center text-2xl notFoundText bg-white p-4 m-auto justify-center flex">
                 No matching results found
               </p>
             )}
-            <div className="shadow-lg globalBg p-4">
+            <div className="shadow-lg globalBg p-4 simpleMainBg">
               <div className="flex justify-between">
                 <div className="flex items-center">
                   <p className="text-white">Results per page:</p>

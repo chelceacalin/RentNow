@@ -27,53 +27,16 @@
   cursor: pointer;
 }
 
-
-/* Button styles*/
-.purpleBlueButton {
-  color: white;
-  padding: 10px;
-  border-radius: 10px;
-
-  &:hover {
-    background-color: $main-color;
-    border-color: $main-color;
-  }
-
-  &:enabled {
-    background-color: #1E1D5B;
-    color: white;
-    &:hover {
-      background-color: $main-color;
-      border-color: $main-color;
-    }
-  }
-}
-
-
-.purpleOrangeButton {
-  color: white;
-  padding: 10px;
-  border-radius: 10px;
-
-  &:hover {
-    background-color: $main-color;
-    border-color: $main-color;
-  }
-
-  &:enabled {
-    background-color: #1E1D5B;
-
-    &:hover {
-      background-color: #da7c08 ;
-      border-color: $main-color;
-    }
-  }
-}
-
 .aBackgroundClick {
   background: $main-color;
 }
 
 .aBackgroundRelease {
   background: white;
+}
+
+
+.css-1rwt2y5-MuiButtonBase-root-MuiButton-root {
+  margin-left: 7px !important;
+  margin-right: 7px !important;
 }

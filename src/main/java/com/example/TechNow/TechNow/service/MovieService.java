@@ -190,6 +190,7 @@ public class MovieService {
 			movieRepository.save(movie);
 		});
 		MovieHistory movieHistory = toMovieHistory(movieHistoryDTO);
+		System.out.println("Mhdto "+movieHistoryDTO);
 		movieHistoryRepository.save(movieHistory);
 	}
 

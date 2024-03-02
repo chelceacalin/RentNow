@@ -123,7 +123,7 @@ function RentMovieModalView({
           </div>
           <div className="px-2 w-1/2">
             <Button
-              className="purpleBlueButton w-full"
+              className="w-full"
               variant="contained"
               onClick={rentMovie}
             >

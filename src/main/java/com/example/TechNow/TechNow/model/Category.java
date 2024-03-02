@@ -21,10 +21,10 @@ public class Category {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.UUID)
-	private UUID id;
+	UUID id;
 
 	@NotBlank(message = "Category name is mandatory")
-	private String name;
+	String name;
 
 	boolean isAvailable;
 
