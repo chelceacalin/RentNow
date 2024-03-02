@@ -1,5 +1,4 @@
-import { faTimes } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Button } from "@mui/material";
 import {
     Card,
     CardMedia,
@@ -39,7 +38,6 @@ function ViewMovieDetailsModalWindow({
     status = STATUS_UNAVAILABLE;
   }
   const [selectedImage, setSelectedImage] = useState(null);
-  const [owner, setOwner] = useState("");
   const fetchMovieImage = async () => {
     try {
       const response = await axios.get(`/imagesByMovieID/${id}`, {
@@ -267,10 +265,11 @@ function ViewMovieDetailsModalWindow({
           </Grid>
         </Grid>
       </DialogContent>
-     <div className="close flex  justify-center">
-     <button type="button" className="btn purpleBlueButton mb-6 mt-3"
+     <div className="close flex  justify-center mb-3">
+     <Button type="button" className="btn"
+     variant="contained"
      onClick={closeModal}
-     >Close Modal</button>
+     >Close Modal</Button>
      </div>
     </Dialog>
   );

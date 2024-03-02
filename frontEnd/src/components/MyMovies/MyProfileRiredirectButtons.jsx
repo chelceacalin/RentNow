@@ -16,7 +16,7 @@ function MyProfileRiredirectButtons() {
     ? "aBackgroundClick text-white"
     : "";
   return (
-    <div>
+    <div className="flex">
       <button
         className={`p-4 w-60 border text-blac  ${myMoviesClass}`}
         onClick={(e) => {
@@ -29,7 +29,7 @@ function MyProfileRiredirectButtons() {
       </button>
 
       <button
-        className={`p-4  w-60 border text-black ${myRentedMoviesClass}`}
+        className={`p-4  w-60 border text-black ${myRentedMoviesClass} ms-1`}
         onClick={(e) => {
           e.preventDefault();
           navigate(`/myprofile/myRentedMovies/${email}`);
@@ -38,6 +38,9 @@ function MyProfileRiredirectButtons() {
         {" "}
         My Rented Movies
       </button>
+
+
+
     </div>
   );
 }

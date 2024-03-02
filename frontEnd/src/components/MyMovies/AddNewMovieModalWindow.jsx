@@ -46,7 +46,9 @@ function AddNewMovieModalWindow({
       .then((response) => {
         setAvailableCategories(response.data.content);
       })
-      .catch((error) => {});
+      .catch((error) => {
+        showError(error);
+      });
   }, [category]);
 
   const handleImageBrowse = (event) => {
@@ -119,9 +121,12 @@ function AddNewMovieModalWindow({
           .post(urlAddMovie, movie)
           .then((data)=>{
             setTriggerRefresh(!triggerRefresh);
+            showSuccess("Movie successfully created!");
             resetForm();
           })
-          .catch((err) => {});
+          .catch((err) => {
+            showError(err);
+          });
 
         closeModal();
       } else {
@@ -266,7 +271,7 @@ function AddNewMovieModalWindow({
               <Button
                 type="button"
                 onClick={handleSave}
-                className="purpleBlueButton w-full"
+                className="w-full"
                 variant="contained"
               >
                 Save

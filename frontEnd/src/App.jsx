@@ -1,19 +1,18 @@
+import { useContext, useEffect, useState } from "react";
+import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import "./App.scss";
 import Navbar from "./components/Navbar/Navbar";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { useEffect, useContext, useState } from "react";
-import axios from "axios";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import NotFound from "./pages/NotFound/NotFound";
-import Movies from "./pages/Movies/Movies";
-import LoginProvider from "./utils/context/LoginProvider";
-import { UserLoginContext } from "./utils/context/LoginProvider";
+import CategoryManagement from "./pages/CategoryManagement/CategoryManagement";
 import Login from "./pages/Login/Login";
-import Authenticated from "./utils/protected/Authenticated";
+import Movies from "./pages/Movies/Movies";
 import MyProfile from "./pages/MyMovies/MyProfile";
-import MyRentedMoviesRoute from "./utils/protected/MyRentedMoviesRoute";
+import NotFound from "./pages/NotFound/NotFound";
+import LoginProvider, { UserLoginContext } from "./utils/context/LoginProvider";
+import Authenticated from "./utils/protected/Authenticated";
 import ProfileRoute from "./utils/protected/ProfileRoute";
+import AdminRoute from "./utils/protected/AdminRoute";
 function App() {
   return (
     <div className="app-container">
@@ -45,11 +44,10 @@ function MainContent() {
   } = useContext(UserLoginContext);
 
   useEffect(() => {
-    setInitialized(true)
+    setInitialized(true);
   }, []);
 
-
-  if (!initialized) return null; 
+  if (!initialized) return null;
 
   if (isLoggedIn) {
     return (
@@ -61,9 +59,16 @@ function MainContent() {
           <Route element={<Authenticated />}>
             <Route index path="/" element={<Movies />} />
             <Route element={<ProfileRoute />}>
-          <Route path="/myprofile/:id" element={<MyProfile />} />
-        </Route>
-        
+              <Route path="/myprofile/:id" element={<MyProfile />} />
+            </Route>
+
+            <Route element={<AdminRoute />}>
+              <Route
+                path="/categoryManagement"
+                element={<CategoryManagement />}
+              />
+            </Route>
+
             <Route path="/*" element={<NotFound />} />
           </Route>
         </Routes>
