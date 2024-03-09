@@ -11,8 +11,8 @@ function FilterCategory({ filterInput }) {
   }, [name]);
 
   return (
-    <div className=" ml-6 mr-7 flex">
-      <div className="mt-10">
+    <div className="py-1 flex">
+      <div className="mt-9">
         <TextField
           id="outlined-search"
           name="name"

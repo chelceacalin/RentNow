@@ -6,7 +6,7 @@ import { useContext, useEffect, useState } from "react";
 import * as moreClasses from "react-dom/test-utils";
 import { UserLoginContext } from "../../utils/context/LoginProvider";
 import DatePickerClear from "../DatePicker/DatePickerClear";
-import "./css/MyProfileFilter.scss"
+import "./css/MyProfileFilter.scss";
 function MyProfileFilterComponent({ filterInput }) {
   let [title, setTitle] = useState("");
   let [director, setDirector] = useState("");
@@ -60,108 +60,108 @@ function MyProfileFilterComponent({ filterInput }) {
   ]);
 
   return (
-    <div className=" flex flexContainer">
-         <div className="filterContainer">
-      <div className="">
-        <TextField
-          id="outlined-search"
-          name="title"
-          label="Search title"
-          type="search"
-          size="small"
-          className="w-48"
-          onChange={(e) => setTitle(e.target.value)}
-          InputProps={{
-            style: { fontFamily: "Sanchez" },
-          }}
-          InputLabelProps={{
-            style: { fontFamily: "Sanchez" },
-          }}
-        />
-      </div>
-      <div className="">
-        <TextField
-          id="outlined-search"
-          name="director"
-          label="Search director"
-          type="search"
-          size="small"
-          className="w-48"
-          onChange={(e) => setDirector(e.target.value)}
-          InputProps={{
-            style: { fontFamily: "Sanchez" },
-          }}
-          InputLabelProps={{
-            style: { fontFamily: "Sanchez" },
-          }}
-        />
-      </div>
+    <div className="flex flexContainer">
+      <div className="filterContainer">
+        <div className="">
+          <TextField
+            id="outlined-search"
+            name="title"
+            label="Search title"
+            type="search"
+            size="small"
+            className="w-48"
+            onChange={(e) => setTitle(e.target.value)}
+            InputProps={{
+              style: { fontFamily: "Sanchez" },
+            }}
+            InputLabelProps={{
+              style: { fontFamily: "Sanchez" },
+            }}
+          />
+        </div>
+        <div className="">
+          <TextField
+            id="outlined-search"
+            name="director"
+            label="Search director"
+            type="search"
+            size="small"
+            className="w-48"
+            onChange={(e) => setDirector(e.target.value)}
+            InputProps={{
+              style: { fontFamily: "Sanchez" },
+            }}
+            InputLabelProps={{
+              style: { fontFamily: "Sanchez" },
+            }}
+          />
+        </div>
       </div>
 
       <div className="filterContainer">
-      <div className="">
-        <TextField
-          id="outlined-search"
-          name="category"
-          label="Search category"
-          type="search"
-          size="small"
-          className="w-48"
-          onChange={(e) => setCategory(e.target.value)}
-          InputProps={{
-            style: { fontFamily: "Sanchez" },
-          }}
-          InputLabelProps={{
-            style: { fontFamily: "Sanchez" },
-          }}
-        />
-      </div>
-
-      <div className="">
-        <Autocomplete
-          sx={{ fontFamily: "Sanchez" }}
-          value={rentedBy}
-          onChange={(e, value) => {
-            setRentedBy(value);
-          }}
-          ListboxProps={{
-            style: { fontFamily: "Sanchez" },
-          }}
-          options={filteredUsers.map((m) => m.rentedBy)}
-          renderInput={(params) => (
-            <TextField
-              {...params}
-              InputLabelProps={{
-                style: { fontFamily: "Sanchez" },
-              }}
-              InputProps={{
-                ...params.InputProps,
-                ...moreClasses.input,
-                style: { fontFamily: "Sanchez" },
-              }}
-              sx={{ fontFamily: "Sanchez" }}
-              size="small"
-              label="Rented by"
-            />
-          )}
-        />
-      </div>
-</div>
-
-<div className="filterContainer">
-<div className="">
-        <LocalizationProvider dateAdapter={AdapterDayjs}>
-          <DatePickerClear
-            labelString={"Rented until"}
-            value={rentedUntil}
-            onClear={() => setRentedUntil(null)}
-            onChange={(newDate) => setRentedUntil(newDate)}
+        <div className="">
+          <TextField
+            id="outlined-search"
+            name="category"
+            label="Search category"
+            type="search"
+            size="small"
+            className="w-48"
+            onChange={(e) => setCategory(e.target.value)}
+            InputProps={{
+              style: { fontFamily: "Sanchez" },
+            }}
+            InputLabelProps={{
+              style: { fontFamily: "Sanchez" },
+            }}
           />
-        </LocalizationProvider>
+        </div>
+
+        <div className="">
+          <Autocomplete
+            sx={{ fontFamily: "Sanchez" }}
+            value={rentedBy}
+            onChange={(e, value) => {
+              setRentedBy(value);
+            }}
+            ListboxProps={{
+              style: { fontFamily: "Sanchez" },
+            }}
+            options={filteredUsers.map((m) => m.rentedBy)}
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                InputLabelProps={{
+                  style: { fontFamily: "Sanchez" },
+                }}
+                InputProps={{
+                  ...params.InputProps,
+                  ...moreClasses.input,
+                  style: { fontFamily: "Sanchez" },
+                }}
+                sx={{ fontFamily: "Sanchez" }}
+                size="small"
+                label="Rented by"
+              />
+            )}
+          />
+        </div>
       </div>
 
-      <div className="flex">
-        <div className="flex ms-2 mt-2">Availability: </div>
+      <div className="filterContainer">
+        <div className="">
+          <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <DatePickerClear
+              labelString={"Rented until"}
+              value={rentedUntil}
+              onClear={() => setRentedUntil(null)}
+              onChange={(newDate) => setRentedUntil(newDate)}
+            />
+          </LocalizationProvider>
+        </div>
+
+        <div className="flex">
+          <div className="flex ms-2 mt-2">Availability: </div>
           <div>
             <Checkbox
               name="type"
@@ -186,7 +186,7 @@ function MyProfileFilterComponent({ filterInput }) {
             />
             <label name="available">Available</label>
           </div>
-      </div>
+        </div>
       </div>
     </div>
   );

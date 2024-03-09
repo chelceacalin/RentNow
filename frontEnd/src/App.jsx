@@ -10,9 +10,11 @@ import Movies from "./pages/Movies/Movies";
 import MyProfile from "./pages/MyMovies/MyProfile";
 import NotFound from "./pages/NotFound/NotFound";
 import LoginProvider, { UserLoginContext } from "./utils/context/LoginProvider";
+import AdminRoute from "./utils/protected/AdminRoute";
 import Authenticated from "./utils/protected/Authenticated";
 import ProfileRoute from "./utils/protected/ProfileRoute";
-import AdminRoute from "./utils/protected/AdminRoute";
+import RoleManagement from "./pages/RoleManagement/RoleManagement";
+
 function App() {
   return (
     <div className="app-container">
@@ -58,6 +60,7 @@ function MainContent() {
         <Routes>
           <Route element={<Authenticated />}>
             <Route index path="/" element={<Movies />} />
+
             <Route element={<ProfileRoute />}>
               <Route path="/myprofile/:id" element={<MyProfile />} />
             </Route>
@@ -67,8 +70,8 @@ function MainContent() {
                 path="/categoryManagement"
                 element={<CategoryManagement />}
               />
+              <Route path="/roleManagement" element={<RoleManagement />} />
             </Route>
-
             <Route path="/*" element={<NotFound />} />
           </Route>
         </Routes>

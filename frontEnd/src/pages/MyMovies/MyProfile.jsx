@@ -18,7 +18,7 @@ function MyProfile() {
     "Rented Until",
     "Rented By",
     "Actions",
-    ""
+    "",
   ];
   const [movies, setMovies] = useState([]);
   const [category, setCategory] = useState("");
@@ -145,32 +145,36 @@ function MyProfile() {
 
   return (
     <>
-    <div className="px-10 w-full"> {/* Ensure the container takes full width with padding */}
-      <div className="my-4">
-        <MyProfileFilterComponent filterInput={getFilterInput} />
-      </div>
-      <div className="flex items-center justify-start w-full"> {/* Adjust to full width */}
-        <MyProfileRiredirectButtons />
-        <button
-          onClick={handleOpen}
-          className="text-white flex justify-center ms-1 mainBg  p-4"
-        >
-          Add New
-                      </button>
-                      <AddNewMovieModalWindow
-                      isModalOpen={open}
-                      closeModal={handleClose}
-                      title={title}
-                      director={director}
-                      category={category}
-                      addMovie={addMovie}
-                      triggerRefresh={triggerRefresh}
-                      setTriggerRefresh={setTriggerRefresh}
-                    />
+      <div className="px-10 w-full">
+        {" "}
+        {/* Ensure the container takes full width with padding */}
+        <div className="my-4">
+          <MyProfileFilterComponent filterInput={getFilterInput} />
         </div>
-        <div className="flex flex-col bg-white justify-between w-full"> {/* Adjust to full width */}
-          <div className="overflow-x-auto w-full"> {/* Ensure table container is full width */}
-            <table className="w-full text-left"> {/* Ensure table takes full width */}
+        <div className="flex items-center justify-start w-full">
+          {" "}
+          {/* Adjust to full width */}
+          <MyProfileRiredirectButtons />
+          <button
+            onClick={handleOpen}
+            className="text-white flex justify-center ms-1 mainBg  p-4"
+          >
+            Add New
+          </button>
+          <AddNewMovieModalWindow
+            isModalOpen={open}
+            closeModal={handleClose}
+            title={title}
+            director={director}
+            category={category}
+            addMovie={addMovie}
+            triggerRefresh={triggerRefresh}
+            setTriggerRefresh={setTriggerRefresh}
+          />
+        </div>
+        <div className="flex flex-col bg-white justify-between w-full">
+          <div className="overflow-x-auto w-full">
+            <table className="w-full text-left">
               <thead className="sticky top-0 z-30  text-white">
                 <tr>
                   {TABLE_HEAD.slice(0, TABLE_HEAD.length - 1).map((elem) => (
@@ -278,9 +282,7 @@ function MyProfile() {
                       </div>
                     </th>
                   ))}
-                  <th className="border-b-white p-2 text-center">
-           
-                  </th>
+                  <th className="border-b-white p-2 text-center"></th>
                 </tr>
               </thead>
               <tbody className="text-blue-marine">
@@ -303,11 +305,11 @@ function MyProfile() {
 
           <div className="simpleMainBg w-auto me-7">
             {!movies.length && initialized && (
-              <p className="text-center text-2xl notFoundText bg-white p-4 m-auto justify-center flex">
+              <p className="text-center text-2xl notFoundText bg-white p-2 m-auto justify-center flex">
                 No matching results found
               </p>
             )}
-            <div className="shadow-lg globalBg p-4">
+            <div className="shadow-lg globalBg p-2">
               <div className="flex justify-between">
                 <div className="flex items-center">
                   <p className="text-white">Results per page:</p>

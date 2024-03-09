@@ -114,7 +114,7 @@ function Movies() {
 
   return (
     <>
-     <div className=" w-screen px-10">
+     <div className="w-screen px-10">
         <div className="">
           <MovieFilter filterInput={getFilterInput} />
         </div>
@@ -271,7 +271,7 @@ function Movies() {
                 No matching results found
               </p>
             )}
-            <div className="shadow-lg globalBg p-4 simpleMainBg">
+            <div className="shadow-lg globalBg p-2 simpleMainBg">
               <div className="flex justify-between">
                 <div className="flex items-center">
                   <p className="text-white">Results per page:</p>

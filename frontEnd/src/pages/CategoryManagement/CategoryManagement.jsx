@@ -1,4 +1,3 @@
-import { Button } from "@mui/material";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import Category from "../../components/CategoryManagement/Category.jsx";
@@ -91,17 +90,16 @@ function CategoryManagement() {
   };
 
   return (
-    <div className="w-screen">
-      <div className=" flex">
+    <div className="w-screen px-10">
+      <div className="flex">
         <FilterCategory filterInput={getFilterInput} />
-        <div className="mt-11">
-          <Button
+        <div className="mt-10">
+          <button
             onClick={handleOpen}
-            className="h-12 "
-            variant="contained"
+            className="text-white flex justify-center ms-1 mainBg  p-4"
           >
             Add new
-          </Button>
+          </button>
           <CreateCategoryModalWindow
             isModalOpen={open}
             closeModal={handleClose}
@@ -112,8 +110,8 @@ function CategoryManagement() {
           />
         </div>
       </div>
-      <div className=" w-full h-screen px-6 py-1 ">
-        <div className="w-full  flex flex-col bg-white justify-between border-2">
+      <div className="w-full h-screen py-1">
+        <div className="w-full  flex flex-col bg-white justify-between">
           <div className="overflow-y-auto ">
             <table className="cater w-full text-left  border-b-2">
               <thead className=" sticky top-0 z-30 text-white mainBg">
@@ -179,13 +177,13 @@ function CategoryManagement() {
             </table>
           </div>
 
-          <div className="  w-full ">
+          <div className="w-full">
             {!categories.length && initialized && (
               <p className="text-center text-2xl notFoundText bg-white p-4  justify-center flex align-center">
                 No matching results found
               </p>
             )}
-            <div className="shadow-lg globalBg p-4 simpleMainBg">
+            <div className="shadow-lg globalBg p-2 simpleMainBg">
               <div className="flex justify-between">
                 <div className="flex items-center">
                   <p className="text-white">Results per page:</p>
