@@ -1,9 +1,9 @@
 # Database
 spring:
   datasource:
-    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/technow}
-    username: ${SPRING_DATASOURCE_USERNAME:technow}
-    password: ${SPRING_DATASOURCE_PASSWORD:technow}
+    url: ${SPRING_DATASOURCE_URL}
+    username: ${SPRING_DATASOURCE_USERNAME}
+    password: ${SPRING_DATASOURCE_PASSWORD}
   servlet:
     multipart:
       max-file-size: 2MB
