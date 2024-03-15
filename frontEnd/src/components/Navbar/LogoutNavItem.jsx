@@ -1,7 +1,15 @@
-
-import React from 'react';
+import React from "react";
 import LogoutIcon from "../../utils/icons/LogoutIcon";
-const LogoutNavItem = ({ isAdmin, selectedItem, handleItemClick, setIsAdmin, setIsLoggedIn, setUsername, setToken, url }) => {
+import { useNavigate } from "react-router-dom";
+const LogoutNavItem = ({
+  selectedItem,
+  handleItemClick,
+  setIsAdmin,
+  setIsLoggedIn,
+  setUsername,
+  setToken,
+}) => {
+  let navigate = useNavigate();
 
   return (
     <li className="rounded-sm">
@@ -17,14 +25,13 @@ const LogoutNavItem = ({ isAdmin, selectedItem, handleItemClick, setIsAdmin, set
           setIsLoggedIn(false);
           setUsername(null);
           setToken(null);
+          navigate("/");
         }}
       >
         <LogoutIcon isSelected={selectedItem === "logout"} />
         <span
           style={{ fontSize: 16 }}
-          className={`${
-            selectedItem === "logout" ? "spanClick" : ""
-          }`}
+          className={`${selectedItem === "logout" ? "spanClick" : ""}`}
         >
           Log Out
         </span>

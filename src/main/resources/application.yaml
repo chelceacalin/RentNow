@@ -20,7 +20,7 @@ spring:
             non_contextual_creation: true
 
     hibernate:
-      ddl-auto: update
+      ddl-auto: none
   # Enable virtual threads
   threads:
     virtual:
