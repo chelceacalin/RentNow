@@ -110,7 +110,7 @@ function CategoryManagement() {
           />
         </div>
       </div>
-      <div className="w-full h-screen py-1">
+      <div className="w-full py-1">
         <div className="w-full  flex flex-col bg-white justify-between">
           <div className="overflow-y-auto ">
             <table className="cater w-full text-left  border-b-2">

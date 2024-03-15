@@ -168,7 +168,7 @@ function MovieFilter({ filterInput }) {
   
       <div className="filterContainer">
         <div className="availabilityContainer">
-          <div className="ms-3">Availability:</div>
+          <div className="ms-3">Status:</div>
           <div>
             <Checkbox
               name="type"

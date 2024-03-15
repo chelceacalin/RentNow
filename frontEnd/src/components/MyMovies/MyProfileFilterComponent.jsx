@@ -16,9 +16,9 @@ function MyProfileFilterComponent({ filterInput }) {
   let [rentedUntil, setRentedUntil] = useState(null);
   let [rentedBy, setRentedBy] = useState(null);
   let [url, setUrl] = useState("");
-  const [usersWhoRented, setUsersWhoRented] = useState([]);
+  let [usersWhoRented, setUsersWhoRented] = useState([]);
   let [filteredUsers, setFilteredUsers] = useState([]);
-  const { username } = useContext(UserLoginContext);
+  let { username } = useContext(UserLoginContext);
 
   useEffect(() => {
     url = `/movies?owner_username=${username}`;
@@ -161,7 +161,6 @@ function MyProfileFilterComponent({ filterInput }) {
         </div>
 
         <div className="flex">
-          <div className="flex ms-2 mt-2">Availability: </div>
           <div>
             <Checkbox
               name="type"

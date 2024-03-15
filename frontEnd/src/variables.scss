@@ -1,6 +1,7 @@
 $main-color: #226fdd;
 $main-color-hover: #4E8CE4;
-$navIconColor:#000;
+$navIconColor: #000;
+$iconsFill: #000000;
 
 .simpleMainBg {
     background-color: $main-color;
@@ -16,6 +17,7 @@ $navIconColor:#000;
 
 
 .appIcon {
+    margin-left: -20px;
     rect,
     path {
         fill: $main-color;
@@ -23,8 +25,12 @@ $navIconColor:#000;
 }
 
 
-.categoryManagementIcon,.logoutIcon,.roleManagementIcon, .profileIcon ,.moviesIcon{
-path{
-    fill: $navIconColor;
-}
+.categoryManagementIcon,
+.logoutIcon,
+.roleManagementIcon,
+.profileIcon,
+.moviesIcon {
+    rect,
+    path {
+    }
 }

@@ -118,7 +118,7 @@ function Movies() {
         <div className="">
           <MovieFilter filterInput={getFilterInput} />
         </div>
-        <div className="w-full h-full flex flex-col bg-white justify-between">
+        <div className="w-full flex flex-col bg-white justify-between">
           <div className="overflow-y-auto">
             <table className="w-full min-w-max table-auto text-left">
               <thead className="sticky z-30 text-white ">

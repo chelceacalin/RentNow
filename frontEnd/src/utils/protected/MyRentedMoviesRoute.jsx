@@ -1,14 +1,12 @@
-import React, { useContext } from "react";
+import React from "react";
 import { Navigate, Outlet } from "react-router-dom";
-import { UserLoginContext } from "../context/LoginProvider";
 import { useParams } from "react-router-dom";
 
-const MyRentedMoviesRoute = () => {
+const ProfileRoute = () => {
   let { id } = useParams();
-
-  const { email } =sessionStorage.getItem("email");
-  const route = "/myRentedMovies/" + email;
+  const email = sessionStorage.getItem("email"); // Directly store the returned string
+  const route = "/myprofile/myRentedMovies" + email;
   return id === email ? <Outlet /> : <Navigate to={route} />;
 };
 
-export default MyRentedMoviesRoute;
+export default ProfileRoute;

@@ -50,7 +50,7 @@ function Navbar() {
   };
 
   return (
-    <div className="flex h-screen w-auto navbar">
+    <div className="flex h-screen w-auto navbar ">
       <div className="flex flex-col h-full p-3 bg-white shadow w-60">
         <div className="flex flex-col h-full space-y-3 justify-between">
           <div className="flex items-center mt-10 ml-2">

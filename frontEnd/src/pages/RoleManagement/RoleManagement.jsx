@@ -100,7 +100,7 @@ function RoleManagement() {
       <div className="flex">
         <FilterComponent filterInput={getFilterInput} />
       </div>
-      <div className="w-full h-screen py-1">
+      <div className="w-full py-1">
         <div className="flex flex-col items-center bg-white justify-between">
           <table className="w-full text-left border-b-2">
             <thead className="sticky text-white w-full">

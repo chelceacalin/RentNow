@@ -8,12 +8,14 @@ import CategoryManagement from "./pages/CategoryManagement/CategoryManagement";
 import Login from "./pages/Login/Login";
 import Movies from "./pages/Movies/Movies";
 import MyProfile from "./pages/MyMovies/MyProfile";
+import MyRentedMovies from "./pages/MyRentedMovies/MyRentedMovies";
 import NotFound from "./pages/NotFound/NotFound";
+import RoleManagement from "./pages/RoleManagement/RoleManagement";
 import LoginProvider, { UserLoginContext } from "./utils/context/LoginProvider";
 import AdminRoute from "./utils/protected/AdminRoute";
 import Authenticated from "./utils/protected/Authenticated";
+import MyRentedMoviesRoute from "./utils/protected/MyRentedMoviesRoute";
 import ProfileRoute from "./utils/protected/ProfileRoute";
-import RoleManagement from "./pages/RoleManagement/RoleManagement";
 
 function App() {
   return (
@@ -60,6 +62,13 @@ function MainContent() {
         <Routes>
           <Route element={<Authenticated />}>
             <Route index path="/" element={<Movies />} />
+
+            <Route element={<MyRentedMoviesRoute />}>
+              <Route
+                path="/myprofile/myRentedMovies/:id"
+                element={<MyRentedMovies />}
+              />
+            </Route>
 
             <Route element={<ProfileRoute />}>
               <Route path="/myprofile/:id" element={<MyProfile />} />

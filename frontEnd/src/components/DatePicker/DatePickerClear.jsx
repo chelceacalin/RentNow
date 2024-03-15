@@ -29,7 +29,7 @@ const DatePickerClear = (props) => {
                     right: "40px",
                   }}
                   icon={faTimes}
-                  size="xl"
+                  size="small"
                   onClick={handleOnClear}
                 />
               )}

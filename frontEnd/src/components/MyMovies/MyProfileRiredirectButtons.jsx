@@ -24,7 +24,6 @@ function MyProfileRiredirectButtons() {
           navigate(`/myprofile/${username}`);
         }}
       >
-        {" "}
         My Movies
       </button>
 
@@ -35,8 +34,7 @@ function MyProfileRiredirectButtons() {
           navigate(`/myprofile/myRentedMovies/${email}`);
         }}
       >
-        {" "}
-        My Rented Movies
+        My Rented Movies 
       </button>
 
 

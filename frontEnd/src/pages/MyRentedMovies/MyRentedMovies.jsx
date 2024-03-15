@@ -1,34 +1,32 @@
 import axios from "axios";
 import { useContext, useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
-import AddNewMovieModalWindow from "../../components/MyMovies/AddNewMovieModalWindow";
-import Movie from "../../components/MyMovies/Movie";
-import MyProfileFilterComponent from "../../components/MyMovies/MyProfileFilterComponent";
 import MyProfileRiredirectButtons from "../../components/MyMovies/MyProfileRiredirectButtons";
+import Movie_MyRentedMovies from "../../components/MyRentedMovies/Movie_MyRentedMovies";
 import Pagination from "../../components/Pagination/Pagination";
 import { UserLoginContext } from "../../utils/context/LoginProvider";
 import SortIcon from "../../utils/icons/SortIcon";
 
-function MyProfile() {
+function MyRentedMovies() {
   const TABLE_HEAD = [
     "Title",
     "Director",
     "Category",
-    "Status",
+    "Rented On",
     "Rented Until",
-    "Rented By",
-    "Actions",
+    "Owner",
     "",
   ];
   const [movies, setMovies] = useState([]);
   const [category, setCategory] = useState("");
-  const [initialized, setInitialized] = useState(false);
   const [director, setDirector] = useState("");
   const [title, setTitle] = useState("");
+  const [initialized, setInitialized] = useState(false);
   const [isAvailable, setIsAvailable] = useState("");
+  const [rentedDate, setRendedDate] = useState("");
   const [rentedUntil, setRentedUntil] = useState("");
   const [rentedBy, setRentedBy] = useState("");
   const [ownerUsername, setOwnerUsername] = useState("");
+  const [movieOwner, setMovieOwner] = useState("");
   const [sortField, setSortField] = useState("title");
   const [direction, setDirection] = useState(true);
   const [lastClicked, setLastClicked] = useState(null);
@@ -37,18 +35,11 @@ function MyProfile() {
   const [pageSize, setPageSize] = useState(15);
   const [totalPages, setTotalPages] = useState("");
   const [totalMovies, setTotalMovies] = useState(0);
-  const [addMovieUrl, setAddMovieUrl] = useState("");
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const [triggerRefresh, setTriggerRefresh] = useState(false);
-  const { username } = useContext(UserLoginContext);
-  const [selectedItem, setSelectedItem] = useState("");
-
-  const navigate = useNavigate();
-  const location = useLocation();
-
-  const [selectedColor, setSelectedColor] = useState("");
+  const { email } = useContext(UserLoginContext);
 
   let handleClick = (fieldName) => {
     if (lastClicked === fieldName) {
@@ -61,30 +52,40 @@ function MyProfile() {
     const buildUrl = () => {
       const normalizedSortField = sortField || "title";
       let params = [
-        `owner_username=${username}`,
         `sortField=${normalizedSortField}`,
         `direction=${direction ? "ASC" : "DESC"}`,
         `title=${title}`,
         `director=${director}`,
         `category=${category}`,
-        `isAvailable=${isAvailable}`,
         `pageNo=${parseInt(pageNo) - 1}`,
         `pageSize=${pageSize}`,
       ];
+
+      if (email) {
+        params.push(`rentEmail=${email}`);
+      }
 
       if (rentedUntil) {
         params.push(`rentedUntil=${rentedUntil}`);
       }
 
-      if (rentedBy) {
-        params.push(`rentedBy=${rentedBy}`);
+      if (movieOwner) {
+        params.push(`owner_username=${movieOwner}`);
       }
 
-      return `/movies?${params.join("&")}`;
+      if (rentedUntil) {
+        params.push(`rentedDate=${rentedDate}`);
+      }
+
+      if (rentedBy) {
+        params.push(`rentedBy=${ownerUsername}`);
+      }
+
+      return `/movies/rented?${params.join("&")}`;
     };
 
     const url = buildUrl();
-
+    console.log("url " + url);
     axios
       .get(url)
       .then((elems) => {
@@ -106,8 +107,8 @@ function MyProfile() {
     title,
     director,
     category,
-    isAvailable,
     rentedUntil,
+    rentedDate,
     rentedBy,
     ownerUsername,
     pageSize,
@@ -119,9 +120,9 @@ function MyProfile() {
     setCategory(params[0]);
     setDirector(params[1]);
     setTitle(params[2]);
-    setIsAvailable(params[3] === "BOTH" ? "" : params[3]);
-    setRentedUntil(params[4]);
-    setRentedBy(params[5]);
+    setRentedUntil(params[3]);
+    setRendedDate(params[4]);
+    setMovieOwner(params[5]);
   };
 
   const handleSelectChange = (event) => {
@@ -133,56 +134,23 @@ function MyProfile() {
     setPageNo(pgNo);
   };
 
-  const addMovie = (addedMovie) => {
-    const addedMovies = movies.map((movie) => {
-      if (movie.title === addedMovie.title) {
-        return addedMovie;
-      }
-      return movie;
-    });
-    setMovies(updatedMovie);
-  };
-
   return (
     <>
-      <div className="px-10 w-full">
-        <div className="my-4">
-          <MyProfileFilterComponent filterInput={getFilterInput} />
-        </div>
-        <div className="flex items-center justify-start w-full">
-          <MyProfileRiredirectButtons />
-          <button
-            onClick={handleOpen}
-            className="text-white flex justify-center ms-1 mainBg  p-4"
-          >
-            Add New
-          </button>
-          <AddNewMovieModalWindow
-            isModalOpen={open}
-            closeModal={handleClose}
-            title={title}
-            director={director}
-            category={category}
-            addMovie={addMovie}
-            triggerRefresh={triggerRefresh}
-            setTriggerRefresh={setTriggerRefresh}
-          />
-        </div>
-        <div className="flex flex-col bg-white justify-between w-full">
-          <div className="overflow-x-auto w-full">
-            <table className="w-full text-left">
-              <thead className="sticky top-0 z-30  text-white">
+      <div className="bg-grey-texture w-full px-10 my-4 mt-20">
+        <MyProfileRiredirectButtons />
+        <div className="w-full flex flex-col bg-white justify-between border-2">
+          <div className="overflow-y-auto">
+            <table className="w-full min-w-max bg-white border-b-2 table-auto text-left">
+              <thead className="bg-basic-red sticky top-0 z-30 text-white">
                 <tr>
-                  {TABLE_HEAD.slice(0, TABLE_HEAD.length - 1).map((elem) => (
-                    <th
-                      key={elem}
-                      className={`border-b-white p-4 ${
-                        elem.length > 2 ? "mainBg" : ""
-                      } cursor-pointer`}
-                      onClick={(e) => {
-                        e.preventDefault();
+                  {TABLE_HEAD.slice(0, TABLE_HEAD.length - 1).map((elem) => {
+                    return (
+                      <th
+                        key={elem}
+                        className="border-b-white p-4 hover cursor-pointer mainBg"
+                        onClick={(e) => {
+                          e.preventDefault();
 
-                        if (e.target.textContent !== "Status") {
                           if (e.target.textContent === "Title") {
                             setSortField("title");
                             setDirection(!direction);
@@ -205,6 +173,16 @@ function MyProfile() {
                               setDirection(!direction);
                             setSortField("category");
                             handleClick(e.target.textContent.toLowerCase());
+                          } else if (e.target.textContent === "Rented On") {
+                            if (
+                              title.length > 0 ||
+                              director.length > 0 ||
+                              category.length > 0
+                            ) {
+                              setDirection(!direction);
+                            }
+                            setSortField("rentedDate");
+                            handleClick(e.target.textContent.toLowerCase());
                           } else if (e.target.textContent === "Rented Until") {
                             if (
                               title.length > 0 ||
@@ -215,7 +193,7 @@ function MyProfile() {
                             }
                             setSortField("rentedUntil");
                             handleClick(e.target.textContent.toLowerCase());
-                          } else if (e.target.textContent === "Rented By") {
+                          } else if (e.target.textContent === "Owner") {
                             if (
                               title.length > 0 ||
                               director.length > 0 ||
@@ -223,15 +201,13 @@ function MyProfile() {
                             ) {
                               setDirection(!direction);
                             }
-                            setSortField("rentedBy");
+                            setSortField("owner_username");
                             handleClick(e.target.textContent.toLowerCase());
                           }
-                        }
-                      }}
-                    >
-                      <div>
-                        {elem}
-                        {elem !== "Status" && (
+                        }}
+                      >
+                        <div className="">
+                          {elem}
                           <svg
                             data-column={elem}
                             style={{ display: "inline-block" }}
@@ -241,65 +217,96 @@ function MyProfile() {
                             fill="none"
                             xmlns="http://www.w3.org/2000/svg"
                             onClick={(e) => {
+                              e.stopPropagation();
                               setDirection(!direction);
+
                               let column =
                                 e.currentTarget.getAttribute("data-column");
                               handleClick(column.toLowerCase());
 
-                              e.stopPropagation();
+                              if (column === "Title") {
+                                setSortField("title");
+                              } else if (column === "Director") {
+                                setSortField("director");
+                              } else if (column === "Category") {
+                                setSortField("category");
+                              }
+                              if (sortField === column.toLowerCase()) {
+                                setDirection(!direction);
+                              } else {
+                                setDirection(true);
+                              }
 
-                              if (column !== "Status") {
-                                if (column === "Title") {
-                                  setSortField("title");
-                                } else if (column === "Director") {
-                                  setSortField("director");
-                                } else if (column === "Category") {
-                                  setSortField("category");
-                                }
-                                if (sortField === column.toLowerCase()) {
-                                  setDirection(!direction);
-                                } else {
-                                  setDirection(true);
-                                }
-
-                                if (column === "Rented Until") {
-                                  setSortField("rentedUntil");
-                                  setDirection(!direction);
-                                } else if (column === "Rented By") {
-                                  setSortField("rentedBy");
-                                  setDirection(!direction);
-                                }
+                              if (column === "Rented Until") {
+                                setSortField("rentedUntil");
+                                setDirection(!direction);
+                              } else if (column === "Rented By") {
+                                setSortField("rentedBy");
+                                setDirection(!direction);
+                              } else if (column === "Rented On") {
+                                setSortField("rentedDate");
+                                setDirection(!direction);
+                              } else if (column === "Owner") {
+                                setSortField("owner_username");
+                                setDirection(!direction);
                               }
                             }}
                           >
-                            <SortIcon />
+                            {<SortIcon />}
                           </svg>
-                        )}
-                      </div>
-                    </th>
-                  ))}
-                  <th className="border-b-white p-2 text-center"></th>
+                        </div>
+                      </th>
+                    );
+                  })}
+                  <th className="border-b-white mainBg p-4 ">
+                    <div>Actions</div>
+                  </th>
                 </tr>
               </thead>
               <tbody className="text-blue-marine">
-                {movies.map((movie, index) => (
-                  <Movie
-                    key={movie.id}
-                    {...movie}
-                    classes={
-                      index === movies.length - 1
-                        ? "px-4 py-2"
-                        : "px-4 py-2 border-b border-blue-gray-50"
-                    }
-                    triggerRefresh={triggerRefresh}
-                    setTriggerRefresh={setTriggerRefresh}
-                  />
-                ))}
+                {movies.map(
+                  (
+                    {
+                      title,
+                      director,
+                      category,
+                      rentedDate,
+                      rentedUntil,
+                      rentedBy,
+                      owner_username,
+                      id,
+                      isAvailable,
+                    },
+                    index
+                  ) => {
+                    const isLast = index === movies.length - 1;
+                    const classes = isLast
+                      ? "px-4 py-2"
+                      : "px-4 py-2 border-b border-blue-gray-50";
+                    return (
+                      <Movie_MyRentedMovies
+                        id={id}
+                        title={title}
+                        category={category}
+                        director={director}
+                        rentedUntil={rentedUntil}
+                        rentedDate={rentedDate}
+                        rentedBy={rentedBy}
+                        owner={owner_username}
+                        isAvailableForRenting={isAvailable}
+                        key={index}
+                        classes={classes}
+                        triggerRefresh={triggerRefresh}
+                        setTriggerRefresh={setTriggerRefresh}
+                      />
+                    );
+                  }
+                )}
               </tbody>
             </table>
           </div>
 
-          <div className="simpleMainBg w-auto me-7">
+          <div className="simpleMainBg w-auto">
             {!movies.length && initialized && (
               <p className="text-center text-2xl notFoundText bg-white p-2 m-auto justify-center flex">
                 No matching results found
@@ -337,4 +344,4 @@ function MyProfile() {
   );
 }
 
-export default MyProfile;
+export default MyRentedMovies;
