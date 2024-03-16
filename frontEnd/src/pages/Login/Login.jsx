@@ -1,16 +1,17 @@
+import GitHubIcon from "@mui/icons-material/GitHub";
 import GoogleIcon from "@mui/icons-material/Google";
 import { Box, Button } from "@mui/material";
 import axios from "axios";
-import { signInWithPopup } from "firebase/auth";
+import { GithubAuthProvider, signInWithPopup } from "firebase/auth";
 import { useContext } from "react";
 import { UserLoginContext } from "../../utils/context/LoginProvider.jsx";
-import { auth, provider } from "../../utils/firebase/firebase.js";
+import { auth } from "../../utils/firebase/firebase.js";
 import AppIcon from "../../utils/icons/AppIcon";
 import "./css/Login.scss";
 
 function Login() {
   let url = axios.defaults.baseURL;
-
+  const githubProvider = new GithubAuthProvider();
   const {
     isAdmin,
     setIsAdmin,
@@ -26,8 +27,8 @@ function Login() {
     setEmail,
   } = useContext(UserLoginContext);
 
-  const handleSignIn = () => {
-    signInWithPopup(auth, provider)
+  const handleSignInWithGoogle = () => {
+    signInWithPopup(auth, googleProvider)
       .then((data) => {
         let userData = data.user;
         const userDetails = {
@@ -50,12 +51,58 @@ function Login() {
         });
       })
       .catch((error) => {
-        console.error("Error signing in:", error);
+        console.error("Error signing in with Google:", error);
+      });
+  };
+
+  const handleSignInWithGithub = () => {
+    signInWithPopup(auth, githubProvider)
+      .then((data) => {
+        let userData = data.user;
+
+        let email = userData.email
+          ? userData.email
+          : userData.displayName
+              .split(" ")[0]
+              .replaceAll(" ", "")
+              .toLowerCase() +
+            "." +
+            userData.displayName
+              .split(" ")[1]
+              .replaceAll(" ", "")
+              .toLowerCase() +
+            "@yahoo.com";
+
+        let firstName = userData.displayName.split(" ")[0];
+        let lastName = userData.displayName.split(" ")[1];
+        const userDetails = {
+          email: email,
+          firstName: firstName,
+          lastName: lastName,
+          username: userData.displayName,
+          photoUrl: userData.photoURL,
+        };
+        console.log(userData);
+        console.log(userDetails);
+
+        axios.post(url + "/users/addUser", userDetails).then((response) => {
+          if (response.status == 200) {
+            let data = response.data;
+            setUsername(firstName);
+            setEmail(email);
+            setID(data.id);
+            setIsAdmin(data.role == "ADMIN");
+            setIsLoggedIn(true);
+          }
+        });
+      })
+      .catch((error) => {
+        console.error("Error signing in with GitHub:", error);
       });
   };
 
   return (
-    <div className="loginContainer">
+    <div className="loginContainer overflow-y-hidden">
       <div className="logoContainer">
         <AppIcon className="logo" />
       </div>
@@ -70,9 +117,17 @@ function Login() {
           variant="contained"
           color="primary"
           startIcon={<GoogleIcon />}
-          onClick={handleSignIn}
+          onClick={handleSignInWithGoogle}
         >
           Sign in with Google
+        </Button>
+        <Button
+          variant="contained"
+          color="secondary"
+          startIcon={<GitHubIcon />}
+          onClick={handleSignInWithGithub}
+        >
+          Sign in with GitHub
         </Button>
       </Box>
     </div>

@@ -3,7 +3,7 @@ const ProfileIcon = ({ isSelected }) => {
   return (
     <div className="profileIcon">
       <svg
-        class="svg-icon"
+        className="svg-icon"
         width={24}
         height={24}
         viewBox="0 0 1463 1024"

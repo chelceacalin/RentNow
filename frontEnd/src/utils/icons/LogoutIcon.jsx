@@ -3,7 +3,7 @@ const LogoutIcon = ({ isSelected }) => {
   return (
     <div className="logoutIcon">
       <svg
-        class="svg-icon"
+        className="svg-icon"
         width={24}
         height={24}
         fill={fillColor}

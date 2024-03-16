@@ -3,7 +3,7 @@ function AppIcon() {
   return (
     <div className="flex justify-center appIcon">
       <svg
-        class="w-20 h-20  text-gray-800 dark:text-white"
+        className="w-20 h-20  text-gray-800 dark:text-white"
         aria-hidden="true"
         xmlns="http://www.w3.org/2000/svg"
         fill="none"
@@ -11,9 +11,9 @@ function AppIcon() {
       >
         <path
           stroke="currentColor"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth="2"
           d="M14 6H4a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V7a1 1 0 0 0-1-1Zm7 11-6-2V9l6-2v10Z"
         />
       </svg>
