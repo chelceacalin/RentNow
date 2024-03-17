@@ -41,4 +41,37 @@ minio:
     key: ${MINIO_SECRET_KEY}
 
 
+# Api Documentation
+springdoc:
+  api-docs:
+    path: /api-docs
+
+
+# Actuator config
+
+management:
+  server:
+    port: 8081
+  endpoint:
+    health:
+      group:
+        readiness:
+          include:
+            - db
+      show-details: when_authorized
+  endpoints:
+    web:
+      exposure:
+        include: health,prometheus
+  metrics:
+    distribution:
+      percentiles-histogram:
+        http:
+          server:
+            requests: true
+      maximum-expected-value:
+        http:
+          server:
+            requests: 5s
+
 

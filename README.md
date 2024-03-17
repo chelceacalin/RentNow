@@ -62,6 +62,10 @@ Rent Now facilitates movie rentals within a company. Manage and share your movie
 - **React Frontend**: [http://localhost:3000](http://localhost:3000)
 - **Minio Server**: [http://localhost:9090](http://localhost:9090)
 - **Minio Console**: [http://localhost:9091](http://localhost:9091)
+- **Server Health**: [http://localhost:8081/actuator/health](http://localhost:8081/actuator/health)
 
+### Documentation
 
-
+- **JSON Api Documentation**: http://localhost:8080/api-docs
+- **UI Inteface Api Documentation**: http://localhost:8080/swagger-ui/index.html
+- **Actuator**: [http://localhost:8081](http://localhost:8081/actuator)
