@@ -11,7 +11,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Optional;
 import java.util.UUID;
 
 @RestController
@@ -35,27 +34,13 @@ public class CategoryController {
 
 	@PostMapping("/create")
 	public ResponseEntity<?> createCategory(@RequestBody final CategoryDTO categoryDTO) {
-		Optional<String> errorOptional = categoryService.validateCategoryCaseInsensitive(categoryDTO);
-		if (errorOptional.isEmpty()) {
-			return new ResponseEntity<>(categoryService.createCategory(categoryDTO), HttpStatus.OK);
-		} else {
-			return new ResponseEntity<>(errorOptional.get(), HttpStatus.BAD_REQUEST);
-		}
+		return new ResponseEntity<>(categoryService.createCategory(categoryDTO), HttpStatus.OK);
 	}
 
 	@PostMapping("/update/{id}")
 	public ResponseEntity<?> updateCategory(@RequestBody CategoryDTO categoryDTO,
 											@PathVariable("id") @NotNull UUID id) {
-		Optional<String> errorOptional = categoryService.validateCategoryCaseSensitive(categoryDTO);
-		if (errorOptional.isEmpty()) {
-			try {
-				return new ResponseEntity<>(categoryService.updateCategory(categoryDTO, id), HttpStatus.OK);
-			} catch (RuntimeException e) {
-				return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
-			}
-		} else {
-			return new ResponseEntity<>(errorOptional.get(), HttpStatus.BAD_REQUEST);
-		}
+		return new ResponseEntity<>(categoryService.updateCategory(categoryDTO, id), HttpStatus.OK);
 	}
 
 

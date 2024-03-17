@@ -47,18 +47,32 @@ public class CategoryService {
 	}
 
 	public Category createCategory(final CategoryDTO categoryDTO) {
+		Optional<String> errorOptional = validateCategoryCaseInsensitive(categoryDTO);
+
+		if (errorOptional.isPresent()) {
+			throw new RuntimeException("Not Found");
+		}
+
 		Category categoryToBeSaved = Category.builder()
 				.name(categoryDTO.getName())
 				.isAvailable(true)
 				.build();
+
 		return categoryRepository.save(categoryToBeSaved);
 	}
 
 	public Category updateCategory(CategoryDTO categoryDTO, UUID id) {
+		Optional<String> errorOptional = validateCategoryCaseSensitive(categoryDTO);
+
+		if (errorOptional.isPresent()) {
+			throw new RuntimeException("Category not valid");
+		}
 		Optional<Category> existsCategory = categoryRepository.findById(id);
+
 		if (existsCategory.isEmpty()) {
 			throw new RuntimeException("Category to be edited does not exist");
 		}
+
 		Category toUpdateCategory = existsCategory.get();
 		toUpdateCategory.setName(categoryDTO.getName());
 		return categoryRepository.save(toUpdateCategory);
