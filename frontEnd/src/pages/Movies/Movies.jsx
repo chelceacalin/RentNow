@@ -1,9 +1,8 @@
 import axios from "axios";
-import React, {useContext, useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import MovieFilter from "../../components/Movie/MovieFilter.jsx";
 import RentedMovie from "../../components/Movie/RentedMovie.jsx";
 import Pagination from "../../components/Pagination/Pagination";
-import {UserLoginContext} from "../../utils/context/LoginProvider";
 import SortIcon from "../../utils/icons/SortIcon.jsx";
 import "./css/Movies.scss";
 import "../../variables.scss";
@@ -34,13 +33,9 @@ function Movies() {
   const [totalPages, setTotalPages] = useState("");
   const [totalMovies] = useState(0);
   const [triggerRefresh, setTriggerRefresh] = useState(false);
-  const { username, email } = useContext(UserLoginContext);
   const [direction, setDirection] = useState(true);
   const [sortField, setSortField] = useState("title");
-  const [ownerUsername, setOwnerUsername] = useState("");
 
-
-  let moviesArray = [];
   useEffect(() => {
     const buildUrl = () => {
       const params = new URLSearchParams({
@@ -221,47 +216,33 @@ function Movies() {
                 </tr>
               </thead>
               <tbody className="text-blue-marine ">
-                {movies.map(
-                  (
-                    {
-                      category,
-                      director,
-                      description,
-                      title,
-                      isAvailable,
-                      rentedUntil,
-                      rentedBy,
-                      id,
-                      rentedDate,
-                      owner_username,
-                    },
-                    index
-                  ) => {
-                    const isLast = index === movies.length - 1;
-                    const classes = isLast
-                      ? "px-2 py-2 justify-center text-center"
-                      : "px-2 py-2 border-b border-blue-gray-50  justify-center text-center";
+              {movies.map((movie, index) => {
+                const isLast = index === movies.length - 1;
+                const classes = isLast
+                    ? "px-2 py-2 justify-center text-center"
+                    : "px-2 py-2 border-b border-blue-gray-50 justify-center text-center";
 
-                    return (
-                      <RentedMovie
-                        id={id}
-                        title={title}
-                        category={category}
-                        director={director}
-                        isAvailable={isAvailable}
-                        rentedUntil={rentedUntil}
-                        owner_username={owner_username}
-                        rentedDate={rentedDate}
-                        rentedBy={rentedBy}
-                        key={index}
-                        description={description}
+                return (
+                    <RentedMovie
+                        id={movie.id}
+                        title={movie.title}
+                        category={movie.category}
+                        director={movie.director}
+                        isAvailable={movie.isAvailable}
+                        rentedUntil={movie.rentedUntil}
+                        owner_username={movie.owner_username}
+                        rentedDate={movie.rentedDate}
+                        rentedBy={movie.rentedBy}
+                        description={movie.description}
                         classes={classes}
                         triggerRefresh={triggerRefresh}
                         setTriggerRefresh={setTriggerRefresh}
-                      />
-                    );
-                  }
-                )}
+                        photoUrl={movie.photoUrl}
+                        key={index}
+                    />
+                );
+              })}
+
               </tbody>
             </table>
 

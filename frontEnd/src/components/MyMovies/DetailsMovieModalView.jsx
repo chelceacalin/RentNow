@@ -1,6 +1,12 @@
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Autocomplete, Button, Dialog, DialogContent, TextField } from "@mui/material";
+import {
+  Autocomplete,
+  Button,
+  Dialog,
+  DialogContent,
+  TextField,
+} from "@mui/material";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import * as moreClasses from "react-dom/test-utils";
@@ -16,27 +22,17 @@ function DetailsMovieModalView({
   id,
   triggerRefresh,
   setTriggerRefresh,
+  photoUrl,
 }) {
-  const [selectedImage, setSelectedImage] = useState(null);
-  const [selectedImageFile, setSelectedImageFile] = useState(null);
+  const [selectedImage, setSelectedImage] = useState(photoUrl);
   const [availableCategories, setAvailableCategories] = useState([]);
   const [title, setTitle] = useState(defaultTitle);
   const [director, setDirector] = useState(defaultDirector);
   const [description, setDescription] = useState("");
   const [category, setCategory] = useState(defaultCategory);
+  const [imagePreviewUrl, setImagePreviewUrl] = useState(photoUrl);
 
-  const fetchMovieImage = async () => {
-    try {
-      const response = await axios.get(`/imagesByMovieID/${id}`, {
-        responseType: "blob",
-      });
-
-      const blob = new Blob([response.data], { type: "image/png" });
-      const avatarUrl = URL.createObjectURL(blob);
-
-      setSelectedImage(avatarUrl);
-    } catch (error) {}
-  };
+  const MAX_FILE_SIZE = 2048 * 2048;
 
   useEffect(() => {
     axios.get(`/movies/${id}`).then((data) => {
@@ -44,8 +40,8 @@ function DetailsMovieModalView({
         setDescription(data.data.description);
       }
     });
-    fetchMovieImage();
   }, []);
+
   const validationChecks = [
     {
       condition: !title || title.length < 2,
@@ -60,12 +56,24 @@ function DetailsMovieModalView({
       message: "Description should have at least 2 characters!",
     },
   ];
+
   const handleImageBrowse = (event) => {
     const file = event.target.files[0];
     if (file) {
-      const imageUrl = URL.createObjectURL(file);
-      setSelectedImage(imageUrl);
-      setSelectedImageFile(file);
+      if (file.size > MAX_FILE_SIZE) {
+        showError("Image size should be no more than 2 MB!");
+        setSelectedImage(null);
+        setImagePreviewUrl(null);
+      } else if (
+        !["image/jpeg", "image/jpg", "image/png"].includes(file.type)
+      ) {
+        showError("Image format should be jpg, jpeg, or png!");
+        setSelectedImage(null);
+        setImagePreviewUrl(null);
+      } else {
+        setSelectedImage(file);
+        setImagePreviewUrl(URL.createObjectURL(file));
+      }
     }
   };
 
@@ -73,9 +81,20 @@ function DetailsMovieModalView({
     event.preventDefault();
     const file = event.dataTransfer.files[0];
     if (file) {
-      const imageUrl = URL.createObjectURL(file);
-      setSelectedImage(imageUrl);
-      setSelectedImageFile(file);
+      if (file.size > MAX_FILE_SIZE) {
+        showError("Image size should be no more than 2 MB!");
+        setSelectedImage(null);
+        setImagePreviewUrl(null);
+      } else if (
+        !["image/jpeg", "image/jpg", "image/png"].includes(file.type)
+      ) {
+        showError("Image format should be jpg, jpeg, or png!");
+        setSelectedImage(null);
+        setImagePreviewUrl(null);
+      } else {
+        setSelectedImage(file);
+        setImagePreviewUrl(URL.createObjectURL(file));
+      }
     }
   };
 
@@ -86,7 +105,9 @@ function DetailsMovieModalView({
       .then((response) => {
         setAvailableCategories(response.data.content);
       })
-      .catch((error) => {});
+      .catch((error) => {
+        showError(error.message);
+      });
   }, []);
 
   const validRequest = () => {
@@ -115,43 +136,45 @@ function DetailsMovieModalView({
 
   const handleSave = () => {
     if (validRequest()) {
+      if (!selectedImage) {
+        showError("Image should not be empty!");
+        return;
+      }
+
       if (validFields()) {
         if (!category) {
           showError("Category " + category + " does not exist ");
         } else {
           let finalCategory = category;
 
-          if (selectedImageFile) {
-            const formData = new FormData();
-
-            formData.append("image", selectedImageFile);
-
-            axios
-              .post(`/images/${id}`, formData)
-              .then((response) => {
-                if (response.status === 200) {
-                  showSuccess("Image uploaded successfully!", "bg-green-500");
-                } else {
-                  showError("Failed to upload image.");
-                }
-              })
-              .catch((error) => {
-                showError("Error uploading image: " + error.message);
-              });
-          }
-
-          let movie = {
+          const formData = new FormData();
+          let movieDTO = {
             title: title,
             director: director,
             description: description,
             category: finalCategory,
           };
 
+          formData.append(
+            "movieDTO",
+            new Blob([JSON.stringify(movieDTO)], { type: "application/json" })
+          );
+
+          console.log("selected image" + selectedImage);
+          if (selectedImage) {
+            formData.append("imageFile", selectedImage);
+          }
+
           axios
-            .post(`/movies/${id}`, movie)
-            .then((response) => {
-              showSuccess("Movie edited successfully!", "bg-green-500");
+            .post(`/movies/${id}`, formData, {
+              headers: {
+                "Content-Type": "multipart/form-data",
+              },
+            })
+            .then(() => {
               setTriggerRefresh(!triggerRefresh);
+              showSuccess("Movie edited successfully!", "bg-green-500");
+              resetForm();
               closeModal();
             })
             .catch((err) => {
@@ -160,6 +183,14 @@ function DetailsMovieModalView({
         }
       }
     }
+  };
+
+  const resetForm = () => {
+    setTitle("");
+    setDirector("");
+    setDescription("");
+    setCategory("");
+    setSelectedImage(null);
   };
 
   return (
@@ -283,9 +314,9 @@ function DetailsMovieModalView({
                   event.preventDefault();
                 }}
               >
-                {selectedImage ? (
+                {imagePreviewUrl ? (
                   <img
-                    src={selectedImage}
+                    src={imagePreviewUrl}
                     alt="Selected"
                     className="w-40 h-40 object-cover rounded-lg"
                     disabled={!isAvailable}

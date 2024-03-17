@@ -14,6 +14,7 @@ function Movie({
   id,
   triggerRefresh,
   setTriggerRefresh,
+  photoUrl
 }) {
   const [detailsModalOpen, setDetailsModalOpen] = React.useState(false);
   const [deleteModalOpen, setDeleteModalOpen] = React.useState(false);
@@ -30,7 +31,7 @@ function Movie({
           color="blue-gray"
           className="font-normal max-w-[250px]"
         >
-          {title}
+          {title} 
         </div>
       </td>
       <td className={classes}>
@@ -86,6 +87,7 @@ function Movie({
             isAvailable={isAvailable}
             setTriggerRefresh={setTriggerRefresh}
             triggerRefresh={triggerRefresh}
+            photoUrl={photoUrl}
           />
         )}
 

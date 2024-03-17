@@ -5,7 +5,7 @@ import axios from "axios";
 import { GithubAuthProvider, signInWithPopup } from "firebase/auth";
 import { useContext } from "react";
 import { UserLoginContext } from "../../utils/context/LoginProvider.jsx";
-import { auth } from "../../utils/firebase/firebase.js";
+import { auth, provider } from "../../utils/firebase/firebase.js";
 import AppIcon from "../../utils/icons/AppIcon";
 import "./css/Login.scss";
 
@@ -13,22 +13,15 @@ function Login() {
   let url = axios.defaults.baseURL;
   const githubProvider = new GithubAuthProvider();
   const {
-    isAdmin,
     setIsAdmin,
-    username,
     setUsername,
-    token,
-    setToken,
-    isLoggedIn,
     setIsLoggedIn,
-    id,
     setID,
-    email,
     setEmail,
   } = useContext(UserLoginContext);
 
   const handleSignInWithGoogle = () => {
-    signInWithPopup(auth, googleProvider)
+    signInWithPopup(auth, provider)
       .then((data) => {
         let userData = data.user;
         const userDetails = {
@@ -40,12 +33,12 @@ function Login() {
         };
 
         axios.post(url + "/users/addUser", userDetails).then((response) => {
-          if (response.status == 200) {
+          if (response.status === 200) {
             let data = response.data;
             setUsername(data.username);
             setEmail(data.email);
             setID(data.id);
-            setIsAdmin(data.role == "ADMIN");
+            setIsAdmin(data.role === "ADMIN");
             setIsLoggedIn(true);
           }
         });
@@ -82,16 +75,13 @@ function Login() {
           username: userData.displayName,
           photoUrl: userData.photoURL,
         };
-        console.log(userData);
-        console.log(userDetails);
-
         axios.post(url + "/users/addUser", userDetails).then((response) => {
-          if (response.status == 200) {
+          if (response.status === 200) {
             let data = response.data;
             setUsername(firstName);
             setEmail(email);
             setID(data.id);
-            setIsAdmin(data.role == "ADMIN");
+            setIsAdmin(data.role === "ADMIN");
             setIsLoggedIn(true);
           }
         });

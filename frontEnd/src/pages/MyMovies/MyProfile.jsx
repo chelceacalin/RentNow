@@ -1,12 +1,11 @@
 import axios from "axios";
-import { useContext, useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import {useContext, useEffect, useState} from "react";
 import AddNewMovieModalWindow from "../../components/MyMovies/AddNewMovieModalWindow";
 import Movie from "../../components/MyMovies/Movie";
 import MyProfileFilterComponent from "../../components/MyMovies/MyProfileFilterComponent";
 import MyProfileRiredirectButtons from "../../components/MyMovies/MyProfileRiredirectButtons";
 import Pagination from "../../components/Pagination/Pagination";
-import { UserLoginContext } from "../../utils/context/LoginProvider";
+import {UserLoginContext} from "../../utils/context/LoginProvider";
 import SortIcon from "../../utils/icons/SortIcon";
 
 function MyProfile() {
@@ -37,19 +36,11 @@ function MyProfile() {
   const [pageSize, setPageSize] = useState(15);
   const [totalPages, setTotalPages] = useState("");
   const [totalMovies, setTotalMovies] = useState(0);
-  const [addMovieUrl, setAddMovieUrl] = useState("");
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const [triggerRefresh, setTriggerRefresh] = useState(false);
   const { username } = useContext(UserLoginContext);
-  const [selectedItem, setSelectedItem] = useState("");
-
-  const navigate = useNavigate();
-  const location = useLocation();
-
-  const [selectedColor, setSelectedColor] = useState("");
-
   let handleClick = (fieldName) => {
     if (lastClicked === fieldName) {
       setDirection(!direction);
@@ -284,7 +275,7 @@ function MyProfile() {
               <tbody className="text-blue-marine">
                 {movies.map((movie, index) => (
                   <Movie
-                    key={movie.id}
+                      key={index}
                     {...movie}
                     classes={
                       index === movies.length - 1

@@ -15,7 +15,6 @@ function RoleManagement() {
   const [email, setEmail] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
-  let [userRole, setUserRole] = useState("");
   const [filterRole, setFilterRole] = useState("");
   let [newUrl, setNewUrl] = useState("");
   let [pageNo, setPageNo] = useState(1);
@@ -59,13 +58,12 @@ function RoleManagement() {
         if (elems.data.content.length === 0 && pageNo > 1) {
           updatePageNumber(pageNo - 1);
         } else {
-          console.log(elems.data.content)
           setUsers(elems.data.content);
           setTotalPages(elems.data.totalPages);
         }
         setInitialized(true);
       })
-      .catch((error) => {
+      .catch(() => {
         setInitialized(true);
       });
   }, [
@@ -83,7 +81,7 @@ function RoleManagement() {
     setFirstName(params[0]);
     setLastName(params[1]);
     setEmail(params[2]);
-    setFilterRole(params[3] == "BOTH" ? "" : params[3]);
+    setFilterRole(params[3] === "BOTH" ? "" : params[3]);
   };
 
   const handleSelectChange = (event) => {

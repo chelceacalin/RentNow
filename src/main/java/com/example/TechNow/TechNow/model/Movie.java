@@ -39,4 +39,5 @@ public class Movie {
 	@OneToMany(mappedBy = "movie")
 	List<MovieHistory> movieHistories;
 
+	String photoUrl;
 }

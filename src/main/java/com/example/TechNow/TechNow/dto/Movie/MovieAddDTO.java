@@ -28,4 +28,6 @@ public class MovieAddDTO {
 	Boolean isAvailable;
 
 	String description;
+
+	String photoUrl;
 }

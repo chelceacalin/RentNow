@@ -8,3 +8,25 @@ services:
       - POSTGRES_DB=technow
       - POSTGRES_USER=technow
       - POSTGRES_PASSWORD=technow
+
+  minio:
+    image: bitnami/minio:2024.2.26
+    ports:
+      - '9000:9000'
+      - '9001:9001'
+    networks:
+      - minionetwork
+    volumes:
+      - 'minio_data:/data'
+    environment:
+      - MINIO_ROOT_USER=admin
+      - MINIO_ROOT_PASSWORD=password
+      - MINIO_DEFAULT_BUCKETS=photos:public
+
+networks:
+  minionetwork:
+    driver: bridge
+
+volumes:
+  minio_data:
+    driver: local

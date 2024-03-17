@@ -8,10 +8,10 @@
 		<version>3.2.2</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.example.TechNow</groupId>
-	<artifactId>TechNow</artifactId>
+	<groupId>com.example.RentNow</groupId>
+	<artifactId>RentNow</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>TechNow</name>
+	<name>RentNow</name>
 	<description>Disertation </description>
 	<properties>
 		<java.version>21</java.version>
@@ -38,7 +38,11 @@
 			<groupId>org.flywaydb</groupId>
 			<artifactId>flyway-core</artifactId>
 		</dependency>
-
+		<dependency>
+			<groupId>io.minio</groupId>
+			<artifactId>minio</artifactId>
+			<version>8.5.7</version>
+		</dependency>
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>

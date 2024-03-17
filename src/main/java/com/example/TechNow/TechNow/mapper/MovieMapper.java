@@ -22,6 +22,7 @@ public class MovieMapper {
 				.owner_email(m.getOwner().getEmail())
 				.rentedDate(mh != null && mh.getRentedDate() != null ? mh.getRentedDate() : null)
 				.rentedUntil(mh != null && mh.getRentedUntil() != null ? mh.getRentedUntil() : null)
+				.photoUrl(m.getPhotoUrl() != null ? m.getPhotoUrl() : "")
 				.build();
 	}
 
@@ -46,6 +47,7 @@ public class MovieMapper {
 				.owner_email(movie.getOwner().getEmail())
 				.isAvailable(movie.isAvailable())
 				.id(movie.getId())
+				.photoUrl(movie.getPhotoUrl() != null ? movie.getPhotoUrl() : "")
 				.build();
 	}
 

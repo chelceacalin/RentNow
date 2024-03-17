@@ -19,6 +19,7 @@ function RentedMovie({
   description,
   setTriggerRefresh,
   triggerRefresh,
+  photoUrl
 }) {
   const [detailsModalOpen, setDetailsModalOpen] = useState(false);
   const [isRentModalOpen, setRentModalOpen] = useState(false);
@@ -113,6 +114,7 @@ function RentedMovie({
             owner_username={owner_username}
             id={id}
             description={description}
+            photoUrl={photoUrl}
           />
         )}
         <Button

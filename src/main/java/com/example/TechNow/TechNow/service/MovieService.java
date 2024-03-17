@@ -19,6 +19,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.*;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Optional;
@@ -38,11 +39,12 @@ import static java.util.Objects.nonNull;
 @RequiredArgsConstructor
 public class MovieService {
 
-	final MovieRepository movieRepository;
-	final MovieHistoryRepository movieHistoryRepository;
 	final UserService userService;
-	final CategoryRepository categoryRepository;
 	final UserRepository userRepository;
+	final MovieRepository movieRepository;
+	final CategoryRepository categoryRepository;
+	final ImageStorageService imageStorageService;
+	final MovieHistoryRepository movieHistoryRepository;
 
 	public Page<MovieDTO> findUserMovies(MovieFilterDTO movieFilter, int pageNo, int pageSize) {
 		Specification<Movie> specification = getSpecification(movieFilter);
@@ -106,10 +108,6 @@ public class MovieService {
 		return specification;
 	}
 
-	public Optional<Movie> findById(UUID id) {
-		return movieRepository.findById(id);
-	}
-
 	public MovieAddDTO findMovieByID(UUID id) {
 		Optional<Movie> movieOptional = movieRepository.findById(id);
 		if (movieOptional.isPresent()) {
@@ -120,21 +118,25 @@ public class MovieService {
 		}
 	}
 
-	public void updateMovie(UUID id, MovieAddDTO movieDTO) {
+	public void updateMovie(UUID id, MovieAddDTO movieDTO, MultipartFile imageFile) {
 		Optional<Movie> optionalMovie = movieRepository.findById(id);
 		if (optionalMovie.isPresent()) {
 			Movie foundMovie = optionalMovie.get();
 			Optional<Category> categoryOptional = categoryRepository.findByNameIgnoreCase(movieDTO.getCategory());
 			if (categoryOptional.isPresent()) {
-				foundMovie.setCategory(categoryOptional.get());
-				foundMovie.setTitle(movieDTO.getTitle());
-				foundMovie.setDirector(movieDTO.getDirector());
-				foundMovie.setDescription(movieDTO.getDescription());
+				foundMovie.setCategory(
+								categoryOptional.get())
+						.setTitle(movieDTO.getTitle())
+						.setDirector(movieDTO.getDirector())
+						.setDescription(movieDTO.getDescription());
+					if (imageFile != null) {
+					String imageUrl = imageStorageService.uploadImage("photos", imageFile);
+					foundMovie.setPhotoUrl(imageUrl);
+				}
 				movieRepository.save(foundMovie);
 			} else {
 				throw new RuntimeException("Category not found");
 			}
-
 		} else {
 			throw new RuntimeException("Movie Not Found");
 		}
@@ -154,9 +156,6 @@ public class MovieService {
 
 	public String getRentedBy(UUID id) {
 		MovieHistory movieHistory = movieHistoryRepository.findMovieHistoryByRentedUntilMostRecent(id);
-		User user = movieHistory.getRentedBy();
-		String firstName = user.getFirstName();
-		String lastName = user.getLastName();
 		return movieHistory.getRentedBy().getEmail();
 	}
 
@@ -166,13 +165,15 @@ public class MovieService {
 				.orElseThrow(() -> new RuntimeException("Movie not found"));
 	}
 
-	public MovieAddDTO addMovie(MovieAddDTO movie) {
+	public MovieAddDTO addMovie(MovieAddDTO movie, MultipartFile imageFile) {
 		UserDTO user = userService.findByEmail(movie.getOwner_email());
 		if (nonNull(user)) {
 			Optional<Category> categoryOptional = categoryRepository.findByNameIgnoreCase(movie.getCategory());
 			if (categoryOptional.isPresent()) {
 				Category category = categoryOptional.get();
+				String imageUrl = imageStorageService.uploadImage("photos", imageFile);
 				Movie createdMovie = MovieMapper.toMovie(movie, user, category);
+				createdMovie.setPhotoUrl(imageUrl);
 				movieRepository.save(createdMovie);
 				return MovieMapper.toMovieAddDto(createdMovie);
 			} else {
@@ -190,7 +191,7 @@ public class MovieService {
 			movieRepository.save(movie);
 		});
 		MovieHistory movieHistory = toMovieHistory(movieHistoryDTO);
-		System.out.println("Mhdto "+movieHistoryDTO);
+		System.out.println("Mhdto " + movieHistoryDTO);
 		movieHistoryRepository.save(movieHistory);
 	}
 

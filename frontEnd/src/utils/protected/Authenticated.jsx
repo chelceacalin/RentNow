@@ -4,8 +4,6 @@ import { UserLoginContext } from "../context/LoginProvider";
 
 function Authenticated() {
   const { isLoggedIn } = useContext(UserLoginContext);
-
-  console.log("Authenticated" +isLoggedIn)
   return isLoggedIn ? <Outlet /> : <Navigate to={"/login"} />;
 }
 

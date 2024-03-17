@@ -35,4 +35,6 @@ public class MovieDTO {
 	LocalDate rentedDate;
 
 	LocalDate rentedUntil;
+
+	String photoUrl;
 }

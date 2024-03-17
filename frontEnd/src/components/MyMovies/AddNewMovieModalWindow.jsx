@@ -1,6 +1,12 @@
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Autocomplete, Button, Dialog, DialogContent, TextField } from "@mui/material";
+import {
+  Autocomplete,
+  Button,
+  Dialog,
+  DialogContent,
+  TextField,
+} from "@mui/material";
 import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import * as moreClasses from "react-dom/test-utils";
@@ -13,15 +19,14 @@ function AddNewMovieModalWindow({
   setTriggerRefresh,
   triggerRefresh,
 }) {
-  const MAX_FILE_SIZE = 1024 * 1024;
+  const MAX_FILE_SIZE = 2048 * 2048;
   const [title, setTitle] = useState("");
   const [director, setDirector] = useState("");
   const [description, setDescription] = useState("");
   const [category, setCategory] = useState(null);
-  const [categorySelect, setCategorySelect] = useState("");
   const [selectedImage, setSelectedImage] = useState(null);
   const [availableCategories, setAvailableCategories] = useState([]);
-  const { username,email } = useContext(UserLoginContext);
+  const { username, email } = useContext(UserLoginContext);
   const [owner_username, setOwnerUsername] = useState(username);
 
   const validationChecks = [
@@ -39,6 +44,7 @@ function AddNewMovieModalWindow({
     },
     { condition: !description, message: "Description should not be empty!" },
   ];
+
   useEffect(() => {
     let url = `/category`;
     axios
@@ -55,7 +61,7 @@ function AddNewMovieModalWindow({
     const file = event.target.files[0];
 
     if (file.size > MAX_FILE_SIZE) {
-      showError("Image size should be no more than 1 MB!");
+      showError("Image size should be no more than 2 MB!");
       setSelectedImage(null);
     } else if (!["image/jpeg", "image/jpg", "image/png"].includes(file.type)) {
       showError("Image format should be jpg, jpeg, or png!");
@@ -70,7 +76,7 @@ function AddNewMovieModalWindow({
     const file = event.dataTransfer.files[0];
 
     if (file.size > MAX_FILE_SIZE) {
-      showError("Image size should be no more than 1 MB!");
+      showError("Image size should be no more than 2 MB!");
       setSelectedImage(null);
     } else if (!["image/jpeg", "image/jpg", "image/png"].includes(file.type)) {
       showError("Image format should be jpg, jpeg, or png!");
@@ -102,36 +108,45 @@ function AddNewMovieModalWindow({
   };
   const handleSave = () => {
     if (validRequest()) {
-      let urlAddMovie = `/movies`;
-
-      let movie = {
+      if (!selectedImage) {
+        showError("Image should not be empty!");
+        return;
+      }
+      
+      let movieDTO = {
+        owner_username: owner_username,
+        owner_email: email,
         title: title,
         director: director,
+        category: category,
         description: description,
         isAvailable: true,
-        category: category,
-        owner_username: owner_username,
-        owner_email:email
       };
 
-      console.log(movie);
-
+      let formData = new FormData();
+      formData.append(
+        "movieDTO",
+        new Blob([JSON.stringify(movieDTO)], { type: "application/json" })
+      );
       if (selectedImage) {
-        axios
-          .post(urlAddMovie, movie)
-          .then((data)=>{
-            setTriggerRefresh(!triggerRefresh);
-            showSuccess("Movie successfully created!");
-            resetForm();
-          })
-          .catch((err) => {
-            showError(err);
-          });
-
-        closeModal();
-      } else {
-        showError("Image should not be empty!");
+        formData.append("imageFile", selectedImage);
       }
+
+      axios
+        .post("/movies", formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        })
+        .then(() => {
+          setTriggerRefresh(!triggerRefresh);
+          showSuccess("Movie successfully created!");
+          resetForm();
+          closeModal();
+        })
+        .catch((error) => {
+          showError(error);
+        });
     }
   };
 
@@ -140,9 +155,9 @@ function AddNewMovieModalWindow({
     setDirector("");
     setDescription("");
     setCategory("");
-    setCategorySelect("");
     setSelectedImage(null);
   };
+
   return (
     <Dialog fullWidth maxWidth={"sm"} open={isModalOpen} onClose={closeModal}>
       <div className="modal-content wider-modal">
