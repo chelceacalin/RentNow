@@ -68,4 +68,4 @@ Rent Now facilitates movie rentals within a company. Manage and share your movie
 
 - **JSON Api Documentation**: http://localhost:8080/api-docs
 - **UI Inteface Api Documentation**: http://localhost:8080/swagger-ui/index.html
-- **Actuator**: [http://localhost:8081](http://localhost:8081/actuator)
+- **Actuator**: [http://localhost:8081/actuator](http://localhost:8081/actuator)
