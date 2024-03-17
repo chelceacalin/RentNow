@@ -17,11 +17,16 @@ import java.util.UUID;
 @RentForTwoWeeksConstraint
 public class MovieHistoryDTO {
 	@RentDateConstraint
-	private LocalDate rentedDate;
+	LocalDate rentedDate;
+
 	@RentDateConstraint
-	private LocalDate rentedUntil;
-	private Integer rating;
-	private String description;
-	private UUID movieId;
-	private UUID userId;
+	LocalDate rentedUntil;
+
+	Integer rating;
+
+	String description;
+
+	UUID movieId;
+
+	UUID userId;
 }

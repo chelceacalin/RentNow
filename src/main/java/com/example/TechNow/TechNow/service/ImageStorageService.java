@@ -18,7 +18,7 @@ public class ImageStorageService {
 	final MinioClient minioClient;
 
 	@Value("${minio.url}")
-	private String minioUrl;
+	String minioUrl;
 
 	public String uploadImage(String bucketName, MultipartFile file) {
 		String fileName = generateFileName(file);
@@ -34,7 +34,7 @@ public class ImageStorageService {
 			throw new RuntimeException("Failed to store image file.", e);
 		}
 	}
-	private String generateFileName(MultipartFile file) {
+	String generateFileName(MultipartFile file) {
 		return new Date().getTime() + "-" + Objects.requireNonNull(file.getOriginalFilename()).replace(" ", "_");
 	}
 

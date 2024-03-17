@@ -19,21 +19,22 @@ import static com.example.TechNow.TechNow.util.MovieConstants.*;
 
 public class MyRentedMoviesRequestDTO {
 
-	private String rentEmail;
+	String rentEmail;
 
-	private String title;
+	String title;
 
-	private String director;
+	String director;
 
-	private String category;
+	String category;
 
-	private Boolean isAvailable;
+	Boolean isAvailable;
 
-	private LocalDate rentedStart;
+	LocalDate rentedStart;
 
-	private LocalDate rentedUntil;
-	private String direction;
-	private String sortField;
+	LocalDate rentedUntil;
+	String direction;
+
+	String sortField;
 
 	public MyRentedMoviesRequestDTO() {
 		this.direction = "ASC";

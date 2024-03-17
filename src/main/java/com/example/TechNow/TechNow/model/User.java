@@ -31,7 +31,7 @@ public class User {
 
 	@Column
 	@Enumerated(value = EnumType.STRING)
-	private Role role;
+	Role role;
 
 	public enum Role {
 		ADMIN, USER

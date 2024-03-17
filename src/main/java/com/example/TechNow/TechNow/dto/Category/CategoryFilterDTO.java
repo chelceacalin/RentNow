@@ -9,9 +9,9 @@ import lombok.Data;
 @AllArgsConstructor
 public class CategoryFilterDTO {
 
-    private String name;
+    String name;
 
-    private String direction;
+    String direction;
 
     public CategoryFilterDTO() {
         direction = "ASC";

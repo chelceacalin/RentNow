@@ -9,13 +9,19 @@ import lombok.Data;
 @Builder
 @AllArgsConstructor
 public class UserFilterDTO {
-	private String username;
-	private String firstName;
-	private String lastName;
-	private String email;
-	private String direction;
-	private String sortField;
-	private User.Role role;
+	String username;
+
+	String firstName;
+
+	String lastName;
+
+	String email;
+
+	String direction;
+
+	String sortField;
+
+	User.Role role;
 
 	public UserFilterDTO() {
 		direction = "ASC";

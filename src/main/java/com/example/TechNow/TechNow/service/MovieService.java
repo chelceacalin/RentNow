@@ -62,7 +62,7 @@ public class MovieService {
 		return new PageImpl<>(movies, pageable, moviesPage.getTotalElements());
 	}
 
-	private static Pageable getPageable(int pageNo, int pageSize, String sortField, Sort.Direction sortDirection) {
+	static Pageable getPageable(int pageNo, int pageSize, String sortField, Sort.Direction sortDirection) {
 		return switch (sortField) {
 			case RENTED_BY -> PageRequest.of(pageNo, pageSize, Sort.by(sortDirection, USERNAME));
 			case RENTED_UNTIL -> PageRequest.of(pageNo, pageSize, Sort.by(sortDirection, MOVIE_HISTORIES_RENTED_UNTIL));
@@ -71,7 +71,7 @@ public class MovieService {
 		};
 	}
 
-	private Specification<Movie> getSpecification(MovieFilterDTO movieFilter) {
+	Specification<Movie> getSpecification(MovieFilterDTO movieFilter) {
 		Specification<Movie> specification = Specification.where(null);
 
 		if (nonNull(movieFilter.getOwner_username())) {

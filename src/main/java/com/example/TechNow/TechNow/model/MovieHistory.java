@@ -19,9 +19,9 @@ public class MovieHistory {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.UUID)
-	private UUID id;
+	UUID id;
 
-	private LocalDate rentedDate;
+	LocalDate rentedDate;
 
 	LocalDate rentedUntil;
 

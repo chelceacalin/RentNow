@@ -11,24 +11,25 @@ import java.time.LocalDate;
 @AllArgsConstructor
 public class MovieFilterDTO {
 
-	private String owner_username;
+	String owner_username;
 
-	private String title;
+	String title;
 
-	private String director;
+	String director;
 
-	private String category;
+	String category;
 
-	private Boolean isAvailable;
+	Boolean isAvailable;
 
-	private String rentedBy;
+	String rentedBy;
 
-	private LocalDate rentedDate;
+	LocalDate rentedDate;
 
-	private LocalDate rentedUntil;
+	LocalDate rentedUntil;
 
-	private String direction;
-	private String sortField;
+	String direction;
+
+	String sortField;
 
 	public MovieFilterDTO() {
 		this.direction = "ASC";
