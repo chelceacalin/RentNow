@@ -2,14 +2,13 @@
   background-color: white !important;
   color: #fff;
   margin: 5px;
-  border-radius: 8px;
-  display: flex; 
-  flex-direction: column; 
-  justify-content: space-between; 
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   overflow: hidden;
   transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  max-width: 345px;
+  max-width: 405px;
 
   &:hover {
     transform: scale(1.01);
@@ -17,8 +16,8 @@
   }
 
   .image-container {
-    height: 300px !important;
-    width: 290px;
+    height: 350px !important;
+    width: 300px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -33,7 +32,7 @@
 
   .card-content {
     padding: 16px;
-    flex-grow: 1; 
+    flex-grow: 1;
   }
 
   .card-actions {
@@ -44,5 +43,10 @@
     .btnC {
       margin: 0 5px;
     }
+  }
+
+  .movieBanner {
+    background-color: red;
+    padding: 20px;
   }
 }

@@ -111,7 +111,7 @@ function Movies() {
         {!movies.length && initialized && (
           <div className="text-center">No matching results found</div>
         )}
-        <div className="flex flex-wrap gap-4 mt-2 justify-center sm:justify-start">
+        <div className="flex flex-wrap gap-3 mt-2 justify-center sm:justify-start ">
           {movies.map((movie, idx) => (
             <RentedMovie
               movie={movie}

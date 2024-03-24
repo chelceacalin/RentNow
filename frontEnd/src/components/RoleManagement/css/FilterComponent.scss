@@ -16,65 +16,11 @@
   gap: 15px;
   align-items: center;
 
-  .MuiInputLabel-root.Mui-focused,
-  .MuiInputLabel-root.MuiFormLabel-filled {
-      transform: translate(0px, -22px )  !important;
-      color: white !important;
-
-  }
-
-  .search-field {
-    width: 100%;
-    max-width: 200px;
-    background-color: white;
-    border-radius: 4px;
-    color: black;
-
-    .MuiInputLabel-root {
-      color: black;
-    }
-
-    .MuiInputBase-root {
-      background-color: white !important;
-      color: black;
-
-      &:hover {
-        background-color: #d8d2d2 !important;
-      }
-
-      &:before,
-      &:after {
-        display: none;
-      }
-    }
-
-    .MuiOutlinedInput-root {
-      fieldset {
-        border-color: white;
-      }
-
-      &:hover fieldset {
-        border-color: #d8d2d2;
-      }
-
-      &.Mui-focused fieldset {
-        border-color: white;
-      }
-    }
-  }
-
   .status-checkbox {
     display: flex;
     align-items: center;
     gap: 5px;
-
-    .MuiCheckbox-root {
-      color: #fff !important;
-    }
-
-    label {
-      color: #fff;
-      font-size: 0.875rem;
-    }
   }
 }
+
+

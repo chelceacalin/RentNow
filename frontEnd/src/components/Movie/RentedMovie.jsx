@@ -7,7 +7,7 @@ import { useState } from "react";
 import RentMovieModalView from "./RentMovieModalView.jsx";
 import ViewMovieDetailsModalWindow from "./ViewMovieDetailsModalWindow.jsx";
 import "./css/RentedMovies.scss";
-
+import RentedUntil from "./RentedUntil.jsx"
 function RentedMovie({ movie, triggerRefresh, setTriggerRefresh }) {
   const [detailsModalOpen, setDetailsModalOpen] = useState(false);
   const [isRentModalOpen, setRentModalOpen] = useState(false);
@@ -23,7 +23,7 @@ function RentedMovie({ movie, triggerRefresh, setTriggerRefresh }) {
   const status = movie.isAvailable ? "Available" : "Unavailable";
 
   return (
-    <Card className="rented-movie-card">
+    <Card className="rented-movie-card ">
       <div className="image-container">
         <img
           src={movie.photoUrl || "/default-movie.jpg"}
@@ -38,19 +38,11 @@ function RentedMovie({ movie, triggerRefresh, setTriggerRefresh }) {
         <Typography variant="body2">Director: {movie.director}</Typography>
         <Typography variant="body2">Category: {movie.category}</Typography>
         <Typography variant="body2"
-          className={` ${!movie.isAvailable ? 'disabledButtonText' : ''}`}
+          className={` ${!movie.isAvailable ? 'disabledButtonText' : 'availableButtonText'}`}
         >Status: {status}</Typography>
         {!movie.isAvailable && (
           <>
-            <Typography variant="body2">
-              Rented on: {movie.rentedDate}
-            </Typography>
-            <Typography variant="body2">
-              Rented until: {movie.rentedUntil}
-            </Typography>
-            <Typography variant="body2">
-              Owner: {movie.owner_username}
-            </Typography>
+           <RentedUntil movie={movie}/>
           </>
         )}
       </div>

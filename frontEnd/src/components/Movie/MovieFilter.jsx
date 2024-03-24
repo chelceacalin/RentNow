@@ -45,11 +45,9 @@ function MovieFilter({ filterInput }) {
     filterInput(array);
   }, 500);
 
-
   const debouncedFilterInput = useDebouncedCallback((array) => {
     filterInput(array);
   }, 500);
-
 
   useEffect(() => {
     const rentedUntilField = rentedUntil ? convertDate(rentedUntil) : "";
@@ -77,7 +75,6 @@ function MovieFilter({ filterInput }) {
     ];
 
     debouncedFilterInput(array);
-
   }, [
     selectedCategory,
     director,
@@ -125,7 +122,7 @@ function MovieFilter({ filterInput }) {
         <div className="filter-section">
           <Autocomplete
             value={selectedCategory}
-            onChange={(event, newValue) => {
+            onChange={(_, newValue) => {
               setSelectedCategory(newValue);
             }}
             options={categories}
@@ -165,6 +162,11 @@ function MovieFilter({ filterInput }) {
             onClear={() => setRentedDate(null)}
             onChange={(newDate) => setRentedDate(newDate)}
           />
+        </LocalizationProvider>
+      </div>
+      
+      <div className="filter-section">
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
           <DatePickerClear
             value={rentedUntil}
             variant="filled"

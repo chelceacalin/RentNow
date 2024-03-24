@@ -141,8 +141,10 @@ function RoleManagement() {
           </table>
         </div>
         {!users.length && initialized && (
-          <div className="text-center">No matching results found</div>
-        )}
+              <p className="text-center text-2xl notFoundText bg-white p-4  justify-center flex align-center">
+                No matching results found
+              </p>
+            )}
         <Pagination
           pageNo={pageNo}
           pageSize={pageSize}

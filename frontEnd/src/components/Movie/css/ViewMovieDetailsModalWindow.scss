@@ -1,10 +1,6 @@
 .movie-details-dialog {
   background-color: rgba(0, 0, 0, 0.7);
 
-  .MuiDialog-paper {
-    color: #fff ;
-  }
-
   .movie-details-title {
     margin: 16px 0;
     text-align: center;
@@ -21,20 +17,11 @@
       border: 0.5px solid black;
       border-radius: 4px;
 
-      .MuiOutlinedInput-notchedOutline {
-        border-color: transparent;
-      }
-
       .MuiInputLabel-root{
         margin-top:-10px;
         margin-left: -10px;
         color: black;
       }
-      
-      .MuiInputBase-root {
-        color: black !important;
-      }
-
     }
 
     .movie-image-grid {

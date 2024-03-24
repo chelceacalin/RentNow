@@ -19,11 +19,8 @@ function Navbar() {
   const {
     isAdmin,
     setIsAdmin,
-    username,
     setUsername,
-    token,
     setToken,
-    isLoggedIn,
     setIsLoggedIn,
   } = useContext(UserLoginContext);
 
@@ -50,13 +47,12 @@ function Navbar() {
   };
 
   return (
-    <div className="flex h-screen w-auto navbar ">
-      <div className="flex flex-col h-full p-3 bg-white shadow w-60">
+    <div className="flex h- w-auto navbar ">
+      <div className="flex flex-col h-full p-3 shadow w-60">
         <div className="flex flex-col h-full space-y-3 justify-between">
-          <div className="flex items-center mt-10 ml-2">
+          <div className="flex items-center mt-10 ml-2 mb-10">
             <AppIcon />
             <div>
-
             </div>
           </div>
           <div className="overflow-y-auto">
@@ -88,7 +84,7 @@ function Navbar() {
             </ul>
           </div>
           <div className="mt-auto">
-            <ul className="pt-2 pb-4 space-y-1 text-sm">
+            <ul className="pt-2 pb-4 space-y-1 text-sm mt-10">
               <LogoutNavItem
                 isAdmin={isAdmin}
                 selectedItem={selectedItem}

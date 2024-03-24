@@ -72,9 +72,9 @@ function RentMovieModalView({
       ></FontAwesomeIcon>
       <DialogContent>
         <p className="text-center">
-          You are renting <span className="font-bold">  {movie.title} </span>
+          You are renting movie <span className="font-bold">  {movie.title} </span>
           directed by <span className="font-bold"> {movie.director} </span> from
-          <span className="font-bold"> {movie.owner}</span>.
+          <span className="font-bold"> {movie.owner_username}</span>.
         </p>
         <p className="text-center">
           Please fill in the return date below and go pick up your movie from

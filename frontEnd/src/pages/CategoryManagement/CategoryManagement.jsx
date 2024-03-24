@@ -95,7 +95,7 @@ function CategoryManagement() {
       <div className="flex">
           <FilterCategory filterInput={getFilterInput} />
       </div>
-      <div className="mt-10">
+      <div className="mt-4">
           <button
             onClick={handleOpen}
             className="text-white flex justify-center mainBg  p-4"
@@ -185,7 +185,6 @@ function CategoryManagement() {
               </p>
             )}
 
-            {categories.length > 0 && (
               <Pagination
                 pageNo={pageNo}
                 pageSize={pageSize}
@@ -195,7 +194,6 @@ function CategoryManagement() {
                 nrCurrentUsers={categories.length}
                 handleSelectChange={handleSelectChange}
               />
-            )}
           </div>
         </div>
       </div>

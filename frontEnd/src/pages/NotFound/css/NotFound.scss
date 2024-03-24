@@ -1,32 +1,33 @@
 @import "../../../variables.scss";
 
-.notfound.container {
-    margin-left: 20%;
-    margin-right: 20%;
-}
+.notfound {
+    &.container {
+        margin-left: 20%;
+        margin-right: 20%;
+    }
 
+    .error-page {
+        background-color: #0e135ae1;
+        opacity: 0.8;
+        padding: 2vw;
+        border-radius: 25px;
 
-.notfound .error-page {
-    background-color: #1E1D5B;
-    opacity: 0.8;
-    padding: 2vw;
-    border-radius: 25px;
+    }
 
-}
+    .ffont {
+        font-size: 2vw;
+    }
 
-.notfound .ffont {
-    font-size: 2vw;
-}
+    .ffont-btn {
+        font-size: 1vw;
+    }
 
-.notfound .ffont-btn {
-    font-size: 1vw;
-}
+    .btn {
+        opacity: 1;
+        background-color: $main-color;
+    }
 
-.notfound .btn {
-    opacity: 1;
-    background-color: $main-color;
-}
-
-.notfound .body-color {
-    background-color: lightblue;
+    .body-color {
+        background-color: lightblue;
+    }
 }

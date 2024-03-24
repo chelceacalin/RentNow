@@ -149,13 +149,13 @@ function MyProfileFilterComponent({ filterInput }) {
         </div>
       </div>
 
-      <div className="filterContainer">
+      <div className="">
         <div className="">
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DatePickerClear
               labelString={"Rented until"}
               value={rentedUntil}
-              className="rtUntil"
+              className="rtUntil "
               onClear={() => setRentedUntil(null)}
               onChange={(newDate) => setRentedUntil(newDate)}
             />
@@ -168,7 +168,6 @@ function MyProfileFilterComponent({ filterInput }) {
               name="type"
               label="Unavailable"
               defaultChecked
-
               onClick={(e) => {
                 setUnavailable(e.target.checked);
               }}

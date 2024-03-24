@@ -61,6 +61,7 @@ function Category({
 
         <Button
            variant="contained"
+           className="darkButton"
           onClick={openEditModal}
         >
           Remove

@@ -16,7 +16,7 @@ function User({
   const handleClose = () => setOpen(false);
 
   return (
-    <tr key={name}>
+    <tr className="bg-white" key={name}>
       <td className={classes}>
         <div
           variant="small"

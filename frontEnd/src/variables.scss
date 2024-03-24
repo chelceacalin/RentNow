@@ -1,5 +1,6 @@
 $main-color: #d32f2f;
 $main-color-hover: #9a0007;
+$main-color-opacity:rgba(211, 47, 47, 0.856);
 $navIconColor: #000;
 $iconsFill: #000000;
 
@@ -15,7 +16,6 @@ $iconsFill: #000000;
     }
 }
 
-
 .appIcon {
     margin-left: -20px;
     rect,
@@ -24,23 +24,11 @@ $iconsFill: #000000;
     }
 }
 
-
-.categoryManagementIcon,
-.logoutIcon,
-.roleManagementIcon,
-.profileIcon,
-.moviesIcon {
-    rect,
-    path {
-    }
-}
-
-
 .MuiButton-root {
-    background-color: #d32f2f;
+    background-color: $main-color;
     color: #ffffff;
 
     &:hover {
-      background-color: #9a0007;
+        background-color: $main-color-hover;
     }
-  }
+}

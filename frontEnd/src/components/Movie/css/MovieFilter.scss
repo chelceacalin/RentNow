@@ -1,6 +1,5 @@
 @import "../../../variables.scss";
 
-
 .movie-filter-container {
     background-color: $main-color;
     color: #fff;
@@ -20,74 +19,34 @@
         margin-top: 5px;
         width: 200px !important;
     }
-
-    .MuiTextField-root,
-    .MuiAutocomplete-root {
-        width: 100%;
-        min-width: 200px;
-        background-color: white;
-        color: black !important;
-        border-radius: 4px;
-
-        .MuiInputLabel-root.Mui-focused,
-        .MuiInputLabel-root.MuiFormLabel-filled {
-            transform: translate(0px, -22px) !important;
-            color: white !important;
-        }
-
-        .MuiInputLabel-root {
-            color: black;
-        }
-
-        .MuiFilledInput-root {
-            background-color: white !important;
-
-            &:hover {
-                background-color: #d8d2d2 !important;
-            }
-
-            &:before,
-            &:after {
-                display: none;
-            }
-        }
-    }
 }
 
 .status-section {
     .filter-section {
         flex-wrap: wrap;
     }
+
     display: flex;
     align-items: center;
     gap: 10px;
-
-    .MuiCheckbox-root {
-        color: #fff !important;
-    }
-
-    label {
-        color: #fff;
-        font-size: 0.875rem;
-    }
 }
 
 @media (max-width: 768px) {
 
     .filter-section {
         justify-content: center;
-        gap: 10px; 
+        gap: 10px;
         flex-wrap: wrap;
+
         .filterDatepicker,
         .MuiTextField-root,
         .MuiAutocomplete-root {
-            width: calc(100% - 20px); 
+            width: calc(100% - 20px);
         }
     }
 
     .status-section {
-        justify-content: center; 
-        flex-direction: column; 
+        justify-content: center;
+        flex-direction: column;
     }
 }
-

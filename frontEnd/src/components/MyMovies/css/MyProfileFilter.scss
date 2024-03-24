@@ -10,55 +10,12 @@
 }
 
 .rtUntil {
-    transform: translate(14px, -0px) !important;
+    background-color: white !important;
 }
 
 .filterContainer {
     display: flex;
     gap: 15px;
-
-    .MuiTextField-root,
-    .MuiAutocomplete-root {
-        width: 100%;
-        min-width: 200px;
-        background-color: white;
-        color: black;
-        border-radius: 4px;
-
-        .MuiInputLabel-root {
-            color: black;
-        }
-
-        .MuiInputLabel-root.Mui-focused,
-        .MuiInputLabel-root.MuiFormLabel-filled {
-            transform: translate(0px, -22px) !important;
-            color: white !important;
-        }
-
-        .MuiFilledInput-root,
-        .MuiInputBase-root {
-            background-color: white !important;
-
-            &:hover {
-                background-color: #d8d2d2 !important;
-            }
-
-            &:before,
-            &:after {
-                display: none;
-            }
-        }
-    }
-
-    .MuiCheckbox-root {
-        color: #fff !important;
-    }
-
-    label {
-        color: #fff;
-        font-size: 0.875rem;
-        margin: 0 5px;
-    }
 }
 
 .MuiDatePicker-root {

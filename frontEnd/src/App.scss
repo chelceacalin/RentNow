@@ -1,5 +1,10 @@
 @import "variables.scss";
 
+
+.darkBg {
+background: linear-gradient(to right, #232526, #414345) !important;
+}
+
 .app-container {
   display: flex;
 }
@@ -43,11 +48,11 @@
 
 
 .redButton {
-  background-color: #d32f2f !important;
+  background-color: $main-color !important;
   color: #ffffff;
 
   &:hover {
-    background-color: #9a0007 !important;
+    background-color: $main-color-hover !important;
   }
 }
 
@@ -66,7 +71,7 @@
 }
 
 .statusUnavailable {
-  background-color: #d32f2f !important;
+  background-color: $main-color !important;
 }
 
 
@@ -75,6 +80,122 @@
 }
 
 .disabledButtonText {
-  color: #d32f2f;
+  color: $main-color;
+  font-weight: bold !important;
+}
+
+.disabledBanner {
+  background-color: $main-color-opacity;
+  padding: 5px;
   font-weight: bold;
+  color: white;
+  text-align: center;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+}
+
+
+.availableBanner {
+  background-color: green;
+  padding: 5px;
+  font-weight: bold;
+  color: white;
+  text-align: center;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+}
+
+.availableButtonText {
+  color: green;
+  font-weight: bold !important;
+}
+
+.MuiCheckbox-root {
+  color: white !important;
+}
+
+.MuiInputLabel-root.Mui-focused,
+.MuiInputLabel-root.MuiFormLabel-filled {
+  transform: translate(0px, -22px) !important;
+  color: white !important;
+}
+
+
+.MuiInputLabel-root {
+  color: black !important;
+}
+
+.MuiInputBase-root {
+  background-color: white !important;
+  color: black;
+
+  &:hover {
+    background-color: #d8d2d2 !important;
+  }
+
+  &:before,
+  &:after {
+    display: none;
+  }
+}
+
+
+.MuiOutlinedInput-root {
+  fieldset {
+    border-color: white;
+  }
+
+  &:hover fieldset {
+    border-color: #d8d2d2;
+  }
+
+  &.Mui-focused fieldset {
+    border-color: white;
+  }
+}
+
+.MuiFilledInput-root {
+  background-color: white !important;
+
+  &:hover {
+    background-color: #d8d2d2 !important;
+  }
+
+  &:before,
+  &:after {
+    display: none;
+  }
+}
+
+.MuiTextField-root,
+.MuiAutocomplete-root {
+  width: 100%;
+  min-width: 200px;
+  background-color: white;
+  color: black !important;
+  border-radius: 4px;
+}
+
+.MuiDialog-paper {
+  color: #fff;
+}
+
+.MuiOutlinedInput-notchedOutline {
+  border-color: transparent;
+}
+
+label {
+  color: #fff;
+  font-size: 0.875rem;
+  margin: 0 5px;
+}
+
+
+.search-field {
+  margin-top: 5px;
+  width: 100%;
+  max-width: 200px;
+  background-color: white;
+  border-radius: 4px;
+  color: black;
 }

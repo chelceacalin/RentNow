@@ -32,20 +32,7 @@ function App() {
 
 function MainContent() {
   const [initialized, setInitialized] = useState(false);
-  const {
-    isAdmin,
-    setIsAdmin,
-    username,
-    setUsername,
-    token,
-    setToken,
-    isLoggedIn,
-    setIsLoggedIn,
-    id,
-    setID,
-    email,
-    setEmail,
-  } = useContext(UserLoginContext);
+  const { isLoggedIn } = useContext(UserLoginContext);
 
   useEffect(() => {
     setInitialized(true);
