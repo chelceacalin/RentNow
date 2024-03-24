@@ -93,7 +93,7 @@ function Movie({
 
         <Button
           onClick={handleDeleteOpen}
-          className="font-normal"
+          className="darkButton"
           variant="contained"
           disabled={!isAvailable}
         >

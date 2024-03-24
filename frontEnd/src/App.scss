@@ -43,18 +43,22 @@
 
 
 .redButton {
-  background-color: #d32f2f !important; 
+  background-color: #d32f2f !important;
   color: #ffffff;
 
   &:hover {
-    background-color: #9a0007 !important; 
+    background-color: #9a0007 !important;
   }
 }
 
 
 .darkButton {
   background-color: #0e135ae1 !important;
-  color: #ffffff; 
+  color: #ffffff;
+
+  &:disabled {
+    color: rgb(150, 146, 146) !important;
+  }
 
   &:hover {
     background-color: #0d47a1 !important;
@@ -70,7 +74,7 @@
   color: black !important;
 }
 
-.disabledButtonText{
+.disabledButtonText {
   color: #d32f2f;
   font-weight: bold;
 }

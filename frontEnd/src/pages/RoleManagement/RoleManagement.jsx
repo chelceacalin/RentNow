@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import {useEffect, useState} from "react";
 import Pagination from "../../components/Pagination/Pagination";
 import FilterComponent from "../../components/RoleManagement/FilterComponent";
 import User from "../../components/RoleManagement/User";
@@ -94,14 +94,14 @@ function RoleManagement() {
   };
 
   return (
-    <div className="w-screen px-10">
+      <div className="w-screen">
       <div className="flex">
         <FilterComponent filterInput={getFilterInput} />
       </div>
-      <div className="w-full py-1">
-        <div className="flex flex-col items-center bg-white justify-between">
-          <table className="w-full text-left border-b-2">
-            <thead className="sticky text-white w-full">
+        <div className="w-full mt-4">
+          <div className="overflow-y-auto ">
+            <table className="cater w-full text-left  border-b-2">
+              <thead className=" sticky top-0 z-30 text-white mainBg">
               <tr>
                 {TABLE_HEAD.slice(0, TABLE_HEAD.length).map((elem) => (
                   <th

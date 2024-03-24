@@ -341,7 +341,7 @@ function DetailsMovieModalView({
               <Button
                 type="button"
                 onClick={handleSave}
-                className="w-full"
+                className="w-full darkButton"
                 variant="contained"
                 disabled={!isAvailable}
               >

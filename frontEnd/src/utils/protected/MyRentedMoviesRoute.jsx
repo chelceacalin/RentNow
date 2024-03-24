@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 
 const ProfileRoute = () => {
   let { id } = useParams();
-  const email = sessionStorage.getItem("email"); // Directly store the returned string
+  const email = sessionStorage.getItem("email");
   const route = "/myprofile/myRentedMovies" + email;
   return id === email ? <Outlet /> : <Navigate to={route} />;
 };

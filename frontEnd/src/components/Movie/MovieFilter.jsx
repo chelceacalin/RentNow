@@ -2,7 +2,7 @@ import { Autocomplete, Checkbox, TextField } from "@mui/material";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import axios from "axios";
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import DatePickerClear from "../../components/DatePicker/DatePickerClear";
 import { useDebouncedCallback } from "use-debounce";
 import "./css/MovieFilter.scss";
@@ -10,7 +10,6 @@ import "./css/MovieFilter.scss";
 function MovieFilter({ filterInput }) {
   const [title, setTitle] = useState("");
   const [director, setDirector] = useState("");
-  const [category, setCategory] = useState("");
   const [available, setAvailable] = useState(true);
   const [unavailable, setUnavailable] = useState(true);
   const [rentedUntil, setRentedUntil] = useState(null);
@@ -100,12 +99,13 @@ function MovieFilter({ filterInput }) {
 
   return (
     <div className="movie-filter-container ">
-      <div className="filter-section ">
+      <div className="filter-section">
         <TextField
           id="outlined-search-title"
           name="title"
           label="Search title"
           type="search"
+          fullWidth="true"
           variant="filled"
           size="small"
           onChange={(e) => setTitle(e.target.value)}
@@ -160,7 +160,6 @@ function MovieFilter({ filterInput }) {
           <DatePickerClear
             value={rentedDate}
             variant="filled"
-            size="small"
             labelString="Rented on"
             className="filterDatepicker"
             onClear={() => setRentedDate(null)}
@@ -169,7 +168,6 @@ function MovieFilter({ filterInput }) {
           <DatePickerClear
             value={rentedUntil}
             variant="filled"
-            size="small"
             className="filterDatepicker"
             labelString="Rented until"
             onClear={() => setRentedUntil(null)}

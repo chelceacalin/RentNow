@@ -1,5 +1,3 @@
-// Assuming this is part of a larger component
-
 import React from 'react';
 import CategoryManagementIcon from "../../utils/icons/CategoryManagementIcon";
 const CategoryManagementItem = ({ isAdmin, selectedItem, handleItemClick, navigate }) => {

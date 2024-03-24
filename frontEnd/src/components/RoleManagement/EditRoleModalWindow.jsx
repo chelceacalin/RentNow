@@ -24,7 +24,6 @@ function EditRoleModalWindow({
   updateUser,
 }) {
   const fullName = `${name}`;
-  const [roles, setRole] = useState(role);
   const [selectedOption, setSelectedOption] = useState(role);
 
   const [userDTO, setUserDTO] = useState({
@@ -143,7 +142,7 @@ function EditRoleModalWindow({
           <div className="flex gap-x-2 mt-6">
             <div className="flex-1">
               <Button
-                className="contained-button w-full"
+                className="darkButton w-full"
                 variant="contained"
                 onClick={editUserRole}
               >

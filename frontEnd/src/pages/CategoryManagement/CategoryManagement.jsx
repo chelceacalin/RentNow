@@ -51,7 +51,7 @@ function CategoryManagement() {
         }
         setInitialized(true);
       })
-      .catch((error) => {
+      .catch(() => {
         setInitialized(true);
       });
     console.log(newUrl);
@@ -91,13 +91,14 @@ function CategoryManagement() {
   };
 
   return (
-    <div className="w-screen px-10">
+    <div className="w-screen">
       <div className="flex">
-        <FilterCategory filterInput={getFilterInput} />
-        <div className="mt-10">
+          <FilterCategory filterInput={getFilterInput} />
+      </div>
+      <div className="mt-10">
           <button
             onClick={handleOpen}
-            className="text-white flex justify-center ms-1 mainBg  p-4"
+            className="text-white flex justify-center mainBg  p-4"
           >
             Add new
           </button>
@@ -110,7 +111,6 @@ function CategoryManagement() {
             errorMessage={errorMessage}
           />
         </div>
-      </div>
       <div className="w-full py-1">
         <div className="w-full  flex flex-col bg-white justify-between">
           <div className="overflow-y-auto ">
@@ -184,18 +184,18 @@ function CategoryManagement() {
                 No matching results found
               </p>
             )}
-          
-                {categories.length > 0 && (
-                  <Pagination
-                    pageNo={pageNo}
-                    pageSize={pageSize}
-                    totalPages={totalPages}
-                    updatePageNumber={updatePageNumber}
-                    responseLength={totalCategories}
-                    nrCurrentUsers={categories.length}
-                    handleSelectChange={handleSelectChange}
-                  />
-                )}
+
+            {categories.length > 0 && (
+              <Pagination
+                pageNo={pageNo}
+                pageSize={pageSize}
+                totalPages={totalPages}
+                updatePageNumber={updatePageNumber}
+                responseLength={totalCategories}
+                nrCurrentUsers={categories.length}
+                handleSelectChange={handleSelectChange}
+              />
+            )}
           </div>
         </div>
       </div>

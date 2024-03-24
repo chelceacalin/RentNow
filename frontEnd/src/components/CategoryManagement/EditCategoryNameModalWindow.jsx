@@ -91,7 +91,7 @@ function EditCategoryNameModalWindow({
             <div className="flex gap-x-2 mt-6">
               <div className="flex-1">
                 <Button
-                  className=" w-full"
+                  className="w-full darkButton"
                   variant="contained"
                   onClick={editCategoryName}
                 >
@@ -100,7 +100,7 @@ function EditCategoryNameModalWindow({
               </div>
               <div className="flex-1">
                 <Button
-                  className="outlined-button w-full"
+                  className="outlined-button w-full darkButton"
                   variant="outlined"
                   onClick={closeModal}
                 >

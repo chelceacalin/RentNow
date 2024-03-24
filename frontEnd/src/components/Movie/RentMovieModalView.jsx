@@ -1,19 +1,18 @@
-import { faTimes } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Button, Dialog, DialogContent } from "@mui/material";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import {faTimes} from "@fortawesome/free-solid-svg-icons";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {Button, Dialog, DialogContent} from "@mui/material";
+import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
+import {DatePicker} from "@mui/x-date-pickers/DatePicker";
+import {LocalizationProvider} from "@mui/x-date-pickers/LocalizationProvider";
 import axios from "axios";
 import dayjs from "dayjs";
 import updateLocale from "dayjs/plugin/updateLocale";
-import { useEffect, useState } from "react";
-import { showError, showSuccess } from "../../service/ToastService";
+import {useEffect, useState} from "react";
+import {showError, showSuccess} from "../../service/ToastService";
 
 function RentMovieModalView({
   isRentModalOpen,
-  closeModal,
-  movie, 
+  movie,
   setTriggerRefresh,
   triggerRefresh,
   handleCloseRentModal
@@ -42,7 +41,7 @@ function RentMovieModalView({
     };
 
     axios.post(url, body)
-      .then((response) => {
+      .then(() => {
         showSuccess(`You have rented the movie ${movie.title}`);
         handleCloseRentModal();
         setTriggerRefresh(!triggerRefresh);
@@ -116,7 +115,7 @@ function RentMovieModalView({
           </div>
           <div className="px-2 w-1/2">
             <Button
-              className="w-full"
+                className="w-full darkButton"
               variant="contained"
               onClick={rentMovie}
             >

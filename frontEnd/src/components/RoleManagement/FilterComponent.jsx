@@ -1,5 +1,6 @@
 import { Checkbox, TextField } from "@mui/material";
 import { useEffect, useState } from "react";
+import "./css/FilterComponent.scss"
 
 function FilterComponent({ filterInput }) {
   let [firstName, setFirstName] = useState("");
@@ -10,25 +11,25 @@ function FilterComponent({ filterInput }) {
 
   useEffect(() => {
     let array = [];
-    if ((admin == true && user == true) || (admin == false && user == false)) {
+    if ((admin === true && user === true) || (admin === false && user === false)) {
       array.push(firstName, lastName, email, "BOTH");
-    } else if (admin == true && user == false) {
+    } else if (admin === true && user === false) {
       array.push(firstName, lastName, email, "ADMIN");
-    } else if (admin == false && user == true) {
+    } else if (admin === false && user === true) {
       array.push(firstName, lastName, email, "USER");
     } else array.push(firstName, lastName, email, "");
     filterInput(array);
   }, [firstName, lastName, email, admin, user]);
 
   return (
-    <div className="flex flex-col items-center">
-      <div className="flex space-x-4 mt-10">
+    <div className="filter-component-container">
+      <div className="filter-fields  ">
         <TextField
-          id="outlined-search"
+          id="outlined-search-first-name"
           name="firstName"
           label="Search first name"
           type="search"
-          className="w-48"
+          className="search-field"
           size="small"
           onChange={(e) => setFirstName(e.target.value)}
           InputLabelProps={{
@@ -36,11 +37,11 @@ function FilterComponent({ filterInput }) {
           }}
         />
         <TextField
-          id="outlined-search"
+          id="outlined-search-last-name"
           name="lastName"
           label="Search last name"
           type="search"
-          className="w-48"
+          className="search-field"
           size="small"
           onChange={(e) => setLastName(e.target.value)}
           InputLabelProps={{
@@ -48,41 +49,39 @@ function FilterComponent({ filterInput }) {
           }}
         />
         <TextField
-          id="outlined-search"
+          id="outlined-search-email"
           name="email"
           label="Search email"
           type="search"
-          className="w-48"
+          className="search-field"
           size="small"
           onChange={(e) => setEmail(e.target.value)}
           InputLabelProps={{
             style: { fontFamily: "Sanchez" },
           }}
         />
-        <div className="flex items-center space-x-2">
+        <div className="status-checkbox">
           <Checkbox
-            name="type"
-            label="User"
+            name="user"
             defaultChecked
             onClick={(e) => {
               setUser(e.target.checked);
             }}
           />
-          <label name="user">User</label>
+          <label htmlFor="user">User</label>
           <Checkbox
-            name="type"
-            label="Admin"
+            name="admin"
             defaultChecked
             onClick={(e) => {
               setAdmin(e.target.checked);
             }}
           />
-          <label name="admin">Admin</label>
+          <label htmlFor="admin">Admin</label>
         </div>
       </div>
-      <div className="w-full mt-2"></div>
     </div>
   );
+  
 }
 
 export default FilterComponent;

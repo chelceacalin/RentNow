@@ -168,8 +168,8 @@ function AddNewMovieModalWindow({
             size="xl"
             onClick={closeModal}
           />
-          <div className="w-full">
-            <h2 className="header-title ml-6 mt-10">Add new movie</h2>
+          <div className="w-full ">
+            <h2 className="header-title ml-6 mt-10 text-xl mb-4 font-bold ">Add new movie</h2>
           </div>
         </div>
         <DialogContent className="modal-body ml-2 mr-2">
@@ -283,14 +283,13 @@ function AddNewMovieModalWindow({
           </div>
           <div className="modal-footer mt-4 flex gap-x-2">
             <div className="flex-1">
-              <Button
-                type="button"
-                onClick={handleSave}
-                className="w-full"
-                variant="contained"
-              >
-                Save
-              </Button>
+            <Button
+                  className="w-full darkButton"
+                  variant="contained"
+                  onClick={handleSave}
+                >
+                  Save
+                </Button>
             </div>
 
             <div className="flex-1">

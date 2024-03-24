@@ -1,11 +1,11 @@
 import axios from "axios";
-import { useContext, useEffect, useState } from "react";
+import {useContext, useEffect, useState} from "react";
 import AddNewMovieModalWindow from "../../components/MyMovies/AddNewMovieModalWindow";
 import Movie from "../../components/MyMovies/Movie";
 import MyProfileFilterComponent from "../../components/MyMovies/MyProfileFilterComponent";
 import MyProfileRiredirectButtons from "../../components/MyMovies/MyProfileRiredirectButtons";
 import Pagination from "../../components/Pagination/Pagination";
-import { UserLoginContext } from "../../utils/context/LoginProvider";
+import {UserLoginContext} from "../../utils/context/LoginProvider";
 import SortIcon from "../../utils/icons/SortIcon";
 
 function MyProfile() {
@@ -31,11 +31,9 @@ function MyProfile() {
   const [sortField, setSortField] = useState("title");
   const [direction, setDirection] = useState(true);
   const [lastClicked, setLastClicked] = useState(null);
-  const [newUrl, setNewUrl] = useState("");
   const [pageNo, setPageNo] = useState(1);
   const [pageSize, setPageSize] = useState(15);
   const [totalPages, setTotalPages] = useState("");
-  const [totalMovies, setTotalMovies] = useState(0);
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -87,7 +85,7 @@ function MyProfile() {
         }
         setInitialized(true);
       })
-      .catch((error) => {
+      .catch(() => {
         setInitialized(true);
       });
   }, [
@@ -136,11 +134,11 @@ function MyProfile() {
 
   return (
     <>
-      <div className="px-10 w-full">
-        <div className="my-4">
+      <div className=" w-full">
+        <div className="">
           <MyProfileFilterComponent filterInput={getFilterInput} />
         </div>
-        <div className="flex items-center justify-start w-full">
+        <div className="flex items-center justify-start w-full mt-4">
           <MyProfileRiredirectButtons />
           <button
             onClick={handleOpen}

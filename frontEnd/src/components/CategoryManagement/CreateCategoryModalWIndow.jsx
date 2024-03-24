@@ -73,7 +73,7 @@ function CreateCategoryModalWindow({
         <div className="flex gap-x-2 mt-6">
           <div className="flex-1">
             <Button
-              className="contained-button w-full"
+              className="contained-button w-full darkButton"
               variant="contained"
               onClick={createCategory}
             >

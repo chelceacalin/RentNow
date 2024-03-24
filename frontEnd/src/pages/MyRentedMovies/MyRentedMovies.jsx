@@ -33,7 +33,6 @@ function MyRentedMovies() {
   const [pageSize, setPageSize] = useState(15);
   const [totalPages, setTotalPages] = useState("");
   const [totalMovies, setTotalMovies] = useState(0);
-  const [open, setOpen] = useState(false);
   const [triggerRefresh, setTriggerRefresh] = useState(false);
   const {email} = useContext(UserLoginContext);
 
@@ -122,7 +121,7 @@ function MyRentedMovies() {
 
   return (
       <>
-        <div className="bg-grey-texture w-full px-10 my-4 mt-20">
+        <div className="bg-grey-texture w-full mt-20">
           <MyProfileRiredirectButtons/>
           <div className="w-full flex flex-col bg-white justify-between border-2">
             <div className="overflow-y-auto">

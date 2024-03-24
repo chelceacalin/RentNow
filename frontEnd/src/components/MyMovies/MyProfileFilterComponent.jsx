@@ -1,12 +1,13 @@
-import { Autocomplete, Checkbox, TextField } from "@mui/material";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import {Autocomplete, Checkbox, TextField} from "@mui/material";
+import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
+import {LocalizationProvider} from "@mui/x-date-pickers/LocalizationProvider";
 import axios from "axios";
-import { useContext, useEffect, useState } from "react";
+import {useContext, useEffect, useState} from "react";
 import * as moreClasses from "react-dom/test-utils";
-import { UserLoginContext } from "../../utils/context/LoginProvider";
+import {UserLoginContext} from "../../utils/context/LoginProvider";
 import DatePickerClear from "../DatePicker/DatePickerClear";
 import "./css/MyProfileFilter.scss";
+
 function MyProfileFilterComponent({ filterInput }) {
   let [title, setTitle] = useState("");
   let [director, setDirector] = useState("");
@@ -39,13 +40,13 @@ function MyProfileFilterComponent({ filterInput }) {
 
     let array = [];
     if (
-      (available == true && unavailable == true) ||
-      (available == false && unavailable == false)
+      (available === true && unavailable === true) ||
+      (available === false && unavailable === false)
     ) {
       array.push(category, director, title, "BOTH", date, rentedBy);
-    } else if (available == true && unavailable == false) {
+    } else if (available === true && unavailable === false) {
       array.push(category, director, title, "true", date, rentedBy);
-    } else if (available == false && unavailable == true) {
+    } else if (available === false && unavailable === true) {
       array.push(category, director, title, "false", date, rentedBy);
     } else array.push(category, director, title, "", date, rentedBy);
     filterInput(array);
@@ -68,7 +69,7 @@ function MyProfileFilterComponent({ filterInput }) {
             name="title"
             label="Search title"
             type="search"
-            size="small"
+
             className="w-48"
             onChange={(e) => setTitle(e.target.value)}
             InputProps={{
@@ -85,7 +86,7 @@ function MyProfileFilterComponent({ filterInput }) {
             name="director"
             label="Search director"
             type="search"
-            size="small"
+
             className="w-48"
             onChange={(e) => setDirector(e.target.value)}
             InputProps={{
@@ -105,7 +106,7 @@ function MyProfileFilterComponent({ filterInput }) {
             name="category"
             label="Search category"
             type="search"
-            size="small"
+
             className="w-48"
             onChange={(e) => setCategory(e.target.value)}
             InputProps={{
@@ -140,7 +141,7 @@ function MyProfileFilterComponent({ filterInput }) {
                   style: { fontFamily: "Sanchez" },
                 }}
                 sx={{ fontFamily: "Sanchez" }}
-                size="small"
+
                 label="Rented by"
               />
             )}
@@ -154,6 +155,7 @@ function MyProfileFilterComponent({ filterInput }) {
             <DatePickerClear
               labelString={"Rented until"}
               value={rentedUntil}
+              className="rtUntil"
               onClear={() => setRentedUntil(null)}
               onChange={(newDate) => setRentedUntil(newDate)}
             />
@@ -166,7 +168,7 @@ function MyProfileFilterComponent({ filterInput }) {
               name="type"
               label="Unavailable"
               defaultChecked
-              size="small"
+
               onClick={(e) => {
                 setUnavailable(e.target.checked);
               }}
@@ -178,7 +180,7 @@ function MyProfileFilterComponent({ filterInput }) {
               name="type"
               label="Available"
               defaultChecked
-              size="small"
+
               onClick={(e) => {
                 setAvailable(e.target.checked);
               }}

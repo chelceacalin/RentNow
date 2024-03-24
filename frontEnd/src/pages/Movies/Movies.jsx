@@ -8,17 +8,6 @@ import "./css/Movies.scss";
 import "../../components/ScrollToTop/ScrollToTopButton.jsx";
 import ScrollToTopButton from "../../components/ScrollToTop/ScrollToTopButton.jsx";
 function Movies() {
-  const TABLE_HEAD = [
-    "Title",
-    "Director",
-    "Category",
-    "Status",
-    "Owner",
-    "Rented On",
-    "Rented Until",
-    "Rented By",
-    "Actions",
-  ];
   const [movies, setMovies] = useState([]);
   const [initialized, setInitialized] = useState(false);
   const [category, setCategory] = useState("");
@@ -31,7 +20,6 @@ function Movies() {
   const [pageNo, setPageNo] = useState(1);
   const [pageSize, setPageSize] = useState(15);
   const [totalPages, setTotalPages] = useState("");
-  const [totalMovies] = useState(0);
   const [triggerRefresh, setTriggerRefresh] = useState(false);
   const [direction, setDirection] = useState(true);
   const [sortField, setSortField] = useState("title");
@@ -123,7 +111,7 @@ function Movies() {
         {!movies.length && initialized && (
           <div className="text-center">No matching results found</div>
         )}
-        <div className="flex flex-wrap justify-center gap-4 mt-2">
+        <div className="flex flex-wrap gap-4 mt-2 justify-center sm:justify-start">
           {movies.map((movie, idx) => (
             <RentedMovie
               movie={movie}

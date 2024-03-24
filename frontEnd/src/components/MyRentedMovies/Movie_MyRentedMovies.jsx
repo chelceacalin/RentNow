@@ -7,7 +7,6 @@ function Movie_MyRentedMovies({
   director,
   category,
   rentedUntil,
-  rentedBy,
   rentedDate,
   owner,
   classes,
@@ -79,7 +78,7 @@ function Movie_MyRentedMovies({
       <td className={classes}>
         <Button
           onClick={handleReturnOpen}
-          className="Button font-normal w-full"
+          className="Button font-normal w-full darkButton"
           variant="contained"
           disabled={isAvailableForRenting}
         >

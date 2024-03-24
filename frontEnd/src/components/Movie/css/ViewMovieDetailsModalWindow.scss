@@ -2,23 +2,23 @@
   background-color: rgba(0, 0, 0, 0.7);
 
   .MuiDialog-paper {
-    background-color: rgb(25, 22, 22);
-    color: #fff;
+    color: #fff ;
   }
 
   .movie-details-title {
     margin: 16px 0;
     text-align: center;
-    color: white;
+    color: black;
   }
 
   .movie-details-grid {
     padding: 0 24px 24px;
 
     .movie-detail-field {
-      color: white !important;
+      color: black !important;
       margin-top: 25px !important;
       background-color: white;
+      border: 0.5px solid black;
       border-radius: 4px;
 
       .MuiOutlinedInput-notchedOutline {
@@ -28,7 +28,7 @@
       .MuiInputLabel-root{
         margin-top:-10px;
         margin-left: -10px;
-        color: white;
+        color: black;
       }
       
       .MuiInputBase-root {
@@ -66,7 +66,6 @@
 
   .dp * {
     margin: 7px;
-    color: white !important;
-    fill: white !important;
+    fill: black !important;
   }
 }
