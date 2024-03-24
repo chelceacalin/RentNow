@@ -36,6 +36,7 @@ function RentedMovie({ movie, triggerRefresh, setTriggerRefresh }) {
           {movie.title}
         </Typography>
         <Typography variant="body2">Director: {movie.director}</Typography>
+        <Typography variant="body2">Category: {movie.category}</Typography>
         <Typography variant="body2"
           className={` ${!movie.isAvailable ? 'disabledButtonText' : ''}`}
         >Status: {status}</Typography>

@@ -21,14 +21,13 @@
     .MuiTextField-root,
     .MuiAutocomplete-root {
         width: 100%;
+        min-width: 200px;
         background-color: white;
         color: black !important;
         border-radius: 4px;
 
         .MuiInputLabel-root {
             color: black;
-            font-weight: bold;
-
         }
 
         .MuiFilledInput-root {

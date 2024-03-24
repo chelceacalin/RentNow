@@ -5,6 +5,8 @@ import RentedMovie from "../../components/Movie/RentedMovie.jsx";
 import Pagination from "../../components/Pagination/Pagination";
 import "../../variables.scss";
 import "./css/Movies.scss";
+import "../../components/ScrollToTop/ScrollToTopButton.jsx";
+import ScrollToTopButton from "../../components/ScrollToTop/ScrollToTopButton.jsx";
 function Movies() {
   const TABLE_HEAD = [
     "Title",
@@ -41,7 +43,7 @@ function Movies() {
         direction: direction ? "ASC" : "DESC",
         title: title,
         director: director,
-        category: category,
+        category: category != null ? category : "",
         isAvailable: isAvailable,
         pageNo: pageNo - 1,
         pageSize: pageSize,
@@ -51,6 +53,7 @@ function Movies() {
       if (rentedDate) params.append("rentedDate", rentedDate);
       if (rentedBy) params.append("rentedBy", rentedBy);
 
+      console.log(`/movies?${params.toString()}`);
       return `/movies?${params.toString()}`;
     };
 
@@ -108,10 +111,8 @@ function Movies() {
   return (
     <>
       <div className="w-screen">
+        <ScrollToTopButton />
         <MovieFilter filterInput={getFilterInput} />
-        {!movies.length && initialized && (
-          <div className="text-center">No matching results found</div>
-        )}
         <Pagination
           pageNo={pageNo}
           pageSize={pageSize}
@@ -119,8 +120,11 @@ function Movies() {
           updatePageNumber={updatePageNumber}
           handleSelectChange={handleSelectChange}
         />
-        <div className="flex flex-wrap justify-center gap-4">
-          {movies.map((movie) => (
+        {!movies.length && initialized && (
+          <div className="text-center">No matching results found</div>
+        )}
+        <div className="flex flex-wrap justify-center gap-4 mt-2">
+          {movies.map((movie, idx) => (
             <RentedMovie
               movie={movie}
               id={movie.id}
@@ -136,6 +140,7 @@ function Movies() {
               triggerRefresh={triggerRefresh}
               setTriggerRefresh={setTriggerRefresh}
               photoUrl={movie.photoUrl}
+              key={idx}
             />
           ))}
         </div>

@@ -4,9 +4,8 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import DatePickerClear from "../../components/DatePicker/DatePickerClear";
-import { UserLoginContext } from "../../utils/context/LoginProvider";
 import { useDebouncedCallback } from "use-debounce";
-import './css/MovieFilter.scss';
+import "./css/MovieFilter.scss";
 
 function MovieFilter({ filterInput }) {
   const [title, setTitle] = useState("");
@@ -18,9 +17,10 @@ function MovieFilter({ filterInput }) {
   const [rentedDate, setRentedDate] = useState(null);
   const [rentedBy, setRentedBy] = useState(null);
   const [usersWhoRented, setUsersWhoRented] = useState([]);
-  const { username } = useContext(UserLoginContext);
   let [filteredUsers, setFilteredUsers] = useState([]);
   let [url, setUrl] = useState("");
+  const [categories, setCategories] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState("");
 
   useEffect(() => {
     url = `/movies`;
@@ -36,14 +36,25 @@ function MovieFilter({ filterInput }) {
     });
   }, [url]);
 
+  useEffect(() => {
+    axios.get("/category").then((elems) => {
+      setCategories(elems.data.content.map((item) => item.name));
+    });
+  }, []);
+
+  useDebouncedCallback((array) => {
+    filterInput(array);
+  }, 500);
+
+
   const debouncedFilterInput = useDebouncedCallback((array) => {
     filterInput(array);
   }, 500);
 
+
   useEffect(() => {
     const rentedUntilField = rentedUntil ? convertDate(rentedUntil) : "";
     const rentedDateField = rentedDate ? convertDate(rentedDate) : "";
-
 
     let availabilityFilter;
     if (available && unavailable) {
@@ -57,7 +68,7 @@ function MovieFilter({ filterInput }) {
     }
 
     const array = [
-      category,
+      selectedCategory,
       director,
       title,
       availabilityFilter,
@@ -67,8 +78,9 @@ function MovieFilter({ filterInput }) {
     ];
 
     debouncedFilterInput(array);
+
   }, [
-    category,
+    selectedCategory,
     director,
     title,
     available,
@@ -108,17 +120,26 @@ function MovieFilter({ filterInput }) {
           onChange={(e) => setDirector(e.target.value)}
         />
       </div>
-  
+
       <div className="filter-section">
-        <TextField
-          id="outlined-search-category"
-          name="category"
-          label="Search category"
-          type="search"
-          variant="filled"
-          size="small"
-          onChange={(e) => setCategory(e.target.value)}
-        />
+        <div className="filter-section">
+          <Autocomplete
+            value={selectedCategory}
+            onChange={(event, newValue) => {
+              setSelectedCategory(newValue);
+            }}
+            options={categories}
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                variant="filled"
+                size="small"
+                label="Category"
+              />
+            )}
+          />
+        </div>
+
         <Autocomplete
           value={rentedBy}
           onChange={(e, value) => setRentedBy(value)}
@@ -133,7 +154,7 @@ function MovieFilter({ filterInput }) {
           )}
         />
       </div>
-  
+
       <div className="filter-section">
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <DatePickerClear
@@ -156,7 +177,7 @@ function MovieFilter({ filterInput }) {
           />
         </LocalizationProvider>
       </div>
-  
+
       <div className="filter-section">
         <div className="status-section">
           <Checkbox
@@ -178,5 +199,5 @@ function MovieFilter({ filterInput }) {
     </div>
   );
 }
-  
+
 export default MovieFilter;

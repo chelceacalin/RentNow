@@ -298,19 +298,6 @@ function MyRentedMovies() {
                     No matching results found
                   </p>
               )}
-              <div className="shadow-lg globalBg p-2">
-                <div className="flex justify-between">
-                  <div className="flex items-center">
-                    <p className="text-white">Results per page:</p>
-                    <select
-                        className="bg-basic-red cursor-pointer text-black font-bold border-2 ms-4"
-                        onChange={handleSelectChange}
-                    >
-                      <option value="15">15</option>
-                      <option value="10">10</option>
-                      <option value="5">5</option>
-                    </select>
-                  </div>
                   {movies.length > 0 && (
                       <Pagination
                           pageNo={pageNo}
@@ -319,10 +306,9 @@ function MyRentedMovies() {
                           updatePageNumber={updatePageNumber}
                           responseLength={totalMovies}
                           nrCurrentMovies={movies.length}
+                          handleSelectChange={handleSelectChange}
                       />
                   )}
-                </div>
-              </div>
             </div>
           </div>
         </div>

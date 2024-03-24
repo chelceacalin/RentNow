@@ -37,9 +37,9 @@ function CategoryManagement() {
   };
 
   useEffect(() => {
-    newUrl = `/category?direction=${
-      direction ? "ASC" : "DESC"
-    }&name=${name}&pageNo=${parseInt(pageNo) - 1}&pageSize=${pageSize}`;
+    newUrl = `/category?direction=${direction ? "ASC" : "DESC"}${
+      name.length > 0 ? `&name=${name}` : ""
+    }&pageNo=${parseInt(pageNo) - 1}&pageSize=${pageSize}`;
     axios
       .get(newUrl)
       .then((elems) => {
@@ -54,7 +54,8 @@ function CategoryManagement() {
       .catch((error) => {
         setInitialized(true);
       });
-  }, [direction, name, pageSize, pageNo, categories.length]);
+    console.log(newUrl);
+  }, [direction, name, pageSize, pageNo]);
 
   const updatePageNumber = (pgNo) => {
     setPageNo(pgNo);
@@ -183,19 +184,7 @@ function CategoryManagement() {
                 No matching results found
               </p>
             )}
-            <div className="shadow-lg globalBg p-2 simpleMainBg">
-              <div className="flex justify-between">
-                <div className="flex items-center">
-                  <p className="text-white">Results per page:</p>
-                  <select
-                    className="bg-basic-red cursor-pointer text-black font-bold border-2 ms-4"
-                    onChange={handleSelectChange}
-                  >
-                    <option value="15">15</option>
-                    <option value="10">10</option>
-                    <option value="5">5</option>
-                  </select>
-                </div>
+          
                 {categories.length > 0 && (
                   <Pagination
                     pageNo={pageNo}
@@ -204,10 +193,9 @@ function CategoryManagement() {
                     updatePageNumber={updatePageNumber}
                     responseLength={totalCategories}
                     nrCurrentUsers={categories.length}
+                    handleSelectChange={handleSelectChange}
                   />
                 )}
-              </div>
-            </div>
           </div>
         </div>
       </div>
