@@ -72,6 +72,7 @@ Rent Now facilitates movie rentals within a company. Manage and share your movie
 
 
 ### To Do
+<pre>
 [BE] => Spring Aop - Logging
      => Monitoring - Loki, Prometheus, Grafana
      => Liveness and Readyness Checks
@@ -83,3 +84,5 @@ Rent Now facilitates movie rentals within a company. Manage and share your movie
      => Deploy it, ingress
      => Jmeter
      => Movie Review, reply to comments
+    
+</pre>
