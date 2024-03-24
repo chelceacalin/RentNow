@@ -1,5 +1,5 @@
-$main-color: #226fdd;
-$main-color-hover: #4E8CE4;
+$main-color: #d32f2f;
+$main-color-hover: #9a0007;
 $navIconColor: #000;
 $iconsFill: #000000;
 
@@ -34,3 +34,13 @@ $iconsFill: #000000;
     path {
     }
 }
+
+
+.MuiButton-root {
+    background-color: #d32f2f;
+    color: #ffffff;
+
+    &:hover {
+      background-color: #9a0007;
+    }
+  }

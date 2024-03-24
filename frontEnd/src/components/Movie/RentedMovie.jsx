@@ -1,146 +1,93 @@
+import {
+  Button,
+  Card,
+  Typography,
+} from "@mui/material";
 import { useState } from "react";
-import { Button } from "@mui/material";
+import RentMovieModalView from "./RentMovieModalView.jsx";
 import ViewMovieDetailsModalWindow from "./ViewMovieDetailsModalWindow.jsx";
-import RentMovieModalView from "./RentMovieModalView";
 import "./css/RentedMovies.scss";
 
-function RentedMovie({
-  id,
-  title,
-  category,
-  director,
-  isAvailable,
-  rentedUntil,
-  rentedBy,
-  classes,
-  rentedOn,
-  rentedDate,
-  owner_username,
-  description,
-  setTriggerRefresh,
-  triggerRefresh,
-  photoUrl
-}) {
+function RentedMovie({ movie, triggerRefresh, setTriggerRefresh }) {
   const [detailsModalOpen, setDetailsModalOpen] = useState(false);
   const [isRentModalOpen, setRentModalOpen] = useState(false);
 
   const handleDetailsOpen = () => setDetailsModalOpen(true);
   const handleDetailsClose = () => setDetailsModalOpen(false);
-
-  const handleOpenRentModal = () => {
-    setRentModalOpen(true);
-  };
-
+  const handleOpenRentModal = () => setRentModalOpen(true);
   const handleCloseRentModal = () => {
     setRentModalOpen(false);
-    setTriggerRefresh(!triggerRefresh);
+    setTriggerRefresh((prev) => !prev);
   };
 
-  return (
-    <tr key={title}>
-      <td className={classes}>
-        <div
-          variant="small"
-          color="blue-gray"
-          className="font-normal max-w-[200px] break-words"
-        >
-          {title}
-        </div>
-      </td>
-      <td className={classes}>
-        <div
-          variant="small"
-          color="blue-gray"
-          className="font-normal  max-w-[200px] break-words"
-        >
-          {director}
-        </div>
-      </td>
-      <td className={classes}>
-        <div variant="small" color="blue-gray" className="font-normal">
-          {category}
-        </div>
-      </td>
-      <td className={classes}>
-        <div
-          variant="small"
-          style={{ color: isAvailable ? "green" : "red" }}
-          className="font-normal"
-        >
-          {isAvailable ? "Available" : "Unavailable"}
-        </div>
-      </td>
-      <td className={classes}>
-        <div variant="small" color="blue-gray" className="font-normal">
-          {owner_username}
-        </div>
-      </td>
+  const status = movie.isAvailable ? "Available" : "Unavailable";
 
-      <td className={classes}>
-        <div variant="small" color="blue-gray" className="font-normal">
-          {isAvailable ? "N/A" : rentedDate}
-        </div>
-      </td>
-      <td className={classes}>
-        <div variant="small" color="blue-gray" className="font-normal">
-          {isAvailable ? "N/A" : rentedUntil}
-        </div>
-      </td>
-      <td className={classes}>
-        <div variant="small" color="blue-gray" className="font-normal">
-          {isAvailable ? "N/A" : rentedBy}
-        </div>
-      </td>
-      <td className={classes}>
+  return (
+    <Card className="rented-movie-card">
+      <div className="image-container">
+        <img
+          src={movie.photoUrl || "/default-movie.jpg"}
+          alt={movie.title}
+          className="img-card"
+        />
+      </div>
+      <div className="card-content">
+        <Typography gutterBottom variant="h5" component="div">
+          {movie.title}
+        </Typography>
+        <Typography variant="body2">Director: {movie.director}</Typography>
+        <Typography variant="body2"
+          className={` ${!movie.isAvailable ? 'disabledButtonText' : ''}`}
+        >Status: {status}</Typography>
+        {!movie.isAvailable && (
+          <>
+            <Typography variant="body2">
+              Rented on: {movie.rentedDate}
+            </Typography>
+            <Typography variant="body2">
+              Rented until: {movie.rentedUntil}
+            </Typography>
+            <Typography variant="body2">
+              Owner: {movie.owner_username}
+            </Typography>
+          </>
+        )}
+      </div>
+      <div className="card-actions">
         <Button
+          variant="contained"
           onClick={handleDetailsOpen}
-          className=" font-normal mr-2"
-          variant="outlined"
+          className="darkButton btnC"
         >
           Details
         </Button>
-        {detailsModalOpen && (
-          <ViewMovieDetailsModalWindow
-            isModalOpen={detailsModalOpen}
-            closeModal={handleDetailsClose}
-            title={title}
-            category={category}
-            director={director}
-            isAvailable={isAvailable}
-            rentedUntil={rentedUntil}
-            rentedOn={rentedOn}
-            rentedBy={rentedBy}
-            rentedDate={rentedDate}
-            owner_username={owner_username}
-            id={id}
-            description={description}
-            photoUrl={photoUrl}
-          />
-        )}
+
         <Button
-          onClick={handleOpenRentModal}
-          style={{ marginLeft: "8px" }}
           variant="contained"
-          disabled={!isAvailable}
+          onClick={handleOpenRentModal}
+          disabled={!movie.isAvailable}
+          className={`redButton ${!movie.isAvailable ? 'disabledButton' : ''}`}
         >
-          Rent Movie
+          Rent
         </Button>
-        {isRentModalOpen && (
-          <RentMovieModalView
-            isRentModalOpen={isRentModalOpen}
-            closeRentModal={handleCloseRentModal}
-            title={title}
-            director={director}
-            owner={owner_username}
-            id={id}
-            setTriggerRefresh={setTriggerRefresh}
-            triggerRefresh={triggerRefresh}
-            description={description}
-          />
-        )}
-      </td>
-      <td className={classes}></td>
-    </tr>
+      </div>
+      {detailsModalOpen && (
+        <ViewMovieDetailsModalWindow
+          isModalOpen={detailsModalOpen}
+          closeModal={handleDetailsClose}
+          movie={movie}
+        />
+      )}
+      {isRentModalOpen && (
+        <RentMovieModalView
+          isRentModalOpen={isRentModalOpen}
+          handleCloseRentModal={handleCloseRentModal}
+          movie={movie}
+          setTriggerRefresh={setTriggerRefresh}
+          triggerRefresh={triggerRefresh}
+        />
+      )}
+    </Card>
   );
 }
 

@@ -12,19 +12,15 @@ import { showError, showSuccess } from "../../service/ToastService";
 
 function RentMovieModalView({
   isRentModalOpen,
-  closeRentModal,
-  title,
-  director,
-  owner,
-  id,
+  closeModal,
+  movie, 
   setTriggerRefresh,
   triggerRefresh,
-  description,
+  handleCloseRentModal
 }) {
   dayjs.extend(updateLocale);
-  dayjs.updateLocale("en", {
-    weekStart: 1,
-  });
+  dayjs.updateLocale("en", { weekStart: 1 });
+
   const today = dayjs();
   const maxDate = today.add(14, "day");
   const [idUser, setIdUser] = useState(sessionStorage.getItem("id"));
@@ -40,49 +36,46 @@ function RentMovieModalView({
     let body = {
       rentedDate: today,
       rentedUntil: date,
-      movieId: id,
+      movieId: movie.id,
       userId: idUser,
-      description: description,
-    }
-    axios
-      .post(url, body)
+      description: movie.description
+    };
+
+    axios.post(url, body)
       .then((response) => {
-        showSuccess("You have rented the movie " + title);
-        closeRentModal();
+        showSuccess(`You have rented the movie ${movie.title}`);
+        handleCloseRentModal();
         setTriggerRefresh(!triggerRefresh);
       })
       .catch((error) => {
         if (error.response) {
-          const message = JSON.stringify(error.response.data)
-            .replace('"', "")
-            .replace('"', "");
+          const message = JSON.stringify(error.response.data).replace(/"/g, "");
           showError(message);
           if (message.includes("user")) {
             setTriggerRefresh(!triggerRefresh);
-            closeRentModal();
+            handleCloseRentModal();
           }
         }
       });
   };
-
   return (
     <Dialog
       fullWidth
       maxWidth={"md"}
       open={isRentModalOpen}
-      onClose={closeRentModal}
+      onClose={handleCloseRentModal}
     >
       <FontAwesomeIcon
         className="closeModalWindowButton"
         icon={faTimes}
-        onClick={closeRentModal}
+        onClick={handleCloseRentModal}
         transform="right-630 grow-6"
       ></FontAwesomeIcon>
       <DialogContent>
         <p className="text-center">
-          You are renting <span className="font-bold">  {title} </span>
-          directed by <span className="font-bold"> {director} </span> from
-          <span className="font-bold"> {owner}</span>.
+          You are renting <span className="font-bold">  {movie.title} </span>
+          directed by <span className="font-bold"> {movie.director} </span> from
+          <span className="font-bold"> {movie.owner}</span>.
         </p>
         <p className="text-center">
           Please fill in the return date below and go pick up your movie from
@@ -116,7 +109,7 @@ function RentMovieModalView({
             <Button
               className="outlined-button w-full"
               variant="outlined"
-              onClick={closeRentModal}
+              onClick={handleCloseRentModal}
             >
               Cancel
             </Button>

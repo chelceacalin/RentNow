@@ -127,47 +127,30 @@ function RoleManagement() {
             <tbody className="text-blue-marine">
               {users.map((user, index) => (
                 <User
-                  key={index} {...user}
+                  key={index}
+                  {...user}
                   updateUser={updateUser}
-                  classes={index === users.length - 1 ? "px-4 py-2" : "px-4 py-2 border-b-2"}
+                  classes={
+                    index === users.length - 1
+                      ? "px-4 py-2"
+                      : "px-4 py-2 border-b-2"
+                  }
                 />
               ))}
             </tbody>
           </table>
-        <div className="w-full" >
+        </div>
         {!users.length && initialized && (
-            <p className="text-center text-2xl notFoundText bg-white p-4 justify-center flex align-center">
-              No matching results found
-            </p>
-          )}
-          <div className="w-full shadow-lg globalBg p-3 simpleMainBg">
-            <div className="flex justify-between">
-              <div className="flex items-center">
-                <p className="text-white">Results per page:</p>
-                <select
-                  className="bg-basic-red cursor-pointer text-black font-bold border-2 ms-4"
-                  onChange={handleSelectChange}
-                >
-                  <option value="15">15</option>
-                  <option value="10">10</option>
-                  <option value="5">5</option>
-                </select>
-              </div>
-              {users.length > 0 && (
-                <Pagination
-                  pageNo={pageNo}
-                  pageSize={pageSize}
-                  totalPages={totalPages}
-                  updatePageNumber={updatePageNumber}
-                  responseLength={totalUsers}
-                  nrCurrentUsers={users.length}
-                />
-              )}
-            </div>
-          </div>
-        </div>
-        </div>
-      </div>     
+          <div className="text-center">No matching results found</div>
+        )}
+        <Pagination
+          pageNo={pageNo}
+          pageSize={pageSize}
+          totalPages={totalPages}
+          updatePageNumber={updatePageNumber}
+          handleSelectChange={handleSelectChange}
+        />
+      </div>
     </div>
   );
 }

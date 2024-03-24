@@ -1,11 +1,11 @@
 import axios from "axios";
-import {useContext, useEffect, useState} from "react";
+import { useContext, useEffect, useState } from "react";
 import AddNewMovieModalWindow from "../../components/MyMovies/AddNewMovieModalWindow";
 import Movie from "../../components/MyMovies/Movie";
 import MyProfileFilterComponent from "../../components/MyMovies/MyProfileFilterComponent";
 import MyProfileRiredirectButtons from "../../components/MyMovies/MyProfileRiredirectButtons";
 import Pagination from "../../components/Pagination/Pagination";
-import {UserLoginContext} from "../../utils/context/LoginProvider";
+import { UserLoginContext } from "../../utils/context/LoginProvider";
 import SortIcon from "../../utils/icons/SortIcon";
 
 function MyProfile() {
@@ -275,7 +275,7 @@ function MyProfile() {
               <tbody className="text-blue-marine">
                 {movies.map((movie, index) => (
                   <Movie
-                      key={index}
+                    key={index}
                     {...movie}
                     classes={
                       index === movies.length - 1
@@ -290,38 +290,16 @@ function MyProfile() {
             </table>
           </div>
 
-          <div className="simpleMainBg w-auto me-7">
-            {!movies.length && initialized && (
-              <p className="text-center text-2xl notFoundText bg-white p-2 m-auto justify-center flex">
-                No matching results found
-              </p>
-            )}
-            <div className="shadow-lg globalBg p-2">
-              <div className="flex justify-between">
-                <div className="flex items-center">
-                  <p className="text-white">Results per page:</p>
-                  <select
-                    className="bg-basic-red cursor-pointer text-black font-bold border-2 ms-4"
-                    onChange={handleSelectChange}
-                  >
-                    <option value="15">15</option>
-                    <option value="10">10</option>
-                    <option value="5">5</option>
-                  </select>
-                </div>
-                {movies.length > 0 && (
-                  <Pagination
-                    pageNo={pageNo}
-                    pageSize={pageSize}
-                    totalPages={totalPages}
-                    updatePageNumber={updatePageNumber}
-                    responseLength={totalMovies}
-                    nrCurrentMovies={movies.length}
-                  />
-                )}
-              </div>
-            </div>
-          </div>
+          {!movies.length && initialized && (
+          <div className="text-center">No matching results found</div>
+        )}
+        <Pagination
+          pageNo={pageNo}
+          pageSize={pageSize}
+          totalPages={totalPages}
+          updatePageNumber={updatePageNumber}
+          handleSelectChange={handleSelectChange}
+        />
         </div>
       </div>
     </>

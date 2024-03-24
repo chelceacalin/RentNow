@@ -1,0 +1,62 @@
+@import "../../../variables.scss";
+
+.movie-filter-container {
+    background-color: $main-color;
+    color: #fff;
+    padding: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.filter-section {
+    display: flex;
+    gap: 15px;
+
+    .filterDatepicker {
+        margin-top: 5px;
+        width: 200px !important;
+    }
+
+    .MuiTextField-root,
+    .MuiAutocomplete-root {
+        width: 100%;
+        background-color: white;
+        color: black !important;
+        border-radius: 4px;
+
+        .MuiInputLabel-root {
+            color: black;
+            font-weight: bold;
+
+        }
+
+        .MuiFilledInput-root {
+            background-color: white !important;
+
+            &:hover {
+                background-color: #d8d2d2 !important;
+            }
+
+            &:before,
+            &:after {
+                display: none;
+            }
+        }
+    }
+}
+
+.status-section {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    .MuiCheckbox-root {
+        color: #fff !important;
+    }
+
+    label {
+        color: #fff;
+        font-size: 0.875rem;
+    }
+}

@@ -1,161 +1,139 @@
-import { Button, Card, CardMedia, Dialog, DialogContent, Grid, TextField } from "@mui/material";
+import {
+  Button,
+  Card,
+  CardMedia,
+  Dialog,
+  DialogContent,
+  Grid,
+  TextField,
+  Typography,
+} from "@mui/material";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import dayjs from "dayjs";
-import React from "react";
+import "./css/ViewMovieDetailsModalWindow.scss";
 
-function ViewMovieDetailsModalWindow({
-  isModalOpen,
-  closeModal,
-  title,
-  category,
-  director,
-  isAvailable,
-  rentedUntil,
-  rentedBy,
-  owner_username,
-  rentedDate,
-  description,
-  photoUrl
-}) {
+function ViewMovieDetailsModalWindow({ isModalOpen, closeModal, movie }) {
   const STATUS_AVAILABLE = "Available";
   const STATUS_UNAVAILABLE = "Unavailable";
-  const status = isAvailable ? STATUS_AVAILABLE : STATUS_UNAVAILABLE;
+  const status = movie.isAvailable ? STATUS_AVAILABLE : STATUS_UNAVAILABLE;
 
   return (
-    <Dialog fullWidth maxWidth={"md"} open={isModalOpen} onClose={closeModal}>
-      <div className="w-full">
-        <h2 className="header-title my-6 flex justify-center text-2xl">Movie details</h2>
-      </div>
+    <Dialog
+      fullWidth
+      maxWidth={"md"}
+      open={isModalOpen}
+      onClose={closeModal}
+      className="movie-details-dialog"
+    >
       <DialogContent>
-        <Grid container spacing={0}>
-          <Grid item xs={6}>
-            <div className="ml-20">
-              <TextField
-                id="movie-title"
-                label="Movie title"
-                defaultValue={title}
-                sx={{ width: { md: 300 } }}
-                InputProps={{
-                  readOnly: true,
-                }}
-              />
-            </div>
-            <div className="mt-6 ml-20">
-              <TextField
-                id="director"
-                label="Director"
-                defaultValue={director}
-                sx={{ width: { md: 300 } }}
-                InputProps={{
-                  readOnly: true,
-                }}
-              />
-            </div>
-            <div className="mt-6 ml-20">
-              <TextField
-                id="category"
-                label="Category"
-                defaultValue={category}
-                sx={{ width: { md: 300 } }}
-                InputProps={{
-                  readOnly: true,
-                }}
-              />
-            </div>
-            <div className="mt-6 ml-20">
-              <TextField
-                id="description"
-                label="Description"
-                defaultValue={description}
-                multiline
-                rows={4}
-                sx={{ width: { md: 300 } }}
-                InputProps={{
-                  readOnly: true,
-                }}
-              />
-            </div>
-            <div className="mt-6 ml-20">
-              <TextField
-                id="status"
-                label="Status"
-                defaultValue={status}
-                sx={{ width: { md: 300 } }}
-                InputProps={{
-                  readOnly: true,
-                }}
-              />
-            </div>
+        <Typography variant="h4" component="h2" className="movie-details-title">
+          Movie Details
+        </Typography>
+        <Grid container spacing={2} className="movie-details-grid">
+          <Grid item xs={12} md={6}>
+            <TextField
+              label="Movie title"
+              defaultValue={movie.title}
+              fullWidth
+              InputProps={{ readOnly: true }}
+              className="movie-detail-field"
+            />
+            <TextField
+              label="Director"
+              defaultValue={movie.director}
+              fullWidth
+              InputProps={{ readOnly: true }}
+              className="movie-detail-field"
+            />
+            <TextField
+              label="Category"
+              defaultValue={movie.category}
+              fullWidth
+              InputProps={{ readOnly: true }}
+              className="movie-detail-field"
+            />
+            <TextField
+              label="Description"
+              defaultValue={movie.description}
+              fullWidth
+              multiline
+              rows={4}
+              InputProps={{ readOnly: true }}
+              className="movie-detail-field"
+            />
+            <TextField
+              label="Status"
+              defaultValue={status}
+              fullWidth
+              InputProps={{ readOnly: true }}
+              className={`movie-detail-field ${
+                status === "Available" ? "" : "statusUnavailable"
+              }`}
+            />
+
+            <TextField
+              label="Rented by"
+              defaultValue={movie.rentedBy}
+              fullWidth
+              InputProps={{ readOnly: true }}
+              className="movie-detail-field"
+            />
           </Grid>
-          <Grid item xs={6}>
-            <div className="ml-20">
-              <TextField
-                id="owner"
-                label="Owner"
-                defaultValue={owner_username}
-                sx={{ width: { md: 300 } }}
-                InputProps={{
-                  readOnly: true,
-                }}
+          <Grid item xs={12} md={6} className="movie-image-grid">
+            <Card variant="outlined" className="movie-image-card">
+              <CardMedia
+                component="img"
+                image={movie.photoUrl || "/default-movie.jpg"}
+                alt="Movie Image"
               />
-            </div>
-            <div className="mt-6 ml-20">
-              <Card
-                variant="outlined"
-                sx={{
-                  width: { md: 300 },
-                  height: { md: 345 },
-                }}
-              >
-                <CardMedia
-                  component="img"
-                  image={photoUrl || "path/to/default/image"}
-                  alt="Movie Image"
-                />
-              </Card>
-            </div>
-            {!isAvailable && (
+            </Card>
+            {!movie.isAvailable && (
               <>
-                <div className="mt-6 ml-20">
-                  <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    <DatePicker
-                      label="Rented on"
-                      value={dayjs(rentedDate)}
-                      readOnly
-                      renderInput={(params) => <TextField {...params} />}
-                    />
-                  </LocalizationProvider>
-                </div>
-                <div className="mt-6 ml-20">
-                  <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    <DatePicker
-                      label="Rented until"
-                      value={dayjs(rentedUntil)}
-                      readOnly
-                      renderInput={(params) => <TextField {...params} />}
-                    />
-                  </LocalizationProvider>
-                </div>
-                <div className="mt-6 ml-20">
-                  <TextField
-                    id="rentedBy"
-                    label="Rented by"
-                    defaultValue={rentedBy}
-                    sx={{ width: { md: 300 } }}
-                    InputProps={{
-                      readOnly: true,
-                    }}
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <DatePicker
+                    className="dp first"
+                    label="Rented on"
+                    value={dayjs(movie.rentedDate)}
+                    readOnly
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        className="movie-detail-field"
+                        InputLabelProps={{ style: { color: "#fff" } }}
+                        inputProps={{
+                          ...params.inputProps,
+                          style: { color: "#fff" },
+                        }}
+                      />
+                    )}
                   />
-                </div>
+                  <DatePicker
+                    label="Rented until"
+                    className="dp"
+                    value={dayjs(movie.rentedUntil)}
+                    readOnly
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        className="movie-detail-field"
+                        InputLabelProps={{ style: { color: "#fff" } }}
+                        inputProps={{
+                          ...params.inputProps,
+                          style: { color: "#fff" },
+                        }}
+                      />
+                    )}
+                  />
+                </LocalizationProvider>
               </>
             )}
           </Grid>
         </Grid>
       </DialogContent>
-      <div className="flex justify-center my-4">
-        <Button variant="contained" onClick={closeModal}>
+      <div className="movie-details-actions">
+        <Button variant="contained" onClick={closeModal} className="redButton">
           Close
         </Button>
       </div>

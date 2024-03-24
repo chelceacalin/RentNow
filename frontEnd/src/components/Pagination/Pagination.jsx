@@ -1,8 +1,10 @@
 import "../../variables.scss";
+
 function Pagination({
   pageNo,
   totalPages,
   updatePageNumber,
+  handleSelectChange,
 }) {
   let getPreviousPage = () => {
     if (pageNo > 1) updatePageNumber(--pageNo);
@@ -17,15 +19,27 @@ function Pagination({
   };
 
   return (
-    <>
-      <ul className="list-style-none flex items-center justify-center mr-2 cursor-pointer ">
+    <div className="bg-red-600  p-2 flex justify-between items-center">
+      <div className="flex items-center">
+        <p className="text-white mr-2">Results per page:</p>
+        <select
+          className="bg-basic-red cursor-pointer text-black font-bold border-2"
+          onChange={handleSelectChange}
+        >
+          <option value="15">15</option>
+          <option value="10">10</option>
+          <option value="5">5</option>
+        </select>
+      </div>
+
+      <ul className="list-style-none flex items-center justify-center cursor-pointer">
         <li
           onClick={(e) => {
             e.preventDefault();
             getPreviousPage();
           }}
         >
-          <div className="relative block rounded bg-transparent px-3 transition-all duration-300  text-white  mainBg p-2 me-2">
+          <div className="relative block rounded bg-transparent px-3 transition-all duration-300 text-white mainBg p-2 me-2">
             Previous
           </div>
         </li>
@@ -153,6 +167,7 @@ function Pagination({
           </div>
         </li>
       </ul>
+
       <style>
         {`
         .current-page {
@@ -161,7 +176,7 @@ function Pagination({
         }
       `}
       </style>
-    </>
+    </div>
   );
 }
 

@@ -6,6 +6,7 @@ import { useContext, useEffect, useState } from "react";
 import DatePickerClear from "../../components/DatePicker/DatePickerClear";
 import { UserLoginContext } from "../../utils/context/LoginProvider";
 import { useDebouncedCallback } from "use-debounce";
+import './css/MovieFilter.scss';
 
 function MovieFilter({ filterInput }) {
   const [title, setTitle] = useState("");
@@ -86,79 +87,69 @@ function MovieFilter({ filterInput }) {
   };
 
   return (
-    <div className="flex flex-wrap items-start my-2 fContainer">
-      <div className="filterContainer">
+    <div className="movie-filter-container ">
+      <div className="filter-section ">
         <TextField
           id="outlined-search-title"
           name="title"
           label="Search title"
           type="search"
-          className="text"
+          variant="filled"
           size="small"
           onChange={(e) => setTitle(e.target.value)}
-          InputProps={{ style: { fontFamily: "Sanchez" } }}
-          InputLabelProps={{ style: { fontFamily: "Sanchez" } }}
         />
         <TextField
           id="outlined-search-director"
           name="director"
           label="Search director"
           type="search"
-          className="text"
+          variant="filled"
           size="small"
           onChange={(e) => setDirector(e.target.value)}
-          InputProps={{ style: { fontFamily: "Sanchez" } }}
-          InputLabelProps={{ style: { fontFamily: "Sanchez" } }}
         />
       </div>
   
-      <div className="filterContainer">
+      <div className="filter-section">
         <TextField
           id="outlined-search-category"
           name="category"
           label="Search category"
           type="search"
+          variant="filled"
           size="small"
-          className="text"
           onChange={(e) => setCategory(e.target.value)}
-          InputProps={{ style: { fontFamily: "Sanchez" } }}
-          InputLabelProps={{ style: { fontFamily: "Sanchez" } }}
         />
         <Autocomplete
-          className="text"
           value={rentedBy}
           onChange={(e, value) => setRentedBy(value)}
           options={filteredUsers.map((m) => m.rentedBy)}
           renderInput={(params) => (
             <TextField
               {...params}
+              variant="filled"
               size="small"
               label="Rented by"
-              InputProps={{
-                ...params.InputProps,
-                style: { fontFamily: "Sanchez" },
-              }}
-              InputLabelProps={{ style: { fontFamily: "Sanchez" } }}
             />
           )}
         />
       </div>
   
-      <div className="filterContainer">
+      <div className="filter-section">
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <DatePickerClear
-            className="text"
             value={rentedDate}
+            variant="filled"
             size="small"
             labelString="Rented on"
+            className="filterDatepicker"
             onClear={() => setRentedDate(null)}
             onChange={(newDate) => setRentedDate(newDate)}
           />
           <DatePickerClear
-            className="text"
             value={rentedUntil}
+            variant="filled"
             size="small"
-            slotProps={{ textField: { size: 'small' } }}
+            className="filterDatepicker"
             labelString="Rented until"
             onClear={() => setRentedUntil(null)}
             onChange={(newDate) => setRentedUntil(newDate)}
@@ -166,34 +157,26 @@ function MovieFilter({ filterInput }) {
         </LocalizationProvider>
       </div>
   
-      <div className="filterContainer">
-        <div className="availabilityContainer">
-          <div className="ms-3">Status:</div>
-          <div>
-            <Checkbox
-              name="type"
-              size="small"
-              label="Unavailable"
-              defaultChecked
-              onClick={(e) => setUnavailable(e.target.checked)}
-            />
-            <label>Unavailable</label>
-          </div>
-          <div>
-            <Checkbox
-              name="type"
-              size="small"
-              label="Available"
-              defaultChecked
-              onClick={(e) => setAvailable(e.target.checked)}
-            />
-            <label>Available</label>
-          </div>
+      <div className="filter-section">
+        <div className="status-section">
+          <Checkbox
+            name="type"
+            size="small"
+            defaultChecked
+            onClick={(e) => setUnavailable(e.target.checked)}
+          />
+          <label>Unavailable</label>
+          <Checkbox
+            name="type"
+            size="small"
+            defaultChecked
+            onClick={(e) => setAvailable(e.target.checked)}
+          />
+          <label>Available</label>
         </div>
       </div>
     </div>
   );
-  
 }
-
+  
 export default MovieFilter;

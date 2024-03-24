@@ -40,3 +40,37 @@
   margin-left: 7px !important;
   margin-right: 7px !important;
 }
+
+
+.redButton {
+  background-color: #d32f2f !important; 
+  color: #ffffff;
+
+  &:hover {
+    background-color: #9a0007 !important; 
+  }
+}
+
+
+.darkButton {
+  background-color: #0e135ae1 !important;
+  color: #ffffff; 
+
+  &:hover {
+    background-color: #0d47a1 !important;
+  }
+}
+
+.statusUnavailable {
+  background-color: #d32f2f !important;
+}
+
+
+.disabledButton {
+  color: black !important;
+}
+
+.disabledButtonText{
+  color: #d32f2f;
+  font-weight: bold;
+}
