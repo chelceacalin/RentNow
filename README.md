@@ -19,7 +19,7 @@ Rent Now facilitates movie rentals within a company. Manage and share your movie
 
 - **Backend**: Spring Boot.
 - **Authentication**: Google login, Github login.
-- **Frontend**: React Js, Tailwind CSS, SCSS.
+- **Frontend**: React Js, Tailwind CSS, SCSS, Material UI.
 - **Database Migrations**: Flyway.
 - **Image Storage**: Minio.
 
@@ -69,3 +69,17 @@ Rent Now facilitates movie rentals within a company. Manage and share your movie
 - **JSON Api Documentation**: http://localhost:8080/api-docs
 - **UI Inteface Api Documentation**: http://localhost:8080/swagger-ui/index.html
 - **Actuator**: [http://localhost:8081/actuator](http://localhost:8081/actuator)
+
+
+### To Do
+[BE] => Spring Aop - Logging
+     => Monitoring - Loki, Prometheus, Grafana
+     => Liveness and Readyness Checks
+     => Argo CD
+     => CI pipeline
+     => Replication, 2 pods, follower leader strategy
+     => Caching, Etags, Cron Jobs
+     => Notifications when movie is returned
+     => Deploy it, ingress
+     => Jmeter
+     => Movie Review, reply to comments
