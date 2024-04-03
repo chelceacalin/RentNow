@@ -23,6 +23,13 @@ services:
       - MINIO_ROOT_PASSWORD=password
       - MINIO_DEFAULT_BUCKETS=photos:public
 
+  grafana:
+    image: grafana/grafana-enterprise
+    container_name: grafana
+    restart: unless-stopped
+    ports:
+      - '3000:3000'
+
 networks:
   minionetwork:
     driver: bridge

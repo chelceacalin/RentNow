@@ -59,7 +59,7 @@ Rent Now facilitates movie rentals within a company. Manage and share your movie
 ### Access Points ( local )
 
 - **Backend API**: [http://localhost:8080](http://localhost:8080)
-- **React Frontend**: [http://localhost:3000](http://localhost:3000)
+- **React Frontend**: [http://localhost:4173](http://localhost:4173)
 - **Minio Server**: [http://localhost:9090](http://localhost:9090)
 - **Minio Console**: [http://localhost:9091](http://localhost:9091)
 - **Server Health**: [http://localhost:8081/actuator/health](http://localhost:8081/actuator/health)
@@ -69,12 +69,13 @@ Rent Now facilitates movie rentals within a company. Manage and share your movie
 - **JSON Api Documentation**: http://localhost:8080/api-docs
 - **UI Inteface Api Documentation**: http://localhost:8080/swagger-ui/index.html
 - **Actuator**: [http://localhost:8081/actuator](http://localhost:8081/actuator)
+- **Grafana**: [http://localhost:3000](http://localhost:3000) -> admin : admin
 
 
 ### To Do
 <pre>
 [BE] => Spring Aop - Logging
-     => Monitoring - Loki, Prometheus, Grafana
+     => Monitoring - Loki, Prometheus
      => Liveness and Readyness Checks
      => Argo CD
      => CI pipeline
@@ -84,5 +85,6 @@ Rent Now facilitates movie rentals within a company. Manage and share your movie
      => Deploy it, ingress
      => Jmeter
      => Movie Review, reply to comments
+     => Chat Gpt Api, feed it db data and make it reccomend movies
     
 </pre>
