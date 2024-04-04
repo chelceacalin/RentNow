@@ -5,6 +5,7 @@ import com.example.TechNow.TechNow.dto.MovieHistory.MovieHistoryDTO;
 import com.example.TechNow.TechNow.service.MovieService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +19,7 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/movies")
 @RequiredArgsConstructor
+@Slf4j
 public class MovieController {
 
 	final MovieService movieService;
@@ -26,6 +28,7 @@ public class MovieController {
 	public Page<MovieDTO> findUserMovies(@ModelAttribute MovieFilterDTO dto,
 										 @RequestParam(name = "pageNo", defaultValue = "0") int pageNo,
 										 @RequestParam(name = "pageSize", defaultValue = "15") int pageSize) {
+		log.info("Movies searched with {}", dto);
 		return movieService.findUserMovies(dto, pageNo, pageSize);
 	}
 

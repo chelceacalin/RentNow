@@ -40,6 +40,20 @@ services:
     volumes:
       - ./src/main/resources/prometheus.yml:/etc/prometheus/prometheus.yml
 
+
+  loki:
+    image: grafana/loki:latest
+    ports:
+      - "3100:3100"
+
+  promtail:
+    image: grafana/promtail:latest
+    volumes:
+      - ./promtail-config.yaml:/etc/promtail/promtail-config.yaml
+    depends_on:
+      - loki
+
+
 networks:
   minionetwork:
     driver: bridge

@@ -1,5 +1,7 @@
-# Database
+# Spring
 spring:
+  application:
+    name: TechNow
   datasource:
     url: ${SPRING_DATASOURCE_URL}
     username: ${SPRING_DATASOURCE_USERNAME}
@@ -70,3 +72,10 @@ management:
         http:
           server:
             requests: 5s
+
+
+# Logging
+logging:
+  level:
+    com:
+      example: info
