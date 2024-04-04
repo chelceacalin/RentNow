@@ -18,9 +18,9 @@ spring:
         jdbc:
           lob:
             non_contextual_creation: true
-
     hibernate:
       ddl-auto: none
+
   # Enable virtual threads
   threads:
     virtual:
@@ -32,14 +32,12 @@ custom:
     app-url: ${FRONTEND_URL}
 
 # Minio
-
 minio:
   url: ${MINIO_URL}
   access:
     key: ${MINIO_ACCESS_KEY}
   secret:
     key: ${MINIO_SECRET_KEY}
-
 
 # Api Documentation
 springdoc:
@@ -48,7 +46,6 @@ springdoc:
 
 
 # Actuator config
-
 management:
   server:
     port: 8081
@@ -58,11 +55,11 @@ management:
         readiness:
           include:
             - db
-      show-details: when_authorized
+      show-details: always
   endpoints:
     web:
       exposure:
-        include: health,prometheus
+        include: "*"
   metrics:
     distribution:
       percentiles-histogram:
@@ -73,5 +70,3 @@ management:
         http:
           server:
             requests: 5s
-
-

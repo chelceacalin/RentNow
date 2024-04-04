@@ -63,13 +63,14 @@ Rent Now facilitates movie rentals within a company. Manage and share your movie
 - **Minio Server**: [http://localhost:9090](http://localhost:9090)
 - **Minio Console**: [http://localhost:9091](http://localhost:9091)
 - **Server Health**: [http://localhost:8081/actuator/health](http://localhost:8081/actuator/health)
+- **Grafana**: [http://localhost:3000](http://localhost:3000) -> admin : admin
+- Prometheus:  [http://localhost:9090](http://localhost:9090)
 
 ### Documentation
 
 - **JSON Api Documentation**: http://localhost:8080/api-docs
 - **UI Inteface Api Documentation**: http://localhost:8080/swagger-ui/index.html
 - **Actuator**: [http://localhost:8081/actuator](http://localhost:8081/actuator)
-- **Grafana**: [http://localhost:3000](http://localhost:3000) -> admin : admin
 
 
 ### To Do
@@ -86,5 +87,6 @@ Rent Now facilitates movie rentals within a company. Manage and share your movie
      => Jmeter
      => Movie Review, reply to comments
      => Chat Gpt Api, feed it db data and make it reccomend movies
+     => Superset, OpenSearch
     
 </pre>

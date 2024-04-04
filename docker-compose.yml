@@ -29,6 +29,16 @@ services:
     restart: unless-stopped
     ports:
       - '3000:3000'
+    volumes:
+      - grafana_data:/var/lib/grafana
+
+
+  prometheus:
+    image: prom/prometheus
+    ports:
+      - '9090:9090'
+    volumes:
+      - ./src/main/resources/prometheus.yml:/etc/prometheus/prometheus.yml
 
 networks:
   minionetwork:
@@ -36,4 +46,6 @@ networks:
 
 volumes:
   minio_data:
+    driver: local
+  grafana_data:
     driver: local
