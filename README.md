@@ -22,6 +22,8 @@ Rent Now facilitates movie rentals within a company. Manage and share your movie
 - **Frontend**: React Js, Tailwind CSS, SCSS, Material UI.
 - **Database Migrations**: Flyway.
 - **Image Storage**: Minio.
+- **Logging**: Loki - Logs, Prometheus - Metrics
+- **Dashboards**: Grafana
 
 ## Getting Started
 
@@ -64,7 +66,7 @@ Rent Now facilitates movie rentals within a company. Manage and share your movie
 - **Minio Console**: [http://localhost:9091](http://localhost:9091)
 - **Server Health**: [http://localhost:8081/actuator/health](http://localhost:8081/actuator/health)
 - **Grafana**: [http://localhost:3000](http://localhost:3000) -> admin : admin
-- Prometheus:  [http://localhost:9090](http://localhost:9090)
+- **Prometheus**:  [http://localhost:9090](http://localhost:9090)
 
 ### Documentation
 
@@ -76,7 +78,6 @@ Rent Now facilitates movie rentals within a company. Manage and share your movie
 ### To Do
 <pre>
 [BE] => Spring Aop - Logging
-     => Monitoring - Loki, Prometheus
      => Liveness and Readyness Checks
      => Argo CD
      => CI pipeline
