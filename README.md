@@ -80,6 +80,7 @@ Rent Now facilitates movie rentals within a company. Manage and share your movie
 [BE] => Spring Aop - Logging
      => Liveness and Readyness Checks
      => Argo CD
+     => Nginx
      => CI pipeline
      => Replication, 2 pods, follower leader strategy
      => Caching, Etags, Cron Jobs
