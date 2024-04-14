@@ -45,7 +45,7 @@ public class MovieController {
 	}
 
 	@PostMapping("/delete/{id}")
-	public ResponseEntity<?> deleteMovie(@PathVariable UUID id) {
+	public ResponseEntity<String> deleteMovie(@PathVariable UUID id) {
 		movieService.deleteMovieIfNotRented(id);
 		return ResponseEntity.ok("Movie can be deleted");
 	}
@@ -63,7 +63,7 @@ public class MovieController {
 
 
 	@PostMapping("/history")
-	public ResponseEntity<?> addMovieHistory(@Valid @RequestBody MovieHistoryDTO movieHistoryDTO, BindingResult bindingResult) {
+	public ResponseEntity<Object> addMovieHistory(@Valid @RequestBody MovieHistoryDTO movieHistoryDTO, BindingResult bindingResult) {
 		if (bindingResult.hasErrors()) {
 			return new ResponseEntity<>(bindingResult.getAllErrors().getFirst().getDefaultMessage(), HttpStatus.BAD_REQUEST);
 		}

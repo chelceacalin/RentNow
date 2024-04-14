@@ -16,7 +16,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
-import javax.swing.text.html.Option;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -88,12 +87,6 @@ public class UserService {
 		return updatedUser;
 	}
 
-	public User.Role getUserRole(String email) {
-		return userRepository.findByEmail(email)
-				.map(User::getRole)
-				.orElseThrow(() -> new RuntimeException("User not found"));
-	}
-
 	public UserDTO findByEmail(String email) {
 		Optional<User> userOptional = userRepository.findByEmail(email);
 		if (userOptional.isPresent()) {
@@ -101,17 +94,6 @@ public class UserService {
 			return UserMapper.toDTO(user);
 		} else {
 			throw new RuntimeException("User with email " + email + " not found");
-		}
-	}
-
-
-	public UserDTO findById(String id) {
-		Optional<User> userOptional = userRepository.findById(id);
-		if (userOptional.isPresent()) {
-			User user = userOptional.get();
-			return UserMapper.toDTO(user);
-		} else {
-			throw new RuntimeException("User with id " + id + " not found");
 		}
 	}
 
@@ -128,10 +110,6 @@ public class UserService {
 			userRepository.save(userToBeSaved);
 			return UserMapper.toUserAddReponseDTOFromUser(userToBeSaved);
 		}
-	}
-
-	public User findByIdNoDto(String id) {
-		return userRepository.findById(id).get();
 	}
 }
 

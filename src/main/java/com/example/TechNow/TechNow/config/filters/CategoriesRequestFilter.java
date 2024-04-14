@@ -10,12 +10,12 @@ import java.util.Set;
 
 @Configuration
 public class CategoriesRequestFilter {
-	final Set<String> CATEGORY_PARAMS = new HashSet<>(Arrays.asList("name", "pageNo", "pageSize", "direction"));
+	final Set<String> categoryParams = new HashSet<>(Arrays.asList("name", "pageNo", "pageSize", "direction"));
 
 	@Bean
 	public FilterRegistrationBean<ParameterNameValidationFilter> categoriesFilter() {
 		FilterRegistrationBean<ParameterNameValidationFilter> registrationBean = new FilterRegistrationBean<>();
-		registrationBean.setFilter(new ParameterNameValidationFilter(CATEGORY_PARAMS));
+		registrationBean.setFilter(new ParameterNameValidationFilter(categoryParams));
 		registrationBean.addUrlPatterns("/categories");
 		return registrationBean;
 	}

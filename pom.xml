@@ -5,14 +5,14 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.2.2</version>
+		<version>3.2.4</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.example.RentNow</groupId>
 	<artifactId>RentNow</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.2-SNAPSHOT</version>
 	<name>RentNow</name>
-	<description>Disertation </description>
+	<description>Disertation Project </description>
 	<properties>
 		<java.version>21</java.version>
 	</properties>
@@ -43,7 +43,7 @@
 		<dependency>
 			<groupId>io.minio</groupId>
 			<artifactId>minio</artifactId>
-			<version>8.5.7</version>
+			<version>8.5.9</version>
 		</dependency>
 
 		<dependency>

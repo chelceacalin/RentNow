@@ -3,6 +3,7 @@ package com.example.TechNow.TechNow.controller;
 
 import com.example.TechNow.TechNow.dto.Category.CategoryDTO;
 import com.example.TechNow.TechNow.dto.Category.CategoryFilterDTO;
+import com.example.TechNow.TechNow.model.Category;
 import com.example.TechNow.TechNow.service.CategoryService;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
@@ -33,19 +34,19 @@ public class CategoryController {
 	}
 
 	@PostMapping("/create")
-	public ResponseEntity<?> createCategory(@RequestBody final CategoryDTO categoryDTO) {
+	public ResponseEntity<Category> createCategory(@RequestBody final CategoryDTO categoryDTO) {
 		return new ResponseEntity<>(categoryService.createCategory(categoryDTO), HttpStatus.OK);
 	}
 
 	@PostMapping("/update/{id}")
-	public ResponseEntity<?> updateCategory(@RequestBody CategoryDTO categoryDTO,
+	public ResponseEntity<Category> updateCategory(@RequestBody CategoryDTO categoryDTO,
 											@PathVariable("id") @NotNull UUID id) {
 		return new ResponseEntity<>(categoryService.updateCategory(categoryDTO, id), HttpStatus.OK);
 	}
 
 
 	@PostMapping("/delete/{id}")
-	public ResponseEntity<?> deleteCategory(@PathVariable UUID id) {
+	public ResponseEntity<String> deleteCategory(@PathVariable UUID id) {
 		categoryService.deleteCategory(id);
 		return ResponseEntity.ok("Category was deleted successfully");
 	}

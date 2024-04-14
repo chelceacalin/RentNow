@@ -24,7 +24,6 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 import static com.example.TechNow.TechNow.mapper.MovieHistoryMapper.toMovieHistory;
 import static com.example.TechNow.TechNow.specification.GenericSpecification.fieldNameLike;
@@ -57,7 +56,7 @@ public class MovieService {
 					MovieHistory history = movieHistoryRepository.findMovieHistoryByRentedUntilMostRecent(movie.getId());
 					return MovieMapper.toDto(movie, history);
 				})
-				.collect(Collectors.toList());
+				.toList();
 
 		return new PageImpl<>(movies, pageable, moviesPage.getTotalElements());
 	}
@@ -191,7 +190,6 @@ public class MovieService {
 			movieRepository.save(movie);
 		});
 		MovieHistory movieHistory = toMovieHistory(movieHistoryDTO);
-		System.out.println("Mhdto " + movieHistoryDTO);
 		movieHistoryRepository.save(movieHistory);
 	}
 
@@ -219,7 +217,7 @@ public class MovieService {
 		Page<MovieHistory> movieHistories = movieHistoryRepository.findAllByRentedBy_Id(user.getId(), pageable);
 		List<MovieDTO> rentedMovies = movieHistories.getContent().stream()
 				.map(history -> MovieMapper.toDto(history.getMovie(), history))
-				.collect(Collectors.toList());
+				.toList();
 		return new PageImpl<>(rentedMovies, pageable, movieHistories.getTotalElements());
 	}
 

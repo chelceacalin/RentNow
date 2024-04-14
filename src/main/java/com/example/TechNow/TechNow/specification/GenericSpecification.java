@@ -12,7 +12,7 @@ public class GenericSpecification {
 
 	public static <T> Specification<T> isAvailable(Boolean isAvailable) {
 		return ((root, query, criteriaBuilder) -> {
-			if (isAvailable) {
+			if (Boolean.TRUE.equals(isAvailable)) {
 				return criteriaBuilder.isTrue(root.get(IS_AVAILABLE));
 			} else {
 				return criteriaBuilder.isFalse(root.get(IS_AVAILABLE));
