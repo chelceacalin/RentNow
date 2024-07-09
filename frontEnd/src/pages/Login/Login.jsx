@@ -6,8 +6,16 @@ import { GithubAuthProvider, signInWithPopup } from "firebase/auth";
 import { useContext } from "react";
 import { UserLoginContext } from "../../utils/context/LoginProvider.jsx";
 import { auth, provider } from "../../utils/firebase/firebase.js";
-import AppIcon from "../../utils/icons/AppIcon";
-import "./css/Login.scss";
+import Avatar from "@mui/material/Avatar";
+import CssBaseline from '@mui/material/CssBaseline';
+import Link from '@mui/material/Link';
+import Paper from '@mui/material/Paper';
+import Grid from '@mui/material/Grid';
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import Typography from '@mui/material/Typography';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import AppIconUnformatted from "../../utils/icons/AppIconUnformatted.jsx";
+const defaultTheme = createTheme();
 
 function Login() {
   let url = axios.defaults.baseURL;
@@ -91,36 +99,83 @@ function Login() {
       });
   };
 
+  function Copyright(props) {
+    return (
+      <Typography variant="body2" color="text.secondary" align="center" {...props}>
+        {'Copyright © '}
+        <Link color="inherit" href="https://github.com/chelceacalin">
+           Chelcea Calin
+        </Link>{' '}
+        {new Date().getFullYear()}
+        {'.'}
+      </Typography>
+    );
+  }
+  
   return (
-    <div className="loginContainer overflow-y-hidden">
-      <div className="logoContainer">
-        <AppIcon className="logo" />
-      </div>
-      <Box
-        className="loginButtons"
-        display="flex"
-        alignItems="center"
-        justifyContent="center"
-        height="100%"
-      >
-        <Button
-          variant="contained"
-          color="primary"
-          startIcon={<GoogleIcon />}
-          onClick={handleSignInWithGoogle}
-        >
-          Sign in with Google
-        </Button>
-        <Button
-          variant="contained"
-          color="secondary"
-          startIcon={<GitHubIcon />}
-          onClick={handleSignInWithGithub}
-        >
-          Sign in with GitHub
-        </Button>
-      </Box>
-    </div>
+    <ThemeProvider theme={defaultTheme}>
+      <Grid container component="main" sx={{ height: '100vh' }}>
+        <CssBaseline />
+        <AppIconUnformatted/>
+        <Grid
+          item
+          xs={false}
+          sm={4}
+          md={7}
+          sx={{
+            backgroundImage: 'url("/public/Images/movie_rental.avif")',
+            backgroundColor: (t) =>
+              t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+          }}
+        />
+        <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
+          <Box
+            sx={{
+              my: 8,
+              mx: 4,
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+            }}
+          >
+            <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+              <LockOutlinedIcon />
+            </Avatar>
+            <Typography component="h1" variant="h5">
+              Welcome Back!
+            </Typography>
+            <Typography component="p" variant="body2" sx={{ mt: 2, mb: 4, textAlign: 'center' }}>
+              Please sign in to continue to our movie rental service.
+            </Typography>
+            <Box component="form" noValidate sx={{ mt: 1, width: '100%' }}>
+              <Button
+                fullWidth
+                variant="contained"
+                color="primary"
+                startIcon={<GoogleIcon />}
+                onClick={handleSignInWithGoogle}
+                sx={{ mt: 2, mb: 2 }}
+              >
+                Sign in with Google
+              </Button>
+              <Button
+                fullWidth
+                variant="contained"
+                color="secondary"
+                startIcon={<GitHubIcon />}
+                onClick={handleSignInWithGithub}
+                sx={{ mt: 2, mb: 2 }}
+              >
+                Sign in with GitHub
+              </Button>
+              <Copyright sx={{ mt: 5 }} />
+            </Box>
+          </Box>
+        </Grid>
+      </Grid>
+    </ThemeProvider>
   );
 }
 

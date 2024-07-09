@@ -1,9 +1,15 @@
 @import "variables.scss";
 
 
-.darkBg {
-background: linear-gradient(to right, #232526, #414345) !important;
+@media(max-width:768px) {
+  .AppIconUnformatted{
+    display: none !important;
+  }
+  
 }
+
+
+
 
 .app-container {
   display: flex;
@@ -39,13 +45,6 @@ background: linear-gradient(to right, #232526, #414345) !important;
 .aBackgroundRelease {
   background: white;
 }
-
-
-.css-1rwt2y5-MuiButtonBase-root-MuiButton-root {
-  margin-left: 7px !important;
-  margin-right: 7px !important;
-}
-
 
 .redButton {
   background-color: $main-color !important;
@@ -108,80 +107,6 @@ background: linear-gradient(to right, #232526, #414345) !important;
 .availableButtonText {
   color: green;
   font-weight: bold !important;
-}
-
-.MuiCheckbox-root {
-  color: white !important;
-}
-
-.MuiInputLabel-root.Mui-focused,
-.MuiInputLabel-root.MuiFormLabel-filled {
-  transform: translate(0px, -22px) !important;
-  color: white !important;
-}
-
-
-.MuiInputLabel-root {
-  color: black !important;
-}
-
-.MuiInputBase-root {
-  background-color: white !important;
-  color: black;
-
-  &:hover {
-    background-color: #d8d2d2 !important;
-  }
-
-  &:before,
-  &:after {
-    display: none;
-  }
-}
-
-
-.MuiOutlinedInput-root {
-  fieldset {
-    border-color: white;
-  }
-
-  &:hover fieldset {
-    border-color: #d8d2d2;
-  }
-
-  &.Mui-focused fieldset {
-    border-color: white;
-  }
-}
-
-.MuiFilledInput-root {
-  background-color: white !important;
-
-  &:hover {
-    background-color: #d8d2d2 !important;
-  }
-
-  &:before,
-  &:after {
-    display: none;
-  }
-}
-
-.MuiTextField-root,
-.MuiAutocomplete-root {
-  width: 100%;
-  min-width: 200px;
-  background-color: white;
-  color: black !important;
-  border-radius: 4px;
-}
-
-.MuiDialog-paper {
-  color: #fff;
-}
-
-.MuiOutlinedInput-notchedOutline {
-  border-color: transparent;
 }
 
 label {

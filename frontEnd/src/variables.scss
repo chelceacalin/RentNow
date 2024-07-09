@@ -23,12 +23,3 @@ $iconsFill: #000000;
         fill: $main-color;
     }
 }
-
-.MuiButton-root {
-    background-color: $main-color;
-    color: #ffffff;
-
-    &:hover {
-        background-color: $main-color-hover;
-    }
-}
