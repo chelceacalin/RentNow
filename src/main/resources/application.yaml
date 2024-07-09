@@ -3,9 +3,9 @@ spring:
   application:
     name: TechNow
   datasource:
-    url: ${SPRING_DATASOURCE_URL}
-    username: ${SPRING_DATASOURCE_USERNAME}
-    password: ${SPRING_DATASOURCE_PASSWORD}
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/technow}
+    username: ${SPRING_DATASOURCE_USERNAME:technow}
+    password: ${SPRING_DATASOURCE_PASSWORD:technow}
   servlet:
     multipart:
       max-file-size: 2MB
@@ -21,7 +21,7 @@ spring:
           lob:
             non_contextual_creation: true
     hibernate:
-      ddl-auto: none
+      ddl-auto: update
 
   # Enable virtual threads
   threads:
@@ -31,15 +31,15 @@ spring:
 # Cors
 custom:
   frontend:
-    app-url: ${FRONTEND_URL}
+    app-url: ${FRONTEND_URL:http://localhost:4173}
 
 # Minio
 minio:
-  url: ${MINIO_URL}
+  url: ${MINIO_URL:http://localhost:9000}
   access:
-    key: ${MINIO_ACCESS_KEY}
+    key: ${MINIO_ACCESS_KEY:admin}
   secret:
-    key: ${MINIO_SECRET_KEY}
+    key: ${MINIO_SECRET_KEY:password}
 
 # Api Documentation
 springdoc:
