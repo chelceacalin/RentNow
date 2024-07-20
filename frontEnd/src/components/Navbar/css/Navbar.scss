@@ -1,4 +1,5 @@
-@import "../../../variables.scss";
+@import "../../../styles/variables.scss";
+
 .navbar {
     .aBackgro#ffffffick path {
         fill: white;
@@ -10,11 +11,20 @@
     }
 
     a:hover {
-        background: $main-color;
+        background-color: $main-color-hover;
+        span{
+            color: white;
+        }
+
+        div > svg{
+            path{
+                fill: white ;
+            }
+        }
     }
 
     .aBackgroundClick {
-        background:  $main-color;
+        background:$main-color;
     }
 
     .aBackgroundRelease {

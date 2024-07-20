@@ -1,4 +1,4 @@
-import "../../variables.scss";
+import "../../styles/variables.scss";
 
 export default function AppIconUnformatted() {
   return (

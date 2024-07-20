@@ -1,6 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@import "./styles/variables.scss";
 
 * {
     margin: 0;
@@ -8,6 +9,28 @@
     box-sizing: border-box;
 }
 
-.app-container{
-    background: linear-gradient(to right,  rgb(0,0,0),rgb(2, 9, 20),#031529,#000);
+
+.appIcon {
+    margin-left: -20px;
+    rect,
+    path {
+        fill: $main-color;
+    }
+}
+
+.AppIconUnformatted {
+    color: white;
+    display: flex;
+
+    rect,
+    path {
+        fill: $main-color;
+    }
+}
+
+
+@media(max-width:768px) {
+    .AppIconUnformatted {
+        display: none !important;
+    }
 }

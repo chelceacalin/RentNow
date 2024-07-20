@@ -1,5 +1,3 @@
-import "../../variables.scss";
-
 function Pagination({
   pageNo,
   totalPages,

@@ -1,6 +1,5 @@
 import { Checkbox, TextField } from "@mui/material";
 import { useEffect, useState } from "react";
-import "./css/FilterComponent.scss"
 
 function FilterComponent({ filterInput }) {
   let [firstName, setFirstName] = useState("");

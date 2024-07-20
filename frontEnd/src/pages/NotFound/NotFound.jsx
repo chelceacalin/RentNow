@@ -1,7 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import "./css/NotFound.scss";
 import { useEffect } from "react";
-import "../../variables.scss";
 
 function NotFound() {
   

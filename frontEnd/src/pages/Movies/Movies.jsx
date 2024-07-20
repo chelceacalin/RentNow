@@ -3,10 +3,9 @@ import { useEffect, useState } from "react";
 import MovieFilter from "../../components/Movie/MovieFilter.jsx";
 import RentedMovie from "../../components/Movie/RentedMovie.jsx";
 import Pagination from "../../components/Pagination/Pagination";
-import "../../variables.scss";
-import "./css/Movies.scss";
 import "../../components/ScrollToTop/ScrollToTopButton.jsx";
 import ScrollToTopButton from "../../components/ScrollToTop/ScrollToTopButton.jsx";
+import { Grid, Container, Typography } from '@mui/material';
 function Movies() {
   const [movies, setMovies] = useState([]);
   const [initialized, setInitialized] = useState(false);

@@ -5,7 +5,6 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import DatePickerClear from "../../components/DatePicker/DatePickerClear";
 import { useDebouncedCallback } from "use-debounce";
-import "./css/MovieFilter.scss";
 
 function MovieFilter({ filterInput }) {
   const [title, setTitle] = useState("");

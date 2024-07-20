@@ -1,4 +1,4 @@
-import "../../variables.scss";
+import "../../styles/variables.scss";
 function AppIcon() {
   return (
     <div className="flex justify-center appIcon">
