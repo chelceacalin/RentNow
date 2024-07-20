@@ -1,199 +1,155 @@
-import { Autocomplete, Checkbox, TextField } from "@mui/material";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { useEffect, useState } from "react";
-import DatePickerClear from "../../components/DatePicker/DatePickerClear";
 import { useDebouncedCallback } from "use-debounce";
-import "./css/MovieFilter.scss";
+import { Autocomplete, TextField, styled } from "@mui/material";
+import "./css/MovieFilter.scss"
+const StyledAutocomplete = styled(Autocomplete)(({ theme }) => ({
+  "& .MuiAutocomplete-option": {
+    color: "white",
+    backgroundColor: "gray",
+  },
+  "& .MuiAutocomplete-option.Mui-selected": {
+    backgroundColor: "darkgray",
+  },
+  "& .MuiAutocomplete-inputRoot": {
+    color: "white",
+  },
+}));
 
-function MovieFilter({ filterInput }) {
+function MovieFilter({
+  filterInput,
+  handleSortFieldChange,
+  handleDirectionChange,
+  sortField,
+  direction,
+}) {
   const [title, setTitle] = useState("");
   const [director, setDirector] = useState("");
-  const [available, setAvailable] = useState(true);
-  const [unavailable, setUnavailable] = useState(true);
-  const [rentedUntil, setRentedUntil] = useState(null);
-  const [rentedDate, setRentedDate] = useState(null);
+  const [availability, setAvailability] = useState("ALL");
   const [rentedBy, setRentedBy] = useState(null);
   const [usersWhoRented, setUsersWhoRented] = useState([]);
-  let [filteredUsers, setFilteredUsers] = useState([]);
-  let [url, setUrl] = useState("");
+  const [filteredUsers, setFilteredUsers] = useState([]);
   const [categories, setCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("");
 
   useEffect(() => {
-    url = `/movies`;
-    axios.get(url).then((elems) => {
-      setUsersWhoRented(elems.data.content);
-      const filteredElems = elems.data.content.filter(
+    axios.get(`/movies`).then((response) => {
+      setUsersWhoRented(response.data.content);
+      const filteredElems = response.data.content.filter(
         (elem) => elem.rentedBy !== "available"
       );
-      const arrayUniqueByKey = [
+      const uniqueUsers = [
         ...new Map(filteredElems.map((item) => [item.rentedBy, item])).values(),
       ];
-      setFilteredUsers(arrayUniqueByKey);
+      setFilteredUsers(uniqueUsers);
     });
-  }, [url]);
 
-  useEffect(() => {
-    axios.get("/category").then((elems) => {
-      setCategories(elems.data.content.map((item) => item.name));
+    axios.get("/category").then((response) => {
+      setCategories(response.data.content.map((item) => item.name));
     });
   }, []);
-
-  useDebouncedCallback((array) => {
-    filterInput(array);
-  }, 500);
 
   const debouncedFilterInput = useDebouncedCallback((array) => {
     filterInput(array);
   }, 500);
 
   useEffect(() => {
-    const rentedUntilField = rentedUntil ? convertDate(rentedUntil) : "";
-    const rentedDateField = rentedDate ? convertDate(rentedDate) : "";
-
-    let availabilityFilter;
-    if (available && unavailable) {
-      availabilityFilter = "BOTH";
-    } else if (available) {
-      availabilityFilter = "true";
-    } else if (unavailable) {
-      availabilityFilter = "false";
-    } else {
-      availabilityFilter = "BOTH";
-    }
-
-    const array = [
-      selectedCategory,
-      director,
-      title,
-      availabilityFilter,
-      rentedUntilField,
-      rentedBy,
-      rentedDateField,
-    ];
-
+    const array = [selectedCategory, director, title, availability, rentedBy];
     debouncedFilterInput(array);
-  }, [
-    selectedCategory,
-    director,
-    title,
-    available,
-    unavailable,
-    rentedUntil,
-    rentedBy,
-    rentedDate,
-  ]);
-
-  let convertDate = (input) => {
-    const inputDate = new Date(input);
-    const year = inputDate.getFullYear();
-    const month = ("0" + (inputDate.getMonth() + 1)).slice(-2);
-    const day = ("0" + inputDate.getDate()).slice(-2);
-    return `${year}-${month}-${day}`;
-  };
+  }, [selectedCategory, director, title, availability, rentedBy]);
 
   return (
-    <div className="movie-filter-container ">
-      <div className="filter-section">
-        <TextField
-          id="outlined-search-title"
-          name="title"
-          label="Search title"
-          type="search"
-          fullWidth="true"
-          variant="filled"
-          size="small"
-          onChange={(e) => setTitle(e.target.value)}
-        />
-        <TextField
-          id="outlined-search-director"
-          name="director"
-          label="Search director"
-          type="search"
-          variant="filled"
-          size="small"
-          onChange={(e) => setDirector(e.target.value)}
-        />
-      </div>
-
-      <div className="filter-section">
-        <div className="filter-section">
-          <Autocomplete
-            value={selectedCategory}
-            onChange={(_, newValue) => {
-              setSelectedCategory(newValue);
-            }}
+    <div className="p-6 bg-gray-900 rounded-lg shadow-md">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="col-span-1">
+          <input
+            id="search-title"
+            name="title"
+            type="search"
+            placeholder="Search title"
+            className="w-full p-3 bg-gray-800 text-white border border-gray-700 rounded-lg"
+            onChange={(e) => setTitle(e.target.value)}
+          />
+        </div>
+        <div className="col-span-1">
+          <input
+            id="search-director"
+            name="director"
+            type="search"
+            placeholder="Search director"
+            className="w-full p-3 bg-gray-800 text-white border border-gray-700 rounded-lg"
+            onChange={(e) => setDirector(e.target.value)}
+          />
+        </div>
+        <div className="col-span-1">
+          <StyledAutocomplete
             options={categories}
+            getOptionLabel={(option) => option}
             renderInput={(params) => (
               <TextField
                 {...params}
-                variant="filled"
-                size="small"
-                label="Category"
+                placeholder="Category"
+                className="w-full p-3 bg-gray-800 text-white border border-gray-700 rounded-lg"
               />
             )}
+            value={selectedCategory}
+            onChange={(_, newValue) => setSelectedCategory(newValue)}
           />
         </div>
+        <div className="col-span-1">
+          <StyledAutocomplete
+            options={filteredUsers.map((user) => user.rentedBy)}
+            getOptionLabel={(option) => option}
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                placeholder="Rented by"
+                className="w-full p-3 bg-gray-800 text-white border border-gray-700 rounded-lg"
+              />
+            )}
+            value={rentedBy}
+            onChange={(_, newValue) => setRentedBy(newValue)}
+          />
+        </div>
+        <div className="col-span-1 flex selectBoxes">
+          <div className="flex gap-8 ml-4 mt-0">
+            <div className="w-52">
+            <span htmlFor="" className="text-white">Status</span>
+          <select
+            value={availability}
+            onChange={(e) => setAvailability(e.target.value)}
+            className="w-full p-3 bg-gray-800 text-white border border-gray-700 rounded-lg"
+          >
+            <option value="ALL">All</option>
+            <option value="true">Available</option>
+            <option value="false">Unavailable</option>
+          </select>
+            </div>
+            <div className="w-52">
+              <span htmlFor="" className="text-white">Sort Field</span>
+              <select
+                value={sortField}
+                onChange={handleSortFieldChange}
+                className="w-full p-3 bg-gray-800 text-white border border-gray-700 rounded-lg"
+              >
+                <option value="title">Title</option>
+                <option value="director">Director</option>
+                <option value="rentedDate">Rented Date</option>
+              </select>
+            </div>
 
-        <Autocomplete
-          value={rentedBy}
-          onChange={(e, value) => setRentedBy(value)}
-          options={filteredUsers.map((m) => m.rentedBy)}
-          renderInput={(params) => (
-            <TextField
-              {...params}
-              variant="filled"
-              size="small"
-              label="Rented by"
-            />
-          )}
-        />
-      </div>
-
-      <div className="filter-section">
-        <LocalizationProvider dateAdapter={AdapterDayjs}>
-          <DatePickerClear
-            value={rentedDate}
-            variant="filled"
-            labelString="Rented on"
-            className="filterDatepicker"
-            onClear={() => setRentedDate(null)}
-            onChange={(newDate) => setRentedDate(newDate)}
-          />
-        </LocalizationProvider>
-      </div>
-      
-      <div className="filter-section">
-        <LocalizationProvider dateAdapter={AdapterDayjs}>
-          <DatePickerClear
-            value={rentedUntil}
-            variant="filled"
-            className="filterDatepicker"
-            labelString="Rented until"
-            onClear={() => setRentedUntil(null)}
-            onChange={(newDate) => setRentedUntil(newDate)}
-          />
-        </LocalizationProvider>
-      </div>
-
-      <div className="filter-section">
-        <div className="status-section">
-          <Checkbox
-            name="type"
-            size="small"
-            defaultChecked
-            onClick={(e) => setUnavailable(e.target.checked)}
-          />
-          <label>Unavailable</label>
-          <Checkbox
-            name="type"
-            size="small"
-            defaultChecked
-            onClick={(e) => setAvailable(e.target.checked)}
-          />
-          <label>Available</label>
+            <div className="w-52">
+            <span htmlFor="" className="text-white">Sort Direction</span>
+              <select
+                value={direction ? "ASC" : "DESC"}
+                onChange={handleDirectionChange}
+                className="w-full p-3 bg-gray-800 text-white border border-gray-700 rounded-lg"
+              >
+                <option value="ASC">Ascending</option>
+                <option value="DESC">Descending</option>
+              </select>
+            </div>
+          </div>
         </div>
       </div>
     </div>

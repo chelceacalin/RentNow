@@ -35,7 +35,7 @@ function DeleteMovieModalView({
   };
 
   return (
-    <Dialog open={isModalOpen} onClose={closeModal} fullWidth maxWidth={"sm"}>
+    <Dialog open={isModalOpen} onClose={closeModal} maxWidth={"sm"}>
       <div className="overflow-x-hidden">
         <FontAwesomeIcon
           style={{ fontSize: 28 }}

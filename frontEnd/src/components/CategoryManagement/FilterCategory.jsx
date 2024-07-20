@@ -1,6 +1,5 @@
 import { TextField } from "@mui/material";
 import { useEffect, useState } from "react";
-import "./css/FilterCategory.scss";
 
 function FilterCategory({ filterInput }) {
   let [name, setName] = useState("");

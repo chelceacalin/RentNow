@@ -11,17 +11,11 @@ function RentedUntil({ movie }) {
   const days = Math.floor(hoursUntilRented / 24);
   const hours = hoursUntilRented % 24;
 
-  const isSameDayOrLess =
-    rentedUntil.isSame(now, "day") || hoursUntilRented <= 48;
+  const isSameDayOrLess = rentedUntil.isSame(now, "day") || hoursUntilRented <= 48;
 
-  let timeLeftText;
-  if (rentedUntil.isSame(now, "day")) {
-    timeLeftText = `${hours} hour${hours !== 1 ? "s" : ""}`;
-  } else {
-    timeLeftText = `${days} day${days !== 1 ? "s" : ""} ${hours} hour${
-      hours !== 1 ? "s" : ""
-    }`;
-  }
+  const timeLeftText = rentedUntil.isSame(now, "day")
+    ? `${hours} hour${hours !== 1 ? "s" : ""}`
+    : `${days} day${days !== 1 ? "s" : ""} ${hours} hour${hours !== 1 ? "s" : ""}`;
 
   return (
     <Typography variant="body2">
@@ -32,18 +26,24 @@ function RentedUntil({ movie }) {
           fontWeight: "bold",
         }}
       >
-        {movie.rentedUntil}
-      </span>
-      <Tooltip title={`Time left: ${timeLeftText}`} arrow>
+        {rentedUntil.format("MMM D, YYYY h:mm A")}
+        <Tooltip title={`Time left: ${timeLeftText}`} arrow>
         <InfoIcon
           style={{
-            color: "rgba(0, 0, 0, 0.54)",
-            marginLeft: "4px",
+            color: "grey",
             verticalAlign: "middle",
             cursor: "pointer",
+            height: "20px"
           }}
         />
       </Tooltip>
+      </span>
+      {movie.rentedBy && (
+        <Typography variant="body2" style={{ marginTop: "4px", fontStyle: "italic" }}>
+          Rented by: {movie.rentedBy}
+        </Typography>
+      )}
+    
     </Typography>
   );
 }

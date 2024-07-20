@@ -159,7 +159,7 @@ function AddNewMovieModalWindow({
   };
 
   return (
-    <Dialog fullWidth maxWidth={"sm"} open={isModalOpen} onClose={closeModal}>
+    <Dialog maxWidth={"sm"} open={isModalOpen} onClose={closeModal}>
       <div className="modal-content wider-modal">
         <div className="header-container">
           <FontAwesomeIcon
@@ -177,7 +177,6 @@ function AddNewMovieModalWindow({
             <TextField
               required
               label="Title"
-              fullWidth
               onChange={(e) => {
                 setTitle(e.target.value);
               }}
@@ -193,7 +192,6 @@ function AddNewMovieModalWindow({
             <TextField
               required
               label="Director"
-              fullWidth
               onChange={(e) => {
                 setDirector(e.target.value);
               }}

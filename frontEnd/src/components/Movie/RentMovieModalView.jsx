@@ -59,7 +59,6 @@ function RentMovieModalView({
   };
   return (
     <Dialog
-      fullWidth
       maxWidth={"md"}
       open={isRentModalOpen}
       onClose={handleCloseRentModal}

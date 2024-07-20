@@ -1,19 +1,8 @@
-@import "../../../variables.scss";
 
 .flexContainer {
-    background-color: $main-color;
     color: #fff;
     padding: 20px;
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
-}
-
-.rtUntil {
-    background-color: white !important;
-}
-
-.filterContainer {
-    display: flex;
-    gap: 15px;
 }
