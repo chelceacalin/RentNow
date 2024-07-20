@@ -42,7 +42,7 @@ function CreateCategoryModalWindow({
   };
 
   return (
-    <Dialog fullWidth maxWidth={"sm"} open={isModalOpen} onClose={closeModal}>
+    <Dialog  maxWidth={"sm"} open={isModalOpen} onClose={closeModal}>
       <FontAwesomeIcon
         className="absolute top-4 right-4 cursor-pointer"
         icon={faTimes}

@@ -38,7 +38,7 @@ function DeleteCategoryModalWindow({
 
   return (
     <Dialog
-      fullWidth
+      
       maxWidth={"sm"}
       open={isEditModalOpen}
       onClose={closeEditModal}

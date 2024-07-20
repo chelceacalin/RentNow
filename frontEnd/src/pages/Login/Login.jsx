@@ -151,7 +151,6 @@ function Login() {
             </Typography>
             <Box component="form" noValidate sx={{ mt: 1, width: '100%' }}>
               <Button
-                fullWidth
                 variant="contained"
                 color="primary"
                 startIcon={<GoogleIcon />}
@@ -161,7 +160,6 @@ function Login() {
                 Sign in with Google
               </Button>
               <Button
-                fullWidth
                 variant="contained"
                 color="secondary"
                 startIcon={<GitHubIcon />}

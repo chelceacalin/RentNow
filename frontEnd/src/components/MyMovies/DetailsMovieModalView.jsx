@@ -194,7 +194,7 @@ function DetailsMovieModalView({
   };
 
   return (
-    <Dialog fullWidth maxWidth={"md"} open={isModalOpen} onClose={closeModal}>
+    <Dialog maxWidth={"md"} open={isModalOpen} onClose={closeModal}>
       <div className="modal-content wider-modal">
         <div className="header-container">
           <FontAwesomeIcon

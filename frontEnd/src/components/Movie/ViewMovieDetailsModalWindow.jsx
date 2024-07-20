@@ -20,7 +20,6 @@ function ViewMovieDetailsModalWindow({ isModalOpen, closeModal, movie }) {
 
   return (
     <Dialog
-      fullWidth
       maxWidth={"md"}
       open={isModalOpen}
       onClose={closeModal}
@@ -35,28 +34,24 @@ function ViewMovieDetailsModalWindow({ isModalOpen, closeModal, movie }) {
             <TextField
               label="Movie title"
               defaultValue={movie.title}
-              fullWidth
               InputProps={{ readOnly: true }}
               className="movie-detail-field"
             />
             <TextField
               label="Director"
               defaultValue={movie.director}
-              fullWidth
               InputProps={{ readOnly: true }}
               className="movie-detail-field"
             />
             <TextField
               label="Category"
               defaultValue={movie.category}
-              fullWidth
               InputProps={{ readOnly: true }}
               className="movie-detail-field"
             />
             <TextField
               label="Description"
               defaultValue={movie.description}
-              fullWidth
               multiline
               rows={4}
               InputProps={{ readOnly: true }}
@@ -65,7 +60,6 @@ function ViewMovieDetailsModalWindow({ isModalOpen, closeModal, movie }) {
             <TextField
               label="Status"
               defaultValue={status}
-              fullWidth
               InputProps={{ readOnly: true }}
               className={`movie-detail-field ${
                 status === "Available" ? "" : "statusUnavailable"
@@ -75,7 +69,6 @@ function ViewMovieDetailsModalWindow({ isModalOpen, closeModal, movie }) {
             <TextField
               label="Rented by"
               defaultValue={movie.rentedBy}
-              fullWidth
               InputProps={{ readOnly: true }}
               className="movie-detail-field"
             />

@@ -1,13 +1,9 @@
-import {
-  Button,
-  Card,
-  Typography,
-} from "@mui/material";
 import { useState } from "react";
 import RentMovieModalView from "./RentMovieModalView.jsx";
 import ViewMovieDetailsModalWindow from "./ViewMovieDetailsModalWindow.jsx";
-import "./css/RentedMovies.scss";
-import RentedUntil from "./RentedUntil.jsx"
+import RentedUntil from "./RentedUntil.jsx";
+import './css/RentedMovies.scss'; 
+
 function RentedMovie({ movie, triggerRefresh, setTriggerRefresh }) {
   const [detailsModalOpen, setDetailsModalOpen] = useState(false);
   const [isRentModalOpen, setRentModalOpen] = useState(false);
@@ -19,50 +15,32 @@ function RentedMovie({ movie, triggerRefresh, setTriggerRefresh }) {
     setRentModalOpen(false);
     setTriggerRefresh((prev) => !prev);
   };
-
-  const status = movie.isAvailable ? "Available" : "Unavailable";
-
   return (
-    <Card className="rented-movie-card ">
-      <div className="image-container">
-        <img
-          src={movie.photoUrl || "/default-movie.jpg"}
-          alt={movie.title}
-          className="img-card"
-        />
-      </div>
-      <div className="card-content">
-        <Typography gutterBottom variant="h5" component="div">
-          {movie.title}
-        </Typography>
-        <Typography variant="body2">Director: {movie.director}</Typography>
-        <Typography variant="body2">Category: {movie.category}</Typography>
-        <Typography variant="body2"
-          className={` ${!movie.isAvailable ? 'disabledButtonText' : 'availableButtonText'}`}
-        >Status: {status}</Typography>
-        {!movie.isAvailable && (
-          <>
-           <RentedUntil movie={movie}/>
-          </>
-        )}
-      </div>
-      <div className="card-actions">
-        <Button
-          variant="contained"
-          onClick={handleDetailsOpen}
-          className="darkButton btnC"
-        >
-          Details
-        </Button>
-
-        <Button
-          variant="contained"
-          onClick={handleOpenRentModal}
-          disabled={!movie.isAvailable}
-          className={`redButton ${!movie.isAvailable ? 'disabledButton' : ''}`}
-        >
-          Rent
-        </Button>
+    <div className={`rented-movie-card ${!movie.isAvailable ? 'unavailable' : 'available'}`}>
+      <img
+        src={movie.photoUrl || "/default-movie.jpg"}
+        alt={movie.title}
+        className="movie-image"
+      />
+      <div className="movie-info">
+        <div className="movie-details">
+          <h2 className="movie-title">{movie.title}</h2>
+          <p className="movie-detail">Director: {movie.director}</p>
+          <p className="movie-detail">Category: {movie.category}</p>
+          {!movie.isAvailable && <RentedUntil movie={movie} />}
+        </div>
+        <div className="movie-actions">
+          <button className="details-button" onClick={handleDetailsOpen}>
+            Details
+          </button>
+          <button
+            className={`rent-button ${!movie.isAvailable ? 'disabled' : ''}`}
+            onClick={handleOpenRentModal}
+            disabled={!movie.isAvailable}
+          >
+            Rent
+          </button>
+        </div>
       </div>
       {detailsModalOpen && (
         <ViewMovieDetailsModalWindow
@@ -80,7 +58,7 @@ function RentedMovie({ movie, triggerRefresh, setTriggerRefresh }) {
           triggerRefresh={triggerRefresh}
         />
       )}
-    </Card>
+    </div>
   );
 }
 
