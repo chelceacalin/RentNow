@@ -12,6 +12,7 @@
 
 .appIcon {
     margin-left: -20px;
+
     rect,
     path {
         fill: $main-color;
@@ -32,5 +33,71 @@
 @media(max-width:768px) {
     .AppIconUnformatted {
         display: none !important;
+    }
+}
+
+
+
+.details-button,
+.rent-button,
+.close-button,
+.cancel-button {
+    font-size: 1rem;
+    padding: 10px 16px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s, opacity 0.3s;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin: 5px;
+
+    &.details-button {
+        background-color: $detailsButtonColor;
+        color: #fff;
+        width: 50%;
+
+        &:hover {
+            background-color: $detailsButtonColorHover;
+        }
+    }
+
+
+    &.close-button {
+        background-color: $closeButtonColor;
+        color: #fff;
+        width: 10%;
+
+        &:hover {
+            background-color: $closeButtonColorHover;
+        }
+    }
+
+
+    &.cancel-button {
+        outline: 1px solid $cancelButtonOutline;
+        color: #fff;
+        width: 50%;
+
+        &:hover {
+            background-color: $cancelButtonHover;
+        }
+    }
+
+    &.rent-button {
+        background-color: $rentButtonColor;
+        color: #fff;
+        width: 50%;
+
+        &:hover {
+            background-color: $rentButtonColorHover;
+        }
+
+        &.disabled {
+            background-color: gray !important;
+            cursor: not-allowed;
+            opacity: 0.8;
+        }
     }
 }

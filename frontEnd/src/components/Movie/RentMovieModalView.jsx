@@ -1,21 +1,21 @@
-import {faTimes} from "@fortawesome/free-solid-svg-icons";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {Button, Dialog, DialogContent} from "@mui/material";
-import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
-import {DatePicker} from "@mui/x-date-pickers/DatePicker";
-import {LocalizationProvider} from "@mui/x-date-pickers/LocalizationProvider";
+import { faTimes } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Dialog, DialogContent, Typography } from "@mui/material";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import axios from "axios";
 import dayjs from "dayjs";
 import updateLocale from "dayjs/plugin/updateLocale";
-import {useEffect, useState} from "react";
-import {showError, showSuccess} from "../../service/ToastService";
+import { useEffect, useState } from "react";
+import { showError, showSuccess } from "../../service/ToastService";
 
 function RentMovieModalView({
   isRentModalOpen,
   movie,
   setTriggerRefresh,
   triggerRefresh,
-  handleCloseRentModal
+  handleCloseRentModal,
 }) {
   dayjs.extend(updateLocale);
   dayjs.updateLocale("en", { weekStart: 1 });
@@ -37,10 +37,11 @@ function RentMovieModalView({
       rentedUntil: date,
       movieId: movie.id,
       userId: idUser,
-      description: movie.description
+      description: movie.description,
     };
 
-    axios.post(url, body)
+    axios
+      .post(url, body)
       .then(() => {
         showSuccess(`You have rented the movie ${movie.title}`);
         handleCloseRentModal();
@@ -62,39 +63,103 @@ function RentMovieModalView({
       maxWidth={"md"}
       open={isRentModalOpen}
       onClose={handleCloseRentModal}
+      PaperProps={{
+        style: {
+          backgroundColor: "#141414",
+          color: "#fff",
+          borderRadius: "8px",
+        },
+      }}
     >
       <FontAwesomeIcon
         className="closeModalWindowButton"
         icon={faTimes}
         onClick={handleCloseRentModal}
         transform="right-630 grow-6"
-      ></FontAwesomeIcon>
-      <DialogContent>
-        <p className="text-center">
-          You are renting movie <span className="font-bold">  {movie.title} </span>
-          directed by <span className="font-bold"> {movie.director} </span> from
-          <span className="font-bold"> {movie.owner_username}</span>.
-        </p>
-        <p className="text-center">
-          Please fill in the return date below and go pick up your movie from
-          the physical shelf or the owner.
-        </p>
-        <div className="text-center pt-14">
+        style={{
+          color: "#fff",
+          cursor: "pointer",
+          position: "absolute",
+          top: "20px",
+          right: "20px",
+        }}
+      />
+      <DialogContent style={{ padding: "40px" }}>
+        <Typography
+          variant="h4"
+          style={{ marginBottom: "20px", color: "#e50914" }}
+        >
+          Rent Movie: {movie.title}
+        </Typography>
+        <Typography
+          variant="body1"
+          style={{ marginBottom: "20px", color: "#999" }}
+        >
+          You are renting{" "}
+          <span style={{ color: "#fff", fontWeight: "bold" }}>
+            {movie.title}
+          </span>{" "}
+          directed by{" "}
+          <span style={{ color: "#fff", fontWeight: "bold" }}>
+            {movie.director}
+          </span>{" "}
+          from{" "}
+          <span style={{ color: "#fff", fontWeight: "bold" }}>
+            {movie.owner_username}
+          </span>
+          .
+          <span className="mt-2 mb-4 flex align-content-center justify-center">
+            <img
+              src={movie.photoUrl}
+              alt="Image not found"
+              width={550}
+              height={550}
+            />
+          </span>
+        </Typography>
+        <Typography
+          variant="body1"
+          style={{ marginBottom: "40px", color: "#999" }}
+        >
+          Please select the return date below and pick up your movie from the
+          physical shelf or the owner.
+        </Typography>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            marginBottom: "40px",
+          }}
+        >
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DatePicker
-              label={<span style={{ fontFamily: "Sanchez" }}>Return date</span>}
+              label={<span style={{ color: "#fff" }}>Return date</span>}
               defaultValue={dayjs()}
               minDate={today}
               maxDate={maxDate}
               slotProps={{
                 textField: {
-                  inputProps: {
-                    style: { fontFamily: "Sanchez" },
+                  InputProps: {
+                    style: { color: "#fff" },
                   },
                 },
               }}
               sx={{
                 width: { md: 259 },
+                "& .MuiInputBase-root": {
+                  color: "#fff",
+                  "&:hover": {
+                    "& .MuiOutlinedInput-notchedOutline": {
+                      borderColor: "#e50914",
+                    },
+                  },
+                },
+                "& .MuiOutlinedInput-notchedOutline": {
+                  borderColor: "#333",
+                },
+                "& .MuiSvgIcon-root": {
+                  color: "#fff",
+                },
               }}
               disabled={false}
               selected={date}
@@ -102,25 +167,13 @@ function RentMovieModalView({
             />
           </LocalizationProvider>
         </div>
-        <div className="pt-14 flex w-full">
-          <div className="px-2 w-1/2">
-            <Button
-              className="outlined-button w-full"
-              variant="outlined"
-              onClick={handleCloseRentModal}
-            >
-              Cancel
-            </Button>
-          </div>
-          <div className="px-2 w-1/2">
-            <Button
-                className="w-full darkButton"
-              variant="contained"
-              onClick={rentMovie}
-            >
-              Rent
-            </Button>
-          </div>
+        <div style={{ display: "flex", justifyContent: "space-between" }}>
+          <button onClick={handleCloseRentModal} className="cancel-button">
+            Cancel
+          </button>
+          <button className="rent-button" onClick={rentMovie}>
+            Rent
+          </button>
         </div>
       </DialogContent>
     </Dialog>
