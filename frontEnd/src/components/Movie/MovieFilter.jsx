@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
-import { useDebouncedCallback } from "use-debounce";
 import { Autocomplete, TextField, styled } from "@mui/material";
-import "./css/MovieFilter.scss"
+import axios from "axios";
+import { useEffect, useState } from "react";
+import { useDebouncedCallback } from "use-debounce";
+import "./css/MovieFilter.scss";
 const StyledAutocomplete = styled(Autocomplete)(({ theme }) => ({
   "& .MuiAutocomplete-option": {
     color: "white",
@@ -114,19 +114,23 @@ function MovieFilter({
         <div className="col-span-1 flex selectBoxes">
           <div className="flex gap-8 ml-4 mt-0">
             <div className="w-52">
-            <span htmlFor="" className="text-white">Status</span>
-          <select
-            value={availability}
-            onChange={(e) => setAvailability(e.target.value)}
-            className="w-full p-3 bg-gray-800 text-white border border-gray-700 rounded-lg"
-          >
-            <option value="ALL">All</option>
-            <option value="true">Available</option>
-            <option value="false">Unavailable</option>
-          </select>
+              <span htmlFor="" className="text-white">
+                Status
+              </span>
+              <select
+                value={availability}
+                onChange={(e) => setAvailability(e.target.value)}
+                className="w-full p-3 bg-gray-800 text-white border border-gray-700 rounded-lg"
+              >
+                <option value="true">Available</option>
+                <option value="false">Unavailable</option>
+                <option value="ALL">All</option>
+              </select>
             </div>
             <div className="w-52">
-              <span htmlFor="" className="text-white">Sort Field</span>
+              <span htmlFor="" className="text-white">
+                Sort Field
+              </span>
               <select
                 value={sortField}
                 onChange={handleSortFieldChange}
@@ -139,7 +143,9 @@ function MovieFilter({
             </div>
 
             <div className="w-52">
-            <span htmlFor="" className="text-white">Sort Direction</span>
+              <span htmlFor="" className="text-white">
+                Sort Direction
+              </span>
               <select
                 value={direction ? "ASC" : "DESC"}
                 onChange={handleDirectionChange}

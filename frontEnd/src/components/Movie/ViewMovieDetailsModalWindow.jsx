@@ -1,133 +1,245 @@
 import {
-  Button,
-  Card,
-  CardMedia,
+  CalendarToday,
+  CheckCircleOutline,
+  Close,
+  HighlightOff,
+  InfoOutlined,
+  Person,
+} from "@mui/icons-material";
+import {
   Dialog,
   DialogContent,
   Grid,
-  TextField,
+  IconButton,
+  Tooltip,
   Typography,
 } from "@mui/material";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import dayjs from "dayjs";
-
 function ViewMovieDetailsModalWindow({ isModalOpen, closeModal, movie }) {
-  const STATUS_AVAILABLE = "Available";
-  const STATUS_UNAVAILABLE = "Unavailable";
-  const status = movie.isAvailable ? STATUS_AVAILABLE : STATUS_UNAVAILABLE;
+  const status = movie.isAvailable ? "Available" : "Unavailable";
 
   return (
     <Dialog
-      maxWidth={"md"}
+      fullWidth
+      maxWidth="md"
       open={isModalOpen}
       onClose={closeModal}
-      className="movie-details-dialog"
+      PaperProps={{
+        style: {
+          backgroundColor: "#141414",
+          color: "#fff",
+          position: "relative",
+          overflow: "hidden",
+          display: "center",
+        },
+      }}
     >
-      <DialogContent>
-        <Typography variant="h4" component="h2" className="movie-details-title">
-          Movie Details
-        </Typography>
-        <Grid container spacing={2} className="movie-details-grid">
-          <Grid item xs={12} md={6}>
-            <TextField
-              label="Movie title"
-              defaultValue={movie.title}
-              InputProps={{ readOnly: true }}
-              className="movie-detail-field"
-            />
-            <TextField
-              label="Director"
-              defaultValue={movie.director}
-              InputProps={{ readOnly: true }}
-              className="movie-detail-field"
-            />
-            <TextField
-              label="Category"
-              defaultValue={movie.category}
-              InputProps={{ readOnly: true }}
-              className="movie-detail-field"
-            />
-            <TextField
-              label="Description"
-              defaultValue={movie.description}
-              multiline
-              rows={4}
-              InputProps={{ readOnly: true }}
-              className="movie-detail-field"
-            />
-            <TextField
-              label="Status"
-              defaultValue={status}
-              InputProps={{ readOnly: true }}
-              className={`movie-detail-field ${
-                status === "Available" ? "" : "statusUnavailable"
-              }`}
-            />
+      <IconButton
+        edge="end"
+        color="inherit"
+        onClick={closeModal}
+        style={{
+          position: "absolute",
+          top: 8,
+          right: 8,
+          color: "#fff",
+        }}
+      >
+        <Close />
+      </IconButton>
 
-            <TextField
-              label="Rented by"
-              defaultValue={movie.rentedBy}
-              InputProps={{ readOnly: true }}
-              className="movie-detail-field"
-            />
-          </Grid>
-          <Grid item xs={12} md={6} className="movie-image-grid">
-            <Card variant="outlined" className="movie-image-card">
-              <CardMedia
-                component="img"
-                image={movie.photoUrl || "/default-movie.jpg"}
-                alt="Movie Image"
+      <DialogContent>
+        <div
+          style={{
+            position: "relative",
+            paddingTop: "56.25%",
+            marginBottom: "2rem",
+            overflow: "hidden",
+          }}
+        >
+          <img
+            src={movie.photoUrl || "/default-movie.jpg"}
+            alt={movie.title}
+            style={{
+              position: "absolute",
+              top: 0,
+              left: 0,
+              width: "100%",
+              height: "100%",
+              objectFit: "cover",
+            }}
+          />
+          <div
+            style={{
+              position: "absolute",
+              bottom: 0,
+              left: 0,
+              right: 0,
+              background:
+                "linear-gradient(to top, rgba(20,20,20,1) 0%, rgba(20,20,20,0) 100%)",
+              padding: "2rem",
+            }}
+          >
+            <Typography
+              variant="h3"
+              style={{ marginBottom: "0.5rem", color: "rgb(255,0,0)" }}
+            >
+              {movie.title}
+            </Typography>
+            <Typography variant="subtitle1" style={{ color: "#ccc" }}>
+              Directed by{" "}
+              <span style={{ fontWeight: "bold" }}>{movie.director}</span>
+            </Typography>
+            <Typography variant="subtitle1" style={{ color: "#ccc" }}>
+              Category{" "}
+              <span style={{ fontWeight: "bold" }}>{movie.category}</span>
+            </Typography>
+          </div>
+        </div>
+
+        <Grid container spacing={2} height={"auto"}>
+          <Grid item xs={12} md={8} lg={12}>
+            <Typography
+              variant="body1"
+              style={{
+                marginBottom: "1rem",
+                color: "#fff",
+                display: "flex",
+                alignItems: "center",
+              }}
+            >
+              <InfoOutlined
+                style={{ marginRight: "0.75rem", color: "#B3B3B3" }}
               />
-            </Card>
+              <span>Description: {movie.description}</span>
+            </Typography>
+
+            <Typography
+              variant="body1"
+              style={{
+                marginBottom: "1rem",
+                color: "#fff",
+                display: "flex",
+                alignItems: "center",
+              }}
+            >
+              {movie.isAvailable ? (
+                <CheckCircleOutline
+                  style={{ marginRight: "0.75rem", color: "#46d369" }}
+                />
+              ) : (
+                <HighlightOff
+                  style={{ marginRight: "0.75rem", color: "#e50914" }}
+                />
+              )}
+              <span style={{ color: "#B3B3B3" }}>Status:</span>
+              <span
+                style={{
+                  color: movie.isAvailable ? "#46d369" : "#e50914",
+                  marginLeft: "0.25rem",
+                }}
+              >
+                {status}
+              </span>
+            </Typography>
+
             {!movie.isAvailable && (
               <>
+                <Typography
+                  variant="body1"
+                  style={{
+                    marginBottom: "1rem",
+                    color: "#B3B3B3",
+                    display: "flex",
+                    alignItems: "center",
+                  }}
+                >
+                  <Person style={{ marginRight: "0.75rem", color: "#fff" }} />
+                  Owned by:{" "}
+                  <span style={{ color: "#fff", marginLeft: "0.25rem" }}>
+                    {movie.owner_username}
+                  </span>
+                </Typography>
+                <Typography
+                  variant="body1"
+                  style={{
+                    marginBottom: "1rem",
+                    color: "#B3B3B3",
+                    display: "flex",
+                    alignItems: "center",
+                  }}
+                >
+                  <Person style={{ marginRight: "0.75rem", color: "#fff" }} />
+                  Rented by:{" "}
+                  <span style={{ color: "#fff", marginLeft: "0.25rem" }}>
+                    {movie.rentedBy}
+
+                    <Tooltip title={`Email: ${movie.owner_email}`}>
+                      <IconButton
+                        style={{
+                          width: "1rem",
+                          height: "1rem",
+                          backgroundColor: "white",
+                          marginLeft: "5px",
+                          top: "0px",
+                          marginBottom: "2px",
+                        }}
+                      >
+                        <InfoOutlined></InfoOutlined>
+                      </IconButton>
+                    </Tooltip>
+                  </span>
+                </Typography>
+
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
-                  <DatePicker
-                    className="dp first"
-                    label="Rented on"
-                    value={dayjs(movie.rentedDate)}
-                    readOnly
-                    renderInput={(params) => (
-                      <TextField
-                        {...params}
-                        className="movie-detail-field"
-                        InputLabelProps={{ style: { color: "#fff" } }}
-                        inputProps={{
-                          ...params.inputProps,
-                          style: { color: "#fff" },
-                        }}
+                  <div style={{ display: "flex", gap: "1rem" }}>
+                    <Typography
+                      variant="body2"
+                      style={{
+                        color: "#B3B3B3",
+                        display: "flex",
+                        alignItems: "center",
+                      }}
+                    >
+                      <CalendarToday
+                        style={{ marginRight: "0.75rem", color: "#fff" }}
                       />
-                    )}
-                  />
-                  <DatePicker
-                    label="Rented until"
-                    className="dp"
-                    value={dayjs(movie.rentedUntil)}
-                    readOnly
-                    renderInput={(params) => (
-                      <TextField
-                        {...params}
-                        className="movie-detail-field"
-                        InputLabelProps={{ style: { color: "#fff" } }}
-                        inputProps={{
-                          ...params.inputProps,
-                          style: { color: "#fff" },
-                        }}
+                      Rented on:{" "}
+                      <span style={{ color: "#fff", marginLeft: "0.25rem" }}>
+                        {dayjs(movie.rentedDate).format("MMMM D, YYYY")}
+                      </span>
+                    </Typography>
+                    <Typography
+                      variant="body2"
+                      style={{
+                        color: "#B3B3B3",
+                        display: "flex",
+                        alignItems: "center",
+                      }}
+                    >
+                      <CalendarToday
+                        style={{ marginRight: "0.75rem", color: "#fff" }}
                       />
-                    )}
-                  />
+                      Rented until:{" "}
+                      <span style={{ color: "#fff", marginLeft: "0.25rem" }}>
+                        {dayjs(movie.rentedUntil).format("MMMM D, YYYY")}
+                      </span>
+                    </Typography>
+                  </div>
                 </LocalizationProvider>
               </>
             )}
           </Grid>
         </Grid>
       </DialogContent>
-      <div className="movie-details-actions">
-        <Button variant="contained" onClick={closeModal} className="redButton">
+      <div
+        style={{ padding: "1rem", display: "flex", justifyContent: "flex-end" }}
+      >
+        <button onClick={closeModal} className="close-button">
           Close
-        </Button>
+        </button>
       </div>
     </Dialog>
   );

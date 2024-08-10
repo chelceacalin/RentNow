@@ -1,10 +1,11 @@
+import { Container, Grid } from "@mui/material";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import MovieFilter from "../../components/Movie/MovieFilter.jsx";
 import RentedMovie from "../../components/Movie/RentedMovie.jsx";
 import "../../components/ScrollToTop/ScrollToTopButton.jsx";
 import ScrollToTopButton from "../../components/ScrollToTop/ScrollToTopButton.jsx";
-import { Grid, Container } from "@mui/material";
 
 function Movies() {
   const [movies, setMovies] = useState([]);
@@ -12,13 +13,15 @@ function Movies() {
   const [category, setCategory] = useState("");
   const [director, setDirector] = useState("");
   const [title, setTitle] = useState("");
-  const [isAvailable, setIsAvailable] = useState("");
+  const [isAvailable, setIsAvailable] = useState("ALL");
   const [rentedBy, setRentedBy] = useState("");
   const [pageNo, setPageNo] = useState(1);
   const [pageSize, setPageSize] = useState(15);
   const [triggerRefresh, setTriggerRefresh] = useState(false);
-  const [direction, setDirection] = useState(true); 
+  const [direction, setDirection] = useState(true);
   const [sortField, setSortField] = useState("title");
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     const buildUrl = () => {
@@ -32,12 +35,18 @@ function Movies() {
         pageNo: pageNo - 1,
         pageSize: pageSize,
       });
-      if (rentedBy) params.append("rentedBy", rentedBy);
-      console.log(`/movies?${params.toString()}`);
+
+      if (rentedBy) {
+        params.append("rentedBy", rentedBy);
+      }
+
       return `/movies?${params.toString()}`;
     };
 
     const url = buildUrl();
+
+    navigate(url.replace("/movies", ""), { replace: false });
+
     axios
       .get(url)
       .then((response) => {
@@ -46,7 +55,7 @@ function Movies() {
         setInitialized(true);
       })
       .catch((error) => {
-        console.error("Failed to fetch movies:", error);
+        console.error("Failed to fetch movies: ", error);
         setInitialized(true);
       });
   }, [
@@ -66,16 +75,17 @@ function Movies() {
     setTitle(params[2]);
     setIsAvailable(params[3] === "ALL" ? "" : params[3]);
     setRentedBy(params[4]);
+    setTriggerRefresh((prev) => !prev);
   };
 
   const handleSortFieldChange = (event) => {
     setSortField(event.target.value);
-    setTriggerRefresh(!triggerRefresh); 
+    setTriggerRefresh(!triggerRefresh);
   };
 
   const handleDirectionChange = (event) => {
     setDirection(event.target.value === "ASC");
-    setTriggerRefresh(!triggerRefresh); 
+    setTriggerRefresh(!triggerRefresh);
   };
 
   return (
@@ -88,12 +98,7 @@ function Movies() {
         sortField={sortField}
         direction={direction}
       />
-      <Grid
-        container
-        spacing={0}
-        mt={0}
-        className="rented-movies-container"
-      >
+      <Grid container spacing={0} mt={0} className="rented-movies-container">
         {movies.map((movie, idx) => (
           <Grid item key={idx}>
             <RentedMovie
