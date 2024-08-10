@@ -149,13 +149,13 @@ function Login() {
             <Typography component="p" variant="body2" sx={{ mt: 2, mb: 4, textAlign: 'center' }}>
               Please sign in to continue to our movie rental service.
             </Typography>
-            <Box component="form" noValidate sx={{ mt: 1, width: '100%' }}>
+            <Box component="form" noValidate sx={{ mt: 1, width: '100%', textAlign:"center" }}>
               <Button
                 variant="contained"
                 color="primary"
                 startIcon={<GoogleIcon />}
                 onClick={handleSignInWithGoogle}
-                sx={{ mt: 2, mb: 2 }}
+                sx={{ m:2}}
               >
                 Sign in with Google
               </Button>
@@ -164,7 +164,7 @@ function Login() {
                 color="secondary"
                 startIcon={<GitHubIcon />}
                 onClick={handleSignInWithGithub}
-                sx={{ mt: 2, mb: 2 }}
+                sx={{ m:2}}
               >
                 Sign in with GitHub
               </Button>

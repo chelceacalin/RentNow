@@ -40,46 +40,42 @@ function MainContent() {
 
   if (!initialized) return null;
 
-  if (isLoggedIn) {
-    return (
-      <>
-        <div className="h-screen">
-          <Navbar />
-        </div>
-        <Routes>
-          <Route element={<Authenticated />}>
-            <Route index path="/" element={<Movies />} />
-
-            <Route element={<MyRentedMoviesRoute />}>
-              <Route
-                path="/myprofile/myRentedMovies/:id"
-                element={<MyRentedMovies />}
-              />
-            </Route>
-
-            <Route element={<ProfileRoute />}>
-              <Route path="/myprofile/:id" element={<MyProfile />} />
-            </Route>
-
-            <Route element={<AdminRoute />}>
-              <Route
-                path="/categoryManagement"
-                element={<CategoryManagement />}
-              />
-              <Route path="/roleManagement" element={<RoleManagement />} />
-            </Route>
-            <Route path="/*" element={<NotFound />} />
-          </Route>
-        </Routes>
-      </>
-    );
-  } else {
-    return (
+  return isLoggedIn ? (
+    <>
+      <div className="h-screen">
+        <Navbar />
+      </div>
       <Routes>
-        <Route element={<Login />} index="/login" />
+        <Route element={<Authenticated />}>
+          <Route index path="/" element={<Movies />} />
+
+          <Route element={<MyRentedMoviesRoute />}>
+            <Route
+              path="/myprofile/myRentedMovies/:id"
+              element={<MyRentedMovies />}
+            />
+          </Route>
+
+          <Route element={<ProfileRoute />}>
+            <Route path="/myprofile/:id" element={<MyProfile />} />
+          </Route>
+
+          <Route element={<AdminRoute />}>
+            <Route
+              path="/categoryManagement"
+              element={<CategoryManagement />}
+            />
+            <Route path="/roleManagement" element={<RoleManagement />} />
+          </Route>
+          <Route path="/*" element={<NotFound />} />
+        </Route>
       </Routes>
-    );
-  }
+    </>
+  ) : (
+    <Routes>
+      <Route element={<Login />} index="/login" />
+    </Routes>
+  );
 }
 
 export default App;

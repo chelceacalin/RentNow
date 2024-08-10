@@ -1,8 +1,8 @@
 import { useState } from "react";
 import RentMovieModalView from "./RentMovieModalView.jsx";
-import ViewMovieDetailsModalWindow from "./ViewMovieDetailsModalWindow.jsx";
 import RentedUntil from "./RentedUntil.jsx";
-import './css/RentedMovies.scss'; 
+import ViewMovieDetailsModalWindow from "./ViewMovieDetailsModalWindow.jsx";
+import "./css/RentedMovies.scss";
 
 function RentedMovie({ movie, triggerRefresh, setTriggerRefresh }) {
   const [detailsModalOpen, setDetailsModalOpen] = useState(false);
@@ -16,7 +16,11 @@ function RentedMovie({ movie, triggerRefresh, setTriggerRefresh }) {
     setTriggerRefresh((prev) => !prev);
   };
   return (
-    <div className={`rented-movie-card ${!movie.isAvailable ? 'unavailable' : 'available'}`}>
+    <div
+      className={`rented-movie-card ${
+        !movie.isAvailable ? "unavailable" : "available"
+      }`}
+    >
       <img
         src={movie.photoUrl || "/default-movie.jpg"}
         alt={movie.title}
@@ -26,7 +30,6 @@ function RentedMovie({ movie, triggerRefresh, setTriggerRefresh }) {
         <div className="movie-details">
           <h2 className="movie-title">{movie.title}</h2>
           <p className="movie-detail">Director: {movie.director}</p>
-          <p className="movie-detail">Category: {movie.category}</p>
           {!movie.isAvailable && <RentedUntil movie={movie} />}
         </div>
         <div className="movie-actions">
@@ -34,7 +37,7 @@ function RentedMovie({ movie, triggerRefresh, setTriggerRefresh }) {
             Details
           </button>
           <button
-            className={`rent-button ${!movie.isAvailable ? 'disabled' : ''}`}
+            className={`rent-button ${!movie.isAvailable ? "disabled" : ""}`}
             onClick={handleOpenRentModal}
             disabled={!movie.isAvailable}
           >

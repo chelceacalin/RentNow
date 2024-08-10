@@ -27,7 +27,7 @@ public class MovieController {
 	@GetMapping
 	public Page<MovieDTO> findUserMovies(@ModelAttribute MovieFilterDTO dto,
 										 @RequestParam(name = "pageNo", defaultValue = "0") int pageNo,
-										 @RequestParam(name = "pageSize", defaultValue = "15") int pageSize) {
+										 @RequestParam(name = "pageSize", defaultValue = "1000") int pageSize) {
 		log.info("Movies searched with {}", dto);
 		return movieService.findUserMovies(dto, pageNo, pageSize);
 	}
