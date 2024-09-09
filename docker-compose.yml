@@ -31,20 +31,24 @@ services:
       - '3000:3000'
     volumes:
       - grafana_data:/var/lib/grafana
-
+    links:
+      - prometheus
 
   prometheus:
     image: prom/prometheus
+    container_name: prometheus
+    restart: unless-stopped
     ports:
       - '9090:9090'
     volumes:
       - ./src/main/resources/prometheus.yml:/etc/prometheus/prometheus.yml
-
+    # Grafana binding: http://prometheus:9090
 
   loki:
     image: grafana/loki:latest
     ports:
       - "3100:3100"
+    # Grafana binding:  http://loki:3100
 
   promtail:
     image: grafana/promtail:latest
