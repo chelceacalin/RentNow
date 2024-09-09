@@ -25,14 +25,18 @@ services:
 
   grafana:
     image: grafana/grafana-enterprise
-    container_name: grafana
     restart: unless-stopped
     ports:
       - '3000:3000'
     volumes:
       - grafana_data:/var/lib/grafana
+      - ./provisioning/datasources:/etc/grafana/provisioning/datasources
+      - ./provisioning/dashboards:/etc/grafana/provisioning/dashboards
+      - ./provisioning/dashboards/sources:/var/lib/grafana/dashboards
     links:
       - prometheus
+    environment:
+      - DS_PROMETHEUS=http://prometheus:9090
 
   prometheus:
     image: prom/prometheus

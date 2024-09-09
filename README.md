@@ -88,7 +88,8 @@ Rent Now facilitates movie rentals within a company. Manage and share your movie
      => Deploy it, ingress
      => Jmeter
      => Movie Review, reply to comments
-     => Chat Gpt Api, feed it db data and make it reccomend movies
+     => Chat Gpt Api, feed it db data and make it recommend movies
      => Superset, OpenSearch
-    
+
+[FE] => Refactor UI
 </pre>
