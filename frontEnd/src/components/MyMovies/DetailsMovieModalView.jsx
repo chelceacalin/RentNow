@@ -14,7 +14,6 @@ import { showError, showSuccess } from "../../service/ToastService";
 
 function DetailsMovieModalView({
   isModalOpen,
-  closeModal,
   defaultTitle,
   defaultDirector,
   isAvailable,
@@ -23,6 +22,7 @@ function DetailsMovieModalView({
   triggerRefresh,
   setTriggerRefresh,
   photoUrl,
+  closeModal,
 }) {
   const [selectedImage, setSelectedImage] = useState(photoUrl);
   const [availableCategories, setAvailableCategories] = useState([]);
@@ -33,7 +33,6 @@ function DetailsMovieModalView({
   const [imagePreviewUrl, setImagePreviewUrl] = useState(photoUrl);
 
   const MAX_FILE_SIZE = 2048 * 2048;
-
   useEffect(() => {
     axios.get(`/movies/${id}`).then((data) => {
       if (data.data.description.length > 0) {
@@ -352,7 +351,11 @@ function DetailsMovieModalView({
             <div className="flex-1">
               <Button
                 type="button"
-                onClick={closeModal}
+                onClick={() => {
+                  console.log("Click");
+                  closeModal();
+                  console.log("open " + isModalOpen);
+                }}
                 className="outlined-button w-full"
                 variant="outlined"
               >

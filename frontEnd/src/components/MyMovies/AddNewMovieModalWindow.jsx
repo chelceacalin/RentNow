@@ -94,6 +94,8 @@ function AddNewMovieModalWindow({ isOpen, onClose, onRefresh }) {
       onClose();
     } catch (error) {
       showError("Failed to create movie");
+    } finally {
+      setFormData({});
     }
   };
 

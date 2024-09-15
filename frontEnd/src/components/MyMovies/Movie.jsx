@@ -6,9 +6,10 @@ function Movie({ movie, onRefresh }) {
   const [detailsModalOpen, setDetailsModalOpen] = useState(false);
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
 
+  const closeDetailsModal = () => setDetailsModalOpen(false);
   return (
     <tr>
-      <td className="p-4">{movie.title}</td>
+      <td className="p-4">{movie.title} </td>
       <td className="p-4">{movie.director}</td>
       <td className="p-4">{movie.category}</td>
       <td
@@ -26,14 +27,14 @@ function Movie({ movie, onRefresh }) {
       <td className="p-4">
         <button
           onClick={() => setDetailsModalOpen(true)}
-          className="px-4 py-2 bg-blue-detail-text-white text-white rounded mr-2"
+          className="px-4 py-2 mb-2 bg-blue-detail-text-white text-white rounded mr-2"
         >
           Details
         </button>
         {detailsModalOpen && (
           <DetailsMovieModalView
-            isOpen={detailsModalOpen}
-            onClose={() => setDetailsModalOpen(false)}
+            isModalOpen={detailsModalOpen}
+            closeModal={closeDetailsModal}
             movie={movie}
             onRefresh={onRefresh}
           />
@@ -47,7 +48,7 @@ function Movie({ movie, onRefresh }) {
         </button>
         {deleteModalOpen && (
           <DeleteMovieModalView
-            isOpen={deleteModalOpen}
+            isModalOpen={deleteModalOpen}
             onClose={() => setDeleteModalOpen(false)}
             movieId={movie.id}
             onRefresh={onRefresh}
