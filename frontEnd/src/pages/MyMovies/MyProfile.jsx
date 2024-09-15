@@ -1,306 +1,216 @@
+import { Container } from "@mui/material";
 import axios from "axios";
-import {useContext, useEffect, useState} from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import AddNewMovieModalWindow from "../../components/MyMovies/AddNewMovieModalWindow";
 import Movie from "../../components/MyMovies/Movie";
 import MyProfileFilterComponent from "../../components/MyMovies/MyProfileFilterComponent";
-import MyProfileRiredirectButtons from "../../components/MyMovies/MyProfileRiredirectButtons";
+import MyProfileRedirectButtons from "../../components/MyMovies/MyProfileRedirectButtons";
 import Pagination from "../../components/Pagination/Pagination";
-import {UserLoginContext} from "../../utils/context/LoginProvider";
-import SortIcon from "../../utils/icons/SortIcon";
+import { UserLoginContext } from "../../utils/context/LoginProvider";
 
 function MyProfile() {
-  const TABLE_HEAD = [
-    "Title",
-    "Director",
-    "Category",
-    "Status",
-    "Rented Until",
-    "Rented By",
-    "Actions",
-    "",
-  ];
   const [movies, setMovies] = useState([]);
-  const [category, setCategory] = useState("");
-  const [initialized, setInitialized] = useState(false);
-  const [director, setDirector] = useState("");
-  const [title, setTitle] = useState("");
-  const [isAvailable, setIsAvailable] = useState("");
-  const [rentedUntil, setRentedUntil] = useState("");
-  const [rentedBy, setRentedBy] = useState("");
-  const [ownerUsername, setOwnerUsername] = useState("");
-  const [sortField, setSortField] = useState("title");
-  const [direction, setDirection] = useState(true);
-  const [lastClicked, setLastClicked] = useState(null);
-  const [pageNo, setPageNo] = useState(1);
-  const [pageSize, setPageSize] = useState(15);
-  const [totalPages, setTotalPages] = useState("");
-  const [open, setOpen] = useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
-  const [triggerRefresh, setTriggerRefresh] = useState(false);
-  const { username } = useContext(UserLoginContext);
-  let handleClick = (fieldName) => {
-    if (lastClicked === fieldName) {
-      setDirection(!direction);
+  const [filters, setFilters] = useState({
+    category: "",
+    director: "",
+    title: "",
+    isAvailable: "",
+    rentedUntil: "",
+    rentedBy: "",
+    sortField: "title",
+    direction: true,
+  });
+
+  const mapSortField = (field) => {
+    switch (field) {
+      case "status":
+        return "isAvailable";
+      case "renteduntil":
+        return "rentedUntil";
+      case "rentedby":
+        return "rentedBy";
+      default:
+        return field;
     }
-    setLastClicked(fieldName);
   };
+
+  const [pagination, setPagination] = useState({
+    pageNo: 1,
+    pageSize: 15,
+    totalPages: 1,
+  });
+  const [initialized, setInitialized] = useState(false);
+  const [openAddModal, setOpenAddModal] = useState(false);
+  const { username } = useContext(UserLoginContext);
+
+  const handleFilterInput = useCallback(
+    (newFilters) => {
+      setFilters((prev) => ({
+        ...prev,
+        ...newFilters,
+      }));
+      setPagination((prev) => ({
+        ...prev,
+        pageNo: 1,
+      }));
+    },
+    [setFilters, setPagination]
+  );
+
+  const handleSortChange = useCallback(
+    (field) => {
+      const mappedField = mapSortField(field);
+      setFilters((prev) => ({
+        ...prev,
+        sortField: mappedField,
+        direction: prev.sortField === mappedField ? !prev.direction : true,
+      }));
+      setPagination((prev) => ({
+        ...prev,
+        pageNo: 1,
+      }));
+    },
+    [setFilters, setPagination]
+  );
+
+  const handlePageChange = useCallback(
+    (newPageNo) => {
+      setPagination((prev) => ({
+        ...prev,
+        pageNo: newPageNo,
+      }));
+    },
+    [setPagination]
+  );
+
+  const handlePageSizeChange = useCallback(
+    (event) => {
+      setPagination((prev) => ({
+        ...prev,
+        pageSize: parseInt(event.target.value, 10),
+        pageNo: 1,
+      }));
+    },
+    [setPagination]
+  );
 
   useEffect(() => {
-    const buildUrl = () => {
-      const normalizedSortField = sortField || "title";
-      let params = [
-        `owner_username=${username}`,
-        `sortField=${normalizedSortField}`,
-        `direction=${direction ? "ASC" : "DESC"}`,
-        `title=${title}`,
-        `director=${director}`,
-        `category=${category}`,
-        `isAvailable=${isAvailable}`,
-        `pageNo=${parseInt(pageNo) - 1}`,
-        `pageSize=${pageSize}`,
-      ];
+    const fetchMovies = async () => {
+      const params = {
+        owner_username: username,
+        sortField: filters.sortField || "title",
+        direction: filters.direction ? "ASC" : "DESC",
+        title: filters.title,
+        director: filters.director,
+        category: filters.category,
+        isAvailable: filters.isAvailable,
+        pageNo: pagination.pageNo - 1,
+        pageSize: pagination.pageSize,
+      };
 
-      if (rentedUntil) {
-        params.push(`rentedUntil=${rentedUntil}`);
+      if (filters.rentedUntil) {
+        params.rentedUntil = filters.rentedUntil;
+      }
+      if (filters.rentedBy) {
+        params.rentedBy = filters.rentedBy;
       }
 
-      if (rentedBy) {
-        params.push(`rentedBy=${rentedBy}`);
+      try {
+        const response = await axios.get("/movies", { params });
+        setMovies(response.data.content);
+        setPagination((prev) => ({
+          ...prev,
+          totalPages: response.data.totalPages,
+        }));
+        setInitialized(true);
+      } catch (error) {
+        console.error("Failed to fetch movies:", error);
+        setInitialized(true);
       }
-
-      return `/movies?${params.join("&")}`;
     };
 
-    const url = buildUrl();
-
-    axios
-      .get(url)
-      .then((elems) => {
-        if (elems.data.content.length === 0 && pageNo > 1) {
-          updatePageNumber(pageNo - 1);
-        } else {
-          setMovies(elems.data.content);
-          setTotalPages(elems.data.totalPages);
-        }
-        setInitialized(true);
-      })
-      .catch(() => {
-        setInitialized(true);
-      });
-  }, [
-    triggerRefresh,
-    sortField,
-    direction,
-    title,
-    director,
-    category,
-    isAvailable,
-    rentedUntil,
-    rentedBy,
-    ownerUsername,
-    pageSize,
-    pageNo,
-    movies.length,
-  ]);
-
-  let getFilterInput = (params) => {
-    setCategory(params[0]);
-    setDirector(params[1]);
-    setTitle(params[2]);
-    setIsAvailable(params[3] === "BOTH" ? "" : params[3]);
-    setRentedUntil(params[4]);
-    setRentedBy(params[5]);
-  };
-
-  const handleSelectChange = (event) => {
-    const value = event.target.value;
-    setPageSize(value);
-  };
-
-  const updatePageNumber = (pgNo) => {
-    setPageNo(pgNo);
-  };
-
-  const addMovie = (addedMovie) => {
-    const addedMovies = movies.map((movie) => {
-      if (movie.title === addedMovie.title) {
-        return addedMovie;
-      }
-      return movie;
-    });
-    setMovies(updatedMovie);
-  };
+    fetchMovies();
+  }, [filters, pagination.pageNo, pagination.pageSize, username]);
 
   return (
-    <>
-      <div className=" w-full">
-        <div className="">
-          <MyProfileFilterComponent filterInput={getFilterInput} />
-        </div>
-        <div className="flex items-center justify-start w-full mt-4">
-          <MyProfileRiredirectButtons />
-          <button
-            onClick={handleOpen}
-            className="text-white flex justify-center ms-1 mainBg  p-4"
-          >
-            Add New
-          </button>
-          <AddNewMovieModalWindow
-            isModalOpen={open}
-            closeModal={handleClose}
-            title={title}
-            director={director}
-            category={category}
-            addMovie={addMovie}
-            triggerRefresh={triggerRefresh}
-            setTriggerRefresh={setTriggerRefresh}
-          />
-        </div>
-        <div className="flex flex-col bg-white justify-between w-full">
-          <div className="overflow-x-auto w-full">
-            <table className="w-full text-left">
-              <thead className="sticky top-0 z-30  text-white">
-                <tr>
-                  {TABLE_HEAD.slice(0, TABLE_HEAD.length - 1).map((elem) => (
-                    <th
-                      key={elem}
-                      className={`border-b-white p-4 ${
-                        elem.length > 2 ? "mainBg" : ""
-                      } cursor-pointer`}
-                      onClick={(e) => {
-                        e.preventDefault();
-
-                        if (e.target.textContent !== "Status") {
-                          if (e.target.textContent === "Title") {
-                            setSortField("title");
-                            setDirection(!direction);
-                          } else if (e.target.textContent === "Director") {
-                            if (
-                              title.length > 0 ||
-                              director.length > 0 ||
-                              category.length > 0
-                            ) {
-                              setDirection(!direction);
-                            }
-                            setSortField("director");
-                            handleClick(e.target.textContent.toLowerCase());
-                          } else if (e.target.textContent === "Category") {
-                            if (
-                              title.length > 0 ||
-                              director.length > 0 ||
-                              category.length > 0
-                            )
-                              setDirection(!direction);
-                            setSortField("category");
-                            handleClick(e.target.textContent.toLowerCase());
-                          } else if (e.target.textContent === "Rented Until") {
-                            if (
-                              title.length > 0 ||
-                              director.length > 0 ||
-                              category.length > 0
-                            ) {
-                              setDirection(!direction);
-                            }
-                            setSortField("rentedUntil");
-                            handleClick(e.target.textContent.toLowerCase());
-                          } else if (e.target.textContent === "Rented By") {
-                            if (
-                              title.length > 0 ||
-                              director.length > 0 ||
-                              category.length > 0
-                            ) {
-                              setDirection(!direction);
-                            }
-                            setSortField("rentedBy");
-                            handleClick(e.target.textContent.toLowerCase());
-                          }
-                        }
-                      }}
-                    >
-                      <div>
-                        {elem}
-                        {elem !== "Status" && (
-                          <svg
-                            data-column={elem}
-                            style={{ display: "inline-block" }}
-                            width="16"
-                            height="16"
-                            viewBox="0 0 16 16"
-                            fill="none"
-                            xmlns="http://www.w3.org/2000/svg"
-                            onClick={(e) => {
-                              setDirection(!direction);
-                              let column =
-                                e.currentTarget.getAttribute("data-column");
-                              handleClick(column.toLowerCase());
-
-                              e.stopPropagation();
-
-                              if (column !== "Status") {
-                                if (column === "Title") {
-                                  setSortField("title");
-                                } else if (column === "Director") {
-                                  setSortField("director");
-                                } else if (column === "Category") {
-                                  setSortField("category");
-                                }
-                                if (sortField === column.toLowerCase()) {
-                                  setDirection(!direction);
-                                } else {
-                                  setDirection(true);
-                                }
-
-                                if (column === "Rented Until") {
-                                  setSortField("rentedUntil");
-                                  setDirection(!direction);
-                                } else if (column === "Rented By") {
-                                  setSortField("rentedBy");
-                                  setDirection(!direction);
-                                }
-                              }
-                            }}
-                          >
-                            <SortIcon />
-                          </svg>
-                        )}
-                      </div>
-                    </th>
-                  ))}
-                  <th className="border-b-white p-2 text-center"></th>
-                </tr>
-              </thead>
-              <tbody className="text-blue-marine">
-                {movies.map((movie, index) => (
-                  <Movie
-                    key={index}
-                    {...movie}
-                    classes={
-                      index === movies.length - 1
-                        ? "px-4 py-2"
-                        : "px-4 py-2 border-b border-blue-gray-50"
-                    }
-                    triggerRefresh={triggerRefresh}
-                    setTriggerRefresh={setTriggerRefresh}
-                  />
-                ))}
-              </tbody>
-            </table>
-          </div>
-
-          {!movies.length && initialized && (
-          <div className="text-center">No matching results found</div>
-        )}
-        <Pagination
-          pageNo={pageNo}
-          pageSize={pageSize}
-          totalPages={totalPages}
-          updatePageNumber={updatePageNumber}
-          handleSelectChange={handleSelectChange}
+    <Container maxWidth="xl">
+      <MyProfileFilterComponent onFilterChange={handleFilterInput} />
+      <div className="flex items-center justify-start w-full mt-2">
+        <MyProfileRedirectButtons />
+        <button onClick={() => setOpenAddModal(true)} className="close-button">
+          Add New
+        </button>
+        <AddNewMovieModalWindow
+          isOpen={openAddModal}
+          onClose={() => setOpenAddModal(false)}
+          onRefresh={() => {
+            setFilters((prev) => ({ ...prev }));
+          }}
         />
-        </div>
       </div>
-    </>
+      <div className="overflow-x-auto w-full mt-1">
+        <table className="min-w-full text-left">
+          <thead className="bg-gray-800 text-white">
+            <tr>
+              {[
+                "Title",
+                "Director",
+                "Category",
+                "Status",
+                "Rented Until",
+                "Rented By",
+                "Actions",
+              ].map((header) => (
+                <th
+                  key={header}
+                  className="p-4 cursor-pointer"
+                  onClick={() =>
+                    handleSortChange(header.toLowerCase().replace(/\s+/g, ""))
+                  }
+                >
+                  <div className="flex items-center">
+                    {header}
+                    {filters.sortField ===
+                      header.toLowerCase().replace(/\s+/g, "") && (
+                      <svg
+                        className={`ml-1 w-4 h-4 transform ${
+                          filters.direction ? "rotate-0" : "rotate-180"
+                        }`}
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                      >
+                        <path d="M5.23 7.21a.75.75 0 011.06-.02L10 10.94l3.71-3.75a.75.75 0 011.08 1.04l-4.25 4.3a.75.75 0 01-1.08 0l-4.25-4.3a.75.75 0 01.02-1.06z" />
+                      </svg>
+                    )}
+                  </div>
+                </th>
+              ))}
+            </tr>
+          </thead>
+          <tbody className="bg-white">
+            {movies.map((movie) => (
+              <Movie
+                key={movie.id}
+                movie={movie}
+                onRefresh={() => {
+                  setFilters((prev) => ({ ...prev }));
+                }}
+              />
+            ))}
+          </tbody>
+        </table>
+        {!movies.length && initialized && (
+          <div className="text-center py-4">No matching results found</div>
+        )}
+      </div>
+      <Pagination
+        pageNo={pagination.pageNo}
+        totalPages={pagination.totalPages}
+        pageSize={pagination.pageSize}
+        onPageChange={handlePageChange}
+        onPageSizeChange={handlePageSizeChange}
+      />
+    </Container>
   );
 }
 

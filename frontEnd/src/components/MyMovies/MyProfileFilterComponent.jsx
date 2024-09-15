@@ -1,190 +1,192 @@
-import {Autocomplete, Checkbox, TextField} from "@mui/material";
-import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
-import {LocalizationProvider} from "@mui/x-date-pickers/LocalizationProvider";
+import { Button, TextField, styled } from "@mui/material";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import axios from "axios";
-import {useContext, useEffect, useState} from "react";
-import * as moreClasses from "react-dom/test-utils";
-import {UserLoginContext} from "../../utils/context/LoginProvider";
-import DatePickerClear from "../DatePicker/DatePickerClear";
-import "./css/MyProfileFilter.scss";
+import { useContext, useEffect, useState } from "react";
+import { useDebouncedCallback } from "use-debounce";
+import { UserLoginContext } from "../../utils/context/LoginProvider";
 
-function MyProfileFilterComponent({ filterInput }) {
-  let [title, setTitle] = useState("");
-  let [director, setDirector] = useState("");
-  let [category, setCategory] = useState("");
-  let [available, setAvailable] = useState(true);
-  let [unavailable, setUnavailable] = useState(true);
-  let [rentedUntil, setRentedUntil] = useState(null);
-  let [rentedBy, setRentedBy] = useState(null);
-  let [url, setUrl] = useState("");
-  let [usersWhoRented, setUsersWhoRented] = useState([]);
-  let [filteredUsers, setFilteredUsers] = useState([]);
-  let { username } = useContext(UserLoginContext);
+const StyledAutocomplete = styled(TextField)(({ theme }) => ({
+  "& .MuiInputBase-root": {
+    color: "white",
+  },
+  "& .MuiInputLabel-root": {
+    color: "white",
+  },
+  "& .MuiOutlinedInput-notchedOutline": {
+    borderColor: "gray",
+  },
+}));
+
+function MyProfileFilterComponent({ onFilterChange }) {
+  const [filterValues, setFilterValues] = useState({
+    title: "",
+    director: "",
+    category: "",
+    rentedUntil: null,
+    rentedBy: null,
+    availability: "ALL",
+  });
+  const [usersWhoRented, setUsersWhoRented] = useState([]);
+  const { username } = useContext(UserLoginContext);
+
+  const debouncedFilterChange = useDebouncedCallback((newFilters) => {
+    onFilterChange(newFilters);
+  }, 500);
 
   useEffect(() => {
-    url = `/movies?owner_username=${username}`;
-    axios.get(url).then((elems) => {
-      setUsersWhoRented(elems.data.content);
-      const filteredElems = elems.data.content.filter(
-        (elem) => elem.rentedBy !== "available"
-      );
-      const arrayUniqueByKey = [
-        ...new Map(filteredElems.map((item) => [item.rentedBy, item])).values(),
-      ];
-      setFilteredUsers(arrayUniqueByKey);
-    });
-  }, [url]);
+    const fetchUsers = async () => {
+      try {
+        const response = await axios.get(`/movies`, {
+          params: { owner_username: username },
+        });
+        const users = response.data.content
+          .filter((movie) => movie.rentedBy && movie.rentedBy !== "available")
+          .map((movie) => movie.rentedBy);
+        setUsersWhoRented([...new Set(users)]);
+      } catch (error) {
+        console.error("Failed to fetch users:", error);
+      }
+    };
+    fetchUsers();
+  }, [username]);
 
   useEffect(() => {
-    const date = rentedUntil ? rentedUntil.format("YYYY-MM-DD").toString() : "";
+    const status = filterValues.availability;
+    const filters = {
+      title: filterValues.title,
+      director: filterValues.director,
+      category: filterValues.category,
+      rentedUntil: filterValues.rentedUntil
+        ? filterValues.rentedUntil.format("YYYY-MM-DD")
+        : "",
+      rentedBy: filterValues.rentedBy,
+      isAvailable: status === "ALL" ? "" : status,
+    };
+    debouncedFilterChange(filters);
+  }, [filterValues]);
 
-    let array = [];
-    if (
-      (available === true && unavailable === true) ||
-      (available === false && unavailable === false)
-    ) {
-      array.push(category, director, title, "BOTH", date, rentedBy);
-    } else if (available === true && unavailable === false) {
-      array.push(category, director, title, "true", date, rentedBy);
-    } else if (available === false && unavailable === true) {
-      array.push(category, director, title, "false", date, rentedBy);
-    } else array.push(category, director, title, "", date, rentedBy);
-    filterInput(array);
-  }, [
-    category,
-    director,
-    title,
-    available,
-    unavailable,
-    rentedUntil,
-    rentedBy,
-  ]);
+  const handleInputChange = (field) => (event, value) => {
+    setFilterValues((prev) => ({
+      ...prev,
+      [field]: value !== undefined ? value : event.target.value,
+    }));
+  };
 
   return (
-    <div className="flex flexContainer">
-      <div className="filterContainer">
-        <div className="">
-          <TextField
-            id="outlined-search"
-            name="title"
-            label="Search title"
+    <div className="p-6 bg-gray-900 rounded-lg shadow-md">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="col-span-1">
+          <input
             type="search"
-
-            className="w-48"
-            onChange={(e) => setTitle(e.target.value)}
-            InputProps={{
-              style: { fontFamily: "Sanchez" },
-            }}
-            InputLabelProps={{
-              style: { fontFamily: "Sanchez" },
-            }}
+            placeholder="Search title"
+            className="w-full p-3 bg-gray-800 text-white border border-gray-700 rounded-lg"
+            value={filterValues.title}
+            onChange={handleInputChange("title")}
           />
         </div>
-        <div className="">
-          <TextField
-            id="outlined-search"
-            name="director"
-            label="Search director"
+
+        <div className="col-span-1">
+          <input
             type="search"
-
-            className="w-48"
-            onChange={(e) => setDirector(e.target.value)}
-            InputProps={{
-              style: { fontFamily: "Sanchez" },
-            }}
-            InputLabelProps={{
-              style: { fontFamily: "Sanchez" },
-            }}
+            placeholder="Search director"
+            className="w-full p-3 bg-gray-800 text-white border border-gray-700 rounded-lg"
+            value={filterValues.director}
+            onChange={handleInputChange("director")}
           />
         </div>
-      </div>
 
-      <div className="filterContainer">
-        <div className="">
-          <TextField
-            id="outlined-search"
-            name="category"
-            label="Search category"
+        <div className="col-span-1">
+          <input
             type="search"
-
-            className="w-48"
-            onChange={(e) => setCategory(e.target.value)}
-            InputProps={{
-              style: { fontFamily: "Sanchez" },
-            }}
-            InputLabelProps={{
-              style: { fontFamily: "Sanchez" },
-            }}
+            placeholder="Search category"
+            className="w-full p-3 bg-gray-800 text-white border border-gray-700 rounded-lg"
+            value={filterValues.category}
+            onChange={handleInputChange("category")}
           />
         </div>
 
-        <div className="">
-          <Autocomplete
-            sx={{ fontFamily: "Sanchez" }}
-            value={rentedBy}
-            onChange={(e, value) => {
-              setRentedBy(value);
+        <div className="col-span-1">
+          <span className="text-white">Rented By</span>
+          <StyledAutocomplete
+            select
+            value={filterValues.rentedBy || ""}
+            onChange={handleInputChange("rentedBy")}
+            className="w-full p-3 bg-gray-800  text-white border border-gray-700 rounded-lg color-white"
+            SelectProps={{
+              native: true,
             }}
-            ListboxProps={{
-              style: { fontFamily: "Sanchez" },
-            }}
-            options={filteredUsers.map((m) => m.rentedBy)}
-            renderInput={(params) => (
-              <TextField
-                {...params}
-                InputLabelProps={{
-                  style: { fontFamily: "Sanchez" },
-                }}
-                InputProps={{
-                  ...params.InputProps,
-                  ...moreClasses.input,
-                  style: { fontFamily: "Sanchez" },
-                }}
-                sx={{ fontFamily: "Sanchez" }}
-
-                label="Rented by"
-              />
-            )}
-          />
+          >
+            <option
+              value=""
+              style={{ backgroundColor: "gray", color: "white" }}
+            >
+              All
+            </option>
+            {usersWhoRented.map((user, index) => (
+              <option
+                key={index}
+                value={user}
+                style={{ backgroundColor: "gray", color: "white" }}
+              >
+                {user}
+              </option>
+            ))}
+          </StyledAutocomplete>
         </div>
-      </div>
 
-      <div className="">
-        <div className="">
+        <div className="col-span-1 mt-6">
           <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <DatePickerClear
-              labelString={"Rented until"}
-              value={rentedUntil}
-              className="rtUntil "
-              onClear={() => setRentedUntil(null)}
-              onChange={(newDate) => setRentedUntil(newDate)}
-            />
+            <div className="relative w-full">
+              <DatePicker
+                label="Rented Until"
+                className="bg-gray-300 w-full"
+                value={filterValues.rentedUntil}
+                onChange={(newDate) =>
+                  setFilterValues((prev) => ({ ...prev, rentedUntil: newDate }))
+                }
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    fullWidth
+                    className="bg-gray-800 text-white border border-gray-700 rounded-lg"
+                  />
+                )}
+              />
+              {filterValues.rentedUntil && (
+                <Button
+                  onClick={() =>
+                    setFilterValues((prev) => ({ ...prev, rentedUntil: null }))
+                  }
+                  variant="contained"
+                  size="small"
+                  className="absolute top-2 right-2 left-4 bg-red-500 text-white"
+                >
+                  Reset
+                </Button>
+              )}
+            </div>
           </LocalizationProvider>
         </div>
 
-        <div className="flex">
-          <div>
-            <Checkbox
-              name="type"
-              label="Unavailable"
-              defaultChecked
-              onClick={(e) => {
-                setUnavailable(e.target.checked);
-              }}
-            />
-            <label name="unavailable">Unavailable</label>
-          </div>
-          <div>
-            <Checkbox
-              name="type"
-              label="Available"
-              defaultChecked
-
-              onClick={(e) => {
-                setAvailable(e.target.checked);
-              }}
-            />
-            <label name="available">Available</label>
+        <div className="col-span-1">
+          <div className="w-full">
+            <span className="text-white">Status</span>
+            <select
+              value={filterValues.availability}
+              onChange={(e) =>
+                setFilterValues((prev) => ({
+                  ...prev,
+                  availability: e.target.value,
+                }))
+              }
+              className="w-full p-3 bg-gray-800 text-white border border-gray-700 rounded-lg mt-1"
+            >
+              <option value="ALL">All</option>
+              <option value="true">Available</option>
+              <option value="false">Unavailable</option>
+            </select>
           </div>
         </div>
       </div>

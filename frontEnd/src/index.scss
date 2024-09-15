@@ -41,7 +41,8 @@
 .details-button,
 .rent-button,
 .close-button,
-.cancel-button {
+.cancel-button,
+.return-button {
     font-size: 1rem;
     padding: 10px 16px;
     border: none;
@@ -57,6 +58,17 @@
         background-color: $detailsButtonColor;
         color: #fff;
         width: 50%;
+
+        &:hover {
+            background-color: $detailsButtonColorHover;
+        }
+    }
+
+
+    &.return-button {
+        background-color: $detailsButtonColor;
+        color: #fff;
+        width: 80%;
 
         &:hover {
             background-color: $detailsButtonColorHover;
@@ -100,4 +112,31 @@
             opacity: 0.8;
         }
     }
+}
+
+
+.bg-main-color {
+    background-color: $main-color;
+}
+
+.bg-main-color-text-white {
+    background-color: $main-color;
+    color: white;
+}
+
+.bg-white-text-black {
+    background-color: white;
+    color: black;
+}
+
+.bg-blue-detail-text-white {
+    background-color: $detailsButtonColor;
+}
+
+.text-main-color {
+    color: $main-color;
+}
+
+.text-green-color {
+    color: $text-green-color;
 }

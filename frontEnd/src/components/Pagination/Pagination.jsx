@@ -1,56 +1,48 @@
-import React from 'react';
-import { Box, Button, Select, MenuItem, Pagination as MuiPagination } from '@mui/material';
+import {
+  Box,
+  MenuItem,
+  Pagination as MuiPagination,
+  Select,
+} from "@mui/material";
 
 const Pagination = ({
   pageNo,
   totalPages,
-  updatePageNumber,
-  handleSelectChange,
-  pageSize
+  pageSize,
+  onPageChange,
+  onPageSizeChange,
 }) => {
-  const getPreviousPage = () => {
-    if (pageNo > 1) updatePageNumber(pageNo - 1);
-  };
-
-  const getNextPage = () => {
-    if (pageNo < totalPages) updatePageNumber(pageNo + 1);
-  };
-
-  const handlePageClick = (pageNumber) => {
-    updatePageNumber(pageNumber);
-  };
-
   return (
-    <Box display="flex" justifyContent="space-between" alignItems="center" p={2} bgcolor="primary.main" color="white">
-      <Box display="flex" alignItems="center">
-        <Box mr={2}>Results per page:</Box>
+    <Box className="flex justify-between items-center p-4 bg-gray-800 text-white">
+      <div className="flex items-center">
+        <span className="mr-2">Results per page:</span>
         <Select
           value={pageSize}
-          onChange={handleSelectChange}
+          onChange={onPageSizeChange}
           variant="outlined"
           size="small"
-          style={{ backgroundColor: 'white', color: 'black' }}
+          className="bg-white text-black"
         >
-          <MenuItem value={15}>15</MenuItem>
-          <MenuItem value={10}>10</MenuItem>
-          <MenuItem value={5}>5</MenuItem>
+          {[5, 10, 15, 20].map((size) => (
+            <MenuItem key={size} value={size}>
+              {size}
+            </MenuItem>
+          ))}
         </Select>
-      </Box>
+      </div>
       <MuiPagination
-        count={parseInt(totalPages, 10)}
+        count={totalPages}
         page={pageNo}
-        onChange={(_, value) => handlePageClick(value)}
-        color="secondary"
-        variant="outlined"
+        onChange={(_, value) => onPageChange(value)}
+        color="primary"
+        variant="text"
+        sx={{
+          "& .MuiPaginationItem-root": {
+            color: "white",
+          },
+        }}
       />
-      <Box display="flex" alignItems="center">
-        <Button variant="contained" color="secondary" onClick={getPreviousPage}>
-          Previous
-        </Button>
-        <Button variant="contained" color="secondary" onClick={getNextPage} style={{ marginLeft: '8px' }}>
-          Next
-        </Button>
-      </Box>
+      <div className="flex items-center"></div>
     </Box>
   );
 };

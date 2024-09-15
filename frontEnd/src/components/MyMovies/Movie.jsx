@@ -1,114 +1,56 @@
-import Button from "@mui/material/Button";
-import React from "react";
+import { useState } from "react";
 import DeleteMovieModalView from "./DeleteMovieModalView";
 import DetailsMovieModalView from "./DetailsMovieModalView";
 
-function Movie({
-  title,
-  director,
-  category,
-  isAvailable,
-  rentedUntil,
-  rentedBy,
-  classes,
-  id,
-  triggerRefresh,
-  setTriggerRefresh,
-  photoUrl
-}) {
-  const [detailsModalOpen, setDetailsModalOpen] = React.useState(false);
-  const [deleteModalOpen, setDeleteModalOpen] = React.useState(false);
-  const handleDetailsOpen = () => setDetailsModalOpen(true);
-  const handleDetailsClose = () => setDetailsModalOpen(false);
-  const handleDeleteOpen = () => setDeleteModalOpen(true);
-  const handleDeleteClose = () => setDeleteModalOpen(false);
+function Movie({ movie, onRefresh }) {
+  const [detailsModalOpen, setDetailsModalOpen] = useState(false);
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
 
   return (
-    <tr key={title}>
-      <td className={classes}>
-        <div
-          variant="small"
-          color="blue-gray"
-          className="font-normal max-w-[250px]"
-        >
-          {title} 
-        </div>
+    <tr>
+      <td className="p-4">{movie.title}</td>
+      <td className="p-4">{movie.director}</td>
+      <td className="p-4">{movie.category}</td>
+      <td
+        className={`p-4 ${
+          movie.isAvailable ? "text-green-color" : "text-main-color"
+        }`}
+      >
+        {movie.isAvailable ? "Available" : "Unavailable"}
       </td>
-      <td className={classes}>
-        <div
-          variant="small"
-          color="blue-gray"
-          className="font-normal max-w-[200px] break-words"
-        >
-          {director}
-        </div>
+
+      <td className="p-4">{movie.rentedUntil || "N/A"}</td>
+      <td className="p-4">
+        {movie.rentedBy !== "available" ? movie.rentedBy : ""}
       </td>
-      <td className={classes}>
-        <div variant="small" color="blue-gray" className="font-normal">
-          {category}
-        </div>
-      </td>
-      <td className={classes}>
-        <div
-          variant="small"
-          style={{ color: isAvailable ? "green" : "red" }}
-          className="font-normal"
-        >
-          {isAvailable ? "Available" : "Unavailable"}
-        </div>
-      </td>
-      <td className={classes}>
-        <div variant="small" color="blue-gray" className="font-normal">
-          {!rentedUntil ? "N/A" : rentedUntil}
-        </div>
-      </td>
-      <td className={classes}>
-        <div variant="small" color="blue-gray" className="font-normal">
-          {rentedBy === "available" && isAvailable ? "" : rentedBy}
-        </div>
-      </td>
-      <td className={classes}>
-        <Button
-          onClick={handleDetailsOpen}
-          className="outlined-button font-normal"
-          variant="outlined"
+      <td className="p-4">
+        <button
+          onClick={() => setDetailsModalOpen(true)}
+          className="px-4 py-2 bg-blue-detail-text-white text-white rounded mr-2"
         >
           Details
-        </Button>
-
+        </button>
         {detailsModalOpen && (
           <DetailsMovieModalView
-            isModalOpen={detailsModalOpen}
-            closeModal={handleDetailsClose}
-            defaultTitle={title}
-            defaultDirector={director}
-            defaultCategory={category}
-            id={id}
-            isAvailable={isAvailable}
-            setTriggerRefresh={setTriggerRefresh}
-            triggerRefresh={triggerRefresh}
-            photoUrl={photoUrl}
+            isOpen={detailsModalOpen}
+            onClose={() => setDetailsModalOpen(false)}
+            movie={movie}
+            onRefresh={onRefresh}
           />
         )}
-
-        <Button
-          onClick={handleDeleteOpen}
-          className="darkButton"
-          variant="contained"
-          disabled={!isAvailable}
+        <button
+          onClick={() => setDeleteModalOpen(true)}
+          className="px-4 py-2 bg-main-color-text-white rounded"
+          disabled={!movie.isAvailable}
         >
           Delete
-        </Button>
-
+        </button>
         {deleteModalOpen && (
           <DeleteMovieModalView
-            isModalOpen={deleteModalOpen}
-            closeModal={handleDeleteClose}
-            title={title}
-            category={category}
-            triggerRefresh={triggerRefresh}
-            setTriggerRefresh={setTriggerRefresh}
-            id={id}
+            isOpen={deleteModalOpen}
+            onClose={() => setDeleteModalOpen(false)}
+            movieId={movie.id}
+            onRefresh={onRefresh}
           />
         )}
       </td>

@@ -1,10 +1,15 @@
 @media(max-width:768px) {
-  .AppIconUnformatted{
+  .AppIconUnformatted {
     display: none !important;
   }
-  
+
 }
 
 .app-container {
   display: flex;
+}
+
+
+.color-white {
+  color: white !important;
 }

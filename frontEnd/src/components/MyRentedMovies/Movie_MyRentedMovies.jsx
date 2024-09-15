@@ -23,16 +23,14 @@ function Movie_MyRentedMovies({
     <tr key={title}>
       <td className={classes}>
         <div
-          variant="small"
           color="blue-gray"
           className="font-normal max-w-[100px] break-words"
         >
-          {title} 
+          {title}
         </div>
       </td>
       <td className={classes}>
         <div
-          variant="small"
           color="blue-gray"
           className="font-normal max-w-[100px] break-words"
         >
@@ -41,7 +39,6 @@ function Movie_MyRentedMovies({
       </td>
       <td className={classes}>
         <div
-          variant="small"
           color="blue-gray"
           className="font-normal max-w-[100px] break-words"
         >
@@ -50,7 +47,6 @@ function Movie_MyRentedMovies({
       </td>
       <td className={classes}>
         <div
-          variant="small"
           color="blue-gray"
           className="font-normal max-w-[100px] break-words"
         >
@@ -59,7 +55,6 @@ function Movie_MyRentedMovies({
       </td>
       <td className={classes}>
         <div
-          variant="small"
           color="blue-gray"
           className="font-normal max-w-[100px] break-words"
         >
@@ -68,7 +63,6 @@ function Movie_MyRentedMovies({
       </td>
       <td className={classes}>
         <div
-          variant="small"
           color="blue-gray"
           className="font-normal max-w-[200px] break-words"
         >
@@ -78,7 +72,7 @@ function Movie_MyRentedMovies({
       <td className={classes}>
         <Button
           onClick={handleReturnOpen}
-          className="Button font-normal w-full darkButton"
+          className="return-button"
           variant="contained"
           disabled={isAvailableForRenting}
         >
