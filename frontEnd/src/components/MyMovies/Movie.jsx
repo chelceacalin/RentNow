@@ -8,7 +8,7 @@ function Movie({ movie, onRefresh }) {
 
   const closeDetailsModal = () => setDetailsModalOpen(false);
   return (
-    <tr>
+    <tr className="shadow-sm shadow-slate-300">
       <td className="p-4">{movie.title} </td>
       <td className="p-4">{movie.director}</td>
       <td className="p-4">{movie.category}</td>
@@ -24,10 +24,11 @@ function Movie({ movie, onRefresh }) {
       <td className="p-4">
         {movie.rentedBy !== "available" ? movie.rentedBy : ""}
       </td>
-      <td className="p-4">
+      <td className="p-4">{movie.created_date}</td>
+      <td className="pt-1">
         <button
           onClick={() => setDetailsModalOpen(true)}
-          className="px-4 py-2 mb-2 bg-blue-detail-text-white text-white rounded mr-2"
+          className="p-0 m-0 details-button db-sm text-white rounded mr-2"
         >
           Details
         </button>
@@ -41,7 +42,7 @@ function Movie({ movie, onRefresh }) {
         )}
         <button
           onClick={() => setDeleteModalOpen(true)}
-          className="px-4 py-2 bg-main-color-text-white rounded"
+          className="p-0 m-0 details-button details-button-red db-sm  rounded"
           disabled={!movie.isAvailable}
         >
           Delete

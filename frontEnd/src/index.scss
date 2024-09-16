@@ -62,7 +62,21 @@
         &:hover {
             background-color: $detailsButtonColorHover;
         }
+
+        &.details-button-red {
+            background-color: $main-color;
+
+            &:hover {
+                background-color: $main-color-hover;
+            }
+        }
+
+        &.db-sm {
+            width: 45%;
+            height: 30%;
+        }
     }
+
 
 
     &.return-button {
@@ -117,7 +131,13 @@
 
 .bg-main-color {
     background-color: $main-color;
+
+    &:hover {
+        background-color: $main-color-hover;
+    }
 }
+
+
 
 .bg-main-color-text-white {
     background-color: $main-color;

@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Data
 @Builder
@@ -30,6 +31,8 @@ public class MovieFilterDTO {
 	String direction;
 
 	String sortField;
+
+	LocalDateTime created_date;
 
 	public MovieFilterDTO() {
 		this.direction = "ASC";

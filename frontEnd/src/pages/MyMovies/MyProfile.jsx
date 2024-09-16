@@ -29,6 +29,8 @@ function MyProfile() {
         return "rentedUntil";
       case "rentedby":
         return "rentedBy";
+      case "createddate":
+        return "created_date";
       default:
         return field;
     }
@@ -105,6 +107,7 @@ function MyProfile() {
         category: filters.category,
         isAvailable: filters.isAvailable,
         pageNo: pagination.pageNo - 1,
+        created_date: filters.created_date,
         pageSize: pagination.pageSize,
       };
 
@@ -159,6 +162,7 @@ function MyProfile() {
                 "Status",
                 "Rented Until",
                 "Rented By",
+                "Created Date",
                 "Actions",
               ].map((header) => (
                 <th

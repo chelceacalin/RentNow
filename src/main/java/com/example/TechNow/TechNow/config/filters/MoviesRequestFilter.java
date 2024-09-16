@@ -1,5 +1,6 @@
 package com.example.TechNow.TechNow.config.filters;
 
+import com.example.TechNow.TechNow.config.filters.impl.ParameterNameValidationFilter;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,7 +13,7 @@ import java.util.Set;
 public class MoviesRequestFilter {
 
 	final Set<String> MOVIE_PARAMS = new HashSet<>(Arrays.asList("title", "director", "category", "isAvailable",
-			"rentedBy", "owner_username", "rentedDate", "rentedUntil", "direction", "sortField", "pageNo", "pageSize"));
+			"rentedBy", "owner_username", "rentedDate", "rentedUntil", "direction", "sortField", "pageNo", "pageSize", "created_date"));
 
 
 	@Bean

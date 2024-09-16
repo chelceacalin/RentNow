@@ -9,6 +9,7 @@ import jakarta.persistence.criteria.JoinType;
 import org.springframework.data.jpa.domain.Specification;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import static com.example.TechNow.TechNow.util.MovieSpecificationConstants.*;
 
@@ -42,5 +43,9 @@ public class MovieSpecification {
 			Join<MovieHistory, User> rentedByJoin = movieHistoryJoin.join(RENTED_BY, JoinType.INNER);
 			return criteriaBuilder.like(criteriaBuilder.lower(rentedByJoin.get(USERNAME)), "%" + username.toLowerCase() + "%");
 		};
+	}
+
+	public static <T> Specification<T> createdDateEquals(LocalDateTime createdDate, String column) {
+		return (root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get(column), createdDate);
 	}
 }

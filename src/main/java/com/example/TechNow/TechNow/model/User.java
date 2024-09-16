@@ -7,6 +7,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Table(name = "users")
 @Data
@@ -28,6 +30,10 @@ public class User {
 	String username;
 
 	String photoUrl;
+
+	LocalDateTime created_date;
+
+	LocalDateTime updated_date;
 
 	@Column
 	@Enumerated(value = EnumType.STRING)

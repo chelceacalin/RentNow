@@ -8,6 +8,7 @@ public interface MovieConstants {
 	String RENTED_BY = "rentedBy";
 	String RENTED_UNTIL = "rentedUntil";
 	String RENTED_DATE = "rentedDate";
+	String CREATED_DATE = "created_date";
 	String DIRECTOR = "director";
 	String OWNER = "owner_username";
 	String TITLE = "title";
@@ -16,5 +17,4 @@ public interface MovieConstants {
 	String MOVIE_DIRECTOR = "movie.director";
 	String MOVIE_CATEGORY_NAME = "movie.category.name";
 	String MOVIE_TITLE = "movie.title";
-
 }

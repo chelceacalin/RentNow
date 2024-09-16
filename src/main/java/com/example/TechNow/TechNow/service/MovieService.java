@@ -21,6 +21,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -50,7 +51,7 @@ public class MovieService {
 		Sort.Direction sortDirection = Sort.Direction.fromString(movieFilter.getDirection());
 		Pageable pageable = getPageable(pageNo, pageSize, movieFilter.getSortField(), sortDirection);
 
-		Page<Movie> moviesPage = movieRepository.findAll(specification, pageable);
+		Page<Movie> moviesPage = movieRepository.findAll(pageable, specification);
 		List<MovieDTO> movies = moviesPage.getContent().stream()
 				.map(movie -> {
 					MovieHistory history = movieHistoryRepository.findMovieHistoryByRentedUntilMostRecent(movie.getId());
@@ -103,6 +104,10 @@ public class MovieService {
 
 		if (nonNull(movieFilter.getRentedUntil())) {
 			specification = specification.and(MovieSpecification.rentedDateFieldEquals(movieFilter.getRentedUntil(), RENTED_UNTIL));
+		}
+
+		if (nonNull(movieFilter.getCreated_date())) {
+			specification = specification.and(MovieSpecification.createdDateEquals(movieFilter.getCreated_date(), CREATED_DATE));
 		}
 		return specification;
 	}
@@ -172,6 +177,8 @@ public class MovieService {
 				Category category = categoryOptional.get();
 				String imageUrl = imageStorageService.uploadImage("photos", imageFile);
 				Movie createdMovie = MovieMapper.toMovie(movie, user, category);
+				createdMovie.setCreated_date(LocalDateTime.now());
+				createdMovie.setUpdated_date(LocalDateTime.now());
 				createdMovie.setPhotoUrl(imageUrl);
 				movieRepository.save(createdMovie);
 				return MovieMapper.toMovieAddDto(createdMovie);

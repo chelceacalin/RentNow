@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Table
@@ -36,4 +37,8 @@ public class MovieHistory {
 	@ManyToOne
 	@JoinColumn(name = "movie_id", referencedColumnName = "id")
 	Movie movie;
+
+	LocalDateTime created_date;
+
+	LocalDateTime updated_date;
 }

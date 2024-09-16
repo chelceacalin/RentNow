@@ -8,6 +8,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -31,4 +32,9 @@ public class Category {
 	@OneToMany(mappedBy = "category", cascade = CascadeType.ALL, orphanRemoval = true)
 	@JsonIgnore
 	List<Movie> movieList;
+
+
+	LocalDateTime created_date;
+
+	LocalDateTime updated_date;
 }

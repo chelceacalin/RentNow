@@ -14,6 +14,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -56,6 +57,8 @@ public class CategoryService {
 		Category categoryToBeSaved = Category.builder()
 				.name(categoryDTO.getName())
 				.isAvailable(true)
+				.created_date(LocalDateTime.now())
+				.updated_date(LocalDateTime.now())
 				.build();
 
 		return categoryRepository.save(categoryToBeSaved);

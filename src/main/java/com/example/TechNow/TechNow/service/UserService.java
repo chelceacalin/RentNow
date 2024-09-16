@@ -16,6 +16,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -107,6 +108,7 @@ public class UserService {
 		} else {
 			User userToBeSaved = UserMapper.toUserFromUserAddDTO(userAddDTO);
 			userToBeSaved.setId(String.valueOf(UUID.randomUUID()));
+			userToBeSaved.setCreated_date(LocalDateTime.now()).setUpdated_date(LocalDateTime.now());
 			userRepository.save(userToBeSaved);
 			return UserMapper.toUserAddReponseDTOFromUser(userToBeSaved);
 		}

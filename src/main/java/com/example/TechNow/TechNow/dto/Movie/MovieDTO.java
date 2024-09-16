@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Data
@@ -18,6 +19,7 @@ public class MovieDTO {
 	UUID id;
 
 	String owner_username;
+
 	String owner_email;
 
 	String title;
@@ -37,4 +39,8 @@ public class MovieDTO {
 	LocalDate rentedUntil;
 
 	String photoUrl;
+
+	String created_date;
+
+	LocalDateTime updated_date;
 }

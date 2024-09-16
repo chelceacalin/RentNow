@@ -2,7 +2,9 @@ package com.example.TechNow.TechNow.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.data.annotation.CreatedDate;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -40,4 +42,11 @@ public class Movie {
 	List<MovieHistory> movieHistories;
 
 	String photoUrl;
+
+
+	@CreatedDate
+	@Column(name = "created_date")
+	LocalDateTime created_date;
+
+	LocalDateTime updated_date;
 }
