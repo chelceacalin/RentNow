@@ -21,8 +21,10 @@ function EditCategoryNameModalWindow({
   const [errorMessage, setErrorMessage] = useState("");
 
   useEffect(() => {
-    setNewName(name);
-  }, [name]);
+    if (isModalOpen) {
+      setNewName(name);
+    }
+  }, [name, isModalOpen]);
 
   const editCategoryName = () => {
     let url = "/category/update/" + id;
@@ -79,7 +81,7 @@ function EditCategoryNameModalWindow({
             label="Name"
             required
             value={newName}
-            onChange={(e) => {
+            onInput={(e) => {
               handleInputChangeWithValidation(
                 e,
                 setNewName,
@@ -99,8 +101,9 @@ function EditCategoryNameModalWindow({
             onClick={() => {
               resetField(setErrorMessage, "");
               editCategoryName();
+              closeModal();
             }}
-            disabled={!!errorMessage}
+            disabled={!!errorMessage || newName.length == 0}
           >
             Save
           </button>

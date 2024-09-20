@@ -16,4 +16,5 @@ public class CategoryDTO {
     UUID id;
     String name;
     String created_date;
+    String updated_date;
 }

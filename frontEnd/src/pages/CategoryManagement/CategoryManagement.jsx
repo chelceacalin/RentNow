@@ -11,7 +11,7 @@ function CategoryManagement() {
   const [initialized, setInitialized] = useState(false);
   const [name, setName] = useState("");
   const [direction, setDirection] = useState(true);
-  const [lastClicked, setLastClicked] = useState("name"); // Initialize to default column
+  const [lastClicked, setLastClicked] = useState("name");
   const [newUrl, setNewUrl] = useState("");
   const [pageNo, setPageNo] = useState(1);
   const [pageSize, setPageSize] = useState(15);
@@ -53,7 +53,7 @@ function CategoryManagement() {
         setInitialized(true);
       })
       .catch(() => setInitialized(true));
-  }, [direction, name, pageSize, pageNo, lastClicked]);
+  }, [direction, name, pageSize, pageNo, lastClicked, signalCall]);
 
   const updatePageNumber = (pgNo) => setPageNo(pgNo);
 
@@ -103,35 +103,45 @@ function CategoryManagement() {
             <table className="cater w-full text-left border-b-2">
               <thead className="sticky top-0 z-30 text-white bg-gray-800">
                 <tr>
-                  {["Category", "Created Date", "Actions"].map((elem) => (
-                    <th
-                      key={elem}
-                      className="table-th"
-                      onClick={() =>
-                        elem !== "Actions" &&
-                        handleClick(
-                          elem === "Category" ? "name" : "created_date"
-                        )
-                      }
-                    >
-                      <div className="flex items-center">
-                        <span>{elem}</span>
-                        {elem !== "Actions" &&
-                          lastClicked ===
-                            (elem === "Category" ? "name" : "created_date") && (
-                            <svg
-                              className={`ml-1 w-4 h-4 transform ${
-                                direction ? "rotate-0" : "rotate-180"
-                              }`}
-                              fill="currentColor"
-                              viewBox="0 0 20 20"
-                            >
-                              <path d="M5.23 7.21a.75.75 0 011.06-.02L10 10.94l3.71-3.75a.75.75 0 011.08 1.04l-4.25 4.3a.75.75 0 01-1.08 0l-4.25-4.3a.75.75 0 01.02-1.06z" />
-                            </svg>
-                          )}
-                      </div>
-                    </th>
-                  ))}
+                  {["Category", "Created Date", "Updated Date", "Actions"].map(
+                    (elem) => (
+                      <th
+                        key={elem}
+                        className="table-th"
+                        onClick={() =>
+                          elem !== "Actions" &&
+                          handleClick(
+                            elem === "Category"
+                              ? "name"
+                              : elem === "Created Date"
+                              ? "created_date"
+                              : "updated_date"
+                          )
+                        }
+                      >
+                        <div className="flex items-center">
+                          <span>{elem}</span>
+                          {elem !== "Actions" &&
+                            lastClicked ===
+                              (elem === "Category"
+                                ? "name"
+                                : elem === "Created Date"
+                                ? "created_date"
+                                : "updated_date") && (
+                              <svg
+                                className={`ml-1 w-4 h-4 transform ${
+                                  direction ? "rotate-0" : "rotate-180"
+                                }`}
+                                fill="currentColor"
+                                viewBox="0 0 20 20"
+                              >
+                                <path d="M5.23 7.21a.75.75 0 011.06-.02L10 10.94l3.71-3.75a.75.75 0 011.08 1.04l-4.25 4.3a.75.75 0 01-1.08 0l-4.25-4.3a.75.75 0 01.02-1.06z" />
+                              </svg>
+                            )}
+                        </div>
+                      </th>
+                    )
+                  )}
                 </tr>
               </thead>
               <tbody className="text-blue-marine">

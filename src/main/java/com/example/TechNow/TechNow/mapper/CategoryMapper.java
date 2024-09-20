@@ -12,6 +12,7 @@ public class CategoryMapper {
 				.id(category.getId())
 				.name(category.getName())
 				.created_date(parseDate(category.getCreated_date()))
+				.updated_date(parseDate(category.getUpdated_date()))
 				.build();
 	}
 }

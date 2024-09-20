@@ -15,6 +15,7 @@ function Category({
   const closeEditModal = () => {
     setEditModalOpen(false);
     setSignalCall(!signalCall);
+    handleClose();
   };
   const openEditModal = () => setEditModalOpen(true);
 
@@ -48,6 +49,15 @@ function Category({
           {category.created_date}
         </div>
       </td>
+      <td className={classes}>
+        <div
+          variant="small"
+          color="blue-gray"
+          className="font-normal max-w-[200px]"
+        >
+          {category.updated_date}
+        </div>
+      </td>
       <td className="p-2">
         <div className="w-72">
           <button onClick={handleOpen} className="details-button db-sm">
@@ -55,7 +65,7 @@ function Category({
           </button>
           <EditCategoryNameModalWindow
             isModalOpen={open}
-            closeModal={handleClose}
+            closeModal={closeEditModal}
             id={category.id}
             name={category.name}
             updateCategory={updateCategory}

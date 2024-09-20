@@ -78,6 +78,8 @@ public class CategoryService {
 
 		Category toUpdateCategory = existsCategory.get();
 		toUpdateCategory.setName(categoryDTO.getName());
+		toUpdateCategory.setCreated_date(toUpdateCategory.getCreated_date());
+		toUpdateCategory.setUpdated_date(LocalDateTime.now());
 		return categoryRepository.save(toUpdateCategory);
 	}
 

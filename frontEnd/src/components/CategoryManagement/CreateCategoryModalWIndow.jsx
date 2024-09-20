@@ -85,7 +85,7 @@ function CreateCategoryModalWindow({
             className="details-button"
             variant="contained"
             onClick={createCategory}
-            disabled={!!errorMessage}
+            disabled={!!errorMessage || categoryDTO.length == 0}
           >
             Save
           </button>
