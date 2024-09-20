@@ -179,6 +179,7 @@ function AddNewMovieModalWindow({ isOpen, onClose, onRefresh }) {
             value={formData.title}
             onChange={handleInputChange("title")}
             variant="outlined"
+            required
             error={!!formErrors.title}
             helperText={formErrors.title}
             InputLabelProps={{ className: "text-white" }}
@@ -190,6 +191,7 @@ function AddNewMovieModalWindow({ isOpen, onClose, onRefresh }) {
             value={formData.director}
             onChange={handleInputChange("director")}
             variant="outlined"
+            required
             error={!!formErrors.director}
             helperText={formErrors.director}
             InputLabelProps={{ className: "text-white" }}
@@ -218,6 +220,7 @@ function AddNewMovieModalWindow({ isOpen, onClose, onRefresh }) {
             value={formData.description}
             onChange={handleInputChange("description")}
             variant="outlined"
+            required
             multiline
             rows={5}
             error={!!formErrors.description}

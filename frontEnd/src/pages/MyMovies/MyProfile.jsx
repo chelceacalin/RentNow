@@ -167,7 +167,7 @@ function MyProfile() {
               ].map((header) => (
                 <th
                   key={header}
-                  className="p-4 cursor-pointer"
+                  className="table-th"
                   onClick={() =>
                     handleSortChange(header.toLowerCase().replace(/\s+/g, ""))
                   }

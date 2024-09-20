@@ -1,10 +1,14 @@
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Button, Dialog, DialogContent, TextField } from "@mui/material";
+import { Dialog, DialogContent, TextField } from "@mui/material";
 import axios from "axios";
 import { useState } from "react";
 import { showError, showSuccess } from "../../service/ToastService";
-
+import {
+  handleInputChangeWithValidation,
+  resetField,
+  startsWithUppercase,
+} from "../../service/UtilService";
 function CreateCategoryModalWindow({
   isModalOpen,
   closeModal,
@@ -12,12 +16,13 @@ function CreateCategoryModalWindow({
   signalCall,
 }) {
   const [categoryDTO, setCategoryDTO] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
 
   const createCategory = () => {
     if (categoryDTO.length < 2) {
       showError("Category should have more than 2 characters!");
     } else if (categoryDTO.charAt(0) !== categoryDTO.charAt(0).toUpperCase()) {
-      showError("Category should start with an uppercase letter!");
+      showError(" should start with an uppercase letter!");
     } else {
       let url = "/category/create";
       axios
@@ -42,15 +47,15 @@ function CreateCategoryModalWindow({
   };
 
   return (
-    <Dialog  maxWidth={"sm"} open={isModalOpen} onClose={closeModal}>
-      <FontAwesomeIcon
-        className="absolute top-4 right-4 cursor-pointer"
-        icon={faTimes}
-        size="xl"
-        onClick={closeModal}
-      />
+    <Dialog open={isModalOpen} onClose={closeModal}>
       <div className="w-full">
-        <h2 className="header-title ml-6 mt-10">Add new category</h2>
+        <FontAwesomeIcon
+          className="absolute top-4 right-4 cursor-pointer"
+          icon={faTimes}
+          size="xl"
+          onClick={closeModal}
+        />
+        <div className="ml-4 mt-2.5 modal-text">Add new category</div>
       </div>
       <DialogContent>
         <div className="mt-5">
@@ -59,39 +64,41 @@ function CreateCategoryModalWindow({
             id="outlined-read-only-input"
             label="Name"
             defaultValue=""
+            required
+            error={!!errorMessage}
+            helperText={errorMessage}
             onChange={(e) => {
+              handleInputChangeWithValidation(
+                e,
+                setCategoryDTO,
+                setErrorMessage,
+                startsWithUppercase,
+                "Should start with lowercase",
+                100
+              );
               setCategoryDTO(e.target.value);
-            }}
-            InputProps={{
-              style: { fontFamily: "Sanchez" },
-            }}
-            InputLabelProps={{
-              style: { fontFamily: "Sanchez" },
             }}
           />
         </div>
         <div className="flex gap-x-2 mt-6">
-          <div className="flex-1">
-            <Button
-              className="contained-button w-full darkButton"
-              variant="contained"
-              onClick={createCategory}
-            >
-              Add
-            </Button>
-          </div>
-          <div className="flex-1">
-            <Button
-              className="outlined-button w-full"
-              variant="outlined"
-              onClick={() => {
-                setCategoryDTO("");
-                closeModal();
-              }}
-            >
-              Cancel
-            </Button>
-          </div>
+          <button
+            className="details-button"
+            variant="contained"
+            onClick={createCategory}
+            disabled={!!errorMessage}
+          >
+            Save
+          </button>
+          <button
+            className="details-button details-button-red"
+            onClick={() => {
+              resetField(setCategoryDTO, "");
+              resetField(setErrorMessage, "");
+              closeModal();
+            }}
+          >
+            Cancel
+          </button>
         </div>
       </DialogContent>
     </Dialog>

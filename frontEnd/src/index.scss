@@ -98,7 +98,10 @@
         &:hover {
             background-color: $closeButtonColorHover;
         }
+
+
     }
+
 
 
     &.cancel-button {
@@ -125,6 +128,17 @@
             cursor: not-allowed;
             opacity: 0.8;
         }
+    }
+
+    &:disabled {
+        background-color: gray !important;
+        cursor: not-allowed;
+        opacity: 0.8;
+    }
+
+
+    &.reset-margin-left {
+        margin-left: 0;
     }
 }
 
@@ -159,4 +173,19 @@
 
 .text-green-color {
     color: $text-green-color;
+}
+
+.modal-text {
+    font-size: 1.5rem;
+    line-height: 2rem;
+    color: black;
+
+    &.bottom-margin {
+        margin-bottom: 1rem;
+    }
+}
+
+.table-th {
+    padding: 1rem;
+    cursor: pointer;
 }

@@ -1,15 +1,14 @@
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-    Button,
-    Dialog,
-    DialogContent,
-    FormControl,
-    TextField,
-} from "@mui/material";
+import { Dialog, DialogContent, TextField } from "@mui/material";
 import axios from "axios";
-import { useRef } from "react";
+import { useEffect, useState } from "react";
 import { showError, showSuccess } from "../../service/ToastService";
+import {
+  handleInputChangeWithValidation,
+  resetField,
+  startsWithUppercase,
+} from "../../service/UtilService";
 
 function EditCategoryNameModalWindow({
   isModalOpen,
@@ -18,20 +17,22 @@ function EditCategoryNameModalWindow({
   name,
   updateCategory,
 }) {
-  const newNameRef = useRef();
+  const [newName, setNewName] = useState(name);
+  const [errorMessage, setErrorMessage] = useState("");
+
+  useEffect(() => {
+    setNewName(name);
+  }, [name]);
 
   const editCategoryName = () => {
     let url = "/category/update/" + id;
 
-    if (
-      newNameRef.current.value.charAt(0) !==
-      newNameRef.current.value.charAt(0).toUpperCase()
-    ) {
+    if (newName.charAt(0) !== newName.charAt(0).toUpperCase()) {
       showError("Name should start with an uppercase letter!");
       return;
     }
 
-    if (newNameRef.current.value.length < 2) {
+    if (newName.length < 2) {
       showError("Name should have at least 2 characters!");
       return;
     }
@@ -39,7 +40,7 @@ function EditCategoryNameModalWindow({
     axios
       .post(url, {
         id: id,
-        name: newNameRef.current.value,
+        name: newName,
       })
       .then((response) => {
         showSuccess("Category edited successfully!", "bg-green-500");
@@ -60,55 +61,58 @@ function EditCategoryNameModalWindow({
   };
 
   return (
-    <Dialog  maxWidth={"sm"} open={isModalOpen} onClose={closeModal}>
-      <FontAwesomeIcon
-        className="absolute top-4 right-4 cursor-pointer"
-        icon={faTimes}
-        size="xl"
-        onClick={closeModal}
-      />
-      <div className="w-full">
-        <h2 className="header-title ml-6 mt-10">Edit category</h2>
+    <Dialog maxWidth={"sm"} open={isModalOpen} onClose={closeModal}>
+      <div className="w-full flex justify-between p-4">
+        <div className="modal-text ms-2">Edit Category</div>
+        <FontAwesomeIcon
+          className="cursor-pointer"
+          icon={faTimes}
+          size="xl"
+          onClick={closeModal}
+        />
       </div>
       <DialogContent>
-        <div className="mt-5">
+        <div>
           <TextField
             className="w-full"
             id="outlined-read-only-input"
             label="Name"
-            defaultValue={name}
-            inputRef={newNameRef}
-            InputProps={{
-              style: { fontFamily: "Sanchez" },
+            required
+            value={newName}
+            onChange={(e) => {
+              handleInputChangeWithValidation(
+                e,
+                setNewName,
+                setErrorMessage,
+                startsWithUppercase,
+                "Should start with an uppercase!",
+                250
+              );
             }}
-            InputLabelProps={{
-              style: { fontFamily: "Sanchez" },
-            }}
+            error={!!errorMessage}
+            helperText={errorMessage}
           />
         </div>
-        <div>
-          <FormControl >
-            <div className="flex gap-x-2 mt-6">
-              <div className="flex-1">
-                <Button
-                  className="w-full darkButton"
-                  variant="contained"
-                  onClick={editCategoryName}
-                >
-                  Save
-                </Button>
-              </div>
-              <div className="flex-1">
-                <Button
-                  className="outlined-button w-full darkButton"
-                  variant="outlined"
-                  onClick={closeModal}
-                >
-                  Cancel
-                </Button>
-              </div>
-            </div>
-          </FormControl>
+        <div className="flex justify-end gap-x-4 mt-6">
+          <button
+            className="details-button"
+            onClick={() => {
+              resetField(setErrorMessage, "");
+              editCategoryName();
+            }}
+            disabled={!!errorMessage}
+          >
+            Save
+          </button>
+          <button
+            className="details-button details-button-red"
+            onClick={() => {
+              resetField(setErrorMessage, "");
+              closeModal();
+            }}
+          >
+            Cancel
+          </button>
         </div>
       </DialogContent>
     </Dialog>

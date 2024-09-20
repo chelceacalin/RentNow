@@ -14,7 +14,9 @@ function Movie({ movie, onRefresh }) {
       <td className="p-4">{movie.category}</td>
       <td
         className={`p-4 ${
-          movie.isAvailable ? "text-green-color" : "text-main-color"
+          movie.isAvailable
+            ? "text-green-color font-bold"
+            : "text-main-color  font-bold"
         }`}
       >
         {movie.isAvailable ? "Available" : "Unavailable"}
@@ -28,7 +30,7 @@ function Movie({ movie, onRefresh }) {
       <td className="pt-1">
         <button
           onClick={() => setDetailsModalOpen(true)}
-          className="p-0 m-0 details-button db-sm text-white rounded mr-2"
+          className="details-button db-sm"
         >
           Details
         </button>
@@ -42,7 +44,7 @@ function Movie({ movie, onRefresh }) {
         )}
         <button
           onClick={() => setDeleteModalOpen(true)}
-          className="p-0 m-0 details-button details-button-red db-sm  rounded"
+          className="details-button details-button-red db-sm"
           disabled={!movie.isAvailable}
         >
           Delete

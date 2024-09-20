@@ -1,11 +1,8 @@
-import { Button } from "@mui/material";
 import React from "react";
 import DeleteCategoryModalWindow from "./DeleteCategoryModalWindow";
 import EditCategoryNameModalWindow from "./EditCategoryNameModalWindow";
-
 function Category({
-  id,
-  name,
+  category,
   classes,
   updateCategory,
   setErrorMessage,
@@ -39,41 +36,48 @@ function Category({
           color="blue-gray"
           className="font-normal max-w-[200px]"
         >
-          {name}
+          {category.name}
+        </div>
+      </td>
+      <td className={classes}>
+        <div
+          variant="small"
+          color="blue-gray"
+          className="font-normal max-w-[200px]"
+        >
+          {category.created_date}
         </div>
       </td>
       <td className="p-2">
-        <Button
-          onClick={handleOpen}
-          variant="outlined"
-        >
-          Edit
-        </Button>
-        <EditCategoryNameModalWindow
-          isModalOpen={open}
-          closeModal={handleClose}
-          id={id}
-          name={name}
-          updateCategory={updateCategory}
-          setErrorMessage={setErrorMessage}
-          errorMessage={errorMessage}
-        />
+        <div className="w-72">
+          <button onClick={handleOpen} className="details-button db-sm">
+            Edit
+          </button>
+          <EditCategoryNameModalWindow
+            isModalOpen={open}
+            closeModal={handleClose}
+            id={category.id}
+            name={category.name}
+            updateCategory={updateCategory}
+            setErrorMessage={setErrorMessage}
+            errorMessage={errorMessage}
+          />
 
-        <Button
-           variant="contained"
-           className="darkButton"
-          onClick={openEditModal}
-        >
-          Remove
-        </Button>
-        <DeleteCategoryModalWindow
-          isEditModalOpen={isEditModalOpen}
-          closeEditModal={closeEditModal}
-          name={name}
-          id={id}
-          setSignalCall={setSignalCall}
-          signalCall={signalCall}
-        />
+          <button
+            className="details-button details-button-red db-sm"
+            onClick={openEditModal}
+          >
+            Remove
+          </button>
+          <DeleteCategoryModalWindow
+            isEditModalOpen={isEditModalOpen}
+            closeEditModal={closeEditModal}
+            name={category.name}
+            id={category.id}
+            setSignalCall={setSignalCall}
+            signalCall={signalCall}
+          />
+        </div>
       </td>
     </tr>
   );

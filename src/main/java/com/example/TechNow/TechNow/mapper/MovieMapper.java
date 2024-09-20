@@ -8,7 +8,7 @@ import com.example.TechNow.TechNow.model.Category;
 import com.example.TechNow.TechNow.model.Movie;
 import com.example.TechNow.TechNow.model.MovieHistory;
 
-import java.time.format.DateTimeFormatter;
+import static com.example.TechNow.TechNow.util.Utils.parseDate;
 
 public class MovieMapper {
 	public static MovieDTO toDto(Movie m, MovieHistory mh) {
@@ -25,7 +25,7 @@ public class MovieMapper {
 				.rentedDate(mh != null && mh.getRentedDate() != null ? mh.getRentedDate() : null)
 				.rentedUntil(mh != null && mh.getRentedUntil() != null ? mh.getRentedUntil() : null)
 				.photoUrl(m.getPhotoUrl() != null ? m.getPhotoUrl() : "")
-				.created_date(m.getCreated_date() != null ? (m.getCreated_date().format(DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss"))) : null)
+				.created_date(parseDate(m.getCreated_date()))
 				.updated_date(m.getUpdated_date() != null ? m.getUpdated_date() : null)
 				.build();
 	}

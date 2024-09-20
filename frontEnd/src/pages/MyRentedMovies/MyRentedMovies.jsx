@@ -133,7 +133,7 @@ function MyRentedMovies() {
                     return (
                       <th
                         key={elem}
-                        className="border-b-white p-4 hover cursor-pointer mainBg"
+                        className="table-th"
                         onClick={(e) => {
                           e.preventDefault();
 
@@ -244,7 +244,7 @@ function MyRentedMovies() {
                       </th>
                     );
                   })}
-                  <th className="border-b-white mainBg p-4 ">
+                  <th className="table-th">
                     <div>Actions</div>
                   </th>
                 </tr>

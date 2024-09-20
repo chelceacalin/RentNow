@@ -1,6 +1,6 @@
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Button, Dialog, DialogContent } from "@mui/material";
+import { Dialog, DialogContent } from "@mui/material";
 import axios from "axios";
 import { showError, showSuccess } from "../../service/ToastService";
 
@@ -37,12 +37,7 @@ function DeleteCategoryModalWindow({
   };
 
   return (
-    <Dialog
-      
-      maxWidth={"sm"}
-      open={isEditModalOpen}
-      onClose={closeEditModal}
-    >
+    <Dialog maxWidth={"sm"} open={isEditModalOpen} onClose={closeEditModal}>
       <div className="overflow-x-hidden">
         <FontAwesomeIcon
           className="absolute top-4 right-4 cursor-pointer"
@@ -54,31 +49,21 @@ function DeleteCategoryModalWindow({
           <div className="break-normal text-center mt-10 text-xl">
             <p>
               {" "}
-              Are you sure you want to permanently remove &nbsp;
-              <span className="font-bold">{name}</span>
-              &nbsp; category ?
+              Are you sure you want to permanently remove category &nbsp;
+              <span className="font-bold text-red-800">{name}</span>?
             </p>
-            <div className="flex gap-x-2 mt-6">
-              <div className="flex-1">
-                <Button
-                  className="contained-button w-full"
-                  variant="contained"
-                  onClick={deleteCategory}
-                >
-                  Yes
-                </Button>
-              </div>
-              <div className="flex-1">
-                <Button
-                  className="outlined-button w-full"
-                  variant="outlined"
-                  onClick={() => {
-                    closeEditModal();
-                  }}
-                >
-                  Cancel
-                </Button>
-              </div>
+            <div className="flex  mt-6">
+              <button className="details-button" onClick={deleteCategory}>
+                Yes
+              </button>
+              <button
+                className="details-button details-button-red"
+                onClick={() => {
+                  closeEditModal();
+                }}
+              >
+                Cancel
+              </button>
             </div>
           </div>
         </DialogContent>
