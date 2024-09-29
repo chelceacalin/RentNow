@@ -1,32 +1,33 @@
-import {useState} from "react";
+import { useState } from "react";
 import DeleteBookModalView from "./DeleteBookModalView.jsx";
 import DetailsBookModalView from "./DetailsBookModalView.jsx";
 
-function Book({book, onRefresh}) {
+function Book({ book, onRefresh }) {
   const [detailsModalOpen, setDetailsModalOpen] = useState(false);
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
 
   const closeDetailsModal = () => setDetailsModalOpen(false);
+  const closeDeleteModal = () => setDeleteModalOpen(false);
   return (
     <tr className="shadow-sm shadow-slate-300">
-        <td className="p-4">{book.title} </td>
-        <td className="p-4">{book.director}</td>
-        <td className="p-4">{book.category}</td>
+      <td className="p-4">{book.title} </td>
+      <td className="p-4">{book.director}</td>
+      <td className="p-4">{book.category}</td>
       <td
         className={`p-4 ${
-            book.isAvailable
+          book.isAvailable
             ? "text-green-color font-bold"
             : "text-main-color  font-bold"
         }`}
       >
-          {book.isAvailable ? "Available" : "Unavailable"}
+        {book.isAvailable ? "Available" : "Unavailable"}
       </td>
 
-        <td className="p-4">{book.rentedUntil || "N/A"}</td>
+      <td className="p-4">{book.rentedUntil || "N/A"}</td>
       <td className="p-4">
-          {book.rentedBy !== "available" ? book.rentedBy : ""}
+        {book.rentedBy !== "available" ? book.rentedBy : ""}
       </td>
-        <td className="p-4">{book.created_date}</td>
+      <td className="p-4">{book.created_date}</td>
       <td className="pt-1">
         <button
           onClick={() => setDetailsModalOpen(true)}
@@ -35,7 +36,7 @@ function Book({book, onRefresh}) {
           Details
         </button>
         {detailsModalOpen && (
-            <DetailsBookModalView
+          <DetailsBookModalView
             isModalOpen={detailsModalOpen}
             closeModal={closeDetailsModal}
             book={book}
@@ -50,10 +51,10 @@ function Book({book, onRefresh}) {
           Delete
         </button>
         {deleteModalOpen && (
-            <DeleteBookModalView
+          <DeleteBookModalView
             isModalOpen={deleteModalOpen}
-            onClose={() => setDeleteModalOpen(false)}
-            bookId={book.id}
+            closeModal={closeDeleteModal}
+            book={book}
             onRefresh={onRefresh}
           />
         )}

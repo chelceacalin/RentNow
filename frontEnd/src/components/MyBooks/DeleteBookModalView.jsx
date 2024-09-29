@@ -1,21 +1,11 @@
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Button, Dialog, DialogContent } from "@mui/material";
+import { Dialog, DialogContent } from "@mui/material";
 import axios from "axios";
-import { useState } from "react";
 import { showError, showSuccess } from "../../service/ToastService";
 
-function DeleteBookModalView({
-  isModalOpen,
-  closeModal,
-  title,
-  category,
-  id,
-  rentedBy,
-  setTriggerRefresh,
-  triggerRefresh,
-}) {
-  const [requestError, setRequestError] = useState(false);
+function DeleteBookModalView({ isModalOpen, book, onRefresh, closeModal }) {
+  const { id, title } = book;
 
   const deleteBook = () => {
     let url = `/books/delete/${id}`;
@@ -23,50 +13,47 @@ function DeleteBookModalView({
     axios
       .post(url)
       .then(() => {
-        setTriggerRefresh(!triggerRefresh);
         showSuccess("Book deleted successfully!");
+        onRefresh();
         closeModal();
-        setRequestError(false);
       })
       .catch((error) => {
-        showError(error.response.data);
-        closeModal();
+        showError(error.response?.data || "Failed to delete the book.");
       });
   };
 
+  console.log(isModalOpen);
+
   return (
     <Dialog open={isModalOpen} onClose={closeModal} maxWidth={"sm"}>
-      <div className="overflow-x-hidden">
+      <div className="header-container">
         <FontAwesomeIcon
-          style={{ fontSize: 28 }}
-          className="closeModalWindowButton mb-6"
+          className="absolute top-4 right-4 cursor-pointer"
           icon={faTimes}
+          size="xl"
           onClick={closeModal}
-          transform="right-185 up-2"
-          size="6x"
         />
         <DialogContent>
-          <div className="w-full break-normal text-center mb-5">
-            <p> Are you sure you want to delete this book?</p>
+          <div className="w-full break-normal text-center font-bold mb-5 mt-8">
+            <p>
+              Are you sure you want to permanently remove book&nbsp;
+              <span className="font-bold text-red-800">{title}</span>?
+            </p>
           </div>
 
-          <div className="mt-2 mb-2 pl-5 pr-5">
-            <Button
-              className="contained-button w-full"
-              variant="contained"
-              onClick={deleteBook}
-            >
+          <div className="mt-6 flex justify-end space-x-4">
+            <button onClick={deleteBook} className="details-button">
               Yes
-            </Button>
-          </div>
-          <div className="mb-2 pl-5 pr-5">
-            <Button
-              className="outlined-button w-full"
-              variant="outlined"
-              onClick={closeModal}
+            </button>
+            <button
+              onClick={() => {
+                onRefresh();
+                closeModal();
+              }}
+              className="rent-button"
             >
               Cancel
-            </Button>
+            </button>
           </div>
         </DialogContent>
       </div>

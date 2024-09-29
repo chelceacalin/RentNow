@@ -48,7 +48,6 @@ function DeleteCategoryModalWindow({
         <DialogContent>
           <div className="break-normal text-center mt-10 text-xl">
             <p>
-              {" "}
               Are you sure you want to permanently remove category &nbsp;
               <span className="font-bold text-red-800">{name}</span>?
             </p>
