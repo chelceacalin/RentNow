@@ -1,4 +1,4 @@
-package com.example.TechNow.TechNow.dto.Movie;
+package com.example.TechNow.TechNow.dto.Book;
 
 
 import lombok.AllArgsConstructor;
@@ -10,14 +10,14 @@ import org.springframework.data.domain.Sort;
 
 import java.time.LocalDate;
 
-import static com.example.TechNow.TechNow.util.MovieConstants.*;
+import static com.example.TechNow.TechNow.util.BookConstants.*;
 
 
 @Data
 @Builder
 @AllArgsConstructor
 
-public class MyRentedMoviesRequestDTO {
+public class MyRentedBooksRequestDTO {
 
 	String rentEmail;
 
@@ -36,7 +36,7 @@ public class MyRentedMoviesRequestDTO {
 
 	String sortField;
 
-	public MyRentedMoviesRequestDTO() {
+	public MyRentedBooksRequestDTO() {
 		this.direction = "ASC";
 		this.sortField = "title";
 	}
@@ -44,10 +44,10 @@ public class MyRentedMoviesRequestDTO {
 	public Pageable getPageableRented(int pageNo, int pageSize) {
 		Sort.Direction sortDirection = Sort.Direction.fromString(this.getDirection());
 		return switch (sortField) {
-			case TITLE -> PageRequest.of(pageNo, pageSize, Sort.by(sortDirection, MOVIE_TITLE));
-			case CATEGORY -> PageRequest.of(pageNo, pageSize, Sort.by(sortDirection, MOVIE_CATEGORY_NAME));
-			case DIRECTOR -> PageRequest.of(pageNo, pageSize, Sort.by(sortDirection, MOVIE_DIRECTOR));
-			case OWNER -> PageRequest.of(pageNo, pageSize, Sort.by(sortDirection, MOVIE_OWNER_USERNAME));
+			case TITLE -> PageRequest.of(pageNo, pageSize, Sort.by(sortDirection, BOOK_TITLE));
+			case CATEGORY -> PageRequest.of(pageNo, pageSize, Sort.by(sortDirection, BOOK_CATEGORY_NAME));
+			case DIRECTOR -> PageRequest.of(pageNo, pageSize, Sort.by(sortDirection, BOOK_DIRECTOR));
+			case OWNER -> PageRequest.of(pageNo, pageSize, Sort.by(sortDirection, BOOK_OWNER_USERNAME));
 			case RENTED_BY -> PageRequest.of(pageNo, pageSize, Sort.by(sortDirection, RENTED_BY_USERNAME));
 			case RENTED_UNTIL -> PageRequest.of(pageNo, pageSize, Sort.by(sortDirection, RENTED_UNTIL));
 			case RENTED_DATE -> PageRequest.of(pageNo, pageSize, Sort.by(sortDirection, RENTED_DATE));

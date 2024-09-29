@@ -33,7 +33,7 @@ function MovieFilter({
   const [selectedCategory, setSelectedCategory] = useState("");
 
   useEffect(() => {
-    axios.get(`/movies`).then((response) => {
+    axios.get(`/books`).then((response) => {
       setUsersWhoRented(response.data.content);
       const filteredElems = response.data.content.filter(
         (elem) => elem.rentedBy !== "available"

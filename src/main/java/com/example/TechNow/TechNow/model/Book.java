@@ -9,13 +9,13 @@ import java.util.List;
 import java.util.UUID;
 
 @Entity
-@Table(name = "movie")
+@Table(name = "book")
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
 @ToString
 @Builder
-public class Movie {
+public class Book {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.UUID)
@@ -38,8 +38,8 @@ public class Movie {
 	@JoinColumn(name = "owner_id", referencedColumnName = "id")
 	User owner;
 
-	@OneToMany(mappedBy = "movie")
-	List<MovieHistory> movieHistories;
+	@OneToMany(mappedBy = "book")
+	List<BookHistory> bookHistories;
 
 	String photoUrl;
 

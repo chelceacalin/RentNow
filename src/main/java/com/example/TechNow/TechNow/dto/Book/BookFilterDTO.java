@@ -1,4 +1,4 @@
-package com.example.TechNow.TechNow.dto.Movie;
+package com.example.TechNow.TechNow.dto.Book;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 @Data
 @Builder
 @AllArgsConstructor
-public class MovieFilterDTO {
+public class BookFilterDTO {
 
 	String owner_username;
 
@@ -34,7 +34,7 @@ public class MovieFilterDTO {
 
 	LocalDateTime created_date;
 
-	public MovieFilterDTO() {
+	public BookFilterDTO() {
 		this.direction = "ASC";
 		this.sortField = "title";
 	}

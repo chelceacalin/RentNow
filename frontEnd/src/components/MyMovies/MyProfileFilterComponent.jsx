@@ -38,7 +38,7 @@ function MyProfileFilterComponent({ onFilterChange }) {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await axios.get(`/movies`, {
+        const response = await axios.get(`/books`, {
           params: { owner_username: username },
         });
         const users = response.data.content

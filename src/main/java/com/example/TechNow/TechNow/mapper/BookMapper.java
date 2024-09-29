@@ -1,18 +1,18 @@
 package com.example.TechNow.TechNow.mapper;
 
-import com.example.TechNow.TechNow.dto.Movie.MovieAddDTO;
-import com.example.TechNow.TechNow.dto.Movie.MovieDTO;
-import com.example.TechNow.TechNow.dto.Movie.MovieRentDTO;
+import com.example.TechNow.TechNow.dto.Book.BookAddDTO;
+import com.example.TechNow.TechNow.dto.Book.BookDTO;
+import com.example.TechNow.TechNow.dto.Book.BookRentDTO;
 import com.example.TechNow.TechNow.dto.User.UserDTO;
+import com.example.TechNow.TechNow.model.Book;
 import com.example.TechNow.TechNow.model.Category;
-import com.example.TechNow.TechNow.model.Movie;
-import com.example.TechNow.TechNow.model.MovieHistory;
+import com.example.TechNow.TechNow.model.BookHistory;
 
 import static com.example.TechNow.TechNow.util.Utils.parseDate;
 
-public class MovieMapper {
-	public static MovieDTO toDto(Movie m, MovieHistory mh) {
-		return MovieDTO.builder()
+public class BookMapper {
+	public static BookDTO toDto(Book m, BookHistory mh) {
+		return BookDTO.builder()
 				.id(m.getId())
 				.title(m.getTitle())
 				.director(m.getDirector())
@@ -30,8 +30,8 @@ public class MovieMapper {
 				.build();
 	}
 
-	public static Movie toMovie(MovieAddDTO dto, UserDTO userDTO, Category category) {
-		return Movie.builder()
+	public static Book toBook(BookAddDTO dto, UserDTO userDTO, Category category) {
+		return Book.builder()
 				.title(dto.getTitle())
 				.description(dto.getDescription())
 				.isAvailable(dto.getIsAvailable())
@@ -41,26 +41,26 @@ public class MovieMapper {
 				.build();
 	}
 
-	public static MovieAddDTO toMovieAddDto(Movie movie) {
-		return MovieAddDTO.builder()
-				.title(movie.getTitle())
-				.director(movie.getDirector())
-				.description(movie.getDescription())
-				.category(movie.getCategory().getName())
-				.owner_username(movie.getOwner().getUsername())
-				.owner_email(movie.getOwner().getEmail())
-				.isAvailable(movie.isAvailable())
-				.id(movie.getId())
-				.photoUrl(movie.getPhotoUrl() != null ? movie.getPhotoUrl() : "")
+	public static BookAddDTO toBookAddDto(Book book) {
+		return BookAddDTO.builder()
+				.title(book.getTitle())
+				.director(book.getDirector())
+				.description(book.getDescription())
+				.category(book.getCategory().getName())
+				.owner_username(book.getOwner().getUsername())
+				.owner_email(book.getOwner().getEmail())
+				.isAvailable(book.isAvailable())
+				.id(book.getId())
+				.photoUrl(book.getPhotoUrl() != null ? book.getPhotoUrl() : "")
 				.build();
 	}
 
-	public static MovieRentDTO toMovieRentDto(Movie movie) {
-		return MovieRentDTO.builder()
-				.title(movie.getTitle())
-				.director(movie.getDirector())
-				.ownerUsername(movie.getOwner().getUsername())
-				.ownerEmail(movie.getOwner().getEmail())
+	public static BookRentDTO toBookRentDto(Book book) {
+		return BookRentDTO.builder()
+				.title(book.getTitle())
+				.director(book.getDirector())
+				.ownerUsername(book.getOwner().getUsername())
+				.ownerEmail(book.getOwner().getEmail())
 				.build();
 	}
 }

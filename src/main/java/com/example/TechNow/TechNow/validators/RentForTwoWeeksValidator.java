@@ -1,26 +1,26 @@
 package com.example.TechNow.TechNow.validators;
 
-import com.example.TechNow.TechNow.dto.MovieHistory.MovieHistoryDTO;
+import com.example.TechNow.TechNow.dto.BookHistory.BookHistoryDTO;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 
 import java.time.Duration;
 import java.time.LocalDate;
 
-public class RentForTwoWeeksValidator implements ConstraintValidator<RentForTwoWeeksConstraint, MovieHistoryDTO> {
+public class RentForTwoWeeksValidator implements ConstraintValidator<RentForTwoWeeksConstraint, BookHistoryDTO> {
 	@Override
 	public void initialize(RentForTwoWeeksConstraint constraintAnnotation) {
 		ConstraintValidator.super.initialize(constraintAnnotation);
 	}
 
 	@Override
-	public boolean isValid(MovieHistoryDTO movieHistoryDTO, ConstraintValidatorContext constraintValidatorContext) {
-		if (movieHistoryDTO == null) {
+	public boolean isValid(BookHistoryDTO bookHistoryDTO, ConstraintValidatorContext constraintValidatorContext) {
+		if (bookHistoryDTO == null) {
 			return true;
 		}
 
-		LocalDate rentedDate = movieHistoryDTO.getRentedDate() != null ? movieHistoryDTO.getRentedDate() : LocalDate.now();
-		LocalDate rentedUntil = movieHistoryDTO.getRentedUntil() != null ? movieHistoryDTO.getRentedUntil() : LocalDate.now();
+		LocalDate rentedDate = bookHistoryDTO.getRentedDate() != null ? bookHistoryDTO.getRentedDate() : LocalDate.now();
+		LocalDate rentedUntil = bookHistoryDTO.getRentedUntil() != null ? bookHistoryDTO.getRentedUntil() : LocalDate.now();
 
 
 		long daysBetween = Duration.between(rentedDate.atStartOfDay(), rentedUntil.atStartOfDay()).toDays();

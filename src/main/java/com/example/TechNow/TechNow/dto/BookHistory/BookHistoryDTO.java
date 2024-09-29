@@ -1,4 +1,4 @@
-package com.example.TechNow.TechNow.dto.MovieHistory;
+package com.example.TechNow.TechNow.dto.BookHistory;
 
 import com.example.TechNow.TechNow.validators.RentDateConstraint;
 import com.example.TechNow.TechNow.validators.RentForTwoWeeksConstraint;
@@ -15,7 +15,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @RentForTwoWeeksConstraint
-public class MovieHistoryDTO {
+public class BookHistoryDTO {
 	@RentDateConstraint
 	LocalDate rentedDate;
 
@@ -26,7 +26,7 @@ public class MovieHistoryDTO {
 
 	String description;
 
-	UUID movieId;
+	UUID bookId;
 
 	UUID userId;
 }

@@ -18,7 +18,7 @@ function DeleteMovieModalView({
   const [requestError, setRequestError] = useState(false);
 
   const deleteMovie = () => {
-    let url = `/movies/delete/${id}`;
+    let url = `/books/delete/${id}`;
 
     axios
       .post(url)

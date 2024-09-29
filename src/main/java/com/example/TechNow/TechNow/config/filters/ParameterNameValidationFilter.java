@@ -1,4 +1,4 @@
-package com.example.TechNow.TechNow.config.filters.impl;
+package com.example.TechNow.TechNow.config.filters;
 
 import jakarta.servlet.*;
 import lombok.RequiredArgsConstructor;

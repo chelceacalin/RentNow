@@ -109,8 +109,8 @@ public class CategoryService {
 		Category categoryFound = categoryRepository.findById(id)
 				.orElseThrow(() -> new RuntimeException("Category was already deleted by another user"));
 
-		if (!categoryFound.getMovieList().isEmpty()) {
-			throw new RuntimeException("Cannot delete a category associated with a movie");
+		if (!categoryFound.getBookList().isEmpty()) {
+			throw new RuntimeException("Cannot delete a category associated with a book");
 		}
 		categoryRepository.deleteById(id);
 	}

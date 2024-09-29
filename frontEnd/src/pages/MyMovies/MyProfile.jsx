@@ -119,7 +119,7 @@ function MyProfile() {
       }
 
       try {
-        const response = await axios.get("/movies", { params });
+        const response = await axios.get("/books", { params });
         setMovies(response.data.content);
         setPagination((prev) => ({
           ...prev,

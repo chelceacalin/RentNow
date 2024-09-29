@@ -1,4 +1,4 @@
-package com.example.TechNow.TechNow.dto.Movie;
+package com.example.TechNow.TechNow.dto.Book;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class MovieRentDTO {
+public class BookRentDTO {
 	String title;
 	String director;
 	String ownerUsername;

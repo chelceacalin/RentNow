@@ -30,7 +30,7 @@ function RentMovieModalView({
   }, []);
 
   const rentMovie = () => {
-    const url = "/movies/history";
+    const url = "/books/history";
 
     let body = {
       rentedDate: today,

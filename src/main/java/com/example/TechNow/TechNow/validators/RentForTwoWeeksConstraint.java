@@ -12,7 +12,7 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = RentForTwoWeeksValidator.class)
 public @interface RentForTwoWeeksConstraint {
-    String message() default "A movie can be rented for maximum two weeks";
+    String message() default "A book can be rented for maximum two weeks";
 
     Class<?>[] groups() default {};
 

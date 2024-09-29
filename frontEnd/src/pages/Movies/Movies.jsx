@@ -40,12 +40,12 @@ function Movies() {
         params.append("rentedBy", rentedBy);
       }
 
-      return `/movies?${params.toString()}`;
+      return `/books?${params.toString()}`;
     };
 
     const url = buildUrl();
 
-    navigate(url.replace("/movies", ""), { replace: false });
+    navigate(url.replace("/books", ""), { replace: false });
 
     axios
       .get(url)

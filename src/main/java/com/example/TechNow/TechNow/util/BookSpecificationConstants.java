@@ -1,7 +1,7 @@
 package com.example.TechNow.TechNow.util;
 
-public interface MovieSpecificationConstants {
-	String MOVIE_HISTORIES = "movieHistories";
+public interface BookSpecificationConstants {
+	String BOOK_HISTORIES = "bookHistories";
 	String RENTED_BY = "rentedBy";
 	String NAME = "name";
 	String OWNER = "owner";

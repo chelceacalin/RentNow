@@ -1,6 +1,6 @@
 package com.example.TechNow.TechNow.repository;
 
-import com.example.TechNow.TechNow.model.Movie;
+import com.example.TechNow.TechNow.model.Book;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -12,8 +12,8 @@ import org.springframework.stereotype.Repository;
 import java.util.UUID;
 
 @Repository
-public interface MovieRepository extends JpaRepository<Movie, UUID> , JpaSpecificationExecutor<Movie> {
+public interface BookRepository extends JpaRepository<Book, UUID> , JpaSpecificationExecutor<Book> {
 
-	@Query("select m from Movie m")
-	Page<Movie> findAll(Pageable pageable, Specification<Movie> specification);
+	@Query("select m from Book m")
+	Page<Book> findAll(Pageable pageable, Specification<Book> specification);
 }

@@ -16,7 +16,7 @@ import java.util.UUID;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class MovieHistory {
+public class BookHistory {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.UUID)
@@ -35,8 +35,8 @@ public class MovieHistory {
 	User rentedBy;
 
 	@ManyToOne
-	@JoinColumn(name = "movie_id", referencedColumnName = "id")
-	Movie movie;
+	@JoinColumn(name = "book_id", referencedColumnName = "id")
+	Book book;
 
 	LocalDateTime created_date;
 

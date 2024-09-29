@@ -77,7 +77,7 @@ function MyRentedMovies() {
         params.push(`rentedBy=${ownerUsername}`);
       }
 
-      return `/movies/rented?${params.join("&")}`;
+      return `/books/rented?${params.join("&")}`;
     };
 
     const url = buildUrl();

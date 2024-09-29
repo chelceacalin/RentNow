@@ -103,7 +103,7 @@ function AddNewMovieModalWindow({ isOpen, onClose, onRefresh }) {
       return;
     }
 
-    const movieDTO = {
+    const bookDTO = {
       owner_username: username,
       owner_email: email,
       title: formData.title,
@@ -115,13 +115,13 @@ function AddNewMovieModalWindow({ isOpen, onClose, onRefresh }) {
 
     const data = new FormData();
     data.append(
-      "movieDTO",
-      new Blob([JSON.stringify(movieDTO)], { type: "application/json" })
+      "bookDTO",
+      new Blob([JSON.stringify(bookDTO)], { type: "application/json" })
     );
     data.append("imageFile", formData.selectedImage);
 
     try {
-      await axios.post("/movies", data, {
+      await axios.post("/books", data, {
         headers: { "Content-Type": "multipart/form-data" },
       });
       showSuccess("Movie successfully created!");

@@ -4,7 +4,7 @@ import RentedUntil from "./RentedUntil.jsx";
 import ViewMovieDetailsModalWindow from "./ViewMovieDetailsModalWindow.jsx";
 import "./css/RentedMovies.scss";
 
-function RentedMovie({ movie, triggerRefresh, setTriggerRefresh }) {
+function RentedMovie({ book, triggerRefresh, setTriggerRefresh }) {
   const [detailsModalOpen, setDetailsModalOpen] = useState(false);
   const [isRentModalOpen, setRentModalOpen] = useState(false);
 
@@ -17,29 +17,29 @@ function RentedMovie({ movie, triggerRefresh, setTriggerRefresh }) {
   };
   return (
     <div
-      className={`rented-movie-card ${
-        !movie.isAvailable ? "unavailable" : "available"
+      className={`rented-book-card ${
+        !book.isAvailable ? "unavailable" : "available"
       }`}
     >
       <img
-        src={movie.photoUrl || "/default-movie.jpg"}
-        alt={movie.title}
-        className="movie-image"
+        src={book.photoUrl || "/default-book.jpg"}
+        alt={book.title}
+        className="book-image"
       />
-      <div className="movie-info">
-        <div className="movie-details">
-          <h2 className="movie-title">{movie.title}</h2>
-          <p className="movie-detail">Director: {movie.director}</p>
-          {!movie.isAvailable && <RentedUntil movie={movie} />}
+      <div className="book-info">
+        <div className="book-details">
+          <h2 className="book-title">{book.title}</h2>
+          <p className="book-detail">Director: {book.director}</p>
+          {!book.isAvailable && <RentedUntil book={book} />}
         </div>
-        <div className="movie-actions">
+        <div className="book-actions">
           <button className="details-button" onClick={handleDetailsOpen}>
             Details
           </button>
           <button
-            className={`rent-button ${!movie.isAvailable ? "disabled" : ""}`}
+            className={`rent-button ${!book.isAvailable ? "disabled" : ""}`}
             onClick={handleOpenRentModal}
-            disabled={!movie.isAvailable}
+            disabled={!book.isAvailable}
           >
             Rent
           </button>
@@ -49,14 +49,14 @@ function RentedMovie({ movie, triggerRefresh, setTriggerRefresh }) {
         <ViewMovieDetailsModalWindow
           isModalOpen={detailsModalOpen}
           closeModal={handleDetailsClose}
-          movie={movie}
+          book={book}
         />
       )}
       {isRentModalOpen && (
         <RentMovieModalView
           isRentModalOpen={isRentModalOpen}
           handleCloseRentModal={handleCloseRentModal}
-          movie={movie}
+          book={book}
           setTriggerRefresh={setTriggerRefresh}
           triggerRefresh={triggerRefresh}
         />

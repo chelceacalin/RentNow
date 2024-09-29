@@ -34,7 +34,7 @@ function DetailsMovieModalView({
 
   const MAX_FILE_SIZE = 2048 * 2048;
   useEffect(() => {
-    axios.get(`/movies/${id}`).then((data) => {
+    axios.get(`/books/${id}`).then((data) => {
       if (data.data.description.length > 0) {
         setDescription(data.data.description);
       }
@@ -147,7 +147,7 @@ function DetailsMovieModalView({
           let finalCategory = category;
 
           const formData = new FormData();
-          let movieDTO = {
+          let bookDTO = {
             title: title,
             director: director,
             description: description,
@@ -155,8 +155,8 @@ function DetailsMovieModalView({
           };
 
           formData.append(
-            "movieDTO",
-            new Blob([JSON.stringify(movieDTO)], { type: "application/json" })
+            "bookDTO",
+            new Blob([JSON.stringify(bookDTO)], { type: "application/json" })
           );
 
           console.log("selected image" + selectedImage);
@@ -165,7 +165,7 @@ function DetailsMovieModalView({
           }
 
           axios
-            .post(`/movies/${id}`, formData, {
+            .post(`/books/${id}`, formData, {
               headers: {
                 "Content-Type": "multipart/form-data",
               },
@@ -177,7 +177,7 @@ function DetailsMovieModalView({
               closeModal();
             })
             .catch((err) => {
-              showError("Error editing movie: " + err.message);
+              showError("Error editing book: " + err.message);
             });
         }
       }
@@ -203,7 +203,7 @@ function DetailsMovieModalView({
             onClick={closeModal}
           />
           <div className="w-full">
-            <h2 className="header-title ml-6 mt-10">Edit movie</h2>
+            <h2 className="header-title ml-6 mt-10">Edit book</h2>
           </div>
         </div>
         <DialogContent className="modal-body ml-2 mr-2">
@@ -276,7 +276,7 @@ function DetailsMovieModalView({
           <div className="mt-6">
             <TextField
               required
-              placeholder=" Write a description for the movie..."
+              placeholder=" Write a description for the book..."
               label="Description"
               multiline={true}
               className="textarea-field w-full border-2 p-2"
@@ -303,7 +303,7 @@ function DetailsMovieModalView({
                 onDrop={() => {
                   if (!isAvailable) {
                     showError(
-                      "You cannot drop images because movie is rented! "
+                      "You cannot drop images because book is rented! "
                     );
                   } else {
                     handleImageDrop();

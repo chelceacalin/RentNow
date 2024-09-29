@@ -1,12 +1,12 @@
 # Rent Now
 
-Rent Now facilitates movie rentals within a company. Manage and share your movie collection easily with colleagues.
+Rent Now facilitates book rentals within a company. Manage and share your book collection easily with colleagues.
 
 ## Features
 
-- **Movie Management**: Add, update movies, along with images, and delete movies.
-- **Category Management**: Group movies into categories
-- **Movie Rental**: Rent and return movies, view your rented movie list.
+- **Book Management**: Add, update books, along with images, and delete books.
+- **Category Management**: Group books into categories
+- **Book Rental**: Rent and return books, view your rented book list.
 - **Filtration, Pagination, Sorting**: Used *Specification API* to ensure server side filtration, sorting and pagination
 - **User Roles & Permissions**: Admins have the ability to create categories also manage users, normal users can't.
 
@@ -84,7 +84,7 @@ Rent Now facilitates movie rentals within a company. Manage and share your movie
      => CI pipeline
      => Replication, 2 pods, follower leader strategy
      => Caching, Etags, Cron Jobs
-     => Notifications when movie is returned
+     => Notifications when book is returned
      => Deploy it, ingress
      => Jmeter
      => Movie Review, reply to comments

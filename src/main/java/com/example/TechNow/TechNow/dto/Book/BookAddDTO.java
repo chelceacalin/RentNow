@@ -1,4 +1,4 @@
-package com.example.TechNow.TechNow.dto.Movie;
+package com.example.TechNow.TechNow.dto.Book;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,7 +11,7 @@ import java.util.UUID;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class MovieAddDTO {
+public class BookAddDTO {
 
 	UUID id;
 

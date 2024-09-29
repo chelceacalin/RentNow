@@ -31,7 +31,7 @@ public class Category {
 
 	@OneToMany(mappedBy = "category", cascade = CascadeType.ALL, orphanRemoval = true)
 	@JsonIgnore
-	List<Movie> movieList;
+	List<Book> bookList;
 
 
 	LocalDateTime created_date;

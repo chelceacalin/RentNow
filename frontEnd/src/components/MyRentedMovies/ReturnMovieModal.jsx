@@ -20,7 +20,7 @@ function ReturnMovieModal({
   const [requestError, setRequestError] = useState(false);
 
   const updateMovieStatus = () => {
-    let url = `/movies/updateStatus/${id}`;
+    let url = `/books/updateStatus/${id}`;
 
     axios
       .post(url)
