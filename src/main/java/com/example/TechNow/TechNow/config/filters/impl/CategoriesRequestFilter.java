@@ -1,5 +1,6 @@
 package com.example.TechNow.TechNow.config.filters.impl;
 
+import com.example.TechNow.TechNow.config.filters.ParameterNameValidationFilter;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

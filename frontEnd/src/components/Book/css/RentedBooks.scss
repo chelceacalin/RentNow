@@ -1,0 +1,90 @@
+@import '../../../styles/variables.scss';
+
+.rented-books-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 25px;
+  padding: 20px;
+}
+
+.rented-book-card {
+  background-color: #181818;
+  color: #fff;
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+  transition: transform 0.3s, box-shadow 0.3s;
+  position: relative;
+  width: 23vw;
+  flex: 1 1 300px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  &.available {
+    border: none;
+  }
+
+  &.unavailable {
+    border-color: $unavailableButtonColor;
+    opacity: 0.8;
+  }
+
+  &:hover {
+    box-shadow: 0 16px 32px rgba(0, 0, 0, 0.6);
+    transform: scale(1.05);
+  }
+
+  .book-image {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+    transition: transform 0.3s;
+
+    &:hover {
+      transform: scale(1.1);
+    }
+  }
+
+  .book-info {
+    padding: 20px;
+    background: rgba(0, 0, 0, 0.85);
+    color: #fff;
+    border-top: 2px solid #444;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    .book-details {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .book-title {
+      font-size: 1.5rem;
+      font-weight: bold;
+      margin-bottom: 6px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .book-detail {
+      font-size: 1rem;
+      color: rgba(255, 255, 255, 0.9);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .book-actions {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 10px;
+    }
+  }
+}

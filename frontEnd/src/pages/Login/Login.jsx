@@ -1,32 +1,27 @@
 import GitHubIcon from "@mui/icons-material/GitHub";
 import GoogleIcon from "@mui/icons-material/Google";
+import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import { Box, Button } from "@mui/material";
+import Avatar from "@mui/material/Avatar";
+import CssBaseline from "@mui/material/CssBaseline";
+import Grid from "@mui/material/Grid";
+import Link from "@mui/material/Link";
+import Paper from "@mui/material/Paper";
+import Typography from "@mui/material/Typography";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
 import axios from "axios";
 import { GithubAuthProvider, signInWithPopup } from "firebase/auth";
 import { useContext } from "react";
 import { UserLoginContext } from "../../utils/context/LoginProvider.jsx";
 import { auth, provider } from "../../utils/firebase/firebase.js";
-import Avatar from "@mui/material/Avatar";
-import CssBaseline from '@mui/material/CssBaseline';
-import Link from '@mui/material/Link';
-import Paper from '@mui/material/Paper';
-import Grid from '@mui/material/Grid';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import Typography from '@mui/material/Typography';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
 import AppIconUnformatted from "../../utils/icons/AppIconUnformatted.jsx";
 const defaultTheme = createTheme();
 
 function Login() {
   let url = axios.defaults.baseURL;
   const githubProvider = new GithubAuthProvider();
-  const {
-    setIsAdmin,
-    setUsername,
-    setIsLoggedIn,
-    setID,
-    setEmail,
-  } = useContext(UserLoginContext);
+  const { setIsAdmin, setUsername, setIsLoggedIn, setID, setEmail } =
+    useContext(UserLoginContext);
 
   const handleSignInWithGoogle = () => {
     signInWithPopup(auth, provider)
@@ -101,33 +96,40 @@ function Login() {
 
   function Copyright(props) {
     return (
-      <Typography variant="body2" color="text.secondary" align="center" {...props}>
-        {'Copyright © '}
+      <Typography
+        variant="body2"
+        color="text.secondary"
+        align="center"
+        {...props}
+      >
+        {"Copyright © "}
         <Link color="inherit" href="https://github.com/chelceacalin">
-           Chelcea Calin
-        </Link>{' '}
+          Chelcea Calin
+        </Link>{" "}
         {new Date().getFullYear()}
-        {'.'}
+        {"."}
       </Typography>
     );
   }
-  
+
   return (
     <ThemeProvider theme={defaultTheme}>
-      <Grid container component="main" sx={{ height: '100vh' }}>
+      <Grid container component="main" sx={{ height: "100vh" }}>
         <CssBaseline />
-        <AppIconUnformatted/>
+        <AppIconUnformatted />
         <Grid
           item
           xs={false}
           sm={4}
           md={7}
           sx={{
-            backgroundImage: 'url("/public/Images/movie_rental.avif")',
+            backgroundImage: 'url("/public/Images/book_rental.jpg")',
             backgroundColor: (t) =>
-              t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
+              t.palette.mode === "light"
+                ? t.palette.grey[50]
+                : t.palette.grey[900],
+            backgroundSize: "cover",
+            backgroundPosition: "center",
           }}
         />
         <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
@@ -135,27 +137,35 @@ function Login() {
             sx={{
               my: 8,
               mx: 4,
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
             }}
           >
-            <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+            <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
               <LockOutlinedIcon />
             </Avatar>
             <Typography component="h1" variant="h5">
               Welcome Back!
             </Typography>
-            <Typography component="p" variant="body2" sx={{ mt: 2, mb: 4, textAlign: 'center' }}>
-              Please sign in to continue to our movie rental service.
+            <Typography
+              component="p"
+              variant="body2"
+              sx={{ mt: 2, mb: 4, textAlign: "center" }}
+            >
+              Please sign in to continue to our book rental service.
             </Typography>
-            <Box component="form" noValidate sx={{ mt: 1, width: '100%', textAlign:"center" }}>
+            <Box
+              component="form"
+              noValidate
+              sx={{ mt: 1, width: "100%", textAlign: "center" }}
+            >
               <Button
                 variant="contained"
                 color="primary"
                 startIcon={<GoogleIcon />}
                 onClick={handleSignInWithGoogle}
-                sx={{ m:2}}
+                sx={{ m: 2 }}
               >
                 Sign in with Google
               </Button>
@@ -164,7 +174,7 @@ function Login() {
                 color="secondary"
                 startIcon={<GitHubIcon />}
                 onClick={handleSignInWithGithub}
-                sx={{ m:2}}
+                sx={{ m: 2 }}
               >
                 Sign in with GitHub
               </Button>

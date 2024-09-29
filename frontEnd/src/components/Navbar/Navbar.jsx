@@ -3,9 +3,9 @@ import { useContext, useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { UserLoginContext } from "../../utils/context/LoginProvider";
 import AppIcon from "../../utils/icons/AppIcon";
+import BookNavItem from "./BookNavItem.jsx";
 import CategoryManagementItem from "./CategoryManagementItem";
 import LogoutNavItem from "./LogoutNavItem";
-import MovieNavItem from "./MovieNavItem";
 import ProfileNavItem from "./ProfileNavItem";
 import RoleManagementItem from "./RoleManagementItem";
 import "./css/Navbar.scss";
@@ -21,7 +21,7 @@ function Navbar() {
 
   useEffect(() => {
     if (location.pathname === "/") {
-      setSelectedItem("Movies");
+      setSelectedItem("Books");
       setSelectedColor("Red");
     } else if (location.pathname.includes("profile")) {
       setSelectedItem("profile");
@@ -47,11 +47,10 @@ function Navbar() {
         <div className="flex flex-col h-full space-y-3 justify-between">
           <div className="flex items-center mt-10 ml-2 mb-10">
             <AppIcon />
-            <div></div>
           </div>
           <div className="overflow-y-auto">
             <ul className="flex flex-col pt-2 pb-4 space-y-1 text-sm ">
-              <MovieNavItem
+              <BookNavItem
                 selectedItem={selectedItem}
                 handleItemClick={handleItemClick}
                 navigate={navigate}

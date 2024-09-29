@@ -23,7 +23,11 @@ public class UserController {
 	public Page<UserDTO> getUsers(@ModelAttribute UserFilterDTO dto,
 								  @RequestParam(defaultValue = "0", required = false) int pageNo,
 								  @RequestParam(defaultValue = "15", required = false) int pageSize) {
-		return userService.getUsers(dto, pageNo, pageSize);
+		try {
+			return userService.getUsers(dto, pageNo, pageSize);
+		} catch (Exception e) {
+			throw new RuntimeException("Users error: " + e.getMessage());
+		}
 	}
 
 	@PostMapping("/update/{role}")

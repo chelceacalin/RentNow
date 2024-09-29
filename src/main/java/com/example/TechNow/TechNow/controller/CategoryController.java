@@ -7,6 +7,8 @@ import com.example.TechNow.TechNow.model.Category;
 import com.example.TechNow.TechNow.service.CategoryService;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +21,7 @@ import java.util.UUID;
 @RequestMapping("/category")
 public class CategoryController {
 
+	private static final Logger log = LoggerFactory.getLogger(CategoryController.class);
 	final CategoryService categoryService;
 
 	@GetMapping()
@@ -41,13 +44,23 @@ public class CategoryController {
 	@PostMapping("/update/{id}")
 	public ResponseEntity<Category> updateCategory(@RequestBody CategoryDTO categoryDTO,
 											@PathVariable("id") @NotNull UUID id) {
-		return new ResponseEntity<>(categoryService.updateCategory(categoryDTO, id), HttpStatus.OK);
+		try {
+			return new ResponseEntity<>(categoryService.updateCategory(categoryDTO, id), HttpStatus.OK);
+		} catch (Exception e) {
+			log.error(e.getMessage());
+			throw new RuntimeException("Error updating category ");
+		}
 	}
 
 
 	@PostMapping("/delete/{id}")
 	public ResponseEntity<String> deleteCategory(@PathVariable UUID id) {
-		categoryService.deleteCategory(id);
+		try {
+			categoryService.deleteCategory(id);
+		} catch (Exception e) {
+			log.error("Delete Category Error {}", e.getMessage());
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 		return ResponseEntity.ok("Category was deleted successfully");
 	}
 }

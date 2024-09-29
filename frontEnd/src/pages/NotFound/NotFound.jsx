@@ -1,33 +1,23 @@
 import { useNavigate } from "react-router-dom";
-import { useEffect } from "react";
 
 function NotFound() {
-  
-    let navigate = useNavigate();
-
-  useEffect(() => {
-    document.body.style.background = "#d32f2f";
-
-    return () => {
-      document.body.style.background = "white";
-    };
-  }, []);
+  let navigate = useNavigate();
 
   return (
-    <div className="flex justify-center items-center h-screen container notfound ">
-      <div className="error-page">
-        <h1 className="ffont font-bold text-l text-white">Oops!</h1>
-        <p className=" text-white  ffont">
-          The page you are trying to access does not exist
+    <div className="flex justify-center items-center h-screen container bg-main-color ">
+      <div className="bg-white p-10 rounded-lg shadow-lg text-center max-w-lg">
+        <h1 className="text-6xl font-bold text-main-color mb-4">Oops!</h1>
+        <p className="text-gray-700 text-lg mb-6">
+          The page you are trying to access does not exist.
         </p>
         <button
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-2 mt-4  rounded-full btn ffont-btn"
+          className="bg-blue-detail-text-white  text-white font-semibold py-2 px-4 rounded-lg transition duration-300 ease-in-out transform hover:scale-105"
           onClick={(e) => {
             e.preventDefault();
             navigate("/");
           }}
         >
-          Go to main page
+          Go to Main Page
         </button>
       </div>
     </div>
