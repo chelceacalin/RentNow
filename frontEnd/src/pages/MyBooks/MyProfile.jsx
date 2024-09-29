@@ -192,13 +192,16 @@ function MyProfile() {
             </tr>
           </thead>
           <tbody className="bg-white">
-            {books.map((book) => (
+            {books.map((book, index) => (
               <Book
                 key={book.id}
                 book={book}
                 onRefresh={() => {
                   setFilters((prev) => ({ ...prev }));
                 }}
+                classes={`p-4 ${
+                  index === books.length - 1 ? "" : "border-b-2"
+                }`}
               />
             ))}
           </tbody>

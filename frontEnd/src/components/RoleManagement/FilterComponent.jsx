@@ -56,7 +56,7 @@ function FilterComponent({ filterInput }) {
           />
         </div>
         <div className="col-span-1">
-          <span className="text-white">Status</span>
+          <span className="text-white">Role</span>
           <select
             value={filterValues.availability}
             onChange={(e) =>

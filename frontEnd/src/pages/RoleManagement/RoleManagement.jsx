@@ -6,7 +6,7 @@ import FilterComponent from "../../components/RoleManagement/FilterComponent";
 import User from "../../components/RoleManagement/User";
 import NoMatchingResultsFound from "../NotFound/NoMatchingResultsFound";
 function RoleManagement() {
-  const TABLE_HEAD = ["Name", "Role", "Email", "Actions"];
+  const TABLE_HEAD = ["Name", "Role", "Email", "Active", "Actions"];
   const [users, setUsers] = useState([]);
   const [initialized, setInitialized] = useState(false);
   const [sortField, setSortField] = useState("defaultsort");
@@ -16,6 +16,7 @@ function RoleManagement() {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [filterRole, setFilterRole] = useState("");
+  const [refresh, setRefresh] = useState(false);
   let [newUrl, setNewUrl] = useState("");
   let [pageNo, setPageNo] = useState(1);
   let [pageSize, setPageSize] = useState(15);
@@ -26,13 +27,27 @@ function RoleManagement() {
     axios.get(`/users`).then((data) => {
       setTotalUsers(data.data.content.length);
     });
-  }, [totalUsers]);
+  }, [totalUsers, refresh]);
 
   const handleClick = (fieldName) => {
     setDirection((prevDirection) => !prevDirection);
     setLastClicked(fieldName);
+    setSortField(mapFieldName(fieldName));
   };
 
+  const mapFieldName = (fieldName) => {
+    let name = (function (fieldName) {
+      switch (fieldName.toLowerCase()) {
+        case "name":
+          return "username";
+        case "active":
+          return "isActive";
+        default:
+          return fieldName;
+      }
+    })(fieldName);
+    return name;
+  };
   const updateUser = (updatedUser) => {
     const updatedUsers = users.map((user) => {
       if (user.username === updatedUser.username) {
@@ -41,6 +56,7 @@ function RoleManagement() {
       return user;
     });
     setUsers(updatedUsers);
+    setRefresh(!refresh);
   };
 
   useEffect(() => {
@@ -128,17 +144,15 @@ function RoleManagement() {
                 ))}
               </tr>
             </thead>
-            <tbody className="text-blue-marine">
+            <tbody className="">
               {users.map((user, index) => (
                 <User
                   key={index}
-                  {...user}
+                  user={user}
                   updateUser={updateUser}
-                  classes={
-                    index === users.length - 1
-                      ? "px-4 py-2"
-                      : "px-4 py-2 border-b-2"
-                  }
+                  classes={`p-4 ${
+                    index === users.length - 1 ? "" : "border-b-2"
+                  }`}
                 />
               ))}
             </tbody>

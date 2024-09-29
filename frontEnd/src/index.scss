@@ -236,3 +236,16 @@
     background-color: rgb(31 41 55 / var(--tw-bg-opacity));
     color: white;
 }
+
+
+.text-available {
+    --tw-text-opacity: 1;
+    color: rgb(34 197 94 / var(--tw-text-opacity));
+    font-weight: bold;
+
+}
+
+.text-unavailable {
+    color: $unavailableButtonColor;
+    font-weight: bold;
+}

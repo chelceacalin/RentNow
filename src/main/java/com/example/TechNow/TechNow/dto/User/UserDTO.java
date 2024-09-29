@@ -23,4 +23,6 @@ public class UserDTO {
 	String email;
 
 	User.Role role;
+
+	Boolean isActive;
 }

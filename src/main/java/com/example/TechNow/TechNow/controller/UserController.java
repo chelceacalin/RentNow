@@ -7,6 +7,8 @@ import com.example.TechNow.TechNow.dto.User.UserFilterDTO;
 import com.example.TechNow.TechNow.model.User;
 import com.example.TechNow.TechNow.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/users")
 public class UserController {
 
+	private static final Logger log = LoggerFactory.getLogger(UserController.class);
 	final UserService userService;
 
 
@@ -24,6 +27,7 @@ public class UserController {
 								  @RequestParam(defaultValue = "0", required = false) int pageNo,
 								  @RequestParam(defaultValue = "15", required = false) int pageSize) {
 		try {
+			log.info("Searching for users");
 			return userService.getUsers(dto, pageNo, pageSize);
 		} catch (Exception e) {
 			throw new RuntimeException("Users error: " + e.getMessage());
@@ -32,6 +36,7 @@ public class UserController {
 
 	@PostMapping("/update/{role}")
 	public ResponseEntity<User> updateUserRole(@RequestBody UserDTO userDTO, @PathVariable("role") User.Role role) {
+		log.info("Updating user role {}", userDTO.getUsername());
 		return ResponseEntity.ok(userService.updateUserRole(userDTO, role));
 	}
 

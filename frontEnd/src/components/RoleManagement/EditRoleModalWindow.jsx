@@ -1,15 +1,8 @@
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  Autocomplete,
-  Button,
-  Dialog,
-  DialogContent,
-  TextField,
-} from "@mui/material";
+import { Autocomplete, Dialog, DialogContent, TextField } from "@mui/material";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import * as moreClasses from "react-dom/test-utils";
 import { showError, showSuccess } from "../../service/ToastService";
 
 function EditRoleModalWindow({
@@ -22,9 +15,11 @@ function EditRoleModalWindow({
   email,
   username,
   updateUser,
+  isActive,
 }) {
   const fullName = `${name}`;
-  const [selectedOption, setSelectedOption] = useState(role);
+  const [selectedRole, setSelectedRole] = useState(role);
+  const [selectedActivity, setSelectedActivity] = useState(isActive);
 
   const [userDTO, setUserDTO] = useState({
     username: "",
@@ -32,29 +27,39 @@ function EditRoleModalWindow({
     lastName: "",
     email: "",
     role: "",
+    isActive: false,
   });
 
   const role_type = ["ADMIN", "USER"];
+  const active_type = ["ACTIVE", "INACTIVE"];
 
+  const mapToActiveType = selectedActivity ? "ACTIVE" : "INACTIVE";
   useEffect(() => {
     setUserDTO(() => ({
       username: username,
       firstName: firstName,
       lastName: lastName,
       email: email,
-      role: selectedOption,
+      role: selectedRole,
+      isActive: selectedActivity,
     }));
-  }, [role, selectedOption]);
+  }, [selectedRole, selectedActivity]);
 
   const editUserRole = () => {
-    let url = "/users/update/" + selectedOption;
+    let url = "/users/update/" + selectedRole;
+
+    if (!selectedRole || selectedRole.length === 0) {
+      showError("You can't update with an empty role");
+      return;
+    }
 
     setUserDTO(() => ({
       username: username,
       firstName: firstName,
       lastName: lastName,
       email: email,
-      role: selectedOption,
+      role: selectedRole,
+      isActive: selectedActivity,
     }));
     axios
       .post(url, userDTO)
@@ -69,7 +74,7 @@ function EditRoleModalWindow({
   };
 
   return (
-    <Dialog maxWidth={"sm"} open={isModalOpen} onClose={closeModal}>
+    <Dialog maxWidth={"md"} open={isModalOpen} onClose={closeModal}>
       <FontAwesomeIcon
         className="absolute top-4 right-4 cursor-pointer"
         icon={faTimes}
@@ -77,7 +82,7 @@ function EditRoleModalWindow({
         onClick={closeModal}
       />
       <div className="w-full">
-        <h2 className="header-title ml-6 mt-10">Edit user role</h2>
+        <h2 className="modal-text ms-6 mt-2">Edit user role</h2>
       </div>
       <DialogContent>
         <div className="mt-5">
@@ -87,13 +92,6 @@ function EditRoleModalWindow({
             className="w-full"
             label="Name"
             defaultValue={fullName}
-            InputProps={{
-              readOnly: true,
-              style: { fontFamily: "Sanchez" },
-            }}
-            InputLabelProps={{
-              style: { fontFamily: "Sanchez" },
-            }}
           />
         </div>
         <div className="mt-4 mb-4">
@@ -103,62 +101,43 @@ function EditRoleModalWindow({
             label="Email"
             defaultValue={email}
             disabled
-            InputProps={{
-              readOnly: true,
-              style: { fontFamily: "Sanchez" },
+          />
+        </div>
+
+        <div className="mt-6">
+          <Autocomplete
+            value={selectedRole}
+            onChange={(e, value) => {
+              setSelectedRole(value);
             }}
-            InputLabelProps={{
-              style: { fontFamily: "Sanchez" },
-            }}
+            options={role_type}
+            renderInput={(params) => <TextField {...params} label="Role" />}
           />
         </div>
         <div className="mt-6">
-          <Autocomplete
-            sx={{ fontFamily: "Sanchez" }}
-            value={selectedOption}
-            onChange={(e, value) => {
-              setSelectedOption(value);
-            }}
-            ListboxProps={{
-              style: { fontFamily: "Sanchez" },
-            }}
-            options={role_type}
-            renderInput={(params) => (
-              <TextField
-                {...params}
-                InputLabelProps={{
-                  style: { fontFamily: "Sanchez" },
-                }}
-                InputProps={{
-                  ...params.InputProps,
-                  ...moreClasses.input,
-                  style: { fontFamily: "Sanchez" },
-                }}
-                sx={{ fontFamily: "Sanchez" }}
-                label="Role"
-              />
-            )}
-          />
-          <div className="flex gap-x-2 mt-6">
-            <div className="flex-1">
-              <Button
-                className="darkButton w-full"
-                variant="contained"
-                onClick={editUserRole}
-              >
-                Save
-              </Button>
-            </div>
-            <div className="flex-1">
-              <Button
-                className="outlined-button w-full"
-                variant="outlined"
-                onClick={closeModal}
-              >
-                Cancel
-              </Button>
-            </div>
+          <div className="mt-6">
+            <Autocomplete
+              value={mapToActiveType}
+              onChange={(e, value) => {
+                setSelectedActivity(value === "ACTIVE");
+              }}
+              options={active_type}
+              renderInput={(params) => (
+                <TextField {...params} label="Active Status" />
+              )}
+            />
           </div>
+        </div>
+        <div className="w-full mt-5">
+          <button className="details-button db-sm" onClick={editUserRole}>
+            Save
+          </button>
+          <button
+            className="details-button details-button-red db-sm"
+            onClick={closeModal}
+          >
+            Cancel
+          </button>
         </div>
       </DialogContent>
     </Dialog>

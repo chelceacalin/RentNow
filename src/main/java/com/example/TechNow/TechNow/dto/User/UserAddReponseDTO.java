@@ -24,4 +24,6 @@ public class UserAddReponseDTO {
 	String photoUrl;
 
 	String role;
+
+	boolean isActive;
 }

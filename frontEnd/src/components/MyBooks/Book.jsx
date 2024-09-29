@@ -2,7 +2,7 @@ import { useState } from "react";
 import DeleteBookModalView from "./DeleteBookModalView.jsx";
 import DetailsBookModalView from "./DetailsBookModalView.jsx";
 
-function Book({ book, onRefresh }) {
+function Book({ book, onRefresh, classes }) {
   const [detailsModalOpen, setDetailsModalOpen] = useState(false);
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
 
@@ -10,9 +10,9 @@ function Book({ book, onRefresh }) {
   const closeDeleteModal = () => setDeleteModalOpen(false);
   return (
     <tr className="shadow-sm shadow-slate-300">
-      <td className="p-4">{book.title} </td>
-      <td className="p-4">{book.director}</td>
-      <td className="p-4">{book.category}</td>
+      <td className={classes}>{book.title} </td>
+      <td className={classes}>{book.director}</td>
+      <td className={classes}>{book.category}</td>
       <td
         className={`p-4 ${
           book.isAvailable
@@ -23,12 +23,12 @@ function Book({ book, onRefresh }) {
         {book.isAvailable ? "Available" : "Unavailable"}
       </td>
 
-      <td className="p-4">{book.rentedUntil || "N/A"}</td>
-      <td className="p-4">
+      <td className={classes}>{book.rentedUntil || "N/A"}</td>
+      <td className={classes}>
         {book.rentedBy !== "available" ? book.rentedBy : ""}
       </td>
-      <td className="p-4">{book.created_date}</td>
-      <td className="pt-1">
+      <td className={classes}>{book.created_date}</td>
+      <td className={classes}>
         <button
           onClick={() => setDetailsModalOpen(true)}
           className="details-button db-sm"

@@ -21,6 +21,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 import static com.example.TechNow.TechNow.specification.GenericSpecification.fieldNameLike;
+import static com.example.TechNow.TechNow.specification.GenericSpecification.isActive;
 import static com.example.TechNow.TechNow.specification.UserSpecification.hasRole;
 import static com.example.TechNow.TechNow.specification.UserSpecification.hasUsernameEquals;
 import static com.example.TechNow.TechNow.util.UserConstants.*;
@@ -48,7 +49,7 @@ public class UserService {
 			pageable = PageRequest.of(pageNo, pageSize, Sort.by(sortDirection, dto.getSortField()));
 		}
 
-		return userRepository.findAll(specification, pageable).map(UserMapper::toDTO);
+		return userRepository.findAllUsers(specification, pageable).map(UserMapper::toDTO);
 	}
 
 	public <T> Specification<T> getSpecification(UserFilterDTO dto) {
@@ -70,6 +71,10 @@ public class UserService {
 			specification = specification.and(fieldNameLike(dto.getEmail(), EMAIL));
 		}
 
+		if (nonNull(dto.getIs_active())) {
+			specification = specification.and(isActive(dto.getIs_active()));
+		}
+
 		if (nonNull(dto.getRole())) {
 			String userRole = dto.getRole().toString();
 			if (!userRole.equals("ALL")) {
@@ -86,6 +91,8 @@ public class UserService {
 		if (userOptional.isPresent()) {
 			User user = userOptional.get();
 			user.setRole(role);
+			user.setIs_active(userDTO.getIsActive());
+			user.setUpdated_date(LocalDateTime.now());
 			updatedUser = userRepository.save(user);
 		}
 		return updatedUser;
@@ -112,6 +119,7 @@ public class UserService {
 			User userToBeSaved = UserMapper.toUserFromUserAddDTO(userAddDTO);
 			userToBeSaved.setId(String.valueOf(UUID.randomUUID()));
 			userToBeSaved.setCreated_date(LocalDateTime.now()).setUpdated_date(LocalDateTime.now());
+			userToBeSaved.setIs_active(true);
 			userRepository.save(userToBeSaved);
 			return UserMapper.toUserAddReponseDTOFromUser(userToBeSaved);
 		}

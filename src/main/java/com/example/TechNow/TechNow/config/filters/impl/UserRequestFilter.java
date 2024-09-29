@@ -13,7 +13,7 @@ import java.util.Set;
 public class UserRequestFilter {
 
 	final Set<String> USER_PARAMS = new HashSet<>(Arrays.asList("email", "role", "firstName", "lastName",
-			"pageNo", "pageSize", "sortField", "direction", "username"));
+			"pageNo", "pageSize", "sortField", "direction", "username","is_active"));
 
 
 	@Bean

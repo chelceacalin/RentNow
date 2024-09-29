@@ -22,8 +22,6 @@ function DeleteBookModalView({ isModalOpen, book, onRefresh, closeModal }) {
       });
   };
 
-  console.log(isModalOpen);
-
   return (
     <Dialog open={isModalOpen} onClose={closeModal} maxWidth={"sm"}>
       <div className="header-container">

@@ -150,7 +150,7 @@ function CategoryManagement() {
                   <Category
                     key={category.id}
                     category={category}
-                    classes={`px-4 py-2 ${
+                    classes={`p-4 ${
                       index === categories.length - 1 ? "" : "border-b-2"
                     }`}
                     updateCategory={updateCategory}

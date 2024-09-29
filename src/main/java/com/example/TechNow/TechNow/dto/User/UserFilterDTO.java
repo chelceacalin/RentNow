@@ -23,6 +23,8 @@ public class UserFilterDTO {
 
 	User.Role role;
 
+	Boolean is_active;
+
 	public UserFilterDTO() {
 		direction = "ASC";
 		sortField = "defaultsort";

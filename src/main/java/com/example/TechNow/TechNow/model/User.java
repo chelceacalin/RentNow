@@ -31,6 +31,8 @@ public class User {
 
 	String photoUrl;
 
+	Boolean is_active;
+
 	LocalDateTime created_date;
 
 	LocalDateTime updated_date;
