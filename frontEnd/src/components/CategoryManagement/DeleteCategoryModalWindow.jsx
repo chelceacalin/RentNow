@@ -24,14 +24,14 @@ function DeleteCategoryModalWindow({
       })
       .catch((error) => {
         if (error.response) {
-          if (error.response.status === 404) {
-            const message = JSON.stringify(error.response.data)
-              .replace('"', "")
-              .replace('"', "");
-            showError(message);
-          } else if (error.response.status === 500) {
+          if (error.response.status === 500) {
             showError("Cannot delete a category associated with a book");
+            return;
           }
+          const message = JSON.stringify(error.response.data)
+            .replace('"', "")
+            .replace('"', "");
+          showError(message);
         }
       });
   };

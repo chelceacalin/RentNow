@@ -90,6 +90,6 @@ Rent Now facilitates book rentals within a company. Manage and share your book c
      => Book Review, reply to comments
      => Chat Gpt Api, feed it db data and make it recommend books
      => Superset, OpenSearch
+     => In pagina principala sa am un filtru in care sa caute tot si button sa afisez filtrul avansat
 
-[FE] => Refactor UI
 </pre>
