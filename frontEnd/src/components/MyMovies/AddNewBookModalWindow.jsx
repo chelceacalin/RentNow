@@ -4,7 +4,7 @@ import { useContext, useEffect, useState } from "react";
 import { showError, showSuccess } from "../../service/ToastService";
 import { UserLoginContext } from "../../utils/context/LoginProvider";
 
-function AddNewMovieModalWindow({ isOpen, onClose, onRefresh }) {
+function AddNewBookModalWindow({ isOpen, onClose, onRefresh }) {
   const MAX_FILE_SIZE = 2 * 1024 * 1024; // 2MB
   const [formData, setFormData] = useState({
     title: "",
@@ -124,11 +124,11 @@ function AddNewMovieModalWindow({ isOpen, onClose, onRefresh }) {
       await axios.post("/books", data, {
         headers: { "Content-Type": "multipart/form-data" },
       });
-      showSuccess("Movie successfully created!");
+      showSuccess("Book successfully created!");
       onRefresh();
       onClose();
     } catch (error) {
-      showError("Failed to create movie");
+      showError("Failed to create book");
     } finally {
       resetForm();
     }
@@ -136,7 +136,7 @@ function AddNewMovieModalWindow({ isOpen, onClose, onRefresh }) {
   return (
     <Dialog open={isOpen} onClose={onClose} maxWidth="sm" fullWidth>
       <div className="p-6 text-white">
-        <h2 className="text-2xl text-black mb-4">Add New Movie</h2>
+        <h2 className="text-2xl text-black mb-4">Add New Book</h2>
         <div className="flex flex-col space-y-4 mt-4 mb-6">
           <div className="relative">
             <input
@@ -248,4 +248,4 @@ function AddNewMovieModalWindow({ isOpen, onClose, onRefresh }) {
   );
 }
 
-export default AddNewMovieModalWindow;
+export default AddNewBookModalWindow;

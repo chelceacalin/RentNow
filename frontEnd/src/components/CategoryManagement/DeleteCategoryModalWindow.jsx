@@ -30,7 +30,7 @@ function DeleteCategoryModalWindow({
               .replace('"', "");
             showError(message);
           } else if (error.response.status === 500) {
-            showError("Cannot delete a category associated with a movie");
+            showError("Cannot delete a category associated with a book");
           }
         }
       });

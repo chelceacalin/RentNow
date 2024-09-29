@@ -2,12 +2,12 @@ import { Container } from "@mui/material";
 import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import MyProfileRedirectButtons from "../../components/MyMovies/MyProfileRedirectButtons";
-import Movie_MyRentedMovies from "../../components/MyRentedMovies/Movie_MyRentedMovies";
+import MyRentedBooks from "../../components/MyRentedMovies/MyRentedBooks.jsx";
 import Pagination from "../../components/Pagination/Pagination";
 import { UserLoginContext } from "../../utils/context/LoginProvider";
 import SortIcon from "../../utils/icons/SortIcon";
 
-function MyRentedMovies() {
+function Books_MyRentedBooks() {
   const TABLE_HEAD = [
     "Title",
     "Director",
@@ -17,23 +17,23 @@ function MyRentedMovies() {
     "Owner",
     "",
   ];
-  const [movies, setMovies] = useState([]);
+  const [books, setBooks] = useState([]);
   const [category, setCategory] = useState("");
   const [director, setDirector] = useState("");
   const [title, setTitle] = useState("");
   const [initialized, setInitialized] = useState(false);
-  const [rentedDate, setRendedDate] = useState("");
+  const [rentedDate, setRentedDate] = useState("");
   const [rentedUntil, setRentedUntil] = useState("");
   const [rentedBy, setRentedBy] = useState("");
   const [ownerUsername, setOwnerUsername] = useState("");
-  const [movieOwner, setMovieOwner] = useState("");
+  const [bookOwner, setBookOwner] = useState("");
   const [sortField, setSortField] = useState("title");
   const [direction, setDirection] = useState(true);
   const [lastClicked, setLastClicked] = useState(null);
   const [pageNo, setPageNo] = useState(1);
   const [pageSize, setPageSize] = useState(15);
   const [totalPages, setTotalPages] = useState("");
-  const [totalMovies, setTotalMovies] = useState(0);
+  const [totalBooks, setTotalBooks] = useState(0);
   const [triggerRefresh, setTriggerRefresh] = useState(false);
   const { email } = useContext(UserLoginContext);
 
@@ -65,8 +65,8 @@ function MyRentedMovies() {
         params.push(`rentedUntil=${rentedUntil}`);
       }
 
-      if (movieOwner) {
-        params.push(`owner_username=${movieOwner}`);
+      if (bookOwner) {
+        params.push(`owner_username=${bookOwner}`);
       }
 
       if (rentedUntil) {
@@ -87,7 +87,7 @@ function MyRentedMovies() {
         if (elems.data.content.length === 0 && pageNo > 1) {
           updatePageNumber(pageNo - 1);
         } else {
-          setMovies(elems.data.content);
+          setBooks(elems.data.content);
           setTotalPages(elems.data.totalPages);
         }
         setInitialized(true);
@@ -108,7 +108,7 @@ function MyRentedMovies() {
     ownerUsername,
     pageSize,
     pageNo,
-    movies.length,
+    books.length,
   ]);
 
   const handleSelectChange = (event) => {
@@ -250,7 +250,7 @@ function MyRentedMovies() {
                 </tr>
               </thead>
               <tbody className="text-blue-marine">
-                {movies.map(
+                {books.map(
                   (
                     {
                       title,
@@ -265,12 +265,12 @@ function MyRentedMovies() {
                     },
                     index
                   ) => {
-                    const isLast = index === movies.length - 1;
+                    const isLast = index === books.length - 1;
                     const classes = isLast
                       ? "px-4 py-2"
                       : "px-4 py-2 border-b border-blue-gray-50";
                     return (
-                      <Movie_MyRentedMovies
+                      <MyRentedBooks
                         id={id}
                         title={title}
                         category={category}
@@ -293,19 +293,18 @@ function MyRentedMovies() {
           </div>
 
           <div className="simpleMainBg w-auto">
-            {!movies.length && initialized && (
+            {!books.length && initialized && (
               <p className="text-center text-2xl notFoundText bg-white p-2 m-auto justify-center flex">
                 No matching results found
               </p>
             )}
-            {movies.length > 0 && (
+            {books.length > 0 && (
               <Pagination
                 pageNo={pageNo}
                 pageSize={pageSize}
                 totalPages={totalPages}
                 updatePageNumber={updatePageNumber}
-                responseLength={totalMovies}
-                nrCurrentMovies={movies.length}
+                responseLength={totalBooks}
                 handleSelectChange={handleSelectChange}
               />
             )}
@@ -316,4 +315,4 @@ function MyRentedMovies() {
   );
 }
 
-export default MyRentedMovies;
+export default Books_MyRentedBooks;

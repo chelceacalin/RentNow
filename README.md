@@ -87,8 +87,8 @@ Rent Now facilitates book rentals within a company. Manage and share your book c
      => Notifications when book is returned
      => Deploy it, ingress
      => Jmeter
-     => Movie Review, reply to comments
-     => Chat Gpt Api, feed it db data and make it recommend movies
+     => Book Review, reply to comments
+     => Chat Gpt Api, feed it db data and make it recommend books
      => Superset, OpenSearch
 
 [FE] => Refactor UI

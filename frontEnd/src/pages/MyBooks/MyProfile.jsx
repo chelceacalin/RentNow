@@ -1,15 +1,15 @@
 import { Container } from "@mui/material";
 import axios from "axios";
 import { useCallback, useContext, useEffect, useState } from "react";
-import AddNewMovieModalWindow from "../../components/MyMovies/AddNewMovieModalWindow";
-import Movie from "../../components/MyMovies/Movie";
+import AddNewBookModalWindow from "../../components/MyMovies/AddNewBookModalWindow.jsx";
+import Book from "../../components/MyMovies/Book.jsx";
 import MyProfileFilterComponent from "../../components/MyMovies/MyProfileFilterComponent";
 import MyProfileRedirectButtons from "../../components/MyMovies/MyProfileRedirectButtons";
 import Pagination from "../../components/Pagination/Pagination";
 import { UserLoginContext } from "../../utils/context/LoginProvider";
 
 function MyProfile() {
-  const [movies, setMovies] = useState([]);
+  const [books, setBooks] = useState([]);
   const [filters, setFilters] = useState({
     category: "",
     director: "",
@@ -97,7 +97,7 @@ function MyProfile() {
   );
 
   useEffect(() => {
-    const fetchMovies = async () => {
+    const fetchBooks = async () => {
       const params = {
         owner_username: username,
         sortField: filters.sortField || "title",
@@ -120,19 +120,19 @@ function MyProfile() {
 
       try {
         const response = await axios.get("/books", { params });
-        setMovies(response.data.content);
+        setBooks(response.data.content);
         setPagination((prev) => ({
           ...prev,
           totalPages: response.data.totalPages,
         }));
         setInitialized(true);
       } catch (error) {
-        console.error("Failed to fetch movies:", error);
+        console.error("Failed to fetch books:", error);
         setInitialized(true);
       }
     };
 
-    fetchMovies();
+    fetchBooks();
   }, [filters, pagination.pageNo, pagination.pageSize, username]);
 
   return (
@@ -143,7 +143,7 @@ function MyProfile() {
         <button onClick={() => setOpenAddModal(true)} className="close-button">
           Add New
         </button>
-        <AddNewMovieModalWindow
+        <AddNewBookModalWindow
           isOpen={openAddModal}
           onClose={() => setOpenAddModal(false)}
           onRefresh={() => {
@@ -192,10 +192,10 @@ function MyProfile() {
             </tr>
           </thead>
           <tbody className="bg-white">
-            {movies.map((movie) => (
-              <Movie
-                key={movie.id}
-                movie={movie}
+            {books.map((book) => (
+              <Book
+                key={book.id}
+                book={book}
                 onRefresh={() => {
                   setFilters((prev) => ({ ...prev }));
                 }}
@@ -203,7 +203,7 @@ function MyProfile() {
             ))}
           </tbody>
         </table>
-        {!movies.length && initialized && (
+        {!books.length && initialized && (
           <div className="text-center py-4">No matching results found</div>
         )}
       </div>

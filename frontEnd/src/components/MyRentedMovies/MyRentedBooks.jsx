@@ -1,8 +1,8 @@
 import Button from "@mui/material/Button";
 import React from "react";
-import ReturnMovieModal from "./ReturnMovieModal";
+import ReturnBookModal from "./ReturnBookModal.jsx";
 
-function Movie_MyRentedMovies({
+function MyRentedBooks({
   title,
   director,
   category,
@@ -76,10 +76,10 @@ function Movie_MyRentedMovies({
           variant="contained"
           disabled={isAvailableForRenting}
         >
-          Return movie
+          Return book
         </Button>
 
-        <ReturnMovieModal
+        <ReturnBookModal
           isModalOpen={returnModalOpen}
           closeModal={handleReturnClose}
           title={title}
@@ -93,4 +93,4 @@ function Movie_MyRentedMovies({
   );
 }
 
-export default Movie_MyRentedMovies;
+export default MyRentedBooks;

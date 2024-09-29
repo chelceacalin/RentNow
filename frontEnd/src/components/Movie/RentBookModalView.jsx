@@ -10,9 +10,9 @@ import updateLocale from "dayjs/plugin/updateLocale";
 import { useEffect, useState } from "react";
 import { showError, showSuccess } from "../../service/ToastService";
 
-function RentMovieModalView({
+function RentBookModalView({
   isRentModalOpen,
-  movie,
+  book,
   setTriggerRefresh,
   triggerRefresh,
   handleCloseRentModal,
@@ -29,21 +29,21 @@ function RentMovieModalView({
     setIdUser(sessionStorage.getItem("id"));
   }, []);
 
-  const rentMovie = () => {
+  const rentbook = () => {
     const url = "/books/history";
 
     let body = {
       rentedDate: today,
       rentedUntil: date,
-      movieId: movie.id,
+      bookId: book.id,
       userId: idUser,
-      description: movie.description,
+      description: book.description,
     };
 
     axios
       .post(url, body)
       .then(() => {
-        showSuccess(`You have rented the movie ${movie.title}`);
+        showSuccess(`You have rented the book ${book.title}`);
         handleCloseRentModal();
         setTriggerRefresh(!triggerRefresh);
       })
@@ -89,7 +89,7 @@ function RentMovieModalView({
           variant="h4"
           style={{ marginBottom: "20px", color: "#e50914" }}
         >
-          Rent Movie: {movie.title}
+          Rent book: {book.title}
         </Typography>
         <Typography
           variant="body1"
@@ -97,20 +97,20 @@ function RentMovieModalView({
         >
           You are renting{" "}
           <span style={{ color: "#fff", fontWeight: "bold" }}>
-            {movie.title}
+            {book.title}
           </span>{" "}
           directed by{" "}
           <span style={{ color: "#fff", fontWeight: "bold" }}>
-            {movie.director}
+            {book.director}
           </span>{" "}
           from{" "}
           <span style={{ color: "#fff", fontWeight: "bold" }}>
-            {movie.owner_username}
+            {book.owner_username}
           </span>
           .
-          <span className="mt-2 mb-4 flex align-content-center justify-center">
+          <span className="mt-2 mb-4 flex align-content-center h-80 justify-center">
             <img
-              src={movie.photoUrl}
+              src={book.photoUrl}
               alt="Image not found"
               width={550}
               height={550}
@@ -121,7 +121,7 @@ function RentMovieModalView({
           variant="body1"
           style={{ marginBottom: "40px", color: "#999" }}
         >
-          Please select the return date below and pick up your movie from the
+          Please select the return date below and pick up your book from the
           physical shelf or the owner.
         </Typography>
         <div
@@ -171,7 +171,7 @@ function RentMovieModalView({
           <button onClick={handleCloseRentModal} className="cancel-button">
             Cancel
           </button>
-          <button className="rent-button" onClick={rentMovie}>
+          <button className="rent-button" onClick={rentbook}>
             Rent
           </button>
         </div>
@@ -180,4 +180,4 @@ function RentMovieModalView({
   );
 }
 
-export default RentMovieModalView;
+export default RentBookModalView;

@@ -123,7 +123,7 @@ function Login() {
           sm={4}
           md={7}
           sx={{
-            backgroundImage: 'url("/public/Images/movie_rental.avif")',
+            backgroundImage: 'url("/public/Images/icon_rental.avif")',
             backgroundColor: (t) =>
               t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],
             backgroundSize: 'cover',
@@ -147,7 +147,7 @@ function Login() {
               Welcome Back!
             </Typography>
             <Typography component="p" variant="body2" sx={{ mt: 2, mb: 4, textAlign: 'center' }}>
-              Please sign in to continue to our movie rental service.
+              Please sign in to continue to our book rental service.
             </Typography>
             <Box component="form" noValidate sx={{ mt: 1, width: '100%', textAlign:"center" }}>
               <Button

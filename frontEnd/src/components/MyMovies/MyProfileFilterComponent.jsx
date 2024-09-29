@@ -42,8 +42,8 @@ function MyProfileFilterComponent({ onFilterChange }) {
           params: { owner_username: username },
         });
         const users = response.data.content
-          .filter((movie) => movie.rentedBy && movie.rentedBy !== "available")
-          .map((movie) => movie.rentedBy);
+          .filter((book) => book.rentedBy && book.rentedBy !== "available")
+          .map((book) => book.rentedBy);
         setUsersWhoRented([...new Set(users)]);
       } catch (error) {
         console.error("Failed to fetch users:", error);

@@ -1,7 +1,7 @@
-const MovieIcon = ({ isSelected }) => {
+const BookIcon = ({ isSelected }) => {
   let fillColor = isSelected ? "white" : "black";
   return (
-    <div className="moviesIcon">
+    <div>
       <svg
         className="svg-icon"
         width={24}
@@ -19,4 +19,4 @@ const MovieIcon = ({ isSelected }) => {
   );
 };
 
-export default MovieIcon;
+export default BookIcon;

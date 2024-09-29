@@ -12,7 +12,7 @@ import { useEffect, useState } from "react";
 import * as moreClasses from "react-dom/test-utils";
 import { showError, showSuccess } from "../../service/ToastService";
 
-function DetailsMovieModalView({
+function DetailsBookModalView({
   isModalOpen,
   defaultTitle,
   defaultDirector,
@@ -172,7 +172,7 @@ function DetailsMovieModalView({
             })
             .then(() => {
               setTriggerRefresh(!triggerRefresh);
-              showSuccess("Movie edited successfully!", "bg-green-500");
+              showSuccess("Book edited successfully!", "bg-green-500");
               resetForm();
               closeModal();
             })
@@ -369,4 +369,4 @@ function DetailsMovieModalView({
   );
 }
 
-export default DetailsMovieModalView;
+export default DetailsBookModalView;

@@ -23,7 +23,7 @@ create table if not exists users
     username   varchar(255)
 );
 
-create table if not exists movie
+create table if not exists book
 (
     id           uuid not null
         constraint movie_pkey
@@ -50,6 +50,6 @@ create table if not exists movie_history
     movie_id     uuid,
     user_id      varchar(255),
     constraint pk_movie_history primary key (id, movie_id, user_id),
-    constraint fk_mh_movie_id foreign key (movie_id) references movie,
+    constraint fk_mh_movie_id foreign key (movie_id) references book,
     constraint fk_mh_user_id foreign key (user_id) references users
 );

@@ -8,7 +8,7 @@ import { showError, showSuccess } from "../../service/ToastService";
 
 axios.defaults.withCredentials = true;
 
-function ReturnMovieModal({
+function ReturnBookModal({
   isModalOpen,
   closeModal,
   title,
@@ -19,13 +19,13 @@ function ReturnMovieModal({
 }) {
   const [requestError, setRequestError] = useState(false);
 
-  const updateMovieStatus = () => {
+  const updateBookStatus = () => {
     let url = `/books/updateStatus/${id}`;
 
     axios
       .post(url)
       .then(() => {
-        showSuccess(`The movie ${title} has been returned!`);
+        showSuccess(`The book ${title} has been returned!`);
         setTriggerRefresh(!triggerRefresh);
         closeModal();
       })
@@ -47,7 +47,7 @@ function ReturnMovieModal({
         />
         <DialogContent>
           <div className="w-full break-normal text-center mb-5">
-            <p> Please note that you need to return the movie to the owner! ( {owner} )</p>
+            <p> Please note that you need to return the book to the owner! ( {owner} )</p>
           </div>
 
           <div className="flex gap-x-2">
@@ -55,7 +55,7 @@ function ReturnMovieModal({
               <Button
                 className="contained-button w-full"
                 variant="contained"
-                onClick={updateMovieStatus}
+                onClick={updateBookStatus}
               >
                 Ok
               </Button>
@@ -76,4 +76,4 @@ function ReturnMovieModal({
   );
 }
 
-export default ReturnMovieModal;
+export default ReturnBookModal;

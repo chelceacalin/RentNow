@@ -1,32 +1,32 @@
-import { useState } from "react";
-import DeleteMovieModalView from "./DeleteMovieModalView";
-import DetailsMovieModalView from "./DetailsMovieModalView";
+import {useState} from "react";
+import DeleteBookModalView from "./DeleteBookModalView.jsx";
+import DetailsBookModalView from "./DetailsBookModalView.jsx";
 
-function Movie({ movie, onRefresh }) {
+function Book({book, onRefresh}) {
   const [detailsModalOpen, setDetailsModalOpen] = useState(false);
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
 
   const closeDetailsModal = () => setDetailsModalOpen(false);
   return (
     <tr className="shadow-sm shadow-slate-300">
-      <td className="p-4">{movie.title} </td>
-      <td className="p-4">{movie.director}</td>
-      <td className="p-4">{movie.category}</td>
+        <td className="p-4">{book.title} </td>
+        <td className="p-4">{book.director}</td>
+        <td className="p-4">{book.category}</td>
       <td
         className={`p-4 ${
-          movie.isAvailable
+            book.isAvailable
             ? "text-green-color font-bold"
             : "text-main-color  font-bold"
         }`}
       >
-        {movie.isAvailable ? "Available" : "Unavailable"}
+          {book.isAvailable ? "Available" : "Unavailable"}
       </td>
 
-      <td className="p-4">{movie.rentedUntil || "N/A"}</td>
+        <td className="p-4">{book.rentedUntil || "N/A"}</td>
       <td className="p-4">
-        {movie.rentedBy !== "available" ? movie.rentedBy : ""}
+          {book.rentedBy !== "available" ? book.rentedBy : ""}
       </td>
-      <td className="p-4">{movie.created_date}</td>
+        <td className="p-4">{book.created_date}</td>
       <td className="pt-1">
         <button
           onClick={() => setDetailsModalOpen(true)}
@@ -35,25 +35,25 @@ function Movie({ movie, onRefresh }) {
           Details
         </button>
         {detailsModalOpen && (
-          <DetailsMovieModalView
+            <DetailsBookModalView
             isModalOpen={detailsModalOpen}
             closeModal={closeDetailsModal}
-            movie={movie}
+            book={book}
             onRefresh={onRefresh}
           />
         )}
         <button
           onClick={() => setDeleteModalOpen(true)}
           className="details-button details-button-red db-sm"
-          disabled={!movie.isAvailable}
+          disabled={!book.isAvailable}
         >
           Delete
         </button>
         {deleteModalOpen && (
-          <DeleteMovieModalView
+            <DeleteBookModalView
             isModalOpen={deleteModalOpen}
             onClose={() => setDeleteModalOpen(false)}
-            movieId={movie.id}
+            bookId={book.id}
             onRefresh={onRefresh}
           />
         )}
@@ -62,4 +62,4 @@ function Movie({ movie, onRefresh }) {
   );
 }
 
-export default Movie;
+export default Book;

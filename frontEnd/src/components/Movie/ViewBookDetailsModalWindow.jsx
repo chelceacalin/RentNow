@@ -17,8 +17,8 @@ import {
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import dayjs from "dayjs";
-function ViewMovieDetailsModalWindow({ isModalOpen, closeModal, movie }) {
-  const status = movie.isAvailable ? "Available" : "Unavailable";
+function ViewBookDetailsModalWindow({ isModalOpen, closeModal, book }) {
+  const status = book.isAvailable ? "Available" : "Unavailable";
 
   return (
     <Dialog
@@ -60,8 +60,8 @@ function ViewMovieDetailsModalWindow({ isModalOpen, closeModal, movie }) {
           }}
         >
           <img
-            src={movie.photoUrl || "/default-movie.jpg"}
-            alt={movie.title}
+            src={book.photoUrl || "/default-book.jpg"}
+            alt={book.title}
             style={{
               position: "absolute",
               top: 0,
@@ -86,15 +86,15 @@ function ViewMovieDetailsModalWindow({ isModalOpen, closeModal, movie }) {
               variant="h3"
               style={{ marginBottom: "0.5rem", color: "rgb(255,0,0)" }}
             >
-              {movie.title}
+              {book.title}
             </Typography>
             <Typography variant="subtitle1" style={{ color: "#ccc" }}>
               Directed by{" "}
-              <span style={{ fontWeight: "bold" }}>{movie.director}</span>
+              <span style={{ fontWeight: "bold" }}>{book.director}</span>
             </Typography>
             <Typography variant="subtitle1" style={{ color: "#ccc" }}>
               Category{" "}
-              <span style={{ fontWeight: "bold" }}>{movie.category}</span>
+              <span style={{ fontWeight: "bold" }}>{book.category}</span>
             </Typography>
           </div>
         </div>
@@ -113,7 +113,7 @@ function ViewMovieDetailsModalWindow({ isModalOpen, closeModal, movie }) {
               <InfoOutlined
                 style={{ marginRight: "0.75rem", color: "#B3B3B3" }}
               />
-              <span>Description: {movie.description}</span>
+              <span>Description: {book.description}</span>
             </Typography>
 
             <Typography
@@ -125,7 +125,7 @@ function ViewMovieDetailsModalWindow({ isModalOpen, closeModal, movie }) {
                 alignItems: "center",
               }}
             >
-              {movie.isAvailable ? (
+              {book.isAvailable ? (
                 <CheckCircleOutline
                   style={{ marginRight: "0.75rem", color: "#46d369" }}
                 />
@@ -137,7 +137,7 @@ function ViewMovieDetailsModalWindow({ isModalOpen, closeModal, movie }) {
               <span style={{ color: "#B3B3B3" }}>Status:</span>
               <span
                 style={{
-                  color: movie.isAvailable ? "#46d369" : "#e50914",
+                  color: book.isAvailable ? "#46d369" : "#e50914",
                   marginLeft: "0.25rem",
                 }}
               >
@@ -145,7 +145,7 @@ function ViewMovieDetailsModalWindow({ isModalOpen, closeModal, movie }) {
               </span>
             </Typography>
 
-            {!movie.isAvailable && (
+            {!book.isAvailable && (
               <>
                 <Typography
                   variant="body1"
@@ -159,7 +159,7 @@ function ViewMovieDetailsModalWindow({ isModalOpen, closeModal, movie }) {
                   <Person style={{ marginRight: "0.75rem", color: "#fff" }} />
                   Owned by:{" "}
                   <span style={{ color: "#fff", marginLeft: "0.25rem" }}>
-                    {movie.owner_username}
+                    {book.owner_username}
                   </span>
                 </Typography>
                 <Typography
@@ -174,9 +174,9 @@ function ViewMovieDetailsModalWindow({ isModalOpen, closeModal, movie }) {
                   <Person style={{ marginRight: "0.75rem", color: "#fff" }} />
                   Rented by:{" "}
                   <span style={{ color: "#fff", marginLeft: "0.25rem" }}>
-                    {movie.rentedBy}
+                    {book.rentedBy}
 
-                    <Tooltip title={`Email: ${movie.owner_email}`}>
+                    <Tooltip title={`Email: ${book.owner_email}`}>
                       <IconButton
                         style={{
                           width: "1rem",
@@ -208,7 +208,7 @@ function ViewMovieDetailsModalWindow({ isModalOpen, closeModal, movie }) {
                       />
                       Rented on:{" "}
                       <span style={{ color: "#fff", marginLeft: "0.25rem" }}>
-                        {dayjs(movie.rentedDate).format("MMMM D, YYYY")}
+                        {dayjs(book.rentedDate).format("MMMM D, YYYY")}
                       </span>
                     </Typography>
                     <Typography
@@ -224,7 +224,7 @@ function ViewMovieDetailsModalWindow({ isModalOpen, closeModal, movie }) {
                       />
                       Rented until:{" "}
                       <span style={{ color: "#fff", marginLeft: "0.25rem" }}>
-                        {dayjs(movie.rentedUntil).format("MMMM D, YYYY")}
+                        {dayjs(book.rentedUntil).format("MMMM D, YYYY")}
                       </span>
                     </Typography>
                   </div>
@@ -245,4 +245,4 @@ function ViewMovieDetailsModalWindow({ isModalOpen, closeModal, movie }) {
   );
 }
 
-export default ViewMovieDetailsModalWindow;
+export default ViewBookDetailsModalWindow;

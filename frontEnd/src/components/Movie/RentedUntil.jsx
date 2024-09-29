@@ -2,8 +2,8 @@ import InfoIcon from "@mui/icons-material/Info";
 import { Tooltip, Typography } from "@mui/material";
 import dayjs from "dayjs";
 
-function RentedUntil({ movie }) {
-  const rentedUntil = dayjs(movie.rentedUntil);
+function RentedUntil({ book }) {
+  const rentedUntil = dayjs(book.rentedUntil);
   const now = dayjs();
   const hoursUntilRented = Math.abs(rentedUntil.diff(now, "hour"));
 

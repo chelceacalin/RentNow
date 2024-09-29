@@ -2,13 +2,13 @@ import { Container, Grid } from "@mui/material";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import MovieFilter from "../../components/Movie/MovieFilter.jsx";
-import RentedMovie from "../../components/Movie/RentedMovie.jsx";
+import BookFilter from "../../components/Movie/BookFilter.jsx";
+import RentedBook from "../../components/Movie/RentedBook.jsx";
 import "../../components/ScrollToTop/ScrollToTopButton.jsx";
 import ScrollToTopButton from "../../components/ScrollToTop/ScrollToTopButton.jsx";
 
-function Movies() {
-  const [movies, setMovies] = useState([]);
+function Books() {
+  const [books, setBooks] = useState([]);
   const [initialized, setInitialized] = useState(false);
   const [category, setCategory] = useState("");
   const [director, setDirector] = useState("");
@@ -51,11 +51,11 @@ function Movies() {
       .get(url)
       .then((response) => {
         const { data } = response;
-        setMovies(data.content);
+        setBooks(data.content);
         setInitialized(true);
       })
       .catch((error) => {
-        console.error("Failed to fetch movies: ", error);
+        console.error("Failed to fetch books: ", error);
         setInitialized(true);
       });
   }, [
@@ -91,29 +91,29 @@ function Movies() {
   return (
     <Container maxWidth="xl">
       <ScrollToTopButton />
-      <MovieFilter
+      <BookFilter
         filterInput={getFilterInput}
         handleSortFieldChange={handleSortFieldChange}
         handleDirectionChange={handleDirectionChange}
         sortField={sortField}
         direction={direction}
       />
-      <Grid container spacing={0} mt={0} className="rented-movies-container">
-        {movies.map((movie, idx) => (
+      <Grid container spacing={0} mt={0} className="rented-books-container">
+        {books.map((book, idx) => (
           <Grid item key={idx}>
-            <RentedMovie
-              movie={movie}
-              id={movie.id}
-              title={movie.title}
-              category={movie.category}
-              director={movie.director}
-              isAvailable={movie.isAvailable}
-              owner_username={movie.owner_username}
-              rentedDate={movie.rentedDate}
-              description={movie.description}
+            <RentedBook
+              book={book}
+              id={book.id}
+              title={book.title}
+              category={book.category}
+              director={book.director}
+              isAvailable={book.isAvailable}
+              owner_username={book.owner_username}
+              rentedDate={book.rentedDate}
+              description={book.description}
               triggerRefresh={triggerRefresh}
               setTriggerRefresh={setTriggerRefresh}
-              photoUrl={movie.photoUrl}
+              photoUrl={book.photoUrl}
             />
           </Grid>
         ))}
@@ -122,4 +122,4 @@ function Movies() {
   );
 }
 
-export default Movies;
+export default Books;

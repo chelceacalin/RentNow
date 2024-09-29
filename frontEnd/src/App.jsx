@@ -6,15 +6,15 @@ import "./App.scss";
 import Navbar from "./components/Navbar/Navbar";
 import CategoryManagement from "./pages/CategoryManagement/CategoryManagement";
 import Login from "./pages/Login/Login";
-import Movies from "./pages/Movies/Movies";
-import MyProfile from "./pages/MyMovies/MyProfile";
-import MyRentedMovies from "./pages/MyRentedMovies/MyRentedMovies";
+import Books from "./pages/Books/Books.jsx";
+import MyProfile from "./pages/MyBooks/MyProfile";
+import Books_MyRentedBooks from "./pages/MyRentedBooks/Books_MyRentedBooks.jsx";
 import NotFound from "./pages/NotFound/NotFound";
 import RoleManagement from "./pages/RoleManagement/RoleManagement";
 import LoginProvider, { UserLoginContext } from "./utils/context/LoginProvider";
 import AdminRoute from "./utils/protected/AdminRoute";
 import Authenticated from "./utils/protected/Authenticated";
-import MyRentedMoviesRoute from "./utils/protected/MyRentedMoviesRoute";
+import MyRentedBooksRoute from "./utils/protected/MyRentedBooksRoute.jsx";
 import ProfileRoute from "./utils/protected/ProfileRoute";
 
 function App() {
@@ -47,12 +47,12 @@ function MainContent() {
       </div>
       <Routes>
         <Route element={<Authenticated />}>
-          <Route index path="/" element={<Movies />} />
+          <Route index path="/" element={<Books />} />
 
-          <Route element={<MyRentedMoviesRoute />}>
+          <Route element={<MyRentedBooksRoute />}>
             <Route
-              path="/myprofile/myRentedMovies/:id"
-              element={<MyRentedMovies />}
+              path="/myprofile/myRentedBooks/:id"
+              element={<Books_MyRentedBooks />}
             />
           </Route>
 

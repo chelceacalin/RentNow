@@ -2,7 +2,7 @@ import { Autocomplete, TextField, styled } from "@mui/material";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useDebouncedCallback } from "use-debounce";
-import "./css/MovieFilter.scss";
+import "./css/BookFilter.scss";
 const StyledAutocomplete = styled(Autocomplete)(({ theme }) => ({
   "& .MuiAutocomplete-option": {
     color: "white",
@@ -16,7 +16,7 @@ const StyledAutocomplete = styled(Autocomplete)(({ theme }) => ({
   },
 }));
 
-function MovieFilter({
+function BookFilter({
   filterInput,
   handleSortFieldChange,
   handleDirectionChange,
@@ -162,4 +162,4 @@ function MovieFilter({
   );
 }
 
-export default MovieFilter;
+export default BookFilter;

@@ -5,7 +5,7 @@ import axios from "axios";
 import { useState } from "react";
 import { showError, showSuccess } from "../../service/ToastService";
 
-function DeleteMovieModalView({
+function DeleteBookModalView({
   isModalOpen,
   closeModal,
   title,
@@ -17,14 +17,14 @@ function DeleteMovieModalView({
 }) {
   const [requestError, setRequestError] = useState(false);
 
-  const deleteMovie = () => {
+  const deleteBook = () => {
     let url = `/books/delete/${id}`;
 
     axios
       .post(url)
       .then(() => {
         setTriggerRefresh(!triggerRefresh);
-        showSuccess("Movie deleted successfully!", "bg-green-500");
+        showSuccess("Book deleted successfully!", "bg-green-500");
         closeModal();
         setRequestError(false);
       })
@@ -47,14 +47,14 @@ function DeleteMovieModalView({
         />
         <DialogContent>
           <div className="w-full break-normal text-center mb-5">
-            <p> Are you sure you want to delete this movie?</p>
+            <p> Are you sure you want to delete this book?</p>
           </div>
 
           <div className="mt-2 mb-2 pl-5 pr-5">
             <Button
               className="contained-button w-full"
               variant="contained"
-              onClick={deleteMovie}
+              onClick={deleteBook}
             >
               Yes
             </Button>
@@ -74,4 +74,4 @@ function DeleteMovieModalView({
   );
 }
 
-export default DeleteMovieModalView;
+export default DeleteBookModalView;

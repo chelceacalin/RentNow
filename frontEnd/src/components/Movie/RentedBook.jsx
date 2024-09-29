@@ -1,10 +1,10 @@
 import { useState } from "react";
-import RentMovieModalView from "./RentMovieModalView.jsx";
+import RentBookModalView from "./RentBookModalView.jsx";
 import RentedUntil from "./RentedUntil.jsx";
-import ViewMovieDetailsModalWindow from "./ViewMovieDetailsModalWindow.jsx";
-import "./css/RentedMovies.scss";
+import ViewBookDetailsModalWindow from "./ViewBookDetailsModalWindow.jsx";
+import "./css/RentedBooks.scss";
 
-function RentedMovie({ book, triggerRefresh, setTriggerRefresh }) {
+function RentedBook({ book, triggerRefresh, setTriggerRefresh }) {
   const [detailsModalOpen, setDetailsModalOpen] = useState(false);
   const [isRentModalOpen, setRentModalOpen] = useState(false);
 
@@ -46,14 +46,14 @@ function RentedMovie({ book, triggerRefresh, setTriggerRefresh }) {
         </div>
       </div>
       {detailsModalOpen && (
-        <ViewMovieDetailsModalWindow
+        <ViewBookDetailsModalWindow
           isModalOpen={detailsModalOpen}
           closeModal={handleDetailsClose}
           book={book}
         />
       )}
       {isRentModalOpen && (
-        <RentMovieModalView
+        <RentBookModalView
           isRentModalOpen={isRentModalOpen}
           handleCloseRentModal={handleCloseRentModal}
           book={book}
@@ -65,4 +65,4 @@ function RentedMovie({ book, triggerRefresh, setTriggerRefresh }) {
   );
 }
 
-export default RentedMovie;
+export default RentedBook;
