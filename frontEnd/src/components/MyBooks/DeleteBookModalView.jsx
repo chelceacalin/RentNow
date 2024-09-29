@@ -24,7 +24,7 @@ function DeleteBookModalView({
       .post(url)
       .then(() => {
         setTriggerRefresh(!triggerRefresh);
-        showSuccess("Book deleted successfully!", "bg-green-500");
+        showSuccess("Book deleted successfully!");
         closeModal();
         setRequestError(false);
       })

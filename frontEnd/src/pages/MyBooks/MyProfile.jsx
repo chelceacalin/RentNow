@@ -1,13 +1,13 @@
 import { Container } from "@mui/material";
 import axios from "axios";
 import { useCallback, useContext, useEffect, useState } from "react";
-import AddNewBookModalWindow from "../../components/MyMovies/AddNewBookModalWindow.jsx";
-import Book from "../../components/MyMovies/Book.jsx";
-import MyProfileFilterComponent from "../../components/MyMovies/MyProfileFilterComponent";
-import MyProfileRedirectButtons from "../../components/MyMovies/MyProfileRedirectButtons";
+import AddNewBookModalWindow from "../../components/MyBooks/AddNewBookModalWindow.jsx";
+import Book from "../../components/MyBooks/Book.jsx";
+import MyProfileFilterComponent from "../../components/MyBooks/MyProfileFilterComponent";
+import MyProfileRedirectButtons from "../../components/MyBooks/MyProfileRedirectButtons";
 import Pagination from "../../components/Pagination/Pagination";
 import { UserLoginContext } from "../../utils/context/LoginProvider";
-
+import NoMatchingResultsFound from "../NotFound/NoMatchingResultsFound.jsx";
 function MyProfile() {
   const [books, setBooks] = useState([]);
   const [filters, setFilters] = useState({
@@ -203,9 +203,7 @@ function MyProfile() {
             ))}
           </tbody>
         </table>
-        {!books.length && initialized && (
-          <div className="text-center py-4">No matching results found</div>
-        )}
+        {!books.length && initialized && <NoMatchingResultsFound />}
       </div>
       <Pagination
         pageNo={pagination.pageNo}

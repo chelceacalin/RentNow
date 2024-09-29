@@ -13,7 +13,7 @@ const Pagination = ({
   onPageSizeChange,
 }) => {
   return (
-    <Box className="flex justify-between items-center p-4 bg-gray-800 text-white">
+    <Box className="pagination">
       <div className="flex items-center">
         <span className="mr-2">Results per page:</span>
         <Select
@@ -21,7 +21,7 @@ const Pagination = ({
           onChange={onPageSizeChange}
           variant="outlined"
           size="small"
-          className="bg-white text-black"
+          className="bg-white-text-black"
         >
           {[5, 10, 15, 20].map((size) => (
             <MenuItem key={size} value={size}>

@@ -71,7 +71,10 @@ public class UserService {
 		}
 
 		if (nonNull(dto.getRole())) {
-			specification = specification.and(hasRole(dto.getRole().toString()));
+			String userRole = dto.getRole().toString();
+			if (!userRole.equals("ALL")) {
+				specification = specification.and(hasRole(userRole));
+			}
 		}
 		return specification;
 	}

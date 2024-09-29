@@ -1,7 +1,4 @@
-import { Button, TextField, styled } from "@mui/material";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { TextField, styled } from "@mui/material";
 import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import { useDebouncedCallback } from "use-debounce";
@@ -58,9 +55,7 @@ function MyProfileFilterComponent({ onFilterChange }) {
       title: filterValues.title,
       director: filterValues.director,
       category: filterValues.category,
-      rentedUntil: filterValues.rentedUntil
-        ? filterValues.rentedUntil.format("YYYY-MM-DD")
-        : "",
+      rentedUntil: filterValues.rentedUntil ? filterValues.rentedUntil : "",
       rentedBy: filterValues.rentedBy,
       isAvailable: status === "ALL" ? "" : status,
     };
@@ -75,13 +70,13 @@ function MyProfileFilterComponent({ onFilterChange }) {
   };
 
   return (
-    <div className="p-6 bg-gray-900 rounded-lg shadow-md">
+    <div className="filter-background">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         <div className="col-span-1">
           <input
             type="search"
             placeholder="Search title"
-            className="w-full p-3 bg-gray-800 text-white border border-gray-700 rounded-lg"
+            className="filter-search-input"
             value={filterValues.title}
             onChange={handleInputChange("title")}
           />
@@ -91,7 +86,7 @@ function MyProfileFilterComponent({ onFilterChange }) {
           <input
             type="search"
             placeholder="Search director"
-            className="w-full p-3 bg-gray-800 text-white border border-gray-700 rounded-lg"
+            className="filter-search-input"
             value={filterValues.director}
             onChange={handleInputChange("director")}
           />
@@ -101,7 +96,7 @@ function MyProfileFilterComponent({ onFilterChange }) {
           <input
             type="search"
             placeholder="Search category"
-            className="w-full p-3 bg-gray-800 text-white border border-gray-700 rounded-lg"
+            className="filter-search-input"
             value={filterValues.category}
             onChange={handleInputChange("category")}
           />
@@ -113,7 +108,7 @@ function MyProfileFilterComponent({ onFilterChange }) {
             select
             value={filterValues.rentedBy || ""}
             onChange={handleInputChange("rentedBy")}
-            className="w-full p-3 bg-gray-800  text-white border border-gray-700 rounded-lg color-white"
+            className="filter-search-input"
             SelectProps={{
               native: true,
             }}
@@ -136,38 +131,33 @@ function MyProfileFilterComponent({ onFilterChange }) {
           </StyledAutocomplete>
         </div>
 
-        <div className="col-span-1 mt-6">
-          <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <div className="relative w-full">
-              <DatePicker
-                label="Rented Until"
-                className="bg-gray-300 w-full"
-                value={filterValues.rentedUntil}
-                onChange={(newDate) =>
-                  setFilterValues((prev) => ({ ...prev, rentedUntil: newDate }))
+        <div className="col-span-1">
+          <div className="relative w-full">
+            <label className="text-white mb-2">Rented Until</label>
+            <div className="relative">
+              <input
+                type="date"
+                className="w-full filter-search-input pr-16" // Add padding to make space for the button
+                value={filterValues.rentedUntil || ""}
+                onChange={(e) =>
+                  setFilterValues((prev) => ({
+                    ...prev,
+                    rentedUntil: e.target.value,
+                  }))
                 }
-                renderInput={(params) => (
-                  <TextField
-                    {...params}
-                    fullWidth
-                    className="bg-gray-800 text-white border border-gray-700 rounded-lg"
-                  />
-                )}
               />
               {filterValues.rentedUntil && (
-                <Button
+                <button
                   onClick={() =>
-                    setFilterValues((prev) => ({ ...prev, rentedUntil: null }))
+                    setFilterValues((prev) => ({ ...prev, rentedUntil: "" }))
                   }
-                  variant="contained"
-                  size="small"
-                  className="absolute top-2 right-2 left-4 bg-red-500 text-white"
+                  className="absolute top-0 right-0 h-full bg-main-color-text-white px-3 py-1 rounded-r"
                 >
                   Reset
-                </Button>
+                </button>
               )}
             </div>
-          </LocalizationProvider>
+          </div>
         </div>
 
         <div className="col-span-1">
@@ -181,7 +171,7 @@ function MyProfileFilterComponent({ onFilterChange }) {
                   availability: e.target.value,
                 }))
               }
-              className="w-full p-3 bg-gray-800 text-white border border-gray-700 rounded-lg mt-1"
+              className="filter-search-input mt-1"
             >
               <option value="ALL">All</option>
               <option value="true">Available</option>

@@ -18,7 +18,7 @@ function DeleteCategoryModalWindow({
     axios
       .post(url)
       .then(() => {
-        showSuccess("Category deleted successfully!", "bg-green-500");
+        showSuccess("Category deleted successfully!");
         setSignalCall(!signalCall);
         closeEditModal();
       })

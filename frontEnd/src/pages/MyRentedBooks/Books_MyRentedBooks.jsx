@@ -1,8 +1,8 @@
 import { Container } from "@mui/material";
 import axios from "axios";
 import { useContext, useEffect, useState } from "react";
-import MyProfileRedirectButtons from "../../components/MyMovies/MyProfileRedirectButtons";
-import MyRentedBooks from "../../components/MyRentedMovies/MyRentedBooks.jsx";
+import MyProfileRedirectButtons from "../../components/MyBooks/MyProfileRedirectButtons";
+import MyRentedBooks from "../../components/MyRentedBooks/MyRentedBooks.jsx";
 import Pagination from "../../components/Pagination/Pagination";
 import { UserLoginContext } from "../../utils/context/LoginProvider";
 import SortIcon from "../../utils/icons/SortIcon";
@@ -127,7 +127,7 @@ function Books_MyRentedBooks() {
         <div className="w-full flex flex-col bg-white justify-between border-2">
           <div className="overflow-y-auto">
             <table className="w-full min-w-max border-b-2 table-auto text-left">
-              <thead className="bg-basic-red sticky top-0 z-30  bg-gray-800 text-white">
+              <thead className="sticky top-0 z-30  bg-gray-800 text-white">
                 <tr>
                   {TABLE_HEAD.slice(0, TABLE_HEAD.length - 1).map((elem) => {
                     return (
@@ -292,7 +292,7 @@ function Books_MyRentedBooks() {
             </table>
           </div>
 
-          <div className="simpleMainBg w-auto">
+          <div className="w-auto">
             {!books.length && initialized && (
               <p className="text-center text-2xl notFoundText bg-white p-2 m-auto justify-center flex">
                 No matching results found

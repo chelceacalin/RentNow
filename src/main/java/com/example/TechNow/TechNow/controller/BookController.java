@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -28,8 +29,13 @@ public class BookController {
 	public Page<BookDTO> findUserBooks(@ModelAttribute BookFilterDTO dto,
 									   @RequestParam(name = "pageNo", defaultValue = "0") int pageNo,
 									   @RequestParam(name = "pageSize", defaultValue = "1000") int pageSize) {
-		log.info("Books searched with {}", dto);
-		return bookService.findUserBooks(dto, pageNo, pageSize);
+		try {
+			log.info("Books searched with {}", dto);
+			return bookService.findUserBooks(dto, pageNo, pageSize);
+		} catch (Exception e) {
+			log.error(e.getMessage());
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+		}
 	}
 
 

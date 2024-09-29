@@ -172,7 +172,7 @@ function DetailsBookModalView({
             })
             .then(() => {
               setTriggerRefresh(!triggerRefresh);
-              showSuccess("Book edited successfully!", "bg-green-500");
+              showSuccess("Book edited successfully!");
               resetForm();
               closeModal();
             })
@@ -302,9 +302,7 @@ function DetailsBookModalView({
                 className="border-2 border-gray-400 p-4 rounded-lg mb-4"
                 onDrop={() => {
                   if (!isAvailable) {
-                    showError(
-                      "You cannot drop images because book is rented! "
-                    );
+                    showError("You cannot drop images because book is rented!");
                   } else {
                     handleImageDrop();
                   }

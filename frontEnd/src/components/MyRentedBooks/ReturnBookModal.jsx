@@ -17,8 +17,6 @@ function ReturnBookModal({
   triggerRefresh,
   owner
 }) {
-  const [requestError, setRequestError] = useState(false);
-
   const updateBookStatus = () => {
     let url = `/books/updateStatus/${id}`;
 

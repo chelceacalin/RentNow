@@ -59,7 +59,7 @@ function EditRoleModalWindow({
     axios
       .post(url, userDTO)
       .then(() => {
-        showSuccess("User edited successfully!", "bg-green-500");
+        showSuccess("User edited successfully!");
         updateUser(userDTO);
         closeModal();
       })

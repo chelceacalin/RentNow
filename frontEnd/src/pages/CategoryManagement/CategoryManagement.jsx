@@ -5,7 +5,7 @@ import Category from "../../components/CategoryManagement/Category.jsx";
 import CreateCategoryModalWindow from "../../components/CategoryManagement/CreateCategoryModalWIndow.jsx";
 import FilterCategory from "../../components/CategoryManagement/FilterCategory";
 import Pagination from "../../components/Pagination/Pagination.jsx";
-
+import NoMatchingResultsFound from "../NotFound/NoMatchingResultsFound.jsx";
 function CategoryManagement() {
   const [categories, setCategories] = useState([]);
   const [initialized, setInitialized] = useState(false);
@@ -81,11 +81,12 @@ function CategoryManagement() {
 
   return (
     <Container maxWidth="xl">
-      <div className="flex ">
-        <FilterCategory filterInput={getFilterInput} />
-      </div>
+      <FilterCategory filterInput={getFilterInput} />
       <div className="m-0">
-        <button onClick={handleOpen} className="close-button reset-margin-left">
+        <button
+          onClick={handleOpen}
+          className="close-button reset-margin-left reset-width"
+        >
           Add new
         </button>
         <CreateCategoryModalWindow
@@ -162,11 +163,7 @@ function CategoryManagement() {
               </tbody>
             </table>
           </div>
-          {!categories.length && initialized && (
-            <p className="text-center text-2xl notFoundText bg-white p-4 flex justify-center align-center">
-              No matching results found
-            </p>
-          )}
+          {!categories.length && initialized && <NoMatchingResultsFound />}
           <Pagination
             pageNo={pageNo}
             pageSize={pageSize}

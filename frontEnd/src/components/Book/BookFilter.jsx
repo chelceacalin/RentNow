@@ -59,7 +59,7 @@ function BookFilter({
   }, [selectedCategory, director, title, availability, rentedBy]);
 
   return (
-    <div className="p-6 bg-gray-900 rounded-lg shadow-md">
+    <div className="filter-background">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         <div className="col-span-1">
           <input
@@ -67,7 +67,7 @@ function BookFilter({
             name="title"
             type="search"
             placeholder="Search title"
-            className="w-full p-3 bg-gray-800 text-white border border-gray-700 rounded-lg"
+            className="filter-search-input"
             onChange={(e) => setTitle(e.target.value)}
           />
         </div>
@@ -77,7 +77,7 @@ function BookFilter({
             name="director"
             type="search"
             placeholder="Search director"
-            className="w-full p-3 bg-gray-800 text-white border border-gray-700 rounded-lg"
+            className="filter-search-input"
             onChange={(e) => setDirector(e.target.value)}
           />
         </div>
@@ -89,7 +89,7 @@ function BookFilter({
               <TextField
                 {...params}
                 placeholder="Category"
-                className="w-full p-3 bg-gray-800 text-white border border-gray-700 rounded-lg"
+                className="filter-search-input"
               />
             )}
             value={selectedCategory}
@@ -104,7 +104,7 @@ function BookFilter({
               <TextField
                 {...params}
                 placeholder="Rented by"
-                className="w-full p-3 bg-gray-800 text-white border border-gray-700 rounded-lg"
+                className="filter-search-input"
               />
             )}
             value={rentedBy}
@@ -120,7 +120,7 @@ function BookFilter({
               <select
                 value={availability}
                 onChange={(e) => setAvailability(e.target.value)}
-                className="w-full p-3 bg-gray-800 text-white border border-gray-700 rounded-lg"
+                className="filter-search-input"
               >
                 <option value="true">Available</option>
                 <option value="false">Unavailable</option>
@@ -134,7 +134,7 @@ function BookFilter({
               <select
                 value={sortField}
                 onChange={handleSortFieldChange}
-                className="w-full p-3 bg-gray-800 text-white border border-gray-700 rounded-lg"
+                className="filter-search-input"
               >
                 <option value="title">Title</option>
                 <option value="director">Director</option>
@@ -149,7 +149,7 @@ function BookFilter({
               <select
                 value={direction ? "ASC" : "DESC"}
                 onChange={handleDirectionChange}
-                className="w-full p-3 bg-gray-800 text-white border border-gray-700 rounded-lg"
+                className="filter-search-input"
               >
                 <option value="ASC">Ascending</option>
                 <option value="DESC">Descending</option>

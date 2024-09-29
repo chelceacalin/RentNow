@@ -45,7 +45,7 @@ function EditCategoryNameModalWindow({
         name: newName,
       })
       .then((response) => {
-        showSuccess("Category edited successfully!", "bg-green-500");
+        showSuccess("Category edited successfully!");
         updateCategory({
           id: response.data.id,
           name: response.data.name,
@@ -103,7 +103,7 @@ function EditCategoryNameModalWindow({
               editCategoryName();
               closeModal();
             }}
-            disabled={!!errorMessage || newName.length == 0}
+            disabled={!!errorMessage || newName.length === 0}
           >
             Save
           </button>

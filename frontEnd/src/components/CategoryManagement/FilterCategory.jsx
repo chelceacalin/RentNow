@@ -1,4 +1,3 @@
-import { TextField } from "@mui/material";
 import { useEffect, useState } from "react";
 
 function FilterCategory({ filterInput }) {
@@ -11,24 +10,21 @@ function FilterCategory({ filterInput }) {
   }, [name]);
 
   return (
-  <div className="filter-category-container py-1 flex"> 
-    <div className="">
-      <TextField
-        id="outlined-search-name"
-        name="name"
-        label="Search category name"
-        type="search"
-        className="search-field w-48"
-        onChange={(e) => setName(e.target.value)}
-        InputLabelProps={{
-          style: { fontFamily: "Sanchez" },
-        }}
-      />
+    <div className="filter-background">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="col-span-1">
+          <input
+            id="outlined-search-name"
+            name="name"
+            placeholder="Search category name"
+            type="search"
+            className="filter-search-input"
+            onChange={(e) => setName(e.target.value)}
+          />
+        </div>
+      </div>
     </div>
-  </div>
-);
-
-
+  );
 }
 
 export default FilterCategory;

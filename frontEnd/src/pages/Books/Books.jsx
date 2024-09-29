@@ -2,11 +2,11 @@ import { Container, Grid } from "@mui/material";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import BookFilter from "../../components/Movie/BookFilter.jsx";
-import RentedBook from "../../components/Movie/RentedBook.jsx";
+import BookFilter from "../../components/Book/BookFilter.jsx";
+import RentedBook from "../../components/Book/RentedBook.jsx";
 import "../../components/ScrollToTop/ScrollToTopButton.jsx";
 import ScrollToTopButton from "../../components/ScrollToTop/ScrollToTopButton.jsx";
-
+import NoMatchingResultsFound from "../NotFound/NoMatchingResultsFound.jsx";
 function Books() {
   const [books, setBooks] = useState([]);
   const [initialized, setInitialized] = useState(false);
@@ -117,6 +117,7 @@ function Books() {
             />
           </Grid>
         ))}
+        {books.length === 0 && <NoMatchingResultsFound />}
       </Grid>
     </Container>
   );

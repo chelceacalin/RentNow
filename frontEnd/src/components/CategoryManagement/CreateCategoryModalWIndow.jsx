@@ -22,7 +22,7 @@ function CreateCategoryModalWindow({
     if (categoryDTO.length < 2) {
       showError("Category should have more than 2 characters!");
     } else if (categoryDTO.charAt(0) !== categoryDTO.charAt(0).toUpperCase()) {
-      showError(" should start with an uppercase letter!");
+      showError("Should start with an uppercase letter!");
     } else {
       let url = "/category/create";
       axios
@@ -32,7 +32,7 @@ function CreateCategoryModalWindow({
         .then(() => {
           setSignalCall(!signalCall);
           closeModal();
-          showSuccess("Category added successfully!", "bg-green-500");
+          showSuccess("Category added successfully!");
           setCategoryDTO("");
         })
         .catch((error) => {
@@ -85,7 +85,7 @@ function CreateCategoryModalWindow({
             className="details-button"
             variant="contained"
             onClick={createCategory}
-            disabled={!!errorMessage || categoryDTO.length == 0}
+            disabled={!!errorMessage || categoryDTO.length === 0}
           >
             Save
           </button>

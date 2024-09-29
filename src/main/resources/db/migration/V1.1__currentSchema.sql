@@ -26,30 +26,31 @@ create table if not exists users
 create table if not exists book
 (
     id           uuid not null
-        constraint movie_pkey
+        constraint book_pkey
             primary key,
     description  varchar(255),
     director     varchar(255),
     is_available boolean,
     title        varchar(255),
+    photo_url varchar(255),
     category_id  uuid
-        constraint fk_movie_category_id
+        constraint fk_book_category_id
             references category,
     owner_id     varchar(255)
-        constraint fk_movie_owner_id
+        constraint fk_book_owner_id
             references users
 );
 
-create table if not exists movie_history
+create table if not exists book_history
 (
     id           uuid not null,
     description  varchar(255),
     rating       integer,
     rented_date  date,
     rented_until date,
-    movie_id     uuid,
+    book_id uuid,
     user_id      varchar(255),
-    constraint pk_movie_history primary key (id, movie_id, user_id),
-    constraint fk_mh_movie_id foreign key (movie_id) references book,
+    constraint pk_book_history primary key (id, book_id, user_id),
+    constraint fk_mh_book_id foreign key (book_id) references book,
     constraint fk_mh_user_id foreign key (user_id) references users
 );

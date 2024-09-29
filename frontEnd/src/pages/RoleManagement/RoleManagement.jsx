@@ -5,7 +5,7 @@ import Pagination from "../../components/Pagination/Pagination";
 import FilterComponent from "../../components/RoleManagement/FilterComponent";
 import User from "../../components/RoleManagement/User";
 import SortIcon from "../../utils/icons/SortIcon";
-
+import NoMatchingResultsFound from "../NotFound/NoMatchingResultsFound";
 function RoleManagement() {
   const TABLE_HEAD = ["Name", "Role", "Email", "Actions"];
   const [users, setUsers] = useState([]);
@@ -82,7 +82,7 @@ function RoleManagement() {
     setFirstName(params[0]);
     setLastName(params[1]);
     setEmail(params[2]);
-    setFilterRole(params[3] === "BOTH" ? "" : params[3]);
+    setFilterRole(params[3]);
   };
 
   const handleSelectChange = (event) => {
@@ -96,13 +96,11 @@ function RoleManagement() {
 
   return (
     <Container maxWidth="xl">
-      <div className="flex">
-        <FilterComponent filterInput={getFilterInput} />
-      </div>
+      <FilterComponent filterInput={getFilterInput} />
       <div className="w-full mt-4">
         <div className="overflow-y-auto ">
           <table className="cater w-full text-left  border-b-2">
-            <thead className=" sticky top-0 z-30 text-white mainBg">
+            <thead className="sticky top-0 z-30 text-white bg-gray-800">
               <tr>
                 {TABLE_HEAD.slice(0, TABLE_HEAD.length).map((elem) => (
                   <th
@@ -141,11 +139,7 @@ function RoleManagement() {
             </tbody>
           </table>
         </div>
-        {!users.length && initialized && (
-          <p className="text-center text-2xl notFoundText bg-white p-4  justify-center flex align-center">
-            No matching results found
-          </p>
-        )}
+        {!users.length && initialized && <NoMatchingResultsFound />}
         <Pagination
           pageNo={pageNo}
           pageSize={pageSize}
