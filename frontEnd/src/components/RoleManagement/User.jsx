@@ -48,18 +48,9 @@ function User({ user, updateUser, classes, myUserEmail }) {
             <EditRoleModalWindow
               isModalOpen={open}
               closeModal={handleClose}
-              firstName={user.firstName}
               user={user}
-              lastName={user.lastName}
-              is_active={user.is_active}
               isCurrentUser={isCurrentUser}
-              name={user.username}
-              id={user.id}
-              role={user.role}
-              email={user.email}
-              username={user.username}
               updateUser={updateUser}
-              photoUrl={user.photoUrl}
             />
           )}
         </td>

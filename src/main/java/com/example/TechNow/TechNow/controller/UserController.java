@@ -35,7 +35,7 @@ public class UserController {
 	}
 
 	@PostMapping("/update/{role}")
-	public ResponseEntity<User> updateUserRole(@RequestBody UserDTO userDTO, @PathVariable("role") User.Role role) {
+	public ResponseEntity<User> updateUser(@RequestBody UserDTO userDTO, @PathVariable("role") User.Role role) {
 		log.info("Updating user role {}", userDTO.getUsername());
 		return ResponseEntity.ok(userService.updateUserRole(userDTO, role));
 	}

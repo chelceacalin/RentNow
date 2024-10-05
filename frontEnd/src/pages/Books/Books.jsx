@@ -13,7 +13,7 @@ function Books() {
   const [category, setCategory] = useState("");
   const [director, setDirector] = useState("");
   const [title, setTitle] = useState("");
-  const [isAvailable, setIsAvailable] = useState("ALL");
+  const [isAvailable, setIsAvailable] = useState("");
   const [rentedBy, setRentedBy] = useState("");
   const [pageNo, setPageNo] = useState(1);
   const [pageSize, setPageSize] = useState(15);
