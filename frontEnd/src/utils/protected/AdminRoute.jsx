@@ -4,7 +4,6 @@ import { UserLoginContext } from "../context/LoginProvider";
 
 function AdminRoute() {
   let { isAdmin } = useContext(UserLoginContext);
-
   return isAdmin ? <Outlet /> : <Navigate to={"/"} />;
 }
 

@@ -91,7 +91,7 @@ public class UserService {
 		if (userOptional.isPresent()) {
 			User user = userOptional.get();
 			user.setRole(role);
-			user.setIs_active(userDTO.getIsActive());
+			user.setIs_active(userDTO.getIs_active());
 			user.setUpdated_date(LocalDateTime.now());
 			updatedUser = userRepository.save(user);
 		}

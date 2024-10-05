@@ -1,6 +1,6 @@
 import React from "react";
-import LogoutIcon from "../../utils/icons/LogoutIcon";
 import { useNavigate } from "react-router-dom";
+import LogoutIcon from "../../utils/icons/LogoutIcon";
 const LogoutNavItem = ({
   selectedItem,
   handleItemClick,

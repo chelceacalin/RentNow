@@ -12,6 +12,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import axios from "axios";
 import { GithubAuthProvider, signInWithPopup } from "firebase/auth";
 import { useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import { UserLoginContext } from "../../utils/context/LoginProvider.jsx";
 import { auth, provider } from "../../utils/firebase/firebase.js";
 import AppIconUnformatted from "../../utils/icons/AppIconUnformatted.jsx";
@@ -19,32 +20,60 @@ const defaultTheme = createTheme();
 
 function Login() {
   let url = axios.defaults.baseURL;
+  let navigate = useNavigate();
   const githubProvider = new GithubAuthProvider();
-  const { setIsAdmin, setUsername, setIsLoggedIn, setID, setEmail } =
-    useContext(UserLoginContext);
+  const {
+    setIsAdmin,
+    setUsername,
+    setIsLoggedIn,
+    setID,
+    setEmail,
+    set_isActive,
+  } = useContext(UserLoginContext);
+
+  const getUserDetails = (userData, providerName = "google") => {
+    let firstName = userData.displayName.split(" ")[0];
+    let lastName = userData.displayName.split(" ")[1];
+    let email = userData.email;
+
+    if (providerName === "github" && !email) {
+      email =
+        firstName.replaceAll(" ", "").toLowerCase() +
+        "." +
+        lastName.replaceAll(" ", "").toLowerCase() +
+        "@yahoo.com";
+    }
+
+    return {
+      email: email,
+      firstName: firstName,
+      lastName: lastName,
+      username: userData.displayName,
+      photoUrl: userData.photoURL,
+      is_active: userData.is_active,
+    };
+  };
+
+  const handleUserLogin = (userDetails) => {
+    axios.post(url + "/users/addUser", userDetails).then((response) => {
+      if (response.status === 200) {
+        const data = response.data;
+        setUsername(userDetails.firstName);
+        setEmail(userDetails.email);
+        setID(data.id);
+        setIsAdmin(data.role === "ADMIN");
+        setIsLoggedIn(true);
+        set_isActive(data.is_active);
+        navigate("/");
+      }
+    });
+  };
 
   const handleSignInWithGoogle = () => {
     signInWithPopup(auth, provider)
       .then((data) => {
-        let userData = data.user;
-        const userDetails = {
-          email: userData.email,
-          firstName: userData.displayName.split(" ")[0],
-          lastName: userData.displayName.split(" ")[1],
-          username: userData.displayName,
-          photoUrl: userData.photoURL,
-        };
-
-        axios.post(url + "/users/addUser", userDetails).then((response) => {
-          if (response.status === 200) {
-            let data = response.data;
-            setUsername(data.username);
-            setEmail(data.email);
-            setID(data.id);
-            setIsAdmin(data.role === "ADMIN");
-            setIsLoggedIn(true);
-          }
-        });
+        const userDetails = getUserDetails(data.user);
+        handleUserLogin(userDetails);
       })
       .catch((error) => {
         console.error("Error signing in with Google:", error);
@@ -54,40 +83,8 @@ function Login() {
   const handleSignInWithGithub = () => {
     signInWithPopup(auth, githubProvider)
       .then((data) => {
-        let userData = data.user;
-
-        let email = userData.email
-          ? userData.email
-          : userData.displayName
-              .split(" ")[0]
-              .replaceAll(" ", "")
-              .toLowerCase() +
-            "." +
-            userData.displayName
-              .split(" ")[1]
-              .replaceAll(" ", "")
-              .toLowerCase() +
-            "@yahoo.com";
-
-        let firstName = userData.displayName.split(" ")[0];
-        let lastName = userData.displayName.split(" ")[1];
-        const userDetails = {
-          email: email,
-          firstName: firstName,
-          lastName: lastName,
-          username: userData.displayName,
-          photoUrl: userData.photoURL,
-        };
-        axios.post(url + "/users/addUser", userDetails).then((response) => {
-          if (response.status === 200) {
-            let data = response.data;
-            setUsername(firstName);
-            setEmail(email);
-            setID(data.id);
-            setIsAdmin(data.role === "ADMIN");
-            setIsLoggedIn(true);
-          }
-        });
+        const userDetails = getUserDetails(data.user, "github");
+        handleUserLogin(userDetails);
       })
       .catch((error) => {
         console.error("Error signing in with GitHub:", error);

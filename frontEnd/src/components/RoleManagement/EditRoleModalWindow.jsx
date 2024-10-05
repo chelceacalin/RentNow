@@ -15,11 +15,11 @@ function EditRoleModalWindow({
   email,
   username,
   updateUser,
-  isActive,
+  is_active,
 }) {
   const fullName = `${name}`;
   const [selectedRole, setSelectedRole] = useState(role);
-  const [selectedActivity, setSelectedActivity] = useState(isActive);
+  const [selectedActivity, setSelectedActivity] = useState(is_active);
 
   const [userDTO, setUserDTO] = useState({
     username: "",
@@ -27,7 +27,7 @@ function EditRoleModalWindow({
     lastName: "",
     email: "",
     role: "",
-    isActive: false,
+    is_active: false,
   });
 
   const role_type = ["ADMIN", "USER"];
@@ -41,7 +41,7 @@ function EditRoleModalWindow({
       lastName: lastName,
       email: email,
       role: selectedRole,
-      isActive: selectedActivity,
+      is_active: selectedActivity,
     }));
   }, [selectedRole, selectedActivity]);
 
@@ -59,12 +59,13 @@ function EditRoleModalWindow({
       lastName: lastName,
       email: email,
       role: selectedRole,
-      isActive: selectedActivity,
+      is_active: selectedActivity,
     }));
     axios
       .post(url, userDTO)
       .then(() => {
         showSuccess("User edited successfully!");
+        sessionStorage.setItem("is_active", selectedActivity);
         updateUser(userDTO);
         closeModal();
       })

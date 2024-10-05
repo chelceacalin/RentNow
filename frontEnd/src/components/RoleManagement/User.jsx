@@ -34,7 +34,7 @@ function User({ user, updateUser, classes }) {
       </td>
       <td className={classes}>
         <div variant="small" color="blue-gray" className="font-normal">
-          {user.isActive ? (
+          {user.is_active ? (
             <span className="text-available">Active</span>
           ) : (
             <span className="text-unavailable">Inactive</span>
@@ -50,7 +50,7 @@ function User({ user, updateUser, classes }) {
           closeModal={handleClose}
           firstName={user.firstName}
           lastName={user.lastName}
-          isActive={user.isActive}
+          is_active={user.is_active}
           name={user.username}
           role={user.role}
           email={user.email}

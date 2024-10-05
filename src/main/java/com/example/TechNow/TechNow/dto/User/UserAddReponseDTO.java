@@ -25,5 +25,5 @@ public class UserAddReponseDTO {
 
 	String role;
 
-	boolean isActive;
+	Boolean is_active;
 }

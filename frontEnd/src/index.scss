@@ -180,6 +180,14 @@
     }
 }
 
+.bg-blue-detail {
+    background-color: $detailsButtonColor;
+
+    &:hover {
+        background-color: $detailsButtonColorHover;
+    }
+}
+
 
 .text-main-color {
     color: $main-color;
@@ -248,4 +256,12 @@
 .text-unavailable {
     color: $unavailableButtonColor;
     font-weight: bold;
+}
+
+.text-details {
+    color: $detailsButtonColor;
+
+    &:hover {
+        color: $detailsButtonColorHover;
+    }
 }

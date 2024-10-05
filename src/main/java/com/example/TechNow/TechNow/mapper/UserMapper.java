@@ -16,7 +16,7 @@ public class UserMapper {
 				.firstName(user.getFirstName())
 				.lastName(user.getLastName())
 				.email(user.getEmail())
-				.isActive(user.getIs_active())
+				.is_active(user.getIs_active())
 				.build();
 	}
 
@@ -28,7 +28,7 @@ public class UserMapper {
 				.firstName(user.getFirstName())
 				.lastName(user.getLastName())
 				.email(user.getEmail())
-				.is_active(user.getIsActive())
+				.is_active(user.getIs_active())
 				.build();
 	}
 
@@ -53,7 +53,7 @@ public class UserMapper {
 				.lastName(user.getLastName())
 				.role(user.getRole() != null ? user.getRole().toString() : User.Role.USER.toString())
 				.photoUrl(user.getPhotoUrl())
-				.isActive(user.getIs_active())
+				.is_active(user.getIs_active())
 				.build();
 	}
 }

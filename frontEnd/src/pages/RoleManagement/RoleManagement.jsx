@@ -1,10 +1,11 @@
-import { Container } from "@mui/material";
+import {Container} from "@mui/material";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import {useEffect, useState} from "react";
 import Pagination from "../../components/Pagination/Pagination";
 import FilterComponent from "../../components/RoleManagement/FilterComponent";
 import User from "../../components/RoleManagement/User";
 import NoMatchingResultsFound from "../NotFound/NoMatchingResultsFound";
+
 function RoleManagement() {
   const TABLE_HEAD = ["Name", "Role", "Email", "Active", "Actions"];
   const [users, setUsers] = useState([]);
@@ -36,17 +37,16 @@ function RoleManagement() {
   };
 
   const mapFieldName = (fieldName) => {
-    let name = (function (fieldName) {
+    return (function (fieldName) {
       switch (fieldName.toLowerCase()) {
         case "name":
           return "username";
         case "active":
-          return "isActive";
+          return "is_active";
         default:
           return fieldName;
       }
     })(fieldName);
-    return name;
   };
   const updateUser = (updatedUser) => {
     const updatedUsers = users.map((user) => {

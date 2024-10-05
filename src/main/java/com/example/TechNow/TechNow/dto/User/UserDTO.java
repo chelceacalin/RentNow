@@ -24,5 +24,5 @@ public class UserDTO {
 
 	User.Role role;
 
-	Boolean isActive;
+	Boolean is_active;
 }
