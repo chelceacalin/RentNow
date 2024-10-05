@@ -18,20 +18,22 @@ import Books_MyRentedBooks from "./pages/MyRentedBooks/Books_MyRentedBooks.jsx";
 import NotFound from "./pages/NotFound/NotFound";
 import RoleManagement from "./pages/RoleManagement/RoleManagement";
 import LoginProvider, { UserLoginContext } from "./utils/context/LoginProvider";
+import { UserProvider } from "./utils/context/UserContext.jsx";
 import ActiveRoute from "./utils/protected/ActiveRoute.jsx";
 import AdminRoute from "./utils/protected/AdminRoute";
 import Authenticated from "./utils/protected/Authenticated";
 import MyRentedBooksRoute from "./utils/protected/MyRentedBooksRoute.jsx";
 import ProfileRoute from "./utils/protected/ProfileRoute";
-
 function App() {
   return (
     <div className="app-container">
       <LoginProvider>
-        <Router>
-          <MainContent />
-        </Router>
-        <ToastContainer />
+        <UserProvider>
+          <Router>
+            <MainContent />
+          </Router>
+          <ToastContainer />
+        </UserProvider>
       </LoginProvider>
     </div>
   );
@@ -39,15 +41,12 @@ function App() {
 
 function MainContent() {
   const [initialized, setInitialized] = useState(false);
-  const { isLoggedIn, is_active } = useContext(UserLoginContext);
-
+  const { isLoggedIn, is_active, email } = useContext(UserLoginContext);
   useEffect(() => {
     setInitialized(true);
   }, []);
 
   if (!initialized) return null;
-
-  // Redirect to /login if not logged in
   if (!isLoggedIn) {
     return (
       <Routes>
@@ -57,12 +56,10 @@ function MainContent() {
     );
   }
 
-  // Redirect to Deactivated page if the account is not active
   if (!is_active || is_active === "false") {
     return <Deactivated />;
   }
 
-  // Authenticated and active users
   return (
     <>
       <div className="h-screen">
@@ -101,8 +98,6 @@ function MainContent() {
 
         {/* Public login route */}
         <Route path="/login" element={<Login />} />
-
-        {/* Remove redundant catch-all route */}
       </Routes>
     </>
   );

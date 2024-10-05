@@ -9,13 +9,13 @@ import com.example.TechNow.TechNow.model.User;
 import com.example.TechNow.TechNow.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
@@ -34,6 +34,7 @@ import static java.util.Objects.nonNull;
 @RequiredArgsConstructor
 public class UserService {
 	final UserRepository userRepository;
+	final ImageStorageService imageStorageService;
 
 	public Page<UserDTO> getUsers(UserFilterDTO dto, int pageNo, int pageSize) {
 		boolean isRequestEmpty = isNull(dto.getUsername()) && isNull(dto.getEmail()) && isNull(dto.getRole()) && isNull(dto.getFirstName()) && isNull(dto.getLastName()) && isNull(dto.getSortField()) && isNull(dto.getDirection());
@@ -86,7 +87,7 @@ public class UserService {
 	}
 
 
-	public User updateUserRole(UserDTO userDTO, User.Role role) {
+	public User updateUser(UserDTO userDTO, User.Role role, MultipartFile imageFile) {
 		Optional<User> userOptional = userRepository.findByEmail(userDTO.getEmail());
 		User updatedUser = new User();
 		if (userOptional.isPresent()) {
@@ -94,7 +95,10 @@ public class UserService {
 			user.setRole(role);
 			user.setIs_active(userDTO.getIs_active());
 			user.setUpdated_date(LocalDateTime.now());
-			user.setPhotoUrl(userDTO.getPhotoUrl());
+			if (imageFile != null) {
+				String imageUrl = imageStorageService.uploadImage("userphotos", imageFile);
+				user.setPhotoUrl(imageUrl);
+			}
 			updatedUser = userRepository.save(user);
 		}
 		return updatedUser;

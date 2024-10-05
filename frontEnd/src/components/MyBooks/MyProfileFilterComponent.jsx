@@ -4,7 +4,7 @@ import { useContext, useEffect, useState } from "react";
 import { useDebouncedCallback } from "use-debounce";
 import { UserLoginContext } from "../../utils/context/LoginProvider";
 
-const StyledAutocomplete = styled(TextField)(({ theme }) => ({
+const StyledAutocomplete = styled(TextField)(({ _ }) => ({
   "& .MuiInputBase-root": {
     color: "white",
   },
@@ -137,7 +137,7 @@ function MyProfileFilterComponent({ onFilterChange }) {
             <div className="relative">
               <input
                 type="date"
-                className="w-full filter-search-input pr-16" // Add padding to make space for the button
+                className="w-full filter-search-input pr-16"
                 value={filterValues.rentedUntil || ""}
                 onChange={(e) =>
                   setFilterValues((prev) => ({

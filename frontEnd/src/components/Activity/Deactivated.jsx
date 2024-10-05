@@ -33,7 +33,7 @@ function Deactivated() {
         </p>
         <div className="text-gray-600 mb-4">Return to login</div>
         <button
-          onClick={() => logout()} // Assuming 'logout' is a function
+          onClick={() => logout()}  
           className="bg-blue-detail text-white font-bold py-2 px-4 rounded-lg shadow-md transition-all duration-300"
         >
           Click to go to main page

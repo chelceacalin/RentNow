@@ -5,6 +5,7 @@ import Pagination from "../../components/Pagination/Pagination";
 import FilterComponent from "../../components/RoleManagement/FilterComponent";
 import User from "../../components/RoleManagement/User";
 import { UserLoginContext } from "../../utils/context/LoginProvider";
+import { useUserContext } from "../../utils/context/UserContext";
 import NoMatchingResultsFound from "../NotFound/NoMatchingResultsFound";
 function RoleManagement() {
   const TABLE_HEAD = ["Name", "Role", "Email", "Active", "Actions"];
@@ -24,7 +25,7 @@ function RoleManagement() {
   let [totalPages, setTotalPages] = useState("");
   let [totalUsers, setTotalUsers] = useState(0);
   const { email: myUserEmail } = useContext(UserLoginContext);
-
+  const { refreshImg, setRefreshImg } = useUserContext();
   useEffect(() => {
     axios.get(`/users`).then((data) => {
       setTotalUsers(data.data.content.length);
@@ -120,7 +121,7 @@ function RoleManagement() {
                   <th
                     key={elem}
                     className="table-th"
-                    onClick={(e) => {
+                    onClick={(_) => {
                       if (elem !== "Actions") {
                         handleClick(elem.toLowerCase());
                       }
@@ -155,6 +156,7 @@ function RoleManagement() {
                   classes={`p-4 ${
                     index === users.length - 1 ? "" : "border-b-2"
                   }`}
+                  setRefreshImg={setRefreshImg}
                 />
               ))}
             </tbody>

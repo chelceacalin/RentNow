@@ -11,11 +11,13 @@ function EditRoleModalWindow({
   updateUser,
   user,
   isCurrentUser,
+  setRefreshImg,
 }) {
   const [selectedRole, setSelectedRole] = useState(user.role);
   const [selectedActivity, setSelectedActivity] = useState(user.is_active);
   const [imagePreviewUrl, setImagePreviewUrl] = useState(user.photoUrl || "");
   const [selectedImage, setSelectedImage] = useState("");
+
   const [userDTO, setUserDTO] = useState({
     username: "",
     firstName: "",
@@ -28,8 +30,15 @@ function EditRoleModalWindow({
 
   const role_type = ["ADMIN", "USER"];
   const active_type = ["ACTIVE", "INACTIVE"];
-
   const MAX_FILE_SIZE = 2048 * 2048;
+
+  useEffect(() => {
+    if (isModalOpen) {
+      setSelectedRole(user.role);
+      setSelectedActivity(user.is_active);
+      setImagePreviewUrl(user.photoUrl || "");
+    }
+  }, [isModalOpen, user]);
 
   const handleImageChange = (event) => {
     const file = event.target.files[0];
@@ -42,10 +51,12 @@ function EditRoleModalWindow({
       setImagePreviewUrl(URL.createObjectURL(file));
     } else {
       setImagePreviewUrl(null);
+      showError("Image could not be loaded!");
     }
   };
 
   const mapToActiveType = selectedActivity ? "ACTIVE" : "INACTIVE";
+
   useEffect(() => {
     setUserDTO(() => ({
       username: user.username,
@@ -56,7 +67,7 @@ function EditRoleModalWindow({
       is_active: selectedActivity,
       photoUrl: imagePreviewUrl,
     }));
-  }, [selectedRole, selectedActivity, imagePreviewUrl]);
+  }, [selectedRole, selectedActivity, imagePreviewUrl, user]);
 
   const isFormValid = () => {
     if (!selectedRole || selectedRole.length === 0) {
@@ -76,21 +87,33 @@ function EditRoleModalWindow({
       return;
     }
     let url = "/users/update/" + selectedRole;
-    setUserDTO(() => ({
-      username: user.username,
-      firstName: user.firstName,
-      lastName: user.lastName,
-      email: user.email,
-      role: selectedRole,
-      is_active: selectedActivity,
-      photoUrl: imagePreviewUrl,
-    }));
+
+    const data = new FormData();
+    data.append(
+      "userDTO",
+      new Blob([JSON.stringify(userDTO)], { type: "application/json" })
+    );
+
+    data.append("imageFile", selectedImage);
+
+    if (selectedImage.length === 0) {
+      showError("Cannot use empty image!");
+      return;
+    }
     axios
-      .post(url, userDTO)
+      .post(url, data, {
+        headers: { "Content-Type": "multipart/form-data" },
+      })
       .then(() => {
         showSuccess("User edited successfully!");
         sessionStorage.setItem("is_active", selectedActivity);
-        updateUser(userDTO);
+        if (updateUser != null) {
+          updateUser(userDTO);
+        }
+        if (setRefreshImg) {
+          setRefreshImg((prev) => !prev);
+        }
+
         closeModal();
       })
       .catch((error) => {

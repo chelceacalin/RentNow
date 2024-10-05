@@ -21,23 +21,22 @@ const DatePickerClear = (props) => {
           textField: {
             size: 'small',
             sx: {
-              // Use default styles, or adjust if necessary
-              backgroundColor: "inherit", // Inherit or use default background
+              backgroundColor: "inherit", 
               '& .MuiInputBase-input': {
-                color: "inherit", // Default text color
+                color: "inherit", 
               },
               '& .MuiInputLabel-root': {
-                color: "inherit", // Default label color
+                color: "inherit",
               },
               '& .MuiOutlinedInput-root': {
                 '& fieldset': {
-                  borderColor: "inherit", // Default border color
+                  borderColor: "inherit",
                 },
                 '&:hover fieldset': {
-                  borderColor: "inherit", // Default hover border color
+                  borderColor: "inherit",
                 },
                 '&.Mui-focused fieldset': {
-                  borderColor: "inherit", // Default focused border color
+                  borderColor: "inherit",
                 },
               },
             },
@@ -51,8 +50,8 @@ const DatePickerClear = (props) => {
                 <FontAwesomeIcon
                   className="absolute top-4 right-4 cursor-pointer"
                   style={{
-                    color: "inherit", // Default icon color
-                    backgroundColor: "transparent", // Ensure background is transparent
+                    color: "inherit",
+                    backgroundColor: "transparent", 
                   }}
                   icon={faTimes}
                   size="small"

@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequiredArgsConstructor
@@ -35,9 +36,9 @@ public class UserController {
 	}
 
 	@PostMapping("/update/{role}")
-	public ResponseEntity<User> updateUser(@RequestBody UserDTO userDTO, @PathVariable("role") User.Role role) {
+	public ResponseEntity<User> updateUser(@RequestPart("userDTO") UserDTO userDTO, @PathVariable("role") User.Role role, @RequestPart(value = "imageFile", required = false) MultipartFile imageFile) {
 		log.info("Updating user role {}", userDTO.getUsername());
-		return ResponseEntity.ok(userService.updateUserRole(userDTO, role));
+		return ResponseEntity.ok(userService.updateUser(userDTO, role, imageFile));
 	}
 
 	@GetMapping("/{email}")

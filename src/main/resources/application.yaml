@@ -32,6 +32,8 @@ spring:
 custom:
   frontend:
     app-url: ${FRONTEND_URL:http://localhost:4173}
+  default_buckets: photos, userphotos
+
 
 # Minio
 minio:
@@ -40,6 +42,7 @@ minio:
     key: ${MINIO_ACCESS_KEY:admin}
   secret:
     key: ${MINIO_SECRET_KEY:password}
+
 
 # Api Documentation
 springdoc:

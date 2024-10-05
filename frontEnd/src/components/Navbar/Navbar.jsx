@@ -2,6 +2,8 @@ import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { UserLoginContext } from "../../utils/context/LoginProvider";
+import { useUserContext } from "../../utils/context/UserContext.jsx";
+import { useFetchData } from "../../utils/hooks/useFetchData.jsx";
 import AppIcon from "../../utils/icons/AppIcon";
 import BookNavItem from "./BookNavItem.jsx";
 import CategoryManagementItem from "./CategoryManagementItem";
@@ -13,11 +15,22 @@ function Navbar() {
   let navigate = useNavigate();
   let location = useLocation();
   let url = axios.defaults.baseURL;
+  const { refreshImg, setRefreshImg } = useUserContext();
+  const { isAdmin, setIsAdmin, setUsername, setToken, setIsLoggedIn, email } =
+    useContext(UserLoginContext);
+
+  const {
+    data: user,
+    error,
+    loaded,
+  } = useFetchData(`/users/${email}`, [refreshImg]);
+
+  if (error) {
+    showError(`Error: ${error.message}`);
+  }
 
   const [selectedItem, setSelectedItem] = useState("");
   const [selectedColor, setSelectedColor] = useState("");
-  const { isAdmin, setIsAdmin, setUsername, setToken, setIsLoggedIn } =
-    useContext(UserLoginContext);
 
   useEffect(() => {
     if (location.pathname === "/") {
@@ -42,13 +55,14 @@ function Navbar() {
   };
 
   return (
-    <div className="flex h- w-auto navbar ">
+    <div className="flex w-auto navbar ">
       <div className="flex flex-col h-full p-3 border-r-2 border-gray-100 w-60">
         <div className="flex flex-col h-full space-y-3 justify-between">
-          <div className="flex items-center mt-10 ml-2 mb-10">
-            <AppIcon />
+          <div className="flex items-center ml-2">
+            {user && <AppIcon user={user} setRefreshImg={setRefreshImg} />}
           </div>
-          <div className="overflow-y-auto">
+
+          <div className="overflow-y-auto mt-10">
             <ul className="flex flex-col pt-2 pb-4 space-y-1 text-sm ">
               <BookNavItem
                 selectedItem={selectedItem}
