@@ -51,7 +51,8 @@ public class UserService {
 			pageable = PageRequest.of(pageNo, pageSize, Sort.by(sortDirection, dto.getSortField()));
 		}
 
-		return userRepository.findAllUsers(specification, pageable).map(UserMapper::toDTO);
+		var users= userRepository.findAll(specification, pageable).map(UserMapper::toDTO);
+		return users;
 	}
 
 	public <T> Specification<T> getSpecification(UserFilterDTO dto) {

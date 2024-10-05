@@ -94,12 +94,14 @@ function EditRoleModalWindow({
       new Blob([JSON.stringify(userDTO)], { type: "application/json" })
     );
 
-    data.append("imageFile", selectedImage);
-
-    if (selectedImage.length === 0) {
+    if (selectedImage.length === 0 && imagePreviewUrl.length === 0) {
       showError("Cannot use empty image!");
       return;
     }
+    if (selectedImage) {
+      data.append("imageFile", selectedImage);
+    }
+
     axios
       .post(url, data, {
         headers: { "Content-Type": "multipart/form-data" },
@@ -186,30 +188,35 @@ function EditRoleModalWindow({
           />
         </div>
 
-        <div className="mt-6">
-          <Autocomplete
-            value={selectedRole}
-            onChange={(_, value) => {
-              setSelectedRole(value);
-            }}
-            options={role_type}
-            renderInput={(params) => <TextField {...params} label="Role" />}
-          />
-        </div>
-        <div className="mt-6">
-          <div className="mt-6">
-            <Autocomplete
-              value={mapToActiveType}
-              onChange={(_, value) => {
-                setSelectedActivity(value === "ACTIVE");
-              }}
-              options={active_type}
-              renderInput={(params) => (
-                <TextField {...params} label="Active Status" />
-              )}
-            />
-          </div>
-        </div>
+        {user.role == "ADMIN" && (
+          <>
+            <div className="mt-6">
+              <Autocomplete
+                value={selectedRole}
+                onChange={(_, value) => {
+                  setSelectedRole(value);
+                }}
+                options={role_type}
+                renderInput={(params) => <TextField {...params} label="Role" />}
+              />
+            </div>
+            <div className="mt-6">
+              <div className="mt-6">
+                <Autocomplete
+                  value={mapToActiveType}
+                  onChange={(_, value) => {
+                    setSelectedActivity(value === "ACTIVE");
+                  }}
+                  options={active_type}
+                  renderInput={(params) => (
+                    <TextField {...params} label="Active Status" />
+                  )}
+                />
+              </div>
+            </div>
+          </>
+        )}
+
         <div className="w-full mt-5">
           <button
             className="details-button db-sm"
