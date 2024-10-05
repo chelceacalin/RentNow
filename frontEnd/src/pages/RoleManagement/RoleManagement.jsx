@@ -1,11 +1,11 @@
-import {Container} from "@mui/material";
+import { Container } from "@mui/material";
 import axios from "axios";
-import {useEffect, useState} from "react";
+import { useContext, useEffect, useState } from "react";
 import Pagination from "../../components/Pagination/Pagination";
 import FilterComponent from "../../components/RoleManagement/FilterComponent";
 import User from "../../components/RoleManagement/User";
+import { UserLoginContext } from "../../utils/context/LoginProvider";
 import NoMatchingResultsFound from "../NotFound/NoMatchingResultsFound";
-
 function RoleManagement() {
   const TABLE_HEAD = ["Name", "Role", "Email", "Active", "Actions"];
   const [users, setUsers] = useState([]);
@@ -23,6 +23,7 @@ function RoleManagement() {
   let [pageSize, setPageSize] = useState(15);
   let [totalPages, setTotalPages] = useState("");
   let [totalUsers, setTotalUsers] = useState(0);
+  const { email: myUserEmail } = useContext(UserLoginContext);
 
   useEffect(() => {
     axios.get(`/users`).then((data) => {
@@ -149,6 +150,7 @@ function RoleManagement() {
                 <User
                   key={index}
                   user={user}
+                  myUserEmail={myUserEmail}
                   updateUser={updateUser}
                   classes={`p-4 ${
                     index === users.length - 1 ? "" : "border-b-2"

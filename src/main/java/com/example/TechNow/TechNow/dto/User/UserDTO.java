@@ -25,4 +25,6 @@ public class UserDTO {
 	User.Role role;
 
 	Boolean is_active;
+
+	String photoUrl;
 }

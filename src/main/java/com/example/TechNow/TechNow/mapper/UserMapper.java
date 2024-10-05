@@ -17,6 +17,7 @@ public class UserMapper {
 				.lastName(user.getLastName())
 				.email(user.getEmail())
 				.is_active(user.getIs_active())
+				.photoUrl(user.getPhotoUrl())
 				.build();
 	}
 
@@ -29,6 +30,7 @@ public class UserMapper {
 				.lastName(user.getLastName())
 				.email(user.getEmail())
 				.is_active(user.getIs_active())
+				.photoUrl(user.getPhotoUrl())
 				.build();
 	}
 

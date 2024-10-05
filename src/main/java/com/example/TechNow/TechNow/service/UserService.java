@@ -9,6 +9,7 @@ import com.example.TechNow.TechNow.model.User;
 import com.example.TechNow.TechNow.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -93,6 +94,7 @@ public class UserService {
 			user.setRole(role);
 			user.setIs_active(userDTO.getIs_active());
 			user.setUpdated_date(LocalDateTime.now());
+			user.setPhotoUrl(userDTO.getPhotoUrl());
 			updatedUser = userRepository.save(user);
 		}
 		return updatedUser;

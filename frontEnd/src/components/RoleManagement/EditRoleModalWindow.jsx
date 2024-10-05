@@ -5,22 +5,9 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { showError, showSuccess } from "../../service/ToastService";
 
-function EditRoleModalWindow({
-  isModalOpen,
-  closeModal,
-  name,
-  firstName,
-  lastName,
-  role,
-  email,
-  username,
-  updateUser,
-  is_active,
-}) {
-  const fullName = `${name}`;
-  const [selectedRole, setSelectedRole] = useState(role);
-  const [selectedActivity, setSelectedActivity] = useState(is_active);
-
+function EditRoleModalWindow({ isModalOpen, closeModal, updateUser, user }) {
+  const [selectedRole, setSelectedRole] = useState(user.role);
+  const [selectedActivity, setSelectedActivity] = useState(user.is_active);
   const [userDTO, setUserDTO] = useState({
     username: "",
     firstName: "",
@@ -36,10 +23,10 @@ function EditRoleModalWindow({
   const mapToActiveType = selectedActivity ? "ACTIVE" : "INACTIVE";
   useEffect(() => {
     setUserDTO(() => ({
-      username: username,
-      firstName: firstName,
-      lastName: lastName,
-      email: email,
+      username: user.username,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      email: user.email,
       role: selectedRole,
       is_active: selectedActivity,
     }));
@@ -54,10 +41,10 @@ function EditRoleModalWindow({
     }
 
     setUserDTO(() => ({
-      username: username,
-      firstName: firstName,
-      lastName: lastName,
-      email: email,
+      username: user.username,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      email: user.email,
       role: selectedRole,
       is_active: selectedActivity,
     }));
@@ -90,9 +77,9 @@ function EditRoleModalWindow({
           <TextField
             disabled
             id="outlined-read-only-input"
-            className="w-full"
+            className="w-auto"
             label="Name"
-            defaultValue={fullName}
+            defaultValue={user.username}
           />
         </div>
         <div className="mt-4 mb-4">
@@ -100,7 +87,7 @@ function EditRoleModalWindow({
             id="outlined-read-only-input"
             className="w-full"
             label="Email"
-            defaultValue={email}
+            defaultValue={user.email}
             disabled
           />
         </div>
