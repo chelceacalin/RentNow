@@ -1,4 +1,3 @@
-import Button from "@mui/material/Button";
 import React from "react";
 import ReturnBookModal from "./ReturnBookModal.jsx";
 
@@ -70,14 +69,15 @@ function MyRentedBooks({
         </div>
       </td>
       <td className={classes}>
-        <Button
-          onClick={handleReturnOpen}
-          className="return-button"
-          variant="contained"
-          disabled={isAvailableForRenting}
-        >
-          Return book
-        </Button>
+        <div style={{ display: "flex", justifyContent: "space-between" }}>
+          <button
+            className="rent-button"
+            disabled={isAvailableForRenting}
+            onClick={handleReturnOpen}
+          >
+            Return book
+          </button>
+        </div>
 
         <ReturnBookModal
           isModalOpen={returnModalOpen}
