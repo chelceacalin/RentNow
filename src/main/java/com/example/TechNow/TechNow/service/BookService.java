@@ -27,10 +27,10 @@ import java.util.Optional;
 import java.util.UUID;
 
 import static com.example.TechNow.TechNow.mapper.BookHistoryMapper.toBookHistory;
-import static com.example.TechNow.TechNow.specification.GenericSpecification.fieldNameLike;
-import static com.example.TechNow.TechNow.specification.GenericSpecification.isAvailable;
 import static com.example.TechNow.TechNow.specification.BookSpecification.hasCategory;
 import static com.example.TechNow.TechNow.specification.BookSpecification.hasUsername;
+import static com.example.TechNow.TechNow.specification.GenericSpecification.fieldNameLike;
+import static com.example.TechNow.TechNow.specification.GenericSpecification.isAvailable;
 import static com.example.TechNow.TechNow.util.BookConstants.*;
 import static java.util.Objects.nonNull;
 
@@ -223,10 +223,13 @@ public class BookService {
 
 		Page<BookHistory> bookHistories = bookHistoryRepository.findAllByRentedBy_Id(user.getId(), pageable);
 		List<BookDTO> rentedBooks = bookHistories.getContent().stream()
+				.distinct()
 				.map(history -> BookMapper.toDto(history.getBook(), history))
 				.toList();
+
 		return new PageImpl<>(rentedBooks, pageable, bookHistories.getTotalElements());
 	}
+
 
 	public void changeRentedBookStatus(UUID id) {
 		Optional<Book> bookOptional = bookRepository.findById(id);

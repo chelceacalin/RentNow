@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Objects;
 import java.util.UUID;
 
 @Table
@@ -41,4 +42,18 @@ public class BookHistory {
 	LocalDateTime created_date;
 
 	LocalDateTime updated_date;
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		BookHistory that = (BookHistory) o;
+		return Objects.equals(rentedBy, that.rentedBy) &&
+			   Objects.equals(book, that.book);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(rentedBy, book);
+	}
 }
