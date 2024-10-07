@@ -18,13 +18,14 @@ function RoleManagement() {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [filterRole, setFilterRole] = useState("");
+  const [is_active, setIs_Active] = useState("");
   const [refresh, setRefresh] = useState(false);
   let [newUrl, setNewUrl] = useState("");
   let [pageNo, setPageNo] = useState(1);
   let [pageSize, setPageSize] = useState(15);
   let [totalPages, setTotalPages] = useState("");
   let [totalUsers, setTotalUsers] = useState(0);
-  const { email: myUserEmail } = useContext(UserLoginContext);
+  const { email: myUserEmail, isAdmin } = useContext(UserLoginContext);
   const { refreshImg, setRefreshImg } = useUserContext();
   useEffect(() => {
     axios.get(`/users`).then((data) => {
@@ -61,6 +62,17 @@ function RoleManagement() {
     setRefresh(!refresh);
   };
 
+  const mapIsActive = (field) => {
+    switch (field) {
+      case "YES":
+        return true;
+      case "NO":
+        return false;
+      case "ALL":
+        return null;
+    }
+  };
+
   useEffect(() => {
     const normalizedSortField = sortField || "defaultsort";
     newUrl = `/users?sortField=${normalizedSortField}&direction=${
@@ -68,6 +80,11 @@ function RoleManagement() {
     }&firstName=${firstName}&lastName=${lastName}&email=${email}&pageNo=${
       parseInt(pageNo) - 1
     }&pageSize=${pageSize}&role=${filterRole}`;
+
+    if (mapIsActive(is_active) != null) {
+      newUrl += "&is_active=" + mapIsActive(is_active);
+    }
+
     axios
       .get(newUrl)
       .then((elems) => {
@@ -91,6 +108,7 @@ function RoleManagement() {
     pageSize,
     pageNo,
     filterRole,
+    is_active,
   ]);
 
   let getFilterInput = (params) => {
@@ -98,6 +116,7 @@ function RoleManagement() {
     setLastName(params[1]);
     setEmail(params[2]);
     setFilterRole(params[3]);
+    setIs_Active(params[4]);
   };
 
   const handleSelectChange = (event) => {
@@ -153,6 +172,7 @@ function RoleManagement() {
                   user={user}
                   myUserEmail={myUserEmail}
                   updateUser={updateUser}
+                  isAdmin={isAdmin}
                   classes={`p-4 ${
                     index === users.length - 1 ? "" : "border-b-2"
                   }`}

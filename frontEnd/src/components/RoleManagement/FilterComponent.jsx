@@ -6,6 +6,7 @@ function FilterComponent({ filterInput }) {
     lastName: "",
     email: "",
     availability: "ALL",
+    isActive: "ALL",
   });
 
   useEffect(() => {
@@ -14,6 +15,7 @@ function FilterComponent({ filterInput }) {
       filterValues.lastName,
       filterValues.email,
       filterValues.availability,
+      filterValues.isActive,
     ];
     filterInput(array);
   }, [filterValues]);
@@ -70,6 +72,23 @@ function FilterComponent({ filterInput }) {
             <option value="ALL">All</option>
             <option value="ADMIN">ADMIN</option>
             <option value="USER">USER</option>
+          </select>
+        </div>
+        <div className="col-span-1">
+          <span className="text-white">Active Status</span>
+          <select
+            value={filterValues.isActive}
+            onChange={(e) =>
+              setFilterValues((prev) => ({
+                ...prev,
+                isActive: e.target.value,
+              }))
+            }
+            className="filter-search-input"
+          >
+            <option value="ALL">All</option>
+            <option value="YES">Active</option>
+            <option value="NO">Inactive</option>
           </select>
         </div>
       </div>

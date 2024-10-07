@@ -1,6 +1,13 @@
 import React, { useState } from "react";
 import EditRoleModalWindow from "./EditRoleModalWindow";
-function User({ user, updateUser, classes, myUserEmail, setRefreshImg }) {
+function User({
+  user,
+  updateUser,
+  classes,
+  myUserEmail,
+  setRefreshImg,
+  isAdmin,
+}) {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -49,6 +56,7 @@ function User({ user, updateUser, classes, myUserEmail, setRefreshImg }) {
               isModalOpen={open}
               closeModal={handleClose}
               user={user}
+              isAdmin={isAdmin}
               isCurrentUser={isCurrentUser}
               updateUser={updateUser}
               setRefreshImg={setRefreshImg}

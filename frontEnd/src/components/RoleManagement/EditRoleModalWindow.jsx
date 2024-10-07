@@ -12,12 +12,12 @@ function EditRoleModalWindow({
   user,
   isCurrentUser,
   setRefreshImg,
+  isAdmin,
 }) {
   const [selectedRole, setSelectedRole] = useState(user.role);
   const [selectedActivity, setSelectedActivity] = useState(user.is_active);
   const [imagePreviewUrl, setImagePreviewUrl] = useState(user.photoUrl || "");
   const [selectedImage, setSelectedImage] = useState("");
-
   const [userDTO, setUserDTO] = useState({
     username: "",
     firstName: "",
@@ -188,7 +188,7 @@ function EditRoleModalWindow({
           />
         </div>
 
-        {user.role == "ADMIN" && (
+        {isAdmin && (
           <>
             <div className="mt-6">
               <Autocomplete
