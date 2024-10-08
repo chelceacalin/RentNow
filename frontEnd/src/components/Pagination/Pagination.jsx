@@ -7,8 +7,8 @@ import {
 
 const Pagination = ({
   pageNo,
-  totalPages,
   pageSize,
+  totalPages,
   onPageChange,
   onPageSizeChange,
 }) => {
@@ -23,9 +23,9 @@ const Pagination = ({
           size="small"
           className="bg-white-text-black"
         >
-          {[5, 10, 15, 20].map((size) => (
-            <MenuItem key={size} value={size}>
-              {size}
+          {[5, 10, 15, 20].map((elem) => (
+            <MenuItem key={elem} value={elem}>
+              {elem}
             </MenuItem>
           ))}
         </Select>

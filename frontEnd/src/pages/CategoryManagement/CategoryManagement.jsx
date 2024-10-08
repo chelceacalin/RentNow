@@ -1,21 +1,21 @@
 import { Container } from "@mui/material";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import Category from "../../components/CategoryManagement/Category.jsx";
 import CreateCategoryModalWindow from "../../components/CategoryManagement/CreateCategoryModalWIndow.jsx";
 import FilterCategory from "../../components/CategoryManagement/FilterCategory";
 import Pagination from "../../components/Pagination/Pagination.jsx";
 import NoMatchingResultsFound from "../NotFound/NoMatchingResultsFound.jsx";
+import { usePagination } from "../../utils/hooks/usePagination.jsx";
 function CategoryManagement() {
+  const { pagination, handlePageChange, handlePageSizeChange, setTotalPages } =
+    usePagination();
+
   const [categories, setCategories] = useState([]);
   const [initialized, setInitialized] = useState(false);
   const [name, setName] = useState("");
   const [direction, setDirection] = useState(true);
   const [lastClicked, setLastClicked] = useState("name");
-  const [newUrl, setNewUrl] = useState("");
-  const [pageNo, setPageNo] = useState(1);
-  const [pageSize, setPageSize] = useState(15);
-  const [totalPages, setTotalPages] = useState("");
   const [totalCategories, setTotalCategories] = useState(0);
   const [signalCall, setSignalCall] = useState(false);
   const [open, setOpen] = useState(false);
@@ -34,28 +34,32 @@ function CategoryManagement() {
   };
 
   useEffect(() => {
+    const { pageNo, pageSize } = pagination;
     const queryUrl = `/category?direction=${direction ? "ASC" : "DESC"}${
       name ? `&name=${name}` : ""
     }&sortBy=${lastClicked || "name"}&pageNo=${
       pageNo - 1
     }&pageSize=${pageSize}`;
-    setNewUrl(queryUrl);
     axios
       .get(queryUrl)
       .then((response) => {
         const { content, totalPages } = response.data;
+        setTotalPages(totalPages);
         if (!content.length && pageNo > 1) {
-          updatePageNumber(pageNo - 1);
         } else {
           setCategories(content);
-          setTotalPages(totalPages);
         }
         setInitialized(true);
       })
       .catch(() => setInitialized(true));
-  }, [direction, name, pageSize, pageNo, lastClicked, signalCall]);
-
-  const updatePageNumber = (pgNo) => setPageNo(pgNo);
+  }, [
+    direction,
+    name,
+    pagination.pageSize,
+    pagination.pageNo,
+    lastClicked,
+    signalCall,
+  ]);
 
   const handleOpen = () => {
     setErrorMessage("");
@@ -68,8 +72,6 @@ function CategoryManagement() {
   };
 
   const getFilterInput = (params) => setName(params[0]);
-
-  const handleSelectChange = (event) => setPageSize(event.target.value);
 
   const updateCategory = (updatedCategory) => {
     setCategories((prevCategories) =>
@@ -165,13 +167,11 @@ function CategoryManagement() {
           </div>
           {!categories.length && initialized && <NoMatchingResultsFound />}
           <Pagination
-            pageNo={pageNo}
-            pageSize={pageSize}
-            totalPages={totalPages}
-            updatePageNumber={updatePageNumber}
-            responseLength={totalCategories}
-            nrCurrentUsers={categories.length}
-            handleSelectChange={handleSelectChange}
+            pageNo={pagination.pageNo}
+            pageSize={pagination.pageSize}
+            totalPages={pagination.totalPages}
+            onPageChange={handlePageChange}
+            onPageSizeChange={handlePageSizeChange}
           />
         </div>
       </div>

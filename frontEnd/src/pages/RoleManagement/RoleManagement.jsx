@@ -7,6 +7,7 @@ import User from "../../components/RoleManagement/User";
 import { UserLoginContext } from "../../utils/context/LoginProvider";
 import { useUserContext } from "../../utils/context/UserContext";
 import NoMatchingResultsFound from "../NotFound/NoMatchingResultsFound";
+import { usePagination } from "../../utils/hooks/usePagination";
 function RoleManagement() {
   const TABLE_HEAD = [
     "First Name",
@@ -16,6 +17,8 @@ function RoleManagement() {
     "Active",
     "Actions",
   ];
+  const { pagination, handlePageChange, handlePageSizeChange, setTotalPages } =
+    usePagination();
   const [users, setUsers] = useState([]);
   const [initialized, setInitialized] = useState(false);
   const [sortField, setSortField] = useState("defaultsort");
@@ -28,9 +31,6 @@ function RoleManagement() {
   const [is_active, setIs_Active] = useState("");
   const [refresh, setRefresh] = useState(false);
   let [newUrl, setNewUrl] = useState("");
-  let [pageNo, setPageNo] = useState(1);
-  let [pageSize, setPageSize] = useState(15);
-  let [totalPages, setTotalPages] = useState("");
   let [totalUsers, setTotalUsers] = useState(0);
   const { email: myUserEmail, isAdmin } = useContext(UserLoginContext);
   const { refreshImg, setRefreshImg } = useUserContext();
@@ -43,9 +43,6 @@ function RoleManagement() {
   const handleClick = (fieldName) => {
     setDirection((prevDirection) => !prevDirection);
     setLastClicked(fieldName);
-
-    console.log(" fieldName", fieldName);
-    console.log(" fieldName 2", mapFieldName(fieldName));
     setSortField(mapFieldName(fieldName));
   };
 
@@ -65,6 +62,7 @@ function RoleManagement() {
       }
     })(fieldName);
   };
+
   const updateUser = (updatedUser) => {
     const updatedUsers = users.map((user) => {
       if (user.username === updatedUser.username) {
@@ -92,8 +90,8 @@ function RoleManagement() {
     newUrl = `/users?sortField=${mapFieldName(normalizedSortField)}&direction=${
       direction ? "ASC" : "DESC"
     }&firstName=${firstName}&lastName=${lastName}&email=${email}&pageNo=${
-      parseInt(pageNo) - 1
-    }&pageSize=${pageSize}&role=${filterRole}`;
+      parseInt(pagination.pageNo) - 1
+    }&pageSize=${pagination.pageSize}&role=${filterRole}`;
 
     if (mapIsActive(is_active) != null) {
       newUrl += "&is_active=" + mapIsActive(is_active);
@@ -119,8 +117,8 @@ function RoleManagement() {
     firstName,
     lastName,
     email,
-    pageSize,
-    pageNo,
+    pagination.pageSize,
+    pagination.pageNo,
     filterRole,
     is_active,
   ]);
@@ -131,15 +129,6 @@ function RoleManagement() {
     setEmail(params[2]);
     setFilterRole(params[3]);
     setIs_Active(params[4]);
-  };
-
-  const handleSelectChange = (event) => {
-    const value = event.target.value;
-    setPageSize(value);
-  };
-
-  const updatePageNumber = (pgNo) => {
-    setPageNo(pgNo);
   };
 
   return (
@@ -198,11 +187,11 @@ function RoleManagement() {
         </div>
         {!users.length && initialized && <NoMatchingResultsFound />}
         <Pagination
-          pageNo={pageNo}
-          pageSize={pageSize}
-          totalPages={totalPages}
-          updatePageNumber={updatePageNumber}
-          handleSelectChange={handleSelectChange}
+          pageNo={pagination.pageNo}
+          pageSize={pagination.pageSize}
+          totalPages={pagination.totalPages}
+          onPageChange={handlePageChange}
+          onPageSizeChange={handlePageSizeChange}
         />
       </div>
     </Container>
