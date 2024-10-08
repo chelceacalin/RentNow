@@ -95,9 +95,9 @@ function EditCategoryNameModalWindow({
             helperText={errorMessage}
           />
         </div>
-        <div className="flex justify-end gap-x-4 mt-6">
+        <div className="w-full mt-5">
           <button
-            className="details-button"
+            className="details-button db-sm"
             onClick={() => {
               resetField(setErrorMessage, "");
               editCategoryName();
@@ -108,7 +108,7 @@ function EditCategoryNameModalWindow({
             Save
           </button>
           <button
-            className="details-button details-button-red"
+            className="details-button details-button-red db-sm"
             onClick={() => {
               resetField(setErrorMessage, "");
               closeModal();
