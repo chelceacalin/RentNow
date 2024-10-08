@@ -84,7 +84,7 @@ function Books() {
   };
 
   const handleDirectionChange = (event) => {
-    setDirection(event.target.value === "ASC");
+    setDirection((prevDirection) => !prevDirection);
     setTriggerRefresh(!triggerRefresh);
   };
 

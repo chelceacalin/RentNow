@@ -51,7 +51,7 @@ function BookFilter({
 
   const debouncedFilterInput = useDebouncedCallback((array) => {
     filterInput(array);
-  }, 500);
+  }, 0);
 
   useEffect(() => {
     const array = [selectedCategory, director, title, availability, rentedBy];
@@ -122,9 +122,9 @@ function BookFilter({
                 onChange={(e) => setAvailability(e.target.value)}
                 className="filter-search-input"
               >
+                <option value="ALL">All</option>
                 <option value="true">Available</option>
                 <option value="false">Unavailable</option>
-                <option value="ALL">All</option>
               </select>
             </div>
             <div className="w-52">

@@ -44,6 +44,7 @@ function MyProfile() {
   const [initialized, setInitialized] = useState(false);
   const [openAddModal, setOpenAddModal] = useState(false);
   const { username } = useContext(UserLoginContext);
+  const [lastClicked, setLastClicked] = useState("");
 
   const handleFilterInput = useCallback(
     (newFilters) => {
@@ -62,6 +63,7 @@ function MyProfile() {
   const handleSortChange = useCallback(
     (field) => {
       const mappedField = mapSortField(field);
+      setLastClicked(field);
       setFilters((prev) => ({
         ...prev,
         sortField: mappedField,
@@ -133,7 +135,7 @@ function MyProfile() {
     };
 
     fetchBooks();
-  }, [filters, pagination.pageNo, pagination.pageSize, username]);
+  }, [filters, pagination.pageNo, pagination.pageSize, username, lastClicked]);
 
   return (
     <Container maxWidth="xl">
@@ -164,28 +166,30 @@ function MyProfile() {
                 "Rented By",
                 "Created Date",
                 "Actions",
-              ].map((header) => (
+              ].map((elem) => (
                 <th
-                  key={header}
+                  key={elem}
                   className="table-th"
                   onClick={() =>
-                    handleSortChange(header.toLowerCase().replace(/\s+/g, ""))
+                    elem !== "Actions" &&
+                    handleSortChange(elem.toLowerCase().replace(/\s+/g, ""))
                   }
                 >
                   <div className="flex items-center">
-                    {header}
-                    {filters.sortField ===
-                      header.toLowerCase().replace(/\s+/g, "") && (
-                      <svg
-                        className={`ml-1 w-4 h-4 transform ${
-                          filters.direction ? "rotate-0" : "rotate-180"
-                        }`}
-                        fill="currentColor"
-                        viewBox="0 0 20 20"
-                      >
-                        <path d="M5.23 7.21a.75.75 0 011.06-.02L10 10.94l3.71-3.75a.75.75 0 011.08 1.04l-4.25 4.3a.75.75 0 01-1.08 0l-4.25-4.3a.75.75 0 01.02-1.06z" />
-                      </svg>
-                    )}
+                    {elem}
+                    {elem !== "Actions" &&
+                      lastClicked ===
+                        elem.toLowerCase().replace(/\s+/g, "") && (
+                        <svg
+                          className={`ml-1 w-4 h-4 transform ${
+                            filters.direction ? "rotate-0" : "rotate-180"
+                          }`}
+                          fill="currentColor"
+                          viewBox="0 0 20 20"
+                        >
+                          <path d="M5.23 7.21a.75.75 0 011.06-.02L10 10.94l3.71-3.75a.75.75 0 011.08 1.04l-4.25 4.3a.75.75 0 01-1.08 0l-4.25-4.3a.75.75 0 01.02-1.06z" />
+                        </svg>
+                      )}
                   </div>
                 </th>
               ))}

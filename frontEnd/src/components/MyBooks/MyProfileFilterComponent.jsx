@@ -30,7 +30,7 @@ function MyProfileFilterComponent({ onFilterChange }) {
 
   const debouncedFilterChange = useDebouncedCallback((newFilters) => {
     onFilterChange(newFilters);
-  }, 500);
+  }, 0);
 
   useEffect(() => {
     const fetchUsers = async () => {
