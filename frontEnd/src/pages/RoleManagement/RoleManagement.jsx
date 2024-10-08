@@ -8,7 +8,14 @@ import { UserLoginContext } from "../../utils/context/LoginProvider";
 import { useUserContext } from "../../utils/context/UserContext";
 import NoMatchingResultsFound from "../NotFound/NoMatchingResultsFound";
 function RoleManagement() {
-  const TABLE_HEAD = ["Name", "Role", "Email", "Active", "Actions"];
+  const TABLE_HEAD = [
+    "First Name",
+    "Last Name",
+    "Role",
+    "Email",
+    "Active",
+    "Actions",
+  ];
   const [users, setUsers] = useState([]);
   const [initialized, setInitialized] = useState(false);
   const [sortField, setSortField] = useState("defaultsort");
@@ -36,6 +43,9 @@ function RoleManagement() {
   const handleClick = (fieldName) => {
     setDirection((prevDirection) => !prevDirection);
     setLastClicked(fieldName);
+
+    console.log(" fieldName", fieldName);
+    console.log(" fieldName 2", mapFieldName(fieldName));
     setSortField(mapFieldName(fieldName));
   };
 
@@ -46,6 +56,10 @@ function RoleManagement() {
           return "username";
         case "active":
           return "is_active";
+        case "first name":
+          return "firstName";
+        case "last name":
+          return "lastName";
         default:
           return fieldName;
       }
@@ -75,7 +89,7 @@ function RoleManagement() {
 
   useEffect(() => {
     const normalizedSortField = sortField || "defaultsort";
-    newUrl = `/users?sortField=${normalizedSortField}&direction=${
+    newUrl = `/users?sortField=${mapFieldName(normalizedSortField)}&direction=${
       direction ? "ASC" : "DESC"
     }&firstName=${firstName}&lastName=${lastName}&email=${email}&pageNo=${
       parseInt(pageNo) - 1
@@ -165,14 +179,14 @@ function RoleManagement() {
                 ))}
               </tr>
             </thead>
-            <tbody className="">
+            <tbody>
               {users.map((user, index) => (
                 <User
                   key={index}
                   user={user}
-                  myUserEmail={myUserEmail}
                   updateUser={updateUser}
                   isAdmin={isAdmin}
+                  isCurrentUser={myUserEmail === user.email}
                   classes={`p-4 ${
                     index === users.length - 1 ? "" : "border-b-2"
                   }`}

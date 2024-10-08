@@ -4,14 +4,13 @@ function User({
   user,
   updateUser,
   classes,
-  myUserEmail,
   setRefreshImg,
   isAdmin,
+  isCurrentUser,
 }) {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-  const isCurrentUser = myUserEmail === user.email;
 
   return <UserRow isCurrentUser={isCurrentUser} />;
   function UserRow({ isCurrentUser }) {
@@ -21,12 +20,16 @@ function User({
         key={user.name}
       >
         <td className={classes}>
-          <div className="font-normal max-w-[200px]">
-            {user.username}
+          <div className="flex items-center">
             {isCurrentUser && (
-              <span className="ml-2 h-3 w-3 bg-green-500 rounded-full inline-block"></span>
+              <span className="h-3 w-3 bg-green-500 rounded-full inline-block mr-2"></span>
             )}
+            <span className="font-normal max-w-[200px]">{user.firstName}</span>
           </div>
+        </td>
+
+        <td className={classes}>
+          <div className="font-normal max-w-[200px]">{user.lastName}</div>
         </td>
         <td className={classes}>
           <div className="font-normal max-w-[200px]">
