@@ -9,15 +9,14 @@ import com.example.TechNow.TechNow.model.User;
 import com.example.TechNow.TechNow.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.*;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
+import java.util.Comparator;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -33,103 +32,125 @@ import static java.util.Objects.nonNull;
 @Transactional
 @RequiredArgsConstructor
 public class UserService {
-	final UserRepository userRepository;
-	final ImageStorageService imageStorageService;
+    final UserRepository userRepository;
+    final ImageStorageService imageStorageService;
 
-	public Page<UserDTO> getUsers(UserFilterDTO dto, int pageNo, int pageSize) {
-		boolean isRequestEmpty = isNull(dto.getUsername()) && isNull(dto.getEmail()) && isNull(dto.getRole()) && isNull(dto.getFirstName()) && isNull(dto.getLastName()) && isNull(dto.getSortField()) && isNull(dto.getDirection());
-		if (isRequestEmpty) {
-			return userRepository.findAll(PageRequest.of(pageNo, pageSize)).map(UserMapper::toDTO);
-		}
+    public Page<UserDTO> getUsers(UserFilterDTO dto, int pageNo, int pageSize) {
+        try {
+            boolean isRequestEmpty = isNull(dto.getUsername()) && isNull(dto.getEmail()) && isNull(dto.getRole())
+                    && isNull(dto.getFirstName()) && isNull(dto.getLastName())
+                    && isNull(dto.getSortField()) && isNull(dto.getDirection());
 
-		Specification<User> specification = getSpecification(dto);
-		Pageable pageable;
-		Sort.Direction sortDirection = Sort.Direction.fromString(dto.getDirection());
-		if (dto.getSortField().equals(DEFAULTSORT)) {
-			pageable = PageRequest.of(pageNo, pageSize, Sort.by(sortDirection, FIRST_NAME, LAST_NAME));
-		} else {
-			pageable = PageRequest.of(pageNo, pageSize, Sort.by(sortDirection, dto.getSortField()));
-		}
+            if (isRequestEmpty) {
+                return userRepository.findAll(PageRequest.of(pageNo, pageSize)).map(UserMapper::toDTO);
+            }
 
-		var users= userRepository.findAll(specification, pageable).map(UserMapper::toDTO);
-		return users;
-	}
+            Specification<User> specification = getSpecification(dto);
+            Pageable pageable;
+            Sort.Direction sortDirection = Sort.Direction.fromString(dto.getDirection());
 
-	public <T> Specification<T> getSpecification(UserFilterDTO dto) {
-		Specification<T> specification = Specification.where(null);
+            if (dto.getSortField().equals(DEFAULTSORT)) {
+                pageable = PageRequest.of(pageNo, pageSize, Sort.by(sortDirection, FIRST_NAME, LAST_NAME));
+            } else if (dto.getSortField().equals("is_active")) {
+                pageable = PageRequest.of(pageNo, pageSize);
 
-		if (nonNull(dto.getUsername())) {
-			specification = specification.and(hasUsernameEquals(dto.getUsername()));
-		}
+                var users = userRepository.findAll(specification, pageable).map(UserMapper::toDTO).getContent();
+                List<UserDTO> sortedUsers;
+                if (!dto.getDirection().equals("ASC")) {
+                    sortedUsers = users.stream()
+                            .sorted(Comparator.comparing(UserDTO::getIs_active))
+                            .toList();
+                } else {
+                    sortedUsers = users.stream()
+                            .sorted(Comparator.comparing(UserDTO::getIs_active).reversed())
+                            .toList();
+                }
+                return new PageImpl<>(sortedUsers, pageable, sortedUsers.size());
+            } else {
+                pageable = PageRequest.of(pageNo, pageSize, Sort.by(sortDirection, dto.getSortField()));
+            }
 
-		if (nonNull(dto.getFirstName())) {
-			specification = specification.and(fieldNameLike(dto.getFirstName(), FIRST_NAME));
-		}
+            return userRepository.findAll(specification, pageable).map(UserMapper::toDTO);
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
+        }
+    }
 
-		if (nonNull(dto.getLastName())) {
-			specification = specification.and(fieldNameLike(dto.getLastName(), LAST_NAME));
-		}
+    public <T> Specification<T> getSpecification(UserFilterDTO dto) {
+        Specification<T> specification = Specification.where(null);
 
-		if (nonNull(dto.getEmail())) {
-			specification = specification.and(fieldNameLike(dto.getEmail(), EMAIL));
-		}
+        if (nonNull(dto.getUsername())) {
+            specification = specification.and(hasUsernameEquals(dto.getUsername()));
+        }
 
-		if (nonNull(dto.getIs_active())) {
-			specification = specification.and(isActive(dto.getIs_active()));
-		}
+        if (nonNull(dto.getFirstName())) {
+            specification = specification.and(fieldNameLike(dto.getFirstName(), FIRST_NAME));
+        }
 
-		if (nonNull(dto.getRole())) {
-			String userRole = dto.getRole().toString();
-			if (!userRole.equals("ALL")) {
-				specification = specification.and(hasRole(userRole));
-			}
-		}
-		return specification;
-	}
+        if (nonNull(dto.getLastName())) {
+            specification = specification.and(fieldNameLike(dto.getLastName(), LAST_NAME));
+        }
+
+        if (nonNull(dto.getEmail())) {
+            specification = specification.and(fieldNameLike(dto.getEmail(), EMAIL));
+        }
+
+        if (nonNull(dto.getIs_active())) {
+            specification = specification.and(isActive(dto.getIs_active()));
+        }
+
+        if (nonNull(dto.getRole())) {
+            String userRole = dto.getRole().toString();
+            if (!userRole.equals("ALL")) {
+                specification = specification.and(hasRole(userRole));
+            }
+        }
+        return specification;
+    }
 
 
-	public User updateUser(UserDTO userDTO, User.Role role, MultipartFile imageFile) {
-		Optional<User> userOptional = userRepository.findByEmail(userDTO.getEmail());
-		User updatedUser = new User();
-		if (userOptional.isPresent()) {
-			User user = userOptional.get();
-			user.setRole(role);
-			user.setIs_active(userDTO.getIs_active());
-			user.setUpdated_date(LocalDateTime.now());
-			if (imageFile != null) {
-				String imageUrl = imageStorageService.uploadImage("userphotos", imageFile);
-				user.setPhotoUrl(imageUrl);
-			}
-			updatedUser = userRepository.save(user);
-		}
-		return updatedUser;
-	}
+    public User updateUser(UserDTO userDTO, User.Role role, MultipartFile imageFile) {
+        Optional<User> userOptional = userRepository.findByEmail(userDTO.getEmail());
+        User updatedUser = new User();
+        if (userOptional.isPresent()) {
+            User user = userOptional.get();
+            user.setRole(role);
+            user.setIs_active(userDTO.getIs_active());
+            user.setUpdated_date(LocalDateTime.now());
+            if (imageFile != null) {
+                String imageUrl = imageStorageService.uploadImage("userphotos", imageFile);
+                user.setPhotoUrl(imageUrl);
+            }
+            updatedUser = userRepository.save(user);
+        }
+        return updatedUser;
+    }
 
-	public UserDTO findByEmail(String email) {
-		Optional<User> userOptional = userRepository.findByEmail(email);
-		if (userOptional.isPresent()) {
-			User user = userOptional.get();
-			return UserMapper.toDTO(user);
-		} else {
-			throw new RuntimeException("User with email " + email + " not found");
-		}
-	}
+    public UserDTO findByEmail(String email) {
+        Optional<User> userOptional = userRepository.findByEmail(email);
+        if (userOptional.isPresent()) {
+            User user = userOptional.get();
+            return UserMapper.toDTO(user);
+        } else {
+            throw new RuntimeException("User with email " + email + " not found");
+        }
+    }
 
-	public UserAddReponseDTO addUser(UserAddDTO userAddDTO) {
-		if (userAddDTO.getEmail() == null || userAddDTO.getEmail().isEmpty()) {
-			return null;
-		}
-		Optional<User> userOptional = userRepository.findByEmail(userAddDTO.getEmail());
-		if (userOptional.isPresent()) {
-			return UserMapper.toUserAddReponseDTOFromUser(userOptional.get());
-		} else {
-			User userToBeSaved = UserMapper.toUserFromUserAddDTO(userAddDTO);
-			userToBeSaved.setId(String.valueOf(UUID.randomUUID()));
-			userToBeSaved.setCreated_date(LocalDateTime.now()).setUpdated_date(LocalDateTime.now());
-			userToBeSaved.setIs_active(true);
-			userRepository.save(userToBeSaved);
-			return UserMapper.toUserAddReponseDTOFromUser(userToBeSaved);
-		}
-	}
+    public UserAddReponseDTO addUser(UserAddDTO userAddDTO) {
+        if (userAddDTO.getEmail() == null || userAddDTO.getEmail().isEmpty()) {
+            return null;
+        }
+        Optional<User> userOptional = userRepository.findByEmail(userAddDTO.getEmail());
+        if (userOptional.isPresent()) {
+            return UserMapper.toUserAddReponseDTOFromUser(userOptional.get());
+        } else {
+            User userToBeSaved = UserMapper.toUserFromUserAddDTO(userAddDTO);
+            userToBeSaved.setId(String.valueOf(UUID.randomUUID()));
+            userToBeSaved.setCreated_date(LocalDateTime.now()).setUpdated_date(LocalDateTime.now());
+            userToBeSaved.setIs_active(true);
+            userRepository.save(userToBeSaved);
+            return UserMapper.toUserAddReponseDTOFromUser(userToBeSaved);
+        }
+    }
 }
 
