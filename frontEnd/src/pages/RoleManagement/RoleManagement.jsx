@@ -137,7 +137,7 @@ function RoleManagement() {
       <div className="w-full mt-4">
         <div className="overflow-y-auto ">
           <table className="cater w-full text-left  border-b-2">
-            <thead className="sticky top-0 z-30 text-white bg-gray-800">
+            <thead className="sticky top-0 z-30 thead-style">
               <tr>
                 {TABLE_HEAD.slice(0, TABLE_HEAD.length).map((elem) => (
                   <th

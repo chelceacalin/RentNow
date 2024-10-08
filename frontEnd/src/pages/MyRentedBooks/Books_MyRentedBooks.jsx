@@ -140,7 +140,7 @@ function Books_MyRentedBooks() {
         <div className="w-full flex flex-col bg-white justify-between border-2">
           <div className="overflow-y-auto">
             <table className="w-full min-w-max border-b-2 table-auto text-left">
-              <thead className="sticky top-0 z-30 bg-gray-800 text-white">
+              <thead className="sticky top-0 z-30 thead-style">
                 <tr>
                   {TABLE_HEAD.map((elem) => (
                     <th

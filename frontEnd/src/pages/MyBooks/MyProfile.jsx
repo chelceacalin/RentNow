@@ -155,7 +155,7 @@ function MyProfile() {
       </div>
       <div className="overflow-x-auto w-full mt-1">
         <table className="min-w-full text-left">
-          <thead className="bg-gray-800 text-white">
+          <thead className="thead-style">
             <tr>
               {[
                 "Title",
