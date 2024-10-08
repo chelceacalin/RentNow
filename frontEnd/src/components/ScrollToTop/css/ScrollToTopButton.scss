@@ -1,8 +1,10 @@
+@import '../../../styles/variables.scss';
+
 .scroll-to-top {
     position: fixed; 
     bottom: 20px;
     right: 30px; 
-    background-color: #d32f2f;
+    background-color: $rentButtonColorHover;
     color: white; 
     border: none; 
     cursor: pointer; 
