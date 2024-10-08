@@ -5,7 +5,7 @@ import MyProfileRedirectButtons from "../../components/MyBooks/MyProfileRedirect
 import MyRentedBooks from "../../components/MyRentedBooks/MyRentedBooks.jsx";
 import Pagination from "../../components/Pagination/Pagination";
 import { UserLoginContext } from "../../utils/context/LoginProvider";
-
+import { usePagination } from "../../utils/hooks/usePagination.jsx";
 function Books_MyRentedBooks() {
   const TABLE_HEAD = [
     "Title",
@@ -16,6 +16,10 @@ function Books_MyRentedBooks() {
     "Owner",
     "Actions",
   ];
+
+  const { pagination, handlePageChange, handlePageSizeChange, setTotalPages } =
+    usePagination();
+
   const [books, setBooks] = useState([]);
   const [filterParams, setFilterParams] = useState({
     category: "",
@@ -25,11 +29,6 @@ function Books_MyRentedBooks() {
     rentedUntil: "",
     ownerUsername: "",
     rentedBy: "",
-  });
-  const [pagination, setPagination] = useState({
-    pageNo: 1,
-    pageSize: 15,
-    totalPages: 0,
   });
 
   const [initialized, setInitialized] = useState(false);
@@ -91,11 +90,9 @@ function Books_MyRentedBooks() {
         const url = buildUrl();
         const response = await axios.get(url);
         const { content, totalPages } = response.data;
-        if (content.length === 0 && pagination.pageNo > 1) {
-          setPagination((prev) => ({ ...prev, pageNo: prev.pageNo - 1 }));
-        } else {
+        setTotalPages(totalPages);
+        if (!(content.length === 0 && pagination.pageNo > 1)) {
           setBooks(content);
-          setPagination((prev) => ({ ...prev, totalPages }));
         }
         setInitialized(true);
       } catch {
@@ -111,27 +108,6 @@ function Books_MyRentedBooks() {
     sortField,
     direction,
   ]);
-
-  const handlePageSizeChange = useCallback(
-    (event) => {
-      setPagination((prev) => ({
-        ...prev,
-        pageSize: parseInt(event.target.value, 10),
-        pageNo: 1,
-      }));
-    },
-    [setPagination]
-  );
-
-  const handlePageChange = useCallback(
-    (newPageNo) => {
-      setPagination((prev) => ({
-        ...prev,
-        pageNo: newPageNo,
-      }));
-    },
-    [setPagination]
-  );
 
   return (
     <Container maxWidth="xl">

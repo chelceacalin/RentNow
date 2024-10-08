@@ -8,6 +8,7 @@ import MyProfileRedirectButtons from "../../components/MyBooks/MyProfileRedirect
 import Pagination from "../../components/Pagination/Pagination";
 import { UserLoginContext } from "../../utils/context/LoginProvider";
 import NoMatchingResultsFound from "../NotFound/NoMatchingResultsFound.jsx";
+import { usePagination } from "../../utils/hooks/usePagination.jsx";
 function MyProfile() {
   const [books, setBooks] = useState([]);
   const [filters, setFilters] = useState({
@@ -36,11 +37,9 @@ function MyProfile() {
     }
   };
 
-  const [pagination, setPagination] = useState({
-    pageNo: 1,
-    pageSize: 15,
-    totalPages: 1,
-  });
+  const { pagination, handlePageChange, handlePageSizeChange, setTotalPages } =
+    usePagination();
+
   const [initialized, setInitialized] = useState(false);
   const [openAddModal, setOpenAddModal] = useState(false);
   const { username } = useContext(UserLoginContext);
@@ -52,12 +51,8 @@ function MyProfile() {
         ...prev,
         ...newFilters,
       }));
-      setPagination((prev) => ({
-        ...prev,
-        pageNo: 1,
-      }));
     },
-    [setFilters, setPagination]
+    [setFilters]
   );
 
   const handleSortChange = useCallback(
@@ -69,33 +64,8 @@ function MyProfile() {
         sortField: mappedField,
         direction: prev.sortField === mappedField ? !prev.direction : true,
       }));
-      setPagination((prev) => ({
-        ...prev,
-        pageNo: 1,
-      }));
     },
-    [setFilters, setPagination]
-  );
-
-  const handlePageChange = useCallback(
-    (newPageNo) => {
-      setPagination((prev) => ({
-        ...prev,
-        pageNo: newPageNo,
-      }));
-    },
-    [setPagination]
-  );
-
-  const handlePageSizeChange = useCallback(
-    (event) => {
-      setPagination((prev) => ({
-        ...prev,
-        pageSize: parseInt(event.target.value, 10),
-        pageNo: 1,
-      }));
-    },
-    [setPagination]
+    [setFilters]
   );
 
   useEffect(() => {
@@ -123,10 +93,7 @@ function MyProfile() {
       try {
         const response = await axios.get("/books", { params });
         setBooks(response.data.content);
-        setPagination((prev) => ({
-          ...prev,
-          totalPages: response.data.totalPages,
-        }));
+        setTotalPages(response.data.totalPages);
         setInitialized(true);
       } catch (error) {
         console.error("Failed to fetch books:", error);
