@@ -2,6 +2,7 @@ package com.example.TechNow.TechNow.controller;
 
 import com.example.TechNow.TechNow.dto.Book.*;
 import com.example.TechNow.TechNow.dto.BookHistory.BookHistoryDTO;
+import com.example.TechNow.TechNow.dto.Email.EmailDTO;
 import com.example.TechNow.TechNow.service.BookService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -23,79 +24,78 @@ import java.util.UUID;
 @Slf4j
 public class BookController {
 
-	final BookService bookService;
+    final BookService bookService;
 
-	@GetMapping
-	public Page<BookDTO> findUserBooks(@ModelAttribute BookFilterDTO dto,
-									   @RequestParam(name = "pageNo", defaultValue = "0") int pageNo,
-									   @RequestParam(name = "pageSize", defaultValue = "1000") int pageSize) {
-		try {
-			log.info("Books searched with {}", dto);
-			return bookService.findUserBooks(dto, pageNo, pageSize);
-		} catch (Exception e) {
-			log.error(e.getMessage());
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
-		}
-	}
-
-
-	@PostMapping
-	public BookAddDTO addBook(@RequestPart("bookDTO") BookAddDTO bookDTO, @RequestPart(value = "imageFile", required = false) MultipartFile imageFile) {
-		return bookService.addBook(bookDTO, imageFile);
-	}
+    @GetMapping
+    public Page<BookDTO> findUserBooks(@ModelAttribute BookFilterDTO dto,
+                                       @RequestParam(name = "pageNo", defaultValue = "0") int pageNo,
+                                       @RequestParam(name = "pageSize", defaultValue = "1000") int pageSize) {
+        try {
+            log.info("Books searched with {}", dto);
+            return bookService.findUserBooks(dto, pageNo, pageSize);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+        }
+    }
 
 
-	@PostMapping("/{id}")
-	public void updateBook(@PathVariable UUID id, @RequestPart("bookDTO") BookAddDTO bookAddDTO, @RequestPart(value = "imageFile", required = false) MultipartFile imageFile) {
-		bookService.updateBook(id, bookAddDTO, imageFile);
-	}
-
-	@PostMapping("/delete/{id}")
-	public ResponseEntity<String> deleteBook(@PathVariable UUID id) {
-		bookService.deleteBookIfNotRented(id);
-		return ResponseEntity.ok("Book can be deleted");
-	}
+    @PostMapping
+    public BookAddDTO addBook(@RequestPart("bookDTO") BookAddDTO bookDTO, @RequestPart(value = "imageFile", required = false) MultipartFile imageFile) {
+        return bookService.addBook(bookDTO, imageFile);
+    }
 
 
-	@GetMapping("/{id}")
-	public BookAddDTO findBookById(@PathVariable UUID id) {
-		return bookService.findBookByID(id);
-	}
+    @PostMapping("/{id}")
+    public void updateBook(@PathVariable UUID id, @RequestPart("bookDTO") BookAddDTO bookAddDTO, @RequestPart(value = "imageFile", required = false) MultipartFile imageFile) {
+        bookService.updateBook(id, bookAddDTO, imageFile);
+    }
 
-	@GetMapping("/rent/{id}")
-	public BookRentDTO findBookToRent(@PathVariable UUID id) {
-		return bookService.findBookToRent(id);
-	}
+    @PostMapping("/delete/{id}")
+    public ResponseEntity<String> deleteBook(@PathVariable UUID id) {
+        bookService.deleteBookIfNotRented(id);
+        return ResponseEntity.ok("Book can be deleted");
+    }
 
 
-	@PostMapping("/history")
-	public ResponseEntity<Object> addBookHistory(@Valid @RequestBody BookHistoryDTO bookHistoryDTO, BindingResult bindingResult) {
-		if (bindingResult.hasErrors()) {
-			return new ResponseEntity<>(bindingResult.getAllErrors().getFirst().getDefaultMessage(), HttpStatus.BAD_REQUEST);
-		}
-		Optional<String> errorOptional = bookService.validateBookHistory(bookHistoryDTO);
+    @GetMapping("/{id}")
+    public BookAddDTO findBookById(@PathVariable UUID id) {
+        return bookService.findBookByID(id);
+    }
 
-		if (errorOptional.isEmpty()) {
-			bookService.addBookHistory(bookHistoryDTO);
-			return new ResponseEntity<>(bookHistoryDTO, HttpStatus.CREATED);
-		} else {
-			return new ResponseEntity<>(errorOptional.get(), HttpStatus.BAD_REQUEST);
-		}
-	}
+    @GetMapping("/rent/{id}")
+    public BookRentDTO findBookToRent(@PathVariable UUID id) {
+        return bookService.findBookToRent(id);
+    }
 
-	@GetMapping("/rented")
-	public Page<BookDTO> findRentedBooksForUser(
-			@ModelAttribute MyRentedBooksRequestDTO myRentedBooksRequestDTO,
-			@RequestParam(name = "pageNo", defaultValue = "0") int pageNo,
-			@RequestParam(name = "pageSize", defaultValue = "15") int pageSize
 
-	) {
-		return bookService.findRentedBooksForUser(myRentedBooksRequestDTO, pageNo, pageSize);
-	}
+    @PostMapping("/history")
+    public ResponseEntity<Object> addBookHistory(@Valid @RequestBody BookHistoryDTO bookHistoryDTO, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return new ResponseEntity<>(bindingResult.getAllErrors().getFirst().getDefaultMessage(), HttpStatus.BAD_REQUEST);
+        }
+        Optional<String> errorOptional = bookService.validateBookHistory(bookHistoryDTO);
 
-	@PostMapping("/updateStatus/{id}")
-	public void changeRentedBookStatus(@PathVariable UUID id) {
-		bookService.changeRentedBookStatus(id);
-	}
+        if (errorOptional.isEmpty()) {
+            bookService.addBookHistory(bookHistoryDTO);
+            return new ResponseEntity<>(bookHistoryDTO, HttpStatus.CREATED);
+        } else {
+            return new ResponseEntity<>(errorOptional.get(), HttpStatus.BAD_REQUEST);
+        }
+    }
 
+    @GetMapping("/rented")
+    public Page<BookDTO> findRentedBooksForUser(
+            @ModelAttribute MyRentedBooksRequestDTO myRentedBooksRequestDTO,
+            @RequestParam(name = "pageNo", defaultValue = "0") int pageNo,
+            @RequestParam(name = "pageSize", defaultValue = "15") int pageSize
+
+    ) {
+        return bookService.findRentedBooksForUser(myRentedBooksRequestDTO, pageNo, pageSize);
+    }
+
+    @PostMapping("/updateStatus/{id}")
+    public void changeRentedBookStatus(@PathVariable UUID id, @RequestBody EmailDTO emailDTO) {
+        bookService.changeRentedBookStatus(id, emailDTO);
+    }
 }

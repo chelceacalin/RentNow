@@ -23,10 +23,17 @@ function MyRentedBooks({
     username: owner_username,
     email: owner_email,
   };
+
   const [returnModalOpen, setReturnModalOpen] = React.useState(false);
   const handleReturnOpen = () => setReturnModalOpen(true);
   const handleReturnClose = () => setReturnModalOpen(false);
-  const { email } = useContext(UserLoginContext);
+  const { email, username } = useContext(UserLoginContext);
+
+  const user = {
+    email: email,
+    username: username,
+  };
+
   return (
     <tr key={title} className={`${owner.email !== email ? "" : "bg-gray-100"}`}>
       <td className={classes}>
@@ -96,6 +103,7 @@ function MyRentedBooks({
           triggerRefresh={triggerRefresh}
           setTriggerRefresh={setTriggerRefresh}
           owner={owner}
+          user={user}
         />
       </td>
     </tr>

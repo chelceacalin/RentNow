@@ -3,6 +3,7 @@ package com.example.TechNow.TechNow.service;
 
 import com.example.TechNow.TechNow.dto.Book.*;
 import com.example.TechNow.TechNow.dto.BookHistory.BookHistoryDTO;
+import com.example.TechNow.TechNow.dto.Email.EmailDTO;
 import com.example.TechNow.TechNow.dto.User.UserDTO;
 import com.example.TechNow.TechNow.mapper.BookMapper;
 import com.example.TechNow.TechNow.model.Book;
@@ -43,6 +44,7 @@ public class BookService {
     final CategoryRepository categoryRepository;
     final ImageStorageService imageStorageService;
     final BookHistoryRepository bookHistoryRepository;
+    final EmailSenderService emailSenderService;
 
     public Page<BookDTO> findUserBooks(BookFilterDTO bookFilter, int pageNo, int pageSize) {
         Specification<Book> specification = getSpecification(bookFilter);
@@ -263,14 +265,29 @@ public class BookService {
     }
 
 
-    public void changeRentedBookStatus(UUID id) {
+    public void changeRentedBookStatus(UUID id, EmailDTO emailDTO) {
         Optional<Book> bookOptional = bookRepository.findById(id);
         if (bookOptional.isPresent()) {
             Book book = bookOptional.get();
             book.setAvailable(true);
             bookRepository.save(book);
+            emailSenderService.sendEmail(emailDTO.getOwnerEmail(), String.format("Your book %s has been returned", emailDTO.getBookTitle()), getEmailBody(emailDTO));
         } else {
             throw new RuntimeException("Book is not found");
         }
+    }
+
+    public String getEmailBody(EmailDTO emailDTO) {
+        return String.format(
+                "<div style='font-family: Arial, sans-serif; color: #333; line-height: 1.6;'>" +
+                        "  <h2 style='color: #4CAF50;'>Hello %s,</h2>" +
+                        "  <p>This is to inform you that <strong>%s</strong> has returned the book titled <em>%s</em> owned by you.</p>" +
+                        "  <p>The book is now available for others to rent. We hope you have a great day!</p>" +
+                        "  <footer style='margin-top: 20px; border-top: 1px solid #eaeaea; padding-top: 10px;'>" +
+                        "    <p style='font-size: 0.9em; color: #888;'>TechNow Team</p>" +
+                        "  </footer>" +
+                        "</div>",
+                emailDTO.getOwnerUsername(), emailDTO.getRenterUsername(), emailDTO.getBookTitle()
+        );
     }
 }

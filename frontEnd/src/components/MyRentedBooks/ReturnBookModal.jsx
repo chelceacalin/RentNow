@@ -14,12 +14,21 @@ function ReturnBookModal({
   setTriggerRefresh,
   triggerRefresh,
   owner,
+  user,
 }) {
   const updateBookStatus = () => {
     let url = `/books/updateStatus/${id}`;
 
+    const emailDTO = {
+      renterUsername: user.username,
+      renterEmail: user.email,
+      bookTitle: title,
+      ownerEmail: owner.email,
+      ownerUsername: owner.username,
+    };
+
     axios
-      .post(url)
+      .post(url, emailDTO)
       .then(() => {
         showSuccess(`The book ${title} has been returned!`);
         setTriggerRefresh(!triggerRefresh);

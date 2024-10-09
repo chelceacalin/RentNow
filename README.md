@@ -91,5 +91,4 @@ Rent Now facilitates book rentals within a company. Manage and share your book c
      => Chat Gpt Api, feed it db data and make it recommend books
      => Superset, OpenSearch
      => In the main page, have a default filter that searches through everything and button to show advanced filter
-     => Send email to user when his book has been returned
 </pre>
