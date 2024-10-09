@@ -1,8 +1,8 @@
 package com.example.TechNow.TechNow.specification;
 
 import com.example.TechNow.TechNow.model.Book;
-import com.example.TechNow.TechNow.model.Category;
 import com.example.TechNow.TechNow.model.BookHistory;
+import com.example.TechNow.TechNow.model.Category;
 import com.example.TechNow.TechNow.model.User;
 import jakarta.persistence.criteria.Join;
 import jakarta.persistence.criteria.JoinType;

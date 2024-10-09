@@ -5,8 +5,8 @@ import com.example.TechNow.TechNow.dto.Book.BookDTO;
 import com.example.TechNow.TechNow.dto.Book.BookRentDTO;
 import com.example.TechNow.TechNow.dto.User.UserDTO;
 import com.example.TechNow.TechNow.model.Book;
-import com.example.TechNow.TechNow.model.Category;
 import com.example.TechNow.TechNow.model.BookHistory;
+import com.example.TechNow.TechNow.model.Category;
 
 import static com.example.TechNow.TechNow.util.Utils.parseDate;
 
