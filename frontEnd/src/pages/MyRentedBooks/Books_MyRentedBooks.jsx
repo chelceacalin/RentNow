@@ -34,8 +34,8 @@ function Books_MyRentedBooks() {
   const [initialized, setInitialized] = useState(false);
   const [triggerRefresh, setTriggerRefresh] = useState(false);
   const { email } = useContext(UserLoginContext);
-  const [direction, setDirection] = useState(true);
-  const [sortField, setSortField] = useState("title");
+  const [direction, setDirection] = useState(false);
+  const [sortField, setSortField] = useState("rentedDate");
   const [lastClicked, setLastClicked] = useState(null);
 
   const handleClick = (fieldName) => {

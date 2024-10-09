@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useContext } from "react";
 import ReturnBookModal from "./ReturnBookModal.jsx";
-
+import { UserLoginContext } from "../../utils/context/LoginProvider.jsx";
 function MyRentedBooks({
   classes,
   isAvailableForRenting,
@@ -26,8 +26,9 @@ function MyRentedBooks({
   const [returnModalOpen, setReturnModalOpen] = React.useState(false);
   const handleReturnOpen = () => setReturnModalOpen(true);
   const handleReturnClose = () => setReturnModalOpen(false);
+  const { email } = useContext(UserLoginContext);
   return (
-    <tr key={title}>
+    <tr key={title} className={`${owner.email !== email ? "" : "bg-gray-100"}`}>
       <td className={classes}>
         <div
           color="blue-gray"

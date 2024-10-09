@@ -41,7 +41,7 @@ function App() {
 
 function MainContent() {
   const [initialized, setInitialized] = useState(false);
-  const { isLoggedIn, is_active, email } = useContext(UserLoginContext);
+  const { isLoggedIn, is_active } = useContext(UserLoginContext);
   useEffect(() => {
     setInitialized(true);
   }, []);
