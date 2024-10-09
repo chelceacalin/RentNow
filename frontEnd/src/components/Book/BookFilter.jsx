@@ -59,15 +59,15 @@ function BookFilter({
   }, [selectedCategory, director, title, availability, rentedBy]);
 
   return (
-    <div className="filter-background">
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div className="filter-background p-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         <div className="col-span-1">
           <input
             id="search-title"
             name="title"
             type="search"
             placeholder="Search title"
-            className="filter-search-input"
+            className="filter-search-input w-full"
             onChange={(e) => setTitle(e.target.value)}
           />
         </div>
@@ -77,7 +77,7 @@ function BookFilter({
             name="director"
             type="search"
             placeholder="Search director"
-            className="filter-search-input"
+            className="filter-search-input w-full"
             onChange={(e) => setDirector(e.target.value)}
           />
         </div>
@@ -89,7 +89,7 @@ function BookFilter({
               <TextField
                 {...params}
                 placeholder="Category"
-                className="filter-search-input"
+                className="filter-search-input w-full"
               />
             )}
             value={selectedCategory}
@@ -104,59 +104,50 @@ function BookFilter({
               <TextField
                 {...params}
                 placeholder="Rented by"
-                className="filter-search-input"
+                className="filter-search-input w-full"
               />
             )}
             value={rentedBy}
             onChange={(_, newValue) => setRentedBy(newValue)}
           />
         </div>
-        <div className="col-span-1 flex selectBoxes">
-          <div className="flex gap-8 ml-4 mt-0">
-            <div className="w-52">
-              <span htmlFor="" className="text-white">
-                Status
-              </span>
-              <select
-                value={availability}
-                onChange={(e) => setAvailability(e.target.value)}
-                className="filter-search-input"
-              >
-                <option value="ALL">All</option>
-                <option value="true">Available</option>
-                <option value="false">Unavailable</option>
-              </select>
-            </div>
-            <div className="w-52">
-              <span htmlFor="" className="text-white">
-                Sort Field
-              </span>
-              <select
-                value={sortField}
-                onChange={handleSortFieldChange}
-                className="filter-search-input"
-              >
-                <option value="title">Title</option>
-                <option value="director">Director</option>
-                <option value="rentedDate">Rented Date</option>
-              </select>
-            </div>
-
-            <div className="w-52">
-              <span htmlFor="" className="text-white">
-                Sort Direction
-              </span>
-              <select
-                value={direction ? "ASC" : "DESC"}
-                onChange={handleDirectionChange}
-                className="filter-search-input"
-              >
-                <option value="ASC">Ascending</option>
-                <option value="DESC">Descending</option>
-              </select>
-            </div>
+        <span className="col-span-1 sm:col-span-2 lg:col-span-2 flex flex-col sm:flex-row gap-6 items-start -mt-4">
+          <div className="w-full sm:w-1/3 lg:w-1/4">
+            <label className="text-white">Status</label>
+            <select
+              value={availability}
+              onChange={(e) => setAvailability(e.target.value)}
+              className="filter-search-input w-full"
+            >
+              <option value="ALL">All</option>
+              <option value="true">Available</option>
+              <option value="false">Unavailable</option>
+            </select>
           </div>
-        </div>
+          <div className="w-full sm:w-1/3 lg:w-1/4">
+            <label className="text-white">Sort Field</label>
+            <select
+              value={sortField}
+              onChange={handleSortFieldChange}
+              className="filter-search-input w-full"
+            >
+              <option value="title">Title</option>
+              <option value="director">Director</option>
+              <option value="rentedDate">Rented Date</option>
+            </select>
+          </div>
+          <div className="w-full sm:w-1/3 lg:w-1/4">
+            <label className="text-white">Direction</label>
+            <select
+              value={direction ? "ASC" : "DESC"}
+              onChange={handleDirectionChange}
+              className="filter-search-input w-full"
+            >
+              <option value="ASC">Ascending</option>
+              <option value="DESC">Descending</option>
+            </select>
+          </div>
+        </span>
       </div>
     </div>
   );

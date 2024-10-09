@@ -70,13 +70,13 @@ function MyProfileFilterComponent({ onFilterChange }) {
   };
 
   return (
-    <div className="filter-background">
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div className="filter-background p-4 w-full sm:w-96 md:w-auto lg:w-auto">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         <div className="col-span-1">
           <input
             type="search"
             placeholder="Search title"
-            className="filter-search-input"
+            className="filter-search-input w-full"
             value={filterValues.title}
             onChange={handleInputChange("title")}
           />
@@ -86,7 +86,7 @@ function MyProfileFilterComponent({ onFilterChange }) {
           <input
             type="search"
             placeholder="Search director"
-            className="filter-search-input"
+            className="filter-search-input w-full"
             value={filterValues.director}
             onChange={handleInputChange("director")}
           />
@@ -96,19 +96,19 @@ function MyProfileFilterComponent({ onFilterChange }) {
           <input
             type="search"
             placeholder="Search category"
-            className="filter-search-input"
+            className="filter-search-input w-full"
             value={filterValues.category}
             onChange={handleInputChange("category")}
           />
         </div>
 
         <div className="col-span-1">
-          <span className="text-white">Rented By</span>
+          <label className="text-white">Rented By</label>
           <StyledAutocomplete
             select
             value={filterValues.rentedBy || ""}
             onChange={handleInputChange("rentedBy")}
-            className="filter-search-input"
+            className="filter-search-input w-full"
             SelectProps={{
               native: true,
             }}
@@ -133,8 +133,8 @@ function MyProfileFilterComponent({ onFilterChange }) {
 
         <div className="col-span-1">
           <div className="relative w-full">
-            <label className="text-white mb-2">Rented Until</label>
-            <div className="relative">
+            <label className="text-white">Rented Until</label>
+            <div className="relative mt-1">
               <input
                 type="date"
                 className="w-full filter-search-input pr-16"
@@ -151,7 +151,7 @@ function MyProfileFilterComponent({ onFilterChange }) {
                   onClick={() =>
                     setFilterValues((prev) => ({ ...prev, rentedUntil: "" }))
                   }
-                  className="absolute top-0 right-0 h-full bg-main-color-text-white px-3 py-1 rounded-r"
+                  className="absolute top-0 right-0 h-full bg-main-color text-white px-3 py-1 rounded-r"
                 >
                   Reset
                 </button>
@@ -162,7 +162,7 @@ function MyProfileFilterComponent({ onFilterChange }) {
 
         <div className="col-span-1">
           <div className="w-full">
-            <span className="text-white">Status</span>
+            <label className="text-white">Status</label>
             <select
               value={filterValues.availability}
               onChange={(e) =>
@@ -171,7 +171,7 @@ function MyProfileFilterComponent({ onFilterChange }) {
                   availability: e.target.value,
                 }))
               }
-              className="filter-search-input mt-1"
+              className="filter-search-input w-full mt-1"
             >
               <option value="ALL">All</option>
               <option value="true">Available</option>
