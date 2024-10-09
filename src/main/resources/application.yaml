@@ -45,7 +45,7 @@ custom:
     app-url: ${FRONTEND_URL:http://localhost:4173}
   default_buckets: photos, userphotos
   fromEmail: ${FROM_EMAIL}
-  enableMailService: true
+  enableMailService: false
 
 # Minio
 minio:

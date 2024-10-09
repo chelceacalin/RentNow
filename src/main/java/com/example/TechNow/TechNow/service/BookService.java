@@ -31,6 +31,7 @@ import static com.example.TechNow.TechNow.specification.BookSpecification.*;
 import static com.example.TechNow.TechNow.specification.GenericSpecification.fieldNameLike;
 import static com.example.TechNow.TechNow.specification.GenericSpecification.isAvailable;
 import static com.example.TechNow.TechNow.util.BookConstants.*;
+import static com.example.TechNow.TechNow.util.Utils.*;
 import static java.util.Objects.nonNull;
 
 @Service
@@ -228,9 +229,17 @@ public class BookService {
         bookOptional.ifPresent(book -> {
             book.setAvailable(false);
             bookRepository.save(book);
+
+            User user = userRepository.findById(String.valueOf(bookHistoryDTO.getUserId())).orElseThrow();
+            emailSenderService.sendEmail(user.getEmail(), "[RentNow] You have successfully rented book" + book.getTitle(), getRentBookMessage(user, book, String.valueOf(bookHistoryDTO.getRentedUntil())));
+            emailSenderService.sendEmail(book.getOwner().getEmail(), "[RentNow] Your book" + book.getTitle() + " has been rented by " + user.getEmail(),
+                    getRentBookMessageForOwner(bookHistoryDTO, book, user));
+
+            BookHistory bookHistory = toBookHistory(bookHistoryDTO);
+            bookHistoryRepository.save(bookHistory);
         });
-        BookHistory bookHistory = toBookHistory(bookHistoryDTO);
-        bookHistoryRepository.save(bookHistory);
+
+
     }
 
     public Optional<String> validateBookHistory(BookHistoryDTO bookHistoryDTO) {
@@ -277,17 +286,5 @@ public class BookService {
         }
     }
 
-    public String getEmailBody(EmailDTO emailDTO) {
-        return String.format(
-                "<div style='font-family: Arial, sans-serif; color: #333; line-height: 1.6;'>" +
-                        "  <h2 style='color: #4CAF50;'>Hello %s,</h2>" +
-                        "  <p>This is to inform you that <strong>%s</strong> has returned the book titled <em>%s</em> owned by you.</p>" +
-                        "  <p>The book is now available for others to rent. We hope you have a great day!</p>" +
-                        "  <footer style='margin-top: 20px; border-top: 1px solid #eaeaea; padding-top: 10px;'>" +
-                        "    <p style='font-size: 0.9em; color: #888;'>TechNow Team</p>" +
-                        "  </footer>" +
-                        "</div>",
-                emailDTO.getOwnerUsername(), emailDTO.getRenterUsername(), emailDTO.getBookTitle()
-        );
-    }
+
 }
