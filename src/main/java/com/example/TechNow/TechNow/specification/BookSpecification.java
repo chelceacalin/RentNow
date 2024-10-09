@@ -16,43 +16,43 @@ import static com.example.TechNow.TechNow.util.BookSpecificationConstants.*;
 public class BookSpecification {
 
 
-	public static <T> Specification<T> hasUsername(String username) {
-		return (root, query, criteriaBuilder) -> {
-			if (username == null) return null;
-			return criteriaBuilder.equal(root.get(OWNER).get(USERNAME), username);
-		};
-	}
+    public static <T> Specification<T> hasUsername(String username) {
+        return (root, query, criteriaBuilder) -> {
+            if (username == null) return null;
+            return criteriaBuilder.equal(root.get(OWNER).get(USERNAME), username);
+        };
+    }
 
-	public static <T> Specification<T> hasEmail(String email) {
-		return (root, query, criteriaBuilder) -> {
-			if (email == null) return null;
-			return criteriaBuilder.equal(root.get(OWNER).get(EMAIL), email);
-		};
-	}
+    public static <T> Specification<T> hasEmail(String email) {
+        return (root, query, criteriaBuilder) -> {
+            if (email == null) return null;
+            return criteriaBuilder.equal(root.get(OWNER).get(EMAIL), email);
+        };
+    }
 
-	public static <T> Specification<T> hasCategory(String categoryName) {
-		return (root, query, criteriaBuilder) -> {
-			Join<Book, Category> categoryJoin = root.join(CATEGORY_FIELD);
-			return criteriaBuilder.like(criteriaBuilder.lower(categoryJoin.get(NAME)), "%" + categoryName.toLowerCase() + "%");
-		};
-	}
+    public static <T> Specification<T> hasCategory(String categoryName) {
+        return (root, query, criteriaBuilder) -> {
+            Join<Book, Category> categoryJoin = root.join(CATEGORY_FIELD);
+            return criteriaBuilder.like(criteriaBuilder.lower(categoryJoin.get(NAME)), "%" + categoryName.toLowerCase() + "%");
+        };
+    }
 
-	public static <T> Specification<T> rentedDateFieldEquals(LocalDate rentedDateField, String column) {
-		return (root, query, criteriaBuilder) -> {
-			Join<Book, BookHistory> bookBookHistoryJoin = root.join(BOOK_HISTORIES);
-			return criteriaBuilder.equal(bookBookHistoryJoin.get(column), rentedDateField);
-		};
-	}
+    public static <T> Specification<T> rentedDateFieldEquals(LocalDate rentedDateField, String column) {
+        return (root, query, criteriaBuilder) -> {
+            Join<Book, BookHistory> bookBookHistoryJoin = root.join(BOOK_HISTORIES);
+            return criteriaBuilder.equal(bookBookHistoryJoin.get(column), rentedDateField);
+        };
+    }
 
-	public static <T> Specification<T> getRentedBy(String username) {
-		return (root, query, criteriaBuilder) -> {
-			Join<Book, BookHistory> bookBookHistoryJoin = root.join(BOOK_HISTORIES, JoinType.INNER);
-			Join<BookHistory, User> rentedByJoin = bookBookHistoryJoin.join(RENTED_BY, JoinType.INNER);
-			return criteriaBuilder.like(criteriaBuilder.lower(rentedByJoin.get(USERNAME)), "%" + username.toLowerCase() + "%");
-		};
-	}
+    public static <T> Specification<T> getRentedBy(String username) {
+        return (root, query, criteriaBuilder) -> {
+            Join<Book, BookHistory> bookBookHistoryJoin = root.join(BOOK_HISTORIES, JoinType.INNER);
+            Join<BookHistory, User> rentedByJoin = bookBookHistoryJoin.join(RENTED_BY, JoinType.INNER);
+            return criteriaBuilder.like(criteriaBuilder.lower(rentedByJoin.get(USERNAME)), username.toLowerCase());
+        };
+    }
 
-	public static <T> Specification<T> createdDateEquals(LocalDateTime createdDate, String column) {
-		return (root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get(column), createdDate);
-	}
+    public static <T> Specification<T> createdDateEquals(LocalDateTime createdDate, String column) {
+        return (root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get(column), createdDate);
+    }
 }
