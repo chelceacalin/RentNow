@@ -49,7 +49,7 @@ function ReturnBookModal({
         <div className="w-full break-normal text-center mb-5 mt-10">
           <p>
             Please note that you need to return the book to
-            <span className="font-bold text-red-800"> {owner}</span>
+            <span className="font-bold text-red-800"> {owner.username}</span>
           </p>
         </div>
 

@@ -6,6 +6,7 @@ public interface BookSpecificationConstants {
 	String NAME = "name";
 	String OWNER = "owner";
 	String USERNAME = "username";
+	String EMAIL = "email";
 	String CATEGORY_FIELD = "category";
 	String RENTED_UNTIL = "rentedUntil";
 }

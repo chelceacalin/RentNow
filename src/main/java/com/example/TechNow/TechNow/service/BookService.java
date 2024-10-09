@@ -26,8 +26,7 @@ import java.time.LocalDateTime;
 import java.util.*;
 
 import static com.example.TechNow.TechNow.mapper.BookHistoryMapper.toBookHistory;
-import static com.example.TechNow.TechNow.specification.BookSpecification.hasCategory;
-import static com.example.TechNow.TechNow.specification.BookSpecification.hasUsername;
+import static com.example.TechNow.TechNow.specification.BookSpecification.*;
 import static com.example.TechNow.TechNow.specification.GenericSpecification.fieldNameLike;
 import static com.example.TechNow.TechNow.specification.GenericSpecification.isAvailable;
 import static com.example.TechNow.TechNow.util.BookConstants.*;
@@ -104,6 +103,10 @@ public class BookService {
 
         if (nonNull(bookFilter.getOwner_username())) {
             specification = specification.and(hasUsername(bookFilter.getOwner_username()));
+        }
+
+        if (nonNull(bookFilter.getOwner_email())) {
+            specification = specification.and(hasEmail(bookFilter.getOwner_email()));
         }
 
         if (nonNull(bookFilter.getTitle())) {
@@ -253,6 +256,7 @@ public class BookService {
         List<BookDTO> rentedBooks = bookHistories.getContent().stream()
                 .distinct()
                 .map(history -> BookMapper.toDto(history.getBook(), history))
+                .filter(b -> !b.getIsAvailable())
                 .toList();
 
         return new PageImpl<>(rentedBooks, pageable, bookHistories.getTotalElements());

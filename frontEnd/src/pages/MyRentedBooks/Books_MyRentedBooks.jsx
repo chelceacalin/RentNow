@@ -1,6 +1,6 @@
 import { Container } from "@mui/material";
 import axios from "axios";
-import { useCallback, useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import MyProfileRedirectButtons from "../../components/MyBooks/MyProfileRedirectButtons";
 import MyRentedBooks from "../../components/MyRentedBooks/MyRentedBooks.jsx";
 import Pagination from "../../components/Pagination/Pagination";
@@ -151,7 +151,7 @@ function Books_MyRentedBooks() {
                 {books.map((book, index) => (
                   <MyRentedBooks
                     key={book.id}
-                    {...book}
+                    book={book}
                     triggerRefresh={triggerRefresh}
                     setTriggerRefresh={setTriggerRefresh}
                     classes={

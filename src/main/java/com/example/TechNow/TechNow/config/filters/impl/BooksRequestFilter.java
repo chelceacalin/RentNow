@@ -13,7 +13,7 @@ import java.util.Set;
 public class BooksRequestFilter {
 
 	final Set<String> BOOKS_PARAMS = new HashSet<>(Arrays.asList("title", "director", "category", "isAvailable",
-			"rentedBy", "owner_username", "rentedDate", "rentedUntil", "direction", "sortField", "pageNo", "pageSize", "created_date"));
+			"rentedBy", "owner_username","owner_email", "rentedDate", "rentedUntil", "direction", "sortField", "pageNo", "pageSize", "created_date"));
 
 
 	@Bean

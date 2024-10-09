@@ -42,7 +42,7 @@ function MyProfile() {
 
   const [initialized, setInitialized] = useState(false);
   const [openAddModal, setOpenAddModal] = useState(false);
-  const { username } = useContext(UserLoginContext);
+  const { username, email } = useContext(UserLoginContext);
   const [lastClicked, setLastClicked] = useState("");
 
   const handleFilterInput = useCallback(
@@ -71,7 +71,7 @@ function MyProfile() {
   useEffect(() => {
     const fetchBooks = async () => {
       const params = {
-        owner_username: username,
+        owner_email: email,
         sortField: filters.sortField || "title",
         direction: filters.direction ? "ASC" : "DESC",
         title: filters.title,

@@ -2,22 +2,30 @@ import React from "react";
 import ReturnBookModal from "./ReturnBookModal.jsx";
 
 function MyRentedBooks({
-  title,
-  director,
-  category,
-  rentedUntil,
-  rentedDate,
-  owner,
   classes,
-  id,
   isAvailableForRenting,
   triggerRefresh,
   setTriggerRefresh,
+  book,
 }) {
+  const {
+    title,
+    director,
+    category,
+    rentedUntil,
+    rentedDate,
+    owner_username,
+    owner_email,
+    id,
+  } = book;
+
+  const owner = {
+    username: owner_username,
+    email: owner_email,
+  };
   const [returnModalOpen, setReturnModalOpen] = React.useState(false);
   const handleReturnOpen = () => setReturnModalOpen(true);
   const handleReturnClose = () => setReturnModalOpen(false);
-
   return (
     <tr key={title}>
       <td className={classes}>
@@ -65,7 +73,7 @@ function MyRentedBooks({
           color="blue-gray"
           className="font-normal max-w-[200px] break-words"
         >
-          {owner}
+          {owner_username}
         </div>
       </td>
       <td className={classes}>
@@ -80,12 +88,12 @@ function MyRentedBooks({
         </div>
 
         <ReturnBookModal
+          id={id}
           isModalOpen={returnModalOpen}
           closeModal={handleReturnClose}
           title={title}
           triggerRefresh={triggerRefresh}
           setTriggerRefresh={setTriggerRefresh}
-          id={id}
           owner={owner}
         />
       </td>

@@ -12,6 +12,8 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class BookFilterDTO {
 
+	String owner_email;
+
 	String owner_username;
 
 	String title;

@@ -26,7 +26,7 @@ function MyProfileFilterComponent({ onFilterChange }) {
     availability: "ALL",
   });
   const [usersWhoRented, setUsersWhoRented] = useState([]);
-  const { username } = useContext(UserLoginContext);
+  const { username, email } = useContext(UserLoginContext);
 
   const debouncedFilterChange = useDebouncedCallback((newFilters) => {
     onFilterChange(newFilters);
@@ -36,7 +36,7 @@ function MyProfileFilterComponent({ onFilterChange }) {
     const fetchUsers = async () => {
       try {
         const response = await axios.get(`/books`, {
-          params: { owner_username: username },
+          params: { owner_email: email },
         });
         const users = response.data.content
           .filter((book) => book.rentedBy && book.rentedBy !== "available")

@@ -23,6 +23,13 @@ public class BookSpecification {
 		};
 	}
 
+	public static <T> Specification<T> hasEmail(String email) {
+		return (root, query, criteriaBuilder) -> {
+			if (email == null) return null;
+			return criteriaBuilder.equal(root.get(OWNER).get(EMAIL), email);
+		};
+	}
+
 	public static <T> Specification<T> hasCategory(String categoryName) {
 		return (root, query, criteriaBuilder) -> {
 			Join<Book, Category> categoryJoin = root.join(CATEGORY_FIELD);

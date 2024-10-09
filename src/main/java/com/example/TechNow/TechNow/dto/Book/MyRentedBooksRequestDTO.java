@@ -32,6 +32,7 @@ public class MyRentedBooksRequestDTO {
 	LocalDate rentedStart;
 
 	LocalDate rentedUntil;
+
 	String direction;
 
 	String sortField;
