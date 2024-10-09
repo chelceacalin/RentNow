@@ -31,6 +31,7 @@ import static com.example.TechNow.TechNow.specification.BookSpecification.*;
 import static com.example.TechNow.TechNow.specification.GenericSpecification.fieldNameLike;
 import static com.example.TechNow.TechNow.specification.GenericSpecification.isAvailable;
 import static com.example.TechNow.TechNow.util.BookConstants.*;
+import static com.example.TechNow.TechNow.util.EmailConstants.RENTNOW;
 import static com.example.TechNow.TechNow.util.Utils.*;
 import static java.util.Objects.nonNull;
 
@@ -231,8 +232,8 @@ public class BookService {
             bookRepository.save(book);
 
             User user = userRepository.findById(String.valueOf(bookHistoryDTO.getUserId())).orElseThrow();
-            emailSenderService.sendEmail(user.getEmail(), "[RentNow] You have successfully rented book" + book.getTitle(), getRentBookMessage(user, book, String.valueOf(bookHistoryDTO.getRentedUntil())));
-            emailSenderService.sendEmail(book.getOwner().getEmail(), "[RentNow] Your book" + book.getTitle() + " has been rented by " + user.getEmail(),
+            emailSenderService.sendEmail(user.getEmail(), RENTNOW + "You have successfully rented book " + book.getTitle(), getRentBookMessage(user, book, String.valueOf(bookHistoryDTO.getRentedUntil())));
+            emailSenderService.sendEmail(book.getOwner().getEmail(), RENTNOW + "Your book " + book.getTitle() + " has been rented by " + user.getEmail(),
                     getRentBookMessageForOwner(bookHistoryDTO, book, user));
 
             BookHistory bookHistory = toBookHistory(bookHistoryDTO);

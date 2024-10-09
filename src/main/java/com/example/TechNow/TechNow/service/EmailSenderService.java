@@ -1,6 +1,7 @@
 package com.example.TechNow.TechNow.service;
 
 import jakarta.annotation.PostConstruct;
+import jakarta.annotation.PreDestroy;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -8,6 +9,12 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
+
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
+
+import static com.example.TechNow.TechNow.util.EmailConstants.MAIL;
 
 @Slf4j
 @Service
@@ -21,32 +28,50 @@ public class EmailSenderService {
     @Value("${custom.enableMailService}")
     Boolean isEnabled;
 
+    final ExecutorService executorService = Executors.newVirtualThreadPerTaskExecutor();
+
     @PostConstruct
     void init() {
         if (!isEnabled) {
-            log.warn("[MAIL] Running without email service");
+            log.warn(MAIL + "Running without email service");
         } else {
-            log.info("[MAIL] Running with email service");
+            log.info(MAIL + "Running with email service");
         }
     }
 
     public void sendEmail(String to, String subject, String body) {
         if (!isEnabled) {
-            log.warn("[MAIL] Mail service not enabled");
+            log.warn(MAIL + "Mail service not enabled");
             return;
         }
-        try {
-            MimeMessage mimeMessage = mailSender.createMimeMessage();
-            MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
-            helper.setFrom(fromEmail);
-            helper.setTo(to);
-            helper.setSubject(subject);
-            helper.setText(body, true);
-            mailSender.send(mimeMessage);
-            log.info("[MAIL] Mail sent successfully");
-        } catch (Exception e) {
-            log.error("[MAIL] Error sending mail {}", e.getMessage());
-        }
+        executorService.submit(() -> {
+            try {
+                MimeMessage mimeMessage = mailSender.createMimeMessage();
+                MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
+                helper.setFrom(fromEmail);
+                helper.setTo(to);
+                helper.setSubject(subject);
+                helper.setText(body, true);
+                mailSender.send(mimeMessage);
+                log.info(MAIL + "Mail sent successfully");
+            } catch (Exception e) {
+                log.error(MAIL + "Error sending mail {}", e.getMessage());
+            }
+        });
     }
 
+    @PreDestroy
+    public void shutdownExecutor() {
+        log.info(MAIL + "Shutting down the email executor service");
+        executorService.shutdown();
+        try {
+            if (!executorService.awaitTermination(5, TimeUnit.SECONDS)) {
+                executorService.shutdownNow();
+            }
+        } catch (InterruptedException e) {
+            log.error(MAIL + "Error while shutting down executor service", e);
+            executorService.shutdownNow();
+            Thread.currentThread().interrupt();
+        }
+    }
 }

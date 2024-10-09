@@ -19,7 +19,7 @@ public class Utils {
 				"<div style='font-family: Arial, sans-serif; color: #333; line-height: 1.6;'>" +
 						"  <h2 style='color: #4CAF50;'>Congratulations!</h2>" +
 						"  <p>Dear %s,</p>" +
-						"  <p>You have successfully rented the book titled <strong>%s</strong>.</p> until %s" +
+						"  <p>You have successfully rented the book titled <strong>%s</strong>until %s</p> " +
 						"  <p>We hope you enjoy your reading! If you have any questions, feel free to reach out to our support team.</p>" +
 						"  <footer style='margin-top: 20px; border-top: 1px solid #eaeaea; padding-top: 10px;'>" +
 						"    <p style='font-size: 0.9em; color: #888;'>Best regards,<br>RentNow Team</p>" +
@@ -61,5 +61,4 @@ public class Utils {
 				emailDTO.getOwnerUsername(), emailDTO.getRenterUsername(), emailDTO.getBookTitle()
 		);
 	}
-
 }
