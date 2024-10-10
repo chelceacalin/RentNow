@@ -4,15 +4,14 @@ Rent Now facilitates book rentals within a company. Manage and share your book c
 
 ## Features
 
-- **Book Management**: Add, update books, along with images, and delete books.
-- **Category Management**: Group books into categories
+- **Book Management**: Manage books, edit them, their availability etc.
+- **Category Management**: Group books into categories so you can read books from only a certain category if you want
 - **Book Rental**: Rent and return books, view your rented book list.
 - **Filtration, Pagination, Sorting**: Used *Specification API* to ensure server side filtration, sorting and pagination
-- **User Roles & Permissions**: Admins have the ability to create categories also manage users, normal users can't.
-
+- **User Roles & Permissions**: Admins have the ability to create categories also manage users and their activity and have control over other user's permissions, normal users can't.
+- **Notifications**: Users get reminders the day before needing to return a book, and every day after exceeding the return date. Also both the rented and the owner of the book get notified when someone rents a book
+- **Monitoring**: The whole app is integrated with Grafana, using pre-imported dashboards for visualisations and Loki for log collection
 ## ✨
-
-- Debouncing On Inputs
 - Request filter on back-end and interceptor on front-end
 
 ## Technologies
@@ -22,8 +21,9 @@ Rent Now facilitates book rentals within a company. Manage and share your book c
 - **Frontend**: React Js, Tailwind CSS, SCSS, Material UI.
 - **Database Migrations**: Flyway.
 - **Image Storage**: Minio.
-- **Logging**: Loki - Logs, Prometheus - Metrics
+- **Monitoring**: Loki - Logs, Prometheus - Metrics
 - **Dashboards**: Grafana
+- **Email Service**: Gmail SMTP
 
 ## Getting Started
 
@@ -31,6 +31,7 @@ Rent Now facilitates book rentals within a company. Manage and share your book c
 
 - Java 21
 - Docker and Docker Compose
+- NodeJs
 
 ### Running the App
 
@@ -84,7 +85,6 @@ Rent Now facilitates book rentals within a company. Manage and share your book c
      => CI pipeline
      => Replication, 2 pods, follower leader strategy
      => Caching, Etags, Cron Jobs
-     => Notifications when book is returned
      => Deploy it, ingress
      => Jmeter
      => Book Review, reply to comments

@@ -11,11 +11,11 @@ import java.util.UUID;
 
 @Repository
 public interface BookHistoryRepository extends JpaRepository<BookHistory, UUID> {
-	@Query("SELECT mh FROM BookHistory mh " +
-			"WHERE mh.book.id = :id order by mh.rentedUntil desc limit 1")
-	BookHistory findBookHistoryByRentedUntilMostRecent(UUID id);
+    @Query("SELECT mh FROM BookHistory mh " +
+            "WHERE mh.book.id = :id order by mh.rentedUntil desc limit 1")
+    BookHistory findBookHistoryByRentedUntilMostRecent(UUID id);
 
-	void deleteBookHistoryByBookId(UUID uuid);
+    void deleteBookHistoryByBookId(UUID uuid);
 
-	Page<BookHistory> findAllByRentedBy_Id(String userId, Pageable pageable);
+    Page<BookHistory> findAllByRentedBy_Id(String userId, Pageable pageable);
 }

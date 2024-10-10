@@ -46,6 +46,7 @@ custom:
   default_buckets: photos, userphotos
   fromEmail: ${FROM_EMAIL}
   enableMailService: false
+  remindersSchedulerTime: 5000
 
 # Minio
 minio:
