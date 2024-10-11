@@ -5,8 +5,13 @@ import {
   HighlightOff,
   InfoOutlined,
   Person,
+  Star,
+  StarBorder,
+  StarHalf,
 } from "@mui/icons-material";
 import {
+  Box,
+  Button,
   Dialog,
   DialogContent,
   Grid,
@@ -17,8 +22,54 @@ import {
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import dayjs from "dayjs";
+import { useMemo, useState } from "react";
+import ReviewList from "./ReviewList"; // Import the ReviewList component
+
 function ViewBookDetailsModalWindow({ isModalOpen, closeModal, book }) {
   const status = book.isAvailable ? "Available" : "Unavailable";
+  const [showReviews, setShowReviews] = useState(false);
+
+  const {
+    reviewAddResponseDTOS,
+    photoUrl,
+    title,
+    director,
+    description,
+    isAvailable,
+    category,
+    owner_username,
+    rentedBy,
+    owner_email,
+    rentedDate,
+    rentedUntil,
+  } = book;
+
+  const handleToggleReviews = () => {
+    setShowReviews((prev) => !prev);
+  };
+
+  const averageRating = useMemo(() => {
+    if (!reviewAddResponseDTOS || reviewAddResponseDTOS.length === 0) return 0;
+    const totalRating = reviewAddResponseDTOS.reduce(
+      (sum, review) => sum + review.rating,
+      0
+    );
+    return totalRating / reviewAddResponseDTOS.length;
+  }, [reviewAddResponseDTOS]);
+
+  const renderStars = (rating) => {
+    const stars = [];
+    for (let i = 1; i <= 5; i++) {
+      if (i <= rating) {
+        stars.push(<Star key={i} style={{ color: "#FFD700" }} />);
+      } else if (i - rating < 1) {
+        stars.push(<StarHalf key={i} style={{ color: "#FFD700" }} />);
+      } else {
+        stars.push(<StarBorder key={i} style={{ color: "#FFD700" }} />);
+      }
+    }
+    return stars;
+  };
 
   return (
     <Dialog
@@ -32,7 +83,6 @@ function ViewBookDetailsModalWindow({ isModalOpen, closeModal, book }) {
           color: "#fff",
           position: "relative",
           overflow: "hidden",
-          display: "center",
         },
       }}
     >
@@ -60,8 +110,8 @@ function ViewBookDetailsModalWindow({ isModalOpen, closeModal, book }) {
           }}
         >
           <img
-            src={book.photoUrl || "/default-book.jpg"}
-            alt={book.title}
+            src={photoUrl || "/default-book.jpg"}
+            alt={title}
             style={{
               position: "absolute",
               top: 0,
@@ -86,16 +136,19 @@ function ViewBookDetailsModalWindow({ isModalOpen, closeModal, book }) {
               variant="h3"
               style={{ marginBottom: "0.5rem", color: "rgb(255,0,0)" }}
             >
-              {book.title}
+              {title}
             </Typography>
             <Typography variant="subtitle1" style={{ color: "#ccc" }}>
-              Directed by{" "}
-              <span style={{ fontWeight: "bold" }}>{book.director}</span>
+              Directed by <span style={{ fontWeight: "bold" }}>{director}</span>
             </Typography>
             <Typography variant="subtitle1" style={{ color: "#ccc" }}>
-              Category{" "}
-              <span style={{ fontWeight: "bold" }}>{book.category}</span>
+              Category <span style={{ fontWeight: "bold" }}>{category}</span>
             </Typography>
+
+            <Typography style={{ color: "#FFD700" }}>
+              Average Rating: {averageRating.toFixed(1)} / 5
+            </Typography>
+            <Box>{renderStars(averageRating)}</Box>
           </div>
         </div>
 
@@ -113,7 +166,7 @@ function ViewBookDetailsModalWindow({ isModalOpen, closeModal, book }) {
               <InfoOutlined
                 style={{ marginRight: "0.75rem", color: "#B3B3B3" }}
               />
-              <span>Description: {book.description}</span>
+              <span>Description: {description}</span>
             </Typography>
 
             <Typography
@@ -125,7 +178,7 @@ function ViewBookDetailsModalWindow({ isModalOpen, closeModal, book }) {
                 alignItems: "center",
               }}
             >
-              {book.isAvailable ? (
+              {isAvailable ? (
                 <CheckCircleOutline
                   style={{ marginRight: "0.75rem", color: "#46d369" }}
                 />
@@ -137,7 +190,7 @@ function ViewBookDetailsModalWindow({ isModalOpen, closeModal, book }) {
               <span style={{ color: "#B3B3B3" }}>Status:</span>
               <span
                 style={{
-                  color: book.isAvailable ? "#46d369" : "#e50914",
+                  color: isAvailable ? "#46d369" : "#e50914",
                   marginLeft: "0.25rem",
                 }}
               >
@@ -145,7 +198,7 @@ function ViewBookDetailsModalWindow({ isModalOpen, closeModal, book }) {
               </span>
             </Typography>
 
-            {!book.isAvailable && (
+            {!isAvailable && (
               <>
                 <Typography
                   variant="body1"
@@ -159,7 +212,7 @@ function ViewBookDetailsModalWindow({ isModalOpen, closeModal, book }) {
                   <Person style={{ marginRight: "0.75rem", color: "#fff" }} />
                   Owned by:{" "}
                   <span style={{ color: "#fff", marginLeft: "0.25rem" }}>
-                    {book.owner_username}
+                    {owner_username}
                   </span>
                 </Typography>
                 <Typography
@@ -174,9 +227,8 @@ function ViewBookDetailsModalWindow({ isModalOpen, closeModal, book }) {
                   <Person style={{ marginRight: "0.75rem", color: "#fff" }} />
                   Rented by:{" "}
                   <span style={{ color: "#fff", marginLeft: "0.25rem" }}>
-                    {book.rentedBy}
-
-                    <Tooltip title={`Email: ${book.owner_email}`}>
+                    {rentedBy}
+                    <Tooltip title={`Email: ${owner_email}`}>
                       <IconButton
                         style={{
                           width: "1rem",
@@ -187,7 +239,7 @@ function ViewBookDetailsModalWindow({ isModalOpen, closeModal, book }) {
                           marginBottom: "2px",
                         }}
                       >
-                        <InfoOutlined></InfoOutlined>
+                        <InfoOutlined />
                       </IconButton>
                     </Tooltip>
                   </span>
@@ -208,7 +260,7 @@ function ViewBookDetailsModalWindow({ isModalOpen, closeModal, book }) {
                       />
                       Rented on:{" "}
                       <span style={{ color: "#fff", marginLeft: "0.25rem" }}>
-                        {dayjs(book.rentedDate).format("MMMM D, YYYY")}
+                        {dayjs(rentedDate).format("MMMM D, YYYY")}
                       </span>
                     </Typography>
                     <Typography
@@ -224,13 +276,31 @@ function ViewBookDetailsModalWindow({ isModalOpen, closeModal, book }) {
                       />
                       Rented until:{" "}
                       <span style={{ color: "#fff", marginLeft: "0.25rem" }}>
-                        {dayjs(book.rentedUntil).format("MMMM D, YYYY")}
+                        {dayjs(rentedUntil).format("MMMM D, YYYY")}
                       </span>
                     </Typography>
                   </div>
                 </LocalizationProvider>
               </>
             )}
+
+            <Button
+              variant="outlined"
+              onClick={handleToggleReviews}
+              style={{
+                marginBottom: "1rem",
+                marginTop: "1rem",
+                color: "#fff",
+                borderColor: "#fff",
+              }}
+            >
+              {showReviews ? "Hide Reviews" : "View Reviews"}
+            </Button>
+
+            <ReviewList
+              reviews={reviewAddResponseDTOS}
+              showReviews={showReviews}
+            />
           </Grid>
         </Grid>
       </DialogContent>

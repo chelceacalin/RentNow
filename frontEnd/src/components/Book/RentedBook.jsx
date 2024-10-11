@@ -3,7 +3,6 @@ import RentBookModalView from "./RentBookModalView.jsx";
 import RentedUntil from "./RentedUntil.jsx";
 import ViewBookDetailsModalWindow from "./ViewBookDetailsModalWindow.jsx";
 import "./css/RentedBooks.scss";
-
 function RentedBook({ book, triggerRefresh, setTriggerRefresh }) {
   const [detailsModalOpen, setDetailsModalOpen] = useState(false);
   const [isRentModalOpen, setRentModalOpen] = useState(false);
@@ -15,8 +14,6 @@ function RentedBook({ book, triggerRefresh, setTriggerRefresh }) {
     setRentModalOpen(false);
     setTriggerRefresh((prev) => !prev);
   };
-
-  console.log("book", book);
 
   const { isAvailable, photoUrl, title, director } = book;
   return (
