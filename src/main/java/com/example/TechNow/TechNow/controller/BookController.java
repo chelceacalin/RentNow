@@ -40,6 +40,20 @@ public class BookController {
     }
 
 
+    @GetMapping("/extended")
+    public Page<BookReviewDTO> findUserBooksExtended(@ModelAttribute BookFilterDTO dto,
+                                       @RequestParam(name = "pageNo", defaultValue = "0") int pageNo,
+                                       @RequestParam(name = "pageSize", defaultValue = "1000") int pageSize) {
+        try {
+            log.info("Books with reviews searched with {}", dto);
+            return bookService.findUserBooksExt(dto, pageNo, pageSize);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+        }
+    }
+
+
     @PostMapping
     public BookAddDTO addBook(@RequestPart("bookDTO") BookAddDTO bookDTO, @RequestPart(value = "imageFile", required = false) MultipartFile imageFile) {
         return bookService.addBook(bookDTO, imageFile);

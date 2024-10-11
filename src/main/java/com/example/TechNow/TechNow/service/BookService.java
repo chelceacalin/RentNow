@@ -6,6 +6,7 @@ import com.example.TechNow.TechNow.dto.BookHistory.BookHistoryDTO;
 import com.example.TechNow.TechNow.dto.Email.EmailDTO;
 import com.example.TechNow.TechNow.dto.User.UserDTO;
 import com.example.TechNow.TechNow.mapper.BookMapper;
+import com.example.TechNow.TechNow.mapper.ReviewMapper;
 import com.example.TechNow.TechNow.model.Book;
 import com.example.TechNow.TechNow.model.BookHistory;
 import com.example.TechNow.TechNow.model.Category;
@@ -15,9 +16,12 @@ import com.example.TechNow.TechNow.repository.BookRepository;
 import com.example.TechNow.TechNow.repository.CategoryRepository;
 import com.example.TechNow.TechNow.repository.UserRepository;
 import com.example.TechNow.TechNow.specification.BookSpecification;
+import com.example.TechNow.TechNow.util.ReviewRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.*;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
@@ -43,10 +47,11 @@ public class BookService {
     final UserService userService;
     final UserRepository userRepository;
     final BookRepository bookRepository;
+    final ReviewRepository reviewRepository;
+    final EmailSenderService emailSenderService;
     final CategoryRepository categoryRepository;
     final ImageStorageService imageStorageService;
     final BookHistoryRepository bookHistoryRepository;
-    final EmailSenderService emailSenderService;
 
     public Page<BookDTO> findUserBooks(BookFilterDTO bookFilter, int pageNo, int pageSize) {
         Specification<Book> specification = getSpecification(bookFilter);
@@ -65,6 +70,35 @@ public class BookService {
 
         return new PageImpl<>(books, pageable, booksPage.getTotalElements());
     }
+
+    public Page<BookReviewDTO> findUserBooksExt(BookFilterDTO bookFilter, int pageNo, int pageSize) {
+        Specification<Book> specification = getSpecification(bookFilter);
+        Sort.Direction sortDirection = Sort.Direction.fromString(bookFilter.getDirection());
+        Pageable pageable = getPageable(pageNo, pageSize, bookFilter.getSortField(), sortDirection);
+
+        PageImpl<BookDTO> sortedBooks = handleSpecialFilter(bookFilter, specification, pageable);
+        if (sortedBooks != null) {
+            return sortedBooks.map(this::toBookReviewDTO);
+        }
+        Page<Book> booksPage = bookRepository.findAll(specification, pageable);
+        List<BookDTO> books = booksPage.getContent().stream()
+                .map(book -> {
+                    BookHistory history = bookHistoryRepository.findBookHistoryByRentedUntilMostRecent(book.getId());
+                    return BookMapper.toDto(book, history);
+                })
+                .toList();
+
+        return new PageImpl<>(books.stream().map(this::toBookReviewDTO).toList(), pageable, booksPage.getTotalElements());
+    }
+
+    private @NotNull BookReviewDTO toBookReviewDTO(BookDTO bookDTO) {
+        BookReviewDTO bookReviewDTO = new BookReviewDTO();
+        BeanUtils.copyProperties(bookDTO, bookReviewDTO);
+        var reviews = reviewRepository.findAllByBookId(bookReviewDTO.getId());
+        bookReviewDTO.setReviewAddResponseDTOS(reviews.stream().map(ReviewMapper::toDTO).toList());
+        return bookReviewDTO;
+    }
+
 
     @Nullable
     private PageImpl<BookDTO> handleSpecialFilter(BookFilterDTO bookFilter, Specification<Book> specification, Pageable pageable) {

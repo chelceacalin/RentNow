@@ -16,11 +16,11 @@ public class ReviewAddDTO {
 
     @Min(value = 0)
     @Max(value = 5)
-    int rating;
+    float rating;
 
     @Min(value = 0)
     @Max(value = 5)
-    int state;
+    float state;
 
     String text;
 

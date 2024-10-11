@@ -40,12 +40,12 @@ function Books() {
         params.append("rentedBy", rentedBy);
       }
 
-      return `/books?${params.toString()}`;
+      return `/books/extended?${params.toString()}`;
     };
 
     const url = buildUrl();
 
-    navigate(url.replace("/books", ""), { replace: false });
+    navigate(url.replace("/books/extended", ""), { replace: false });
 
     axios
       .get(url)
@@ -103,17 +103,8 @@ function Books() {
           <Grid item key={idx}>
             <RentedBook
               book={book}
-              id={book.id}
-              title={book.title}
-              category={book.category}
-              director={book.director}
-              isAvailable={book.isAvailable}
-              owner_username={book.owner_username}
-              rentedDate={book.rentedDate}
-              description={book.description}
               triggerRefresh={triggerRefresh}
               setTriggerRefresh={setTriggerRefresh}
-              photoUrl={book.photoUrl}
             />
           </Grid>
         ))}

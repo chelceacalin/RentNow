@@ -15,31 +15,35 @@ function RentedBook({ book, triggerRefresh, setTriggerRefresh }) {
     setRentModalOpen(false);
     setTriggerRefresh((prev) => !prev);
   };
+
+  console.log("book", book);
+
+  const { isAvailable, photoUrl, title, director } = book;
   return (
     <div
       className={`rented-book-card ${
-        !book.isAvailable ? "unavailable" : "available"
+        !isAvailable ? "unavailable" : "available"
       }`}
     >
       <img
-        src={book.photoUrl || "/default-book.jpg"}
-        alt={book.title}
+        src={photoUrl || "/default-book.jpg"}
+        alt={title}
         className="book-image"
       />
       <div className="book-info">
         <div className="book-details">
-          <h2 className="book-title">{book.title}</h2>
-          <p className="book-detail">Director: {book.director}</p>
-          {!book.isAvailable && <RentedUntil book={book} />}
+          <h2 className="book-title">{title}</h2>
+          <p className="book-detail">Director: {director}</p>
+          {!isAvailable && <RentedUntil book={book} />}
         </div>
         <div className="book-actions">
           <button className="details-button" onClick={handleDetailsOpen}>
             Details
           </button>
           <button
-            className={`rent-button ${!book.isAvailable ? "disabled" : ""}`}
+            className={`rent-button ${!isAvailable ? "disabled" : ""}`}
             onClick={handleOpenRentModal}
-            disabled={!book.isAvailable}
+            disabled={!isAvailable}
           >
             Rent
           </button>
