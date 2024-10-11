@@ -4,10 +4,7 @@ package com.example.TechNow.TechNow.model;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -33,12 +30,12 @@ public class Review {
     User user;
 
     @Min(value = 0)
-    @Max(value = 10)
-    int rating;
+    @Max(value = 5)
+    float rating;
 
     @Min(value = 0)
-    @Max(value = 10)
-    int state;
+    @Max(value = 5)
+    float state;
 
     String text;
 
