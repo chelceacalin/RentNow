@@ -93,7 +93,7 @@ function ViewBookDetailsModalWindow({ isModalOpen, closeModal, book }) {
         style={{
           position: "absolute",
           top: 8,
-          right: 8,
+          right: 24,
           color: "#fff",
         }}
       >
@@ -297,10 +297,12 @@ function ViewBookDetailsModalWindow({ isModalOpen, closeModal, book }) {
               {showReviews ? "Hide Reviews" : "View Reviews"}
             </Button>
 
-            <ReviewList
-              reviews={reviewAddResponseDTOS}
-              showReviews={showReviews}
-            />
+            {showReviews && (
+              <ReviewList
+                reviews={reviewAddResponseDTOS}
+                showReviews={showReviews}
+              />
+            )}
           </Grid>
         </Grid>
       </DialogContent>

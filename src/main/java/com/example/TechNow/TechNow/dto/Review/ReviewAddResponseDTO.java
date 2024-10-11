@@ -1,5 +1,6 @@
 package com.example.TechNow.TechNow.dto.Review;
 
+import com.example.TechNow.TechNow.model.User;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -16,6 +17,8 @@ public class ReviewAddResponseDTO {
     float state;
 
     float rating;
+
+    User user;
 
     LocalDateTime created_date;
 }

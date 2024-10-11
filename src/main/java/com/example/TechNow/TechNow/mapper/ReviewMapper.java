@@ -27,6 +27,7 @@ public class ReviewMapper {
 		ReviewAddResponseDTO dto = new ReviewAddResponseDTO();
 		BeanUtils.copyProperties(review, dto);
 		dto.setId(review.getId());
+		dto.setUser(review.getUser());
 		return dto;
 	}
 }
