@@ -86,7 +86,8 @@ public class ImageStorageService {
 			throw new RuntimeException("Failed to store image file.", e);
 		}
 	}
-	String generateFileName(MultipartFile file) {
+
+	private String generateFileName(MultipartFile file) {
 		return new Date().getTime() + "-" + Objects.requireNonNull(file.getOriginalFilename()).replace(" ", "_");
 	}
 

@@ -7,6 +7,7 @@ import com.example.TechNow.TechNow.dto.User.UserFilterDTO;
 import com.example.TechNow.TechNow.mapper.UserMapper;
 import com.example.TechNow.TechNow.model.User;
 import com.example.TechNow.TechNow.repository.UserRepository;
+import com.example.TechNow.TechNow.util.ByteArrayMultipartFile;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.*;
@@ -14,6 +15,9 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
+import java.net.URL;
 import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.List;
@@ -148,8 +152,34 @@ public class UserService {
             userToBeSaved.setId(String.valueOf(UUID.randomUUID()));
             userToBeSaved.setCreated_date(LocalDateTime.now()).setUpdated_date(LocalDateTime.now());
             userToBeSaved.setIs_active(true);
+            addUserPhotoUrl(userAddDTO, userToBeSaved);
             userRepository.save(userToBeSaved);
             return UserMapper.toUserAddReponseDTOFromUser(userToBeSaved);
+        }
+    }
+
+    private void addUserPhotoUrl(UserAddDTO userAddDTO, User userToBeSaved) {
+        if (userAddDTO.getPhotoUrl() != null && !userAddDTO.getPhotoUrl().isEmpty()) {
+            try (InputStream imageStream = new URL(userAddDTO.getPhotoUrl()).openStream()) {
+                ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+
+                byte[] data = new byte[1024];
+                int bytesRead;
+                while ((bytesRead = imageStream.read(data, 0, data.length)) != -1) {
+                    buffer.write(data, 0, bytesRead);
+                }
+
+                MultipartFile multipartFile = new ByteArrayMultipartFile(
+                        buffer.toByteArray(),
+                        "user-photo.jpg",
+                        "image/jpeg"
+                );
+
+                String publicImageUrl = imageStorageService.uploadImage("userphotos", multipartFile);
+                userToBeSaved.setPhotoUrl(publicImageUrl);
+            } catch (Exception e) {
+                throw new RuntimeException("Failed to process and upload the image file.", e);
+            }
         }
     }
 }

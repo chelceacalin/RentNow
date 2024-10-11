@@ -7,8 +7,7 @@ import com.example.TechNow.TechNow.model.Category;
 import com.example.TechNow.TechNow.service.CategoryService;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,9 +18,9 @@ import java.util.UUID;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/category")
+@Slf4j
 public class CategoryController {
 
-	private static final Logger log = LoggerFactory.getLogger(CategoryController.class);
 	final CategoryService categoryService;
 
 	@GetMapping()
