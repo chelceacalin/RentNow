@@ -1,20 +1,10 @@
 import { Delete, Star, StarBorder, StarHalf } from "@mui/icons-material";
 import { TreeItem, TreeView } from "@mui/lab";
-import {
-  Box,
-  Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
-  IconButton,
-  TextField,
-  Typography,
-} from "@mui/material";
+import { Box, Button, IconButton, TextField, Typography } from "@mui/material";
 import dayjs from "dayjs";
 import { useState } from "react";
 import Comment from "./Comment";
+import ConfirmDeleteReviewModalWindow from "./ConfirmDeleteReviewModalWindow";
 
 function Review({
   review,
@@ -214,37 +204,11 @@ function Review({
         </TreeItem>
       </TreeView>
 
-      <Dialog
-        open={isDeleteDialogOpen}
-        onClose={handleCloseDeleteDialog}
-        aria-labelledby="delete-dialog-title"
-        aria-describedby="delete-dialog-description"
-      >
-        <DialogTitle id="delete-dialog-title">{"Confirm Deletion"}</DialogTitle>
-        <DialogContent>
-          <DialogContentText id="delete-dialog-description">
-            Are you sure you want to delete this review? This action cannot be
-            undone.
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <div className="flex gap-x-2 mt-6">
-            <button
-              className="details-button"
-              variant="contained"
-              onClick={confirmDelete}
-            >
-              Confirm
-            </button>
-            <button
-              className="details-button details-button-red"
-              onClick={handleCloseDeleteDialog}
-            >
-              Cancel
-            </button>
-          </div>
-        </DialogActions>
-      </Dialog>
+      <ConfirmDeleteReviewModalWindow
+        isDeleteDialogOpen={isDeleteDialogOpen}
+        handleCloseDeleteDialog={handleCloseDeleteDialog}
+        confirmDelete={confirmDelete}
+      />
     </Box>
   );
 }
