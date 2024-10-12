@@ -1,7 +1,7 @@
 import { useState } from "react";
+import ViewBookDetailsModalWindow from "./Details/ViewBookDetailsModalWindow.jsx";
 import RentBookModalView from "./RentBookModalView.jsx";
 import RentedUntil from "./RentedUntil.jsx";
-import ViewBookDetailsModalWindow from "./ViewBookDetailsModalWindow.jsx";
 import "./css/RentedBooks.scss";
 function RentedBook({ book, triggerRefresh, setTriggerRefresh }) {
   const [detailsModalOpen, setDetailsModalOpen] = useState(false);
