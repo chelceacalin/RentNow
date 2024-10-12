@@ -2,10 +2,10 @@ import { Delete, Star, StarBorder, StarHalf } from "@mui/icons-material";
 import { TreeItem, TreeView } from "@mui/lab";
 import { Box, Button, IconButton, TextField, Typography } from "@mui/material";
 import dayjs from "dayjs";
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { UserLoginContext } from "../../../utils/context/LoginProvider";
 import Comment from "./Comment";
 import ConfirmDeleteReviewModalWindow from "./ConfirmDeleteReviewModalWindow";
-
 function Review({
   review,
   submitReply,
@@ -17,7 +17,7 @@ function Review({
   handleDeleteReview,
 }) {
   const [isDeleteDialogOpen, setDeleteDialogOpen] = useState(false);
-
+  const { isAdmin } = useContext(UserLoginContext);
   const renderStars = (rating) => {
     const fullStars = Math.floor(rating);
     const halfStar = rating % 1 >= 0.5;
@@ -117,7 +117,7 @@ function Review({
                 </div>
 
                 <div style={{ display: "flex", alignItems: "center" }}>
-                  {review.user.email === owner_email && (
+                  {(review.user.email === owner_email || isAdmin) && (
                     <IconButton
                       onClick={handleOpenDeleteDialog}
                       style={{ color: "#e50914", marginRight: "0.5rem" }}
