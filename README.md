@@ -78,7 +78,6 @@ Rent Now facilitates book rentals within a company. Manage and share your book c
 
 ### To Do
 <pre>
-     => Book Reviews with comments and reply to comments
      => Chat Gpt Api, feed it db data and make it recommend books
      => Recommend books based on history
      => Superset
