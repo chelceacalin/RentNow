@@ -10,8 +10,10 @@ import com.example.TechNow.TechNow.repository.BookRepository;
 import com.example.TechNow.TechNow.repository.CommentRepository;
 import com.example.TechNow.TechNow.repository.UserRepository;
 import com.example.TechNow.TechNow.util.ReviewRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,6 +26,7 @@ import static com.example.TechNow.TechNow.util.Utils.getEntityOrThrow;
 @Slf4j
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class ReviewService {
 
     final BookRepository bookRepository;
@@ -42,5 +45,11 @@ public class ReviewService {
         log.info("User {} Adding review to book {}", user.getUsername(), book.getTitle());
         Review review = createFromDTO(reviewAddDTO, book, user);
         return reviewRepository.save(review);
+    }
+
+    @Modifying
+    public void deleteReview(UUID reviewId) {
+        reviewRepository.deleteById(reviewId);
+        commentRepository.deleteAllByReviewId(reviewId);
     }
 }

@@ -9,6 +9,7 @@ import com.example.TechNow.TechNow.model.User;
 import com.example.TechNow.TechNow.repository.CommentRepository;
 import com.example.TechNow.TechNow.repository.UserRepository;
 import com.example.TechNow.TechNow.util.ReviewRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +23,7 @@ import static com.example.TechNow.TechNow.util.Utils.parseDate;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class CommentService {
 
 	final CommentRepository commentRepository;

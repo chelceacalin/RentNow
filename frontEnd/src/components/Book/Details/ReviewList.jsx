@@ -32,6 +32,19 @@ function ReviewList({ reviews, showReviews, owner_email, setTriggerRefresh }) {
     clearForm();
   };
 
+  const handleDeleteReview = (reviewId) => {
+    axios
+      .delete(`/reviews/${reviewId}`)
+      .then(() => {
+        showSuccess("Successfully deleted review");
+        setTriggerRefresh((prev) => !prev);
+      })
+      .catch((err) => {
+        showError(err.message);
+      });
+    clearForm();
+  };
+
   const clearForm = () => {
     setReplyText("");
     setReplyingTo(null);
@@ -50,6 +63,8 @@ function ReviewList({ reviews, showReviews, owner_email, setTriggerRefresh }) {
               setReplyText={setReplyText}
               replyText={replyText}
               replyingTo={replyingTo}
+              owner_email={owner_email}
+              handleDeleteReview={handleDeleteReview}
             />
           ))
         ) : (

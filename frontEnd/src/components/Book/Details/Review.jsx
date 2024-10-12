@@ -1,7 +1,19 @@
-import { Star, StarBorder, StarHalf } from "@mui/icons-material";
+import { Delete, Star, StarBorder, StarHalf } from "@mui/icons-material";
 import { TreeItem, TreeView } from "@mui/lab";
-import { Box, Button, TextField, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  IconButton,
+  TextField,
+  Typography,
+} from "@mui/material";
 import dayjs from "dayjs";
+import { useState } from "react";
 import Comment from "./Comment";
 
 function Review({
@@ -11,7 +23,11 @@ function Review({
   setReplyText,
   replyText,
   replyingTo,
+  owner_email,
+  handleDeleteReview,
 }) {
+  const [isDeleteDialogOpen, setDeleteDialogOpen] = useState(false);
+
   const renderStars = (rating) => {
     const fullStars = Math.floor(rating);
     const halfStar = rating % 1 >= 0.5;
@@ -29,7 +45,22 @@ function Review({
       </Box>
     );
   };
+
+  const handleOpenDeleteDialog = () => {
+    setDeleteDialogOpen(true);
+  };
+
+  const handleCloseDeleteDialog = () => {
+    setDeleteDialogOpen(false);
+  };
+
+  const confirmDelete = () => {
+    handleDeleteReview(review.id);
+    handleCloseDeleteDialog();
+  };
+
   const { id } = review;
+
   return (
     <Box key={id} style={{ marginBottom: "2rem", width: "100%" }}>
       <TreeView
@@ -95,13 +126,23 @@ function Review({
                   {renderStars(review.rating)}
                 </div>
 
-                <Button
-                  variant="text"
-                  onClick={() => handleReplyClick(review)}
-                  style={{ fontSize: "0.75rem", color: "#1976D2" }}
-                >
-                  Reply
-                </Button>
+                <div style={{ display: "flex", alignItems: "center" }}>
+                  {review.user.email === owner_email && (
+                    <IconButton
+                      onClick={handleOpenDeleteDialog}
+                      style={{ color: "#e50914", marginRight: "0.5rem" }}
+                    >
+                      <Delete />
+                    </IconButton>
+                  )}
+                  <Button
+                    variant="text"
+                    onClick={() => handleReplyClick(review)}
+                    style={{ fontSize: "0.75rem", color: "#1976D2" }}
+                  >
+                    Reply
+                  </Button>
+                </div>
               </div>
 
               <div style={{ marginTop: "1rem", width: "100%" }}>
@@ -172,7 +213,40 @@ function Review({
             ))}
         </TreeItem>
       </TreeView>
+
+      <Dialog
+        open={isDeleteDialogOpen}
+        onClose={handleCloseDeleteDialog}
+        aria-labelledby="delete-dialog-title"
+        aria-describedby="delete-dialog-description"
+      >
+        <DialogTitle id="delete-dialog-title">{"Confirm Deletion"}</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="delete-dialog-description">
+            Are you sure you want to delete this review? This action cannot be
+            undone.
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <div className="flex gap-x-2 mt-6">
+            <button
+              className="details-button"
+              variant="contained"
+              onClick={confirmDelete}
+            >
+              Confirm
+            </button>
+            <button
+              className="details-button details-button-red"
+              onClick={handleCloseDeleteDialog}
+            >
+              Cancel
+            </button>
+          </div>
+        </DialogActions>
+      </Dialog>
     </Box>
   );
 }
+
 export default Review;
