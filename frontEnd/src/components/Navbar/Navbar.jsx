@@ -56,54 +56,50 @@ function Navbar() {
 
   return (
     <div className="flex w-auto navbar ">
-      <div className="flex flex-col h-full p-3 border-r-2 border-gray-100 w-60">
-        <div className="flex flex-col h-full space-y-3 justify-between">
-          <div className="flex items-center ml-2">
-            {user && <AppIcon user={user} setRefreshImg={setRefreshImg} />}
-          </div>
+      <div className="flex flex-col h-full space-y-3 justify-between">
+        {user && <AppIcon user={user} setRefreshImg={setRefreshImg} />}
 
-          <div className="overflow-y-auto mt-10">
-            <ul className="flex flex-col pt-2 pb-4 space-y-1 text-sm ">
-              <BookNavItem
-                selectedItem={selectedItem}
-                handleItemClick={handleItemClick}
-                navigate={navigate}
-              />
-              <ProfileNavItem
-                selectedItem={selectedItem}
-                handleItemClick={handleItemClick}
-                navigate={navigate}
-              />
+        <div className="overflow-y-auto mt-10">
+          <ul className="flex flex-col pt-2 pb-4 space-y-1 text-sm ">
+            <BookNavItem
+              selectedItem={selectedItem}
+              handleItemClick={handleItemClick}
+              navigate={navigate}
+            />
+            <ProfileNavItem
+              selectedItem={selectedItem}
+              handleItemClick={handleItemClick}
+              navigate={navigate}
+            />
 
-              <RoleManagementItem
-                selectedItem={selectedItem}
-                handleItemClick={handleItemClick}
-                navigate={navigate}
-                isAdmin={isAdmin}
-              />
+            <RoleManagementItem
+              selectedItem={selectedItem}
+              handleItemClick={handleItemClick}
+              navigate={navigate}
+              isAdmin={isAdmin}
+            />
 
-              <CategoryManagementItem
-                selectedItem={selectedItem}
-                handleItemClick={handleItemClick}
-                navigate={navigate}
-                isAdmin={isAdmin}
-              />
-            </ul>
-          </div>
-          <div className="mt-auto">
-            <ul className="pt-2 pb-4 space-y-1 text-sm mt-10">
-              <LogoutNavItem
-                isAdmin={isAdmin}
-                selectedItem={selectedItem}
-                handleItemClick={handleItemClick}
-                setIsAdmin={setIsAdmin}
-                setIsLoggedIn={setIsLoggedIn}
-                setUsername={setUsername}
-                setToken={setToken}
-                url={url}
-              />
-            </ul>
-          </div>
+            <CategoryManagementItem
+              selectedItem={selectedItem}
+              handleItemClick={handleItemClick}
+              navigate={navigate}
+              isAdmin={isAdmin}
+            />
+          </ul>
+        </div>
+        <div className="mt-auto">
+          <ul className="pt-2 pb-4 space-y-1 text-sm mt-10">
+            <LogoutNavItem
+              isAdmin={isAdmin}
+              selectedItem={selectedItem}
+              handleItemClick={handleItemClick}
+              setIsAdmin={setIsAdmin}
+              setIsLoggedIn={setIsLoggedIn}
+              setUsername={setUsername}
+              setToken={setToken}
+              url={url}
+            />
+          </ul>
         </div>
       </div>
     </div>

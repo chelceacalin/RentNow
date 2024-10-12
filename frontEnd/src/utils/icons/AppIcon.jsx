@@ -7,8 +7,10 @@ function AppIcon({ user, setRefreshImg }) {
   const handleClose = () => setOpen(false);
 
   return (
-    <div className="flex flex-col items-center justify-center appIcon mt-4 space-y-4 w-full">
-      <div className="font-bold main-text-color text-3xl">Rent Now</div>
+    <div className=" space-y-4 m-auto justify-center">
+      <div className="font-bold mt-4 main-text-color text-2xl text-center">
+        Rent Now
+      </div>
       <div className="text-lg font-semibold">
         Hi,{" "}
         <span className="text-main-color cursor-pointer" onClick={handleOpen}>

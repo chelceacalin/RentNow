@@ -20,7 +20,7 @@ function RoleManagement() {
   const { pagination, handlePageChange, handlePageSizeChange, setTotalPages } =
     usePagination();
   const [users, setUsers] = useState([]);
-  const [initialized, setInitialized] = useState(false);
+  let [initialized, setInitialized] = useState(false);
   const [sortField, setSortField] = useState("defaultsort");
   const [direction, setDirection] = useState(true);
   const [lastClicked, setLastClicked] = useState(null);
@@ -87,26 +87,30 @@ function RoleManagement() {
 
   useEffect(() => {
     const normalizedSortField = sortField || "defaultsort";
-    newUrl = `/users?sortField=${mapFieldName(normalizedSortField)}&direction=${
+
+    let fetchUrl = `/users?sortField=${mapFieldName(
+      normalizedSortField
+    )}&direction=${
       direction ? "ASC" : "DESC"
     }&firstName=${firstName}&lastName=${lastName}&email=${email}&pageNo=${
       parseInt(pagination.pageNo) - 1
     }&pageSize=${pagination.pageSize}&role=${filterRole}`;
 
     if (mapIsActive(is_active) != null) {
-      newUrl += "&is_active=" + mapIsActive(is_active);
+      fetchUrl += `&is_active=${mapIsActive(is_active)}`;
     }
 
     axios
-      .get(newUrl)
+      .get(fetchUrl)
       .then((elems) => {
-        if (elems.data.content.length === 0 && pageNo > 1) {
-          updatePageNumber(pageNo - 1);
+        const { content, totalPages } = elems.data;
+        if (content.length === 0 && pagination.pageNo > 1) {
+          handlePageChange(pagination.pageNo - 1);
         } else {
-          setUsers(elems.data.content);
-          setTotalPages(elems.data.totalPages);
+          setUsers(content);
+          setTotalPages(totalPages);
+          setInitialized(true);
         }
-        setInitialized(true);
       })
       .catch(() => {
         setInitialized(true);

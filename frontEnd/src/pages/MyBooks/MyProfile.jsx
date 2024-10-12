@@ -109,7 +109,10 @@ function MyProfile() {
       <MyProfileFilterComponent onFilterChange={handleFilterInput} />
       <div className="flex items-center justify-start w-full mt-2">
         <MyProfileRedirectButtons />
-        <button onClick={() => setOpenAddModal(true)} className="close-button">
+        <button
+          onClick={() => setOpenAddModal(true)}
+          className="close-button reset-width"
+        >
           Add New
         </button>
         <AddNewBookModalWindow
