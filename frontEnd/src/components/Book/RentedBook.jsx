@@ -51,6 +51,7 @@ function RentedBook({ book, triggerRefresh, setTriggerRefresh }) {
           isModalOpen={detailsModalOpen}
           closeModal={handleDetailsClose}
           book={book}
+          setTriggerRefresh={setTriggerRefresh}
         />
       )}
       {isRentModalOpen && (

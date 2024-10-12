@@ -42,7 +42,6 @@ public class CommentService {
 			Comment parentComment = getEntityOrThrow(() -> commentRepository.findById(commentAddDTO.getParent_comment_id()), "Parent comment with id " + commentAddDTO.getParent_comment_id() + " does not exist");
 			comment.setParentComment(parentComment);
 			parentComment.getChildren().add(comment);
-			commentRepository.save(parentComment);
 		}
 
 		commentRepository.save(comment);
