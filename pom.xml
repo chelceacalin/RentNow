@@ -94,6 +94,13 @@
 			<artifactId>spring-boot-starter-mail</artifactId>
 			<version>3.1.5</version>
 		</dependency>
+		<!-- Date Time dependency for objectmapper-->
+		<dependency>
+			<groupId>com.fasterxml.jackson.datatype</groupId>
+			<artifactId>jackson-datatype-jsr310</artifactId>
+			<version>2.14.0</version> <!-- Înlocuiește cu ultima versiune disponibilă -->
+		</dependency>
+
 	</dependencies>
 
 	<build>

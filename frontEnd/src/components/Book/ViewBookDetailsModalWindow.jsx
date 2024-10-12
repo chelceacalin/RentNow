@@ -301,6 +301,7 @@ function ViewBookDetailsModalWindow({ isModalOpen, closeModal, book }) {
               <ReviewList
                 reviews={reviewAddResponseDTOS}
                 showReviews={showReviews}
+                owner_email={owner_email}
               />
             )}
           </Grid>

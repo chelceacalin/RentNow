@@ -1,5 +1,6 @@
 package com.example.TechNow.TechNow.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
@@ -38,7 +39,8 @@ public class Book {
 	@JoinColumn(name = "owner_id", referencedColumnName = "id")
 	User owner;
 
-	@OneToMany(mappedBy = "book")
+	@OneToMany(mappedBy = "book", fetch = FetchType.LAZY)
+	@JsonIgnore
 	List<BookHistory> bookHistories;
 
 	String photoUrl;

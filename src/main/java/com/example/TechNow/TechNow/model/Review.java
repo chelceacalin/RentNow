@@ -11,10 +11,11 @@ import java.util.UUID;
 
 @Table
 @Entity
-@Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@Getter
+@Setter
 public class Review {
 
     @Id

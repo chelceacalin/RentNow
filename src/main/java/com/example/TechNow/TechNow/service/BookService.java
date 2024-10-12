@@ -11,10 +11,7 @@ import com.example.TechNow.TechNow.model.Book;
 import com.example.TechNow.TechNow.model.BookHistory;
 import com.example.TechNow.TechNow.model.Category;
 import com.example.TechNow.TechNow.model.User;
-import com.example.TechNow.TechNow.repository.BookHistoryRepository;
-import com.example.TechNow.TechNow.repository.BookRepository;
-import com.example.TechNow.TechNow.repository.CategoryRepository;
-import com.example.TechNow.TechNow.repository.UserRepository;
+import com.example.TechNow.TechNow.repository.*;
 import com.example.TechNow.TechNow.specification.BookSpecification;
 import com.example.TechNow.TechNow.util.ReviewRepository;
 import jakarta.transaction.Transactional;
@@ -31,6 +28,7 @@ import java.time.LocalDateTime;
 import java.util.*;
 
 import static com.example.TechNow.TechNow.mapper.BookHistoryMapper.toBookHistory;
+import static com.example.TechNow.TechNow.service.CommentService.getCommentsForReview;
 import static com.example.TechNow.TechNow.specification.BookSpecification.*;
 import static com.example.TechNow.TechNow.specification.GenericSpecification.fieldNameLike;
 import static com.example.TechNow.TechNow.specification.GenericSpecification.isAvailable;
@@ -48,6 +46,7 @@ public class BookService {
     final UserRepository userRepository;
     final BookRepository bookRepository;
     final ReviewRepository reviewRepository;
+    final CommentRepository commentRepository;
     final EmailSenderService emailSenderService;
     final CategoryRepository categoryRepository;
     final ImageStorageService imageStorageService;
@@ -95,7 +94,7 @@ public class BookService {
         BookReviewDTO bookReviewDTO = new BookReviewDTO();
         BeanUtils.copyProperties(bookDTO, bookReviewDTO);
         var reviews = reviewRepository.findAllByBookId(bookReviewDTO.getId());
-        bookReviewDTO.setReviewAddResponseDTOS(reviews.stream().map(ReviewMapper::toDTO).toList());
+        bookReviewDTO.setReviewAddResponseDTOS(reviews.stream().map(r -> ReviewMapper.toDTO(r, getCommentsForReview(commentRepository, r.getId()))).toList());
         return bookReviewDTO;
     }
 

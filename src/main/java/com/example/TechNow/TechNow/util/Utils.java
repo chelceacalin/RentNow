@@ -4,14 +4,21 @@ import com.example.TechNow.TechNow.dto.BookHistory.BookHistoryDTO;
 import com.example.TechNow.TechNow.dto.Email.EmailDTO;
 import com.example.TechNow.TechNow.model.Book;
 import com.example.TechNow.TechNow.model.User;
+import jakarta.persistence.EntityNotFoundException;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Optional;
+import java.util.function.Supplier;
 
 public class Utils {
 
 	public static String parseDate(LocalDateTime date) {
 		return date != null ? date.format(DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss")) : null;
+	}
+
+	public static <T> T getEntityOrThrow(Supplier<Optional<T>> entitySupplier, String errorMessage) {
+		return entitySupplier.get().orElseThrow(() -> new EntityNotFoundException(errorMessage));
 	}
 
 	public static  String getRentBookMessage(User user, Book book, String rentedUntil) {

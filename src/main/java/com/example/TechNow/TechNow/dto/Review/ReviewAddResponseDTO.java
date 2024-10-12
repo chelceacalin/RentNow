@@ -1,10 +1,12 @@
 package com.example.TechNow.TechNow.dto.Review;
 
+import com.example.TechNow.TechNow.dto.Comment.CommentResponseDTO;
 import com.example.TechNow.TechNow.model.User;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Getter
@@ -20,5 +22,7 @@ public class ReviewAddResponseDTO {
 
     User user;
 
-    LocalDateTime created_date;
+    String created_date;
+
+    List<CommentResponseDTO> comments = new ArrayList<>();
 }
