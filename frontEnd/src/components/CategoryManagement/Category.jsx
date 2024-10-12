@@ -59,7 +59,7 @@ function Category({
         </div>
       </td>
       <td className={classes}>
-        <button onClick={handleOpen} className="details-button db-sm">
+        <button onClick={handleOpen} className="details-button reset-width">
           Edit
         </button>
         <EditCategoryNameModalWindow
@@ -73,7 +73,7 @@ function Category({
         />
 
         <button
-          className="details-button details-button-red db-sm"
+          className="details-button details-button-red reset-width"
           onClick={openEditModal}
         >
           Remove

@@ -31,7 +31,7 @@ function Book({ book, onRefresh, classes }) {
       <td className={classes}>
         <button
           onClick={() => setDetailsModalOpen(true)}
-          className="details-button db-sm"
+          className="details-button reset-width"
         >
           Details
         </button>
@@ -45,7 +45,7 @@ function Book({ book, onRefresh, classes }) {
         )}
         <button
           onClick={() => setDeleteModalOpen(true)}
-          className="details-button details-button-red db-sm"
+          className="details-button details-button-red reset-width"
           disabled={!book.isAvailable}
         >
           Delete

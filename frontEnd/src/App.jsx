@@ -69,7 +69,6 @@ function MainContent() {
         <Route element={<Authenticated />}>
           <Route path="/" element={<Books />} />
           <Route element={<ActiveRoute />}>
-            {/* My Rented Books */}
             <Route element={<MyRentedBooksRoute />}>
               <Route
                 path="/myprofile/myRentedBooks/:id"
@@ -77,12 +76,10 @@ function MainContent() {
               />
             </Route>
 
-            {/* My Profile */}
             <Route element={<ProfileRoute />}>
               <Route path="/myprofile/:id" element={<MyProfile />} />
             </Route>
 
-            {/* Admin Routes */}
             <Route element={<AdminRoute />}>
               <Route
                 path="/categoryManagement"
@@ -91,12 +88,10 @@ function MainContent() {
               <Route path="/roleManagement" element={<RoleManagement />} />
             </Route>
 
-            {/* Catch-all for authenticated users */}
             <Route path="*" element={<NotFound />} />
           </Route>
         </Route>
 
-        {/* Public login route */}
         <Route path="/login" element={<Login />} />
       </Routes>
     </>

@@ -7,8 +7,8 @@ import MyProfileFilterComponent from "../../components/MyBooks/MyProfileFilterCo
 import MyProfileRedirectButtons from "../../components/MyBooks/MyProfileRedirectButtons";
 import Pagination from "../../components/Pagination/Pagination";
 import { UserLoginContext } from "../../utils/context/LoginProvider";
-import NoMatchingResultsFound from "../NotFound/NoMatchingResultsFound.jsx";
 import { usePagination } from "../../utils/hooks/usePagination.jsx";
+import NoMatchingResultsFound from "../NotFound/NoMatchingResultsFound.jsx";
 function MyProfile() {
   const [books, setBooks] = useState([]);
   const [filters, setFilters] = useState({
@@ -121,7 +121,7 @@ function MyProfile() {
         />
       </div>
       <div className="overflow-x-auto w-full mt-1">
-        <table className="min-w-full text-left">
+        <table className="min-w-full table-auto text-left">
           <thead className="thead-style">
             <tr>
               {[
@@ -179,6 +179,7 @@ function MyProfile() {
         </table>
         {!books.length && initialized && <NoMatchingResultsFound />}
       </div>
+
       <Pagination
         pageNo={pagination.pageNo}
         totalPages={pagination.totalPages}

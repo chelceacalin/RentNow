@@ -99,7 +99,6 @@ function ReturnBookModal({
           </p>
         </div>
 
-        {/* Checkbox to decide if the user wants to leave a review */}
         <FormControlLabel
           control={
             <Checkbox
@@ -114,7 +113,6 @@ function ReturnBookModal({
           label="I want to leave a review"
         />
 
-        {/* Collapsible Review Form */}
         <Collapse in={isReviewFormOpen}>
           <Box component="form" sx={{ mt: 2 }}>
             <Typography variant="h6" gutterBottom>

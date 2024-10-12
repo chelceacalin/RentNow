@@ -6,8 +6,8 @@ import FilterComponent from "../../components/RoleManagement/FilterComponent";
 import User from "../../components/RoleManagement/User";
 import { UserLoginContext } from "../../utils/context/LoginProvider";
 import { useUserContext } from "../../utils/context/UserContext";
-import NoMatchingResultsFound from "../NotFound/NoMatchingResultsFound";
 import { usePagination } from "../../utils/hooks/usePagination";
+import NoMatchingResultsFound from "../NotFound/NoMatchingResultsFound";
 function RoleManagement() {
   const TABLE_HEAD = [
     "First Name",

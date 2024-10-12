@@ -51,7 +51,7 @@ function User({
           </div>
         </td>
         <td className={classes}>
-          <button onClick={handleOpen} className="details-button">
+          <button onClick={handleOpen} className="details-button reset-width">
             Edit
           </button>
           {open && (

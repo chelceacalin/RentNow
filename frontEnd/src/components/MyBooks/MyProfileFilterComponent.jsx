@@ -70,7 +70,7 @@ function MyProfileFilterComponent({ onFilterChange }) {
   };
 
   return (
-    <div className="filter-background p-4 w-full sm:w-96 md:w-auto lg:w-auto">
+    <div className="filter-background p-4">
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         <div className="col-span-1">
           <input
