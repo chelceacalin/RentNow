@@ -10,6 +10,7 @@ function ConfirmDeleteReviewModalWindow({
   isDeleteDialogOpen,
   handleCloseDeleteDialog,
   confirmDelete,
+  description
 }) {
   return (
     <Dialog
@@ -21,8 +22,7 @@ function ConfirmDeleteReviewModalWindow({
       <DialogTitle id="delete-dialog-title">{"Confirm Deletion"}</DialogTitle>
       <DialogContent>
         <DialogContentText id="delete-dialog-description">
-          Are you sure you want to delete this review? This action cannot be
-          undone.
+         {description}
         </DialogContentText>
       </DialogContent>
       <DialogActions>

@@ -15,9 +15,10 @@ function Review({
   replyingTo,
   owner_email,
   handleDeleteReview,
+  setTriggerRefresh,
 }) {
   const [isDeleteDialogOpen, setDeleteDialogOpen] = useState(false);
-  const { isAdmin } = useContext(UserLoginContext);
+  const { isAdmin, email } = useContext(UserLoginContext);
   const renderStars = (rating) => {
     const fullStars = Math.floor(rating);
     const halfStar = rating % 1 >= 0.5;
@@ -199,6 +200,9 @@ function Review({
                 replyText={replyText}
                 setReplyText={setReplyText}
                 submitReply={submitReply}
+                userEmail={email}
+                isAdmin={isAdmin}
+                setTriggerRefresh={setTriggerRefresh}
               />
             ))}
         </TreeItem>
@@ -208,6 +212,9 @@ function Review({
         isDeleteDialogOpen={isDeleteDialogOpen}
         handleCloseDeleteDialog={handleCloseDeleteDialog}
         confirmDelete={confirmDelete}
+        description={
+          " Are you sure you want to delete this review? This action cannot be undone."
+        }
       />
     </Box>
   );

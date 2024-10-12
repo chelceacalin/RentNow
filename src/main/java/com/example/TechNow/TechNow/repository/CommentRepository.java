@@ -13,4 +13,5 @@ public interface CommentRepository extends JpaRepository<Comment, UUID> {
 	List<Comment> findAllByReviewIdAndParentCommentIsNull(UUID reviewID);
 
 	void deleteAllByReviewId(UUID reviewID);
+
 }

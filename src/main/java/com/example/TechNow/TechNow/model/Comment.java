@@ -32,7 +32,7 @@ public class Comment {
     Comment parentComment;
 
     @OneToMany(mappedBy = "parentComment", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
-    private List<Comment> children = new ArrayList<>();
+    private List<Comment> children;
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)

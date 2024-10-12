@@ -65,6 +65,7 @@ function ReviewList({ reviews, showReviews, owner_email, setTriggerRefresh }) {
               replyingTo={replyingTo}
               owner_email={owner_email}
               handleDeleteReview={handleDeleteReview}
+              setTriggerRefresh={setTriggerRefresh}
             />
           ))
         ) : (

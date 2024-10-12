@@ -1,8 +1,11 @@
-import { Reply } from "@mui/icons-material";
+import { Delete, Reply } from "@mui/icons-material";
 import { TreeItem } from "@mui/lab";
-import { Box, Button, TextField, Typography } from "@mui/material";
+import { Box, Button, IconButton, TextField, Typography } from "@mui/material";
+import axios from "axios";
 import dayjs from "dayjs";
-
+import { useState } from "react";
+import { showError, showSuccess } from "../../../service/ToastService";
+import ConfirmDeleteReviewModalWindow from "./ConfirmDeleteReviewModalWindow";
 function Comment({
   comment,
   reviewId,
@@ -11,10 +14,39 @@ function Comment({
   replyText,
   setReplyText,
   submitReply,
+  userEmail,
+  isAdmin,
+  setTriggerRefresh,
 }) {
+  const { id, owner_email, createdDate, comment: message } = comment;
+  const [isDeleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const handleCloseDeleteDialog = () => {
+    setDeleteDialogOpen(false);
+  };
+
+  const handleOpenDeleteDialog = () => {
+    setDeleteDialogOpen(true);
+  };
+
+  const handleDeleteComment = (commentId) => {
+    axios
+      .delete(`/comments/${commentId}`)
+      .then(() => {
+        showSuccess("Successfully deleted comment");
+        setTriggerRefresh((prev) => !prev);
+      })
+      .catch((err) => {
+        showError(err.message);
+      });
+  };
+  const confirmDelete = () => {
+    handleDeleteComment(id);
+    handleCloseDeleteDialog();
+  };
+
   return (
     <TreeItem
-      nodeId={comment.id}
+      nodeId={id}
       label={
         <Box
           sx={{
@@ -39,18 +71,28 @@ function Comment({
               className="text-main-bg"
               sx={{ fontWeight: "" }}
             >
-              {comment.owner_email}
+              {owner_email}
             </Typography>
             <Typography
               variant="caption"
               sx={{ color: "#888", display: "block" }}
             >
-              {dayjs(comment.createdDate).format("MMMM D, YYYY, h:mm A")}
+              {dayjs(createdDate).format("MMMM D, YYYY, h:mm A")}
             </Typography>
+            <div style={{ display: "flex", alignItems: "center" }}>
+              {(userEmail === owner_email || isAdmin) && (
+                <IconButton
+                  onClick={handleOpenDeleteDialog}
+                  style={{ color: "#e50914", marginRight: "0.5rem" }}
+                >
+                  <Delete />
+                </IconButton>
+              )}
+            </div>
           </Box>
 
           <Typography variant="body2" sx={{ color: "#fff" }}>
-            {comment.comment}
+            {message}
           </Typography>
 
           <Button
@@ -62,7 +104,7 @@ function Comment({
             Reply
           </Button>
 
-          {replyingTo === comment.id && (
+          {replyingTo === id && (
             <Box
               sx={{
                 marginTop: "1rem",
@@ -90,7 +132,7 @@ function Comment({
               <Button
                 variant="contained"
                 color="primary"
-                onClick={() => submitReply(comment.id, reviewId)}
+                onClick={() => submitReply(id, reviewId)}
                 disabled={!replyText.trim()}
                 sx={{ fontSize: "0.75rem", marginTop: "0.5rem" }}
               >
@@ -98,6 +140,14 @@ function Comment({
               </Button>
             </Box>
           )}
+          <ConfirmDeleteReviewModalWindow
+            isDeleteDialogOpen={isDeleteDialogOpen}
+            handleCloseDeleteDialog={handleCloseDeleteDialog}
+            confirmDelete={confirmDelete}
+            description={
+              " Are you sure you want to delete this comment? This action cannot be undone."
+            }
+          />
         </Box>
       }
     >
@@ -113,6 +163,9 @@ function Comment({
             replyText={replyText}
             setReplyText={setReplyText}
             submitReply={submitReply}
+            userEmail={userEmail}
+            isAdmin={isAdmin}
+            setTriggerRefresh={setTriggerRefresh}
           />
         ))}
     </TreeItem>

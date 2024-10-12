@@ -78,4 +78,22 @@ public class CommentService {
 		parentComment.getChildren().forEach(child -> dto.getChildren().add(buildCommentHierarchy(child)));
 		return dto;
 	}
+
+	@Transactional
+	public String deleteById(UUID id) {
+		try {
+			Comment comment = getEntityOrThrow(() -> commentRepository.findById(id), "Comment not found with id " + id);
+
+			if (comment.getParentComment() != null) {
+				Comment parentComment = comment.getParentComment();
+				parentComment.getChildren().remove(comment);
+				commentRepository.save(parentComment);
+			}
+			commentRepository.delete(comment);
+			return "Comment deleted successfully";
+		} catch (Exception e) {
+			return "Error deleting comment: " + e.getMessage();
+		}
+	}
+
 }
