@@ -13,4 +13,5 @@ public interface ReviewRepository extends JpaRepository<Review, UUID> {
 
     @Query("select r from Review r where r.book.id = ?1 order by r.created_date desc")
     List<Review> findAllByBookId(UUID bookId);
+
 }

@@ -23,14 +23,18 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import dayjs from "dayjs";
 import { useMemo, useState } from "react";
-import ReviewList from "./ReviewList"; // Import the ReviewList component
+import ReviewList from "./ReviewList";
 
-function ViewBookDetailsModalWindow({ isModalOpen, closeModal, book }) {
+function ViewBookDetailsModalWindow({
+  isModalOpen,
+  closeModal,
+  book,
+  setTriggerRefresh,
+}) {
   const status = book.isAvailable ? "Available" : "Unavailable";
   const [showReviews, setShowReviews] = useState(false);
 
   const {
-    reviewAddResponseDTOS,
     photoUrl,
     title,
     director,
@@ -43,6 +47,20 @@ function ViewBookDetailsModalWindow({ isModalOpen, closeModal, book }) {
     rentedDate,
     rentedUntil,
   } = book;
+
+  let { reviewAddResponseDTOS } = book;
+  reviewAddResponseDTOS = reviewAddResponseDTOS.sort((a, b) => {
+    return new Date(b.created_date) - new Date(a.created_date);
+  });
+
+  reviewAddResponseDTOS = reviewAddResponseDTOS.map((review) => {
+    if (review.comments && review.comments.length > 0) {
+      review.comments = review.comments.sort((a, b) => {
+        return new Date(b.createdDate) - new Date(a.createdDate);
+      });
+    }
+    return review;
+  });
 
   const handleToggleReviews = () => {
     setShowReviews((prev) => !prev);
@@ -296,16 +314,16 @@ function ViewBookDetailsModalWindow({ isModalOpen, closeModal, book }) {
             >
               {showReviews ? "Hide Reviews" : "View Reviews"}
             </Button>
-
-            {showReviews && (
-              <ReviewList
-                reviews={reviewAddResponseDTOS}
-                showReviews={showReviews}
-                owner_email={owner_email}
-              />
-            )}
           </Grid>
         </Grid>
+        {showReviews && (
+          <ReviewList
+            reviews={reviewAddResponseDTOS}
+            showReviews={showReviews}
+            owner_email={owner_email}
+            setTriggerRefresh={setTriggerRefresh}
+          />
+        )}
       </DialogContent>
       <div
         style={{ padding: "1rem", display: "flex", justifyContent: "flex-end" }}

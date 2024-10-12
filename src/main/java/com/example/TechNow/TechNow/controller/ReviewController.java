@@ -34,4 +34,10 @@ public class ReviewController {
             throw new RuntimeException(e.getMessage());
         }
     }
+
+
+    @DeleteMapping("/{id}")
+    public void deleteReview(@PathVariable(name = "id") UUID reviewId) {
+        reviewService.deleteReview(reviewId);
+    }
 }

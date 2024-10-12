@@ -6,10 +6,9 @@ import com.example.TechNow.TechNow.service.CommentService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.UUID;
 
 @RestController
 @Slf4j
@@ -23,5 +22,10 @@ public class CommentController {
 	@PostMapping
 	public ResponseEntity<CommentAddResponseDTO> addComment(@RequestBody CommentAddDTO commentAddDTO) {
 		return ResponseEntity.ok(commentService.addComment(commentAddDTO));
+	}
+
+	@DeleteMapping("/{id}")
+	public String deleteById(@PathVariable(name = "id") UUID id) {
+		return commentService.deleteById(id);
 	}
 }

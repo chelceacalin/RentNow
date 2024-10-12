@@ -9,6 +9,7 @@ import com.example.TechNow.TechNow.model.User;
 import com.example.TechNow.TechNow.repository.CommentRepository;
 import com.example.TechNow.TechNow.repository.UserRepository;
 import com.example.TechNow.TechNow.util.ReviewRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +23,7 @@ import static com.example.TechNow.TechNow.util.Utils.parseDate;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class CommentService {
 
 	final CommentRepository commentRepository;
@@ -41,8 +43,6 @@ public class CommentService {
 		if (commentAddDTO.getParent_comment_id() != null) {
 			Comment parentComment = getEntityOrThrow(() -> commentRepository.findById(commentAddDTO.getParent_comment_id()), "Parent comment with id " + commentAddDTO.getParent_comment_id() + " does not exist");
 			comment.setParentComment(parentComment);
-			parentComment.getChildren().add(comment);
-			commentRepository.save(parentComment);
 		}
 
 		commentRepository.save(comment);
@@ -78,4 +78,22 @@ public class CommentService {
 		parentComment.getChildren().forEach(child -> dto.getChildren().add(buildCommentHierarchy(child)));
 		return dto;
 	}
+
+	@Transactional
+	public String deleteById(UUID id) {
+		try {
+			Comment comment = getEntityOrThrow(() -> commentRepository.findById(id), "Comment not found with id " + id);
+
+			if (comment.getParentComment() != null) {
+				Comment parentComment = comment.getParentComment();
+				parentComment.getChildren().remove(comment);
+				commentRepository.save(parentComment);
+			}
+			commentRepository.delete(comment);
+			return "Comment deleted successfully";
+		} catch (Exception e) {
+			return "Error deleting comment: " + e.getMessage();
+		}
+	}
+
 }

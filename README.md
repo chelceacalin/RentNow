@@ -78,17 +78,7 @@ Rent Now facilitates book rentals within a company. Manage and share your book c
 
 ### To Do
 <pre>
-[BE] => Spring Aop - Logging
-     => Liveness and Readyness Checks
-     => Argo CD
-     => Nginx
-     => CI pipeline
-     => Replication, 2 pods, follower leader strategy
-     => Caching, Etags, Cron Jobs
-     => Deploy it, ingress
-     => Jmeter
-     => Book Review, reply to comments
      => Chat Gpt Api, feed it db data and make it recommend books
-     => Superset, OpenSearch
-     => In the main page, have a default filter that searches through everything and button to show advanced filter
+     => Recommend books based on history
+     => Superset
 </pre>
