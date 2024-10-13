@@ -21,8 +21,9 @@ import {
 } from "@mui/material";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import axios from "axios";
 import dayjs from "dayjs";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import ReviewList from "./ReviewList";
 
 function ViewBookDetailsModalWindow({
@@ -31,9 +32,9 @@ function ViewBookDetailsModalWindow({
   book,
   setTriggerRefresh,
 }) {
-  const status = book.isAvailable ? "Available" : "Unavailable";
   const [showReviews, setShowReviews] = useState(false);
-
+  const [recommendedBooks, setRecommendedBooks] = useState([]);
+  const [selectedBook, setSelectedBook] = useState(book);
   const {
     photoUrl,
     title,
@@ -46,9 +47,34 @@ function ViewBookDetailsModalWindow({
     owner_email,
     rentedDate,
     rentedUntil,
-  } = book;
+  } = selectedBook;
 
-  let { reviewAddResponseDTOS } = book;
+  useEffect(() => {
+    if (category) {
+      axios
+        .get(`/books/extended?category=${category}`)
+        .then((res) => {
+          if (res.status === 200) {
+            const shuffledBooks = shuffleArray(res.data.content);
+            setRecommendedBooks(shuffledBooks.slice(0, 3));
+          }
+        })
+        .catch((error) => {
+          console.error("Failed to fetch recommended books: ", error);
+        });
+    }
+  }, [category]);
+
+  const shuffleArray = (array) => {
+    const newArray = [...array];
+    for (let i = newArray.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1)); 
+      [newArray[i], newArray[j]] = [newArray[j], newArray[i]]; 
+    }
+    return newArray;
+  };
+
+  let { reviewAddResponseDTOS } = selectedBook;
   reviewAddResponseDTOS = reviewAddResponseDTOS.sort((a, b) => {
     return new Date(b.created_date) - new Date(a.created_date);
   });
@@ -89,6 +115,11 @@ function ViewBookDetailsModalWindow({
     return stars;
   };
 
+  const handleBookClick = (recommendedBook) => {
+    setSelectedBook(recommendedBook); // Setăm noua carte selectată
+    setShowReviews(false); // Resetăm vizualizarea recenziilor
+  };
+
   return (
     <Dialog
       fullWidth
@@ -104,7 +135,6 @@ function ViewBookDetailsModalWindow({
         },
       }}
     >
-      {/* Butonul de close */}
       <IconButton
         edge="end"
         color="inherit"
@@ -120,10 +150,121 @@ function ViewBookDetailsModalWindow({
         <CloseIcon />
       </IconButton>
 
-      <DialogContent sx={{ p: 0 }}>
-        {/* Imaginea */}
+      <Grid container>
+        <Grid item xs={8}>
+          <BookDetails
+            photoUrl={photoUrl}
+            title={title}
+            director={director}
+            description={description}
+            isAvailable={isAvailable}
+            category={category}
+            owner_username={owner_username}
+            rentedBy={rentedBy}
+            owner_email={owner_email}
+            rentedDate={rentedDate}
+            rentedUntil={rentedUntil}
+            averageRating={averageRating}
+            renderStars={renderStars}
+            handleToggleReviews={handleToggleReviews}
+            showReviews={showReviews}
+            reviewAddResponseDTOS={reviewAddResponseDTOS}
+            setTriggerRefresh={setTriggerRefresh}
+          />
+        </Grid>
+        {/* Secțiunea cu Recommended Books */}
+        {RecommendedBooks()}
+      </Grid>
+    </Dialog>
+  );
+
+  function RecommendedBooks() {
+    return (
+      <Grid item xs={4}>
         <Box
-          sx={{ position: "relative", pt: "56.25%", mb: 2, overflow: "hidden" }}
+          sx={{
+            padding: "16px",
+            borderLeft: "1px solid #333",
+            overflowY: "auto",
+            height: "100%",
+          }}
+        >
+          <Typography variant="h6" sx={{ color: "#FFD700", mb: 2 }}>
+            Recommended Books
+          </Typography>
+          <Box>
+            {recommendedBooks.map((recommendedBook, idx) => (
+              <Box
+                key={idx}
+                onClick={() => handleBookClick(recommendedBook)}
+                sx={{
+                  mb: 2,
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  backgroundColor: "#fff",
+                  color: "#000",
+                  p: 1,
+                  borderRadius: 2,
+                  boxShadow: 1,
+                  cursor: "pointer",
+                  "&:hover": {
+                    boxShadow: 3,
+                  },
+                }}
+              >
+                <img
+                  src={recommendedBook.photoUrl || "/default-book.jpg"}
+                  alt={recommendedBook.title}
+                  style={{
+                    width: "100%",
+                    height: "150px",
+                    objectFit: "cover",
+                    borderRadius: "4px",
+                  }}
+                />
+                <Typography
+                  variant="subtitle1"
+                  sx={{ mt: 1, textAlign: "center" }}
+                >
+                  {recommendedBook.title}
+                </Typography>
+              </Box>
+            ))}
+          </Box>
+        </Box>
+      </Grid>
+    );
+  }
+
+  function BookDetails({
+    photoUrl,
+    title,
+    director,
+    description,
+    isAvailable,
+    category,
+    owner_username,
+    rentedBy,
+    owner_email,
+    rentedDate,
+    rentedUntil,
+    averageRating,
+    renderStars,
+    handleToggleReviews,
+    showReviews,
+    reviewAddResponseDTOS,
+    setTriggerRefresh,
+  }) {
+    return (
+      <DialogContent sx={{ p: 0 }}>
+        <Box
+          sx={{
+            position: "relative",
+            pt: "56.25%",
+            mb: 2,
+            overflow: "hidden",
+          }}
         >
           <img
             src={photoUrl || "/default-book.jpg"}
@@ -138,7 +279,6 @@ function ViewBookDetailsModalWindow({
               borderRadius: "8px",
             }}
           />
-          {/* Overlay pentru text peste imagine */}
           <Box
             sx={{
               position: "absolute",
@@ -170,7 +310,6 @@ function ViewBookDetailsModalWindow({
           </Box>
         </Box>
 
-        {/* Detalii suplimentare */}
         <Grid container spacing={2} sx={{ p: 2 }}>
           <Grid item xs={12}>
             <Typography
@@ -207,7 +346,7 @@ function ViewBookDetailsModalWindow({
                   marginLeft: "0.25rem",
                 }}
               >
-                {status}
+                {isAvailable ? "Available" : "Unavailable"}
               </span>
             </Typography>
 
@@ -307,17 +446,8 @@ function ViewBookDetailsModalWindow({
           />
         )}
       </DialogContent>
-
-      <Box sx={{ p: 2, display: "flex", justifyContent: "flex-end" }}>
-        <button
-          className="close-button"
-          onClick={closeModal}
-        >
-          Close
-        </button>
-      </Box>
-    </Dialog>
-  );
+    );
+  }
 }
 
 export default ViewBookDetailsModalWindow;

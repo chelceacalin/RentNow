@@ -52,7 +52,14 @@ function ReviewList({ reviews, showReviews, owner_email, setTriggerRefresh }) {
 
   return (
     <Collapse in={showReviews}>
-      <div style={{ width: "100%" }}>
+      <div
+        style={{
+          width: "100%",
+          maxHeight: "400px", // Setează înălțimea maximă pentru secțiunea scrollabilă
+          overflowY: "auto", // Permite scroll vertical
+          padding: "1rem", // Adaugă padding pentru spațiere
+        }}
+      >
         {reviews && reviews.length > 0 ? (
           reviews.map((review) => (
             <Review
@@ -71,7 +78,7 @@ function ReviewList({ reviews, showReviews, owner_email, setTriggerRefresh }) {
         ) : (
           <Typography
             variant="body2"
-            style={{ color: "#ccc", padding: "1rem", textAlign: "center" }}
+            style={{ color: "#ccc", textAlign: "center" }}
           >
             No reviews available.
           </Typography>
