@@ -1,11 +1,11 @@
 import { Container, Grid } from "@mui/material";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import BookFilter from "../../components/Book/BookFilter.jsx";
 import RentedBook from "../../components/Book/RentedBook.jsx";
 import "../../components/ScrollToTop/ScrollToTopButton.jsx";
 import ScrollToTopButton from "../../components/ScrollToTop/ScrollToTopButton.jsx";
+import { useReviewsContext } from "../../utils/context/ReviewsContext.jsx";
 import NoMatchingResultsFound from "../NotFound/NoMatchingResultsFound.jsx";
 function Books() {
   const [books, setBooks] = useState([]);
@@ -20,8 +20,7 @@ function Books() {
   const [triggerRefresh, setTriggerRefresh] = useState(false);
   const [direction, setDirection] = useState(true);
   const [sortField, setSortField] = useState("title");
-
-  const navigate = useNavigate();
+  const { refreshReviews, setrefreshReviews } = useReviewsContext();
 
   useEffect(() => {
     const buildUrl = () => {
@@ -45,8 +44,6 @@ function Books() {
 
     const url = buildUrl();
 
-    navigate(url.replace("/books/extended", ""), { replace: false });
-
     axios
       .get(url)
       .then((response) => {
@@ -67,6 +64,7 @@ function Books() {
     category,
     isAvailable,
     rentedBy,
+    refreshReviews,
   ]);
 
   const getFilterInput = (params) => {
@@ -78,14 +76,18 @@ function Books() {
     setTriggerRefresh((prev) => !prev);
   };
 
+  const refreshData = () => {
+    setTriggerRefresh((prev) => !prev);
+  };
+
   const handleSortFieldChange = (event) => {
     setSortField(event.target.value);
-    setTriggerRefresh(!triggerRefresh);
+    refreshData();
   };
 
   const handleDirectionChange = (event) => {
     setDirection((prevDirection) => !prevDirection);
-    setTriggerRefresh(!triggerRefresh);
+    refreshData();
   };
 
   return (
@@ -105,6 +107,7 @@ function Books() {
               book={book}
               triggerRefresh={triggerRefresh}
               setTriggerRefresh={setTriggerRefresh}
+              refreshData={refreshData}
             />
           </Grid>
         ))}

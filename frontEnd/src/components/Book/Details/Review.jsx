@@ -8,14 +8,14 @@ import Comment from "./Comment";
 import ConfirmDeleteReviewModalWindow from "./ConfirmDeleteReviewModalWindow";
 function Review({
   review,
-  submitReply,
-  handleReplyClick,
-  setReplyText,
   replyText,
   replyingTo,
+  refreshData,
   owner_email,
+  submitReply,
+  setReplyText,
+  handleReplyClick,
   handleDeleteReview,
-  setTriggerRefresh,
 }) {
   const [isDeleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const { isAdmin, email } = useContext(UserLoginContext);
@@ -204,7 +204,7 @@ function Review({
                 submitReply={submitReply}
                 userEmail={email}
                 isAdmin={isAdmin}
-                setTriggerRefresh={setTriggerRefresh}
+                refreshData={refreshData}
               />
             ))}
         </TreeItem>

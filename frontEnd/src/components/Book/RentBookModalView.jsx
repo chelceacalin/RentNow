@@ -11,10 +11,9 @@ import { useEffect, useState } from "react";
 import { showError, showSuccess } from "../../service/ToastService";
 
 function RentBookModalView({
-  isRentModalOpen,
   book,
-  setTriggerRefresh,
-  triggerRefresh,
+  refreshData,
+  isRentModalOpen,
   handleCloseRentModal,
 }) {
   dayjs.extend(updateLocale);
@@ -52,7 +51,7 @@ function RentBookModalView({
           const message = JSON.stringify(error.response.data).replace(/"/g, "");
           showError(message);
           if (message.includes("user")) {
-            setTriggerRefresh(!triggerRefresh);
+            refreshData();
             handleCloseRentModal();
           }
         }

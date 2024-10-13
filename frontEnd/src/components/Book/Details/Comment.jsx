@@ -8,15 +8,15 @@ import { showError, showSuccess } from "../../../service/ToastService";
 import ConfirmDeleteReviewModalWindow from "./ConfirmDeleteReviewModalWindow";
 function Comment({
   comment,
-  reviewId,
-  handleReplyClick,
-  replyingTo,
-  replyText,
-  setReplyText,
-  submitReply,
-  userEmail,
   isAdmin,
-  setTriggerRefresh,
+  reviewId,
+  replyText,
+  userEmail,
+  replyingTo,
+  submitReply,
+  setReplyText,
+  refreshData,
+  handleReplyClick,
 }) {
   const { id, owner_email, createdDate, comment: message } = comment;
   const [isDeleteDialogOpen, setDeleteDialogOpen] = useState(false);
@@ -32,8 +32,8 @@ function Comment({
     axios
       .delete(`/comments/${commentId}`)
       .then(() => {
+        refreshData();
         showSuccess("Successfully deleted comment");
-        setTriggerRefresh((prev) => !prev);
       })
       .catch((err) => {
         showError(err.message);
@@ -167,7 +167,7 @@ function Comment({
             submitReply={submitReply}
             userEmail={userEmail}
             isAdmin={isAdmin}
-            setTriggerRefresh={setTriggerRefresh}
+            refreshData={refreshData}
           />
         ))}
     </TreeItem>

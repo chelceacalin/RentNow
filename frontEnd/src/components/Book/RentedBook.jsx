@@ -3,7 +3,7 @@ import ViewBookDetailsModalWindow from "./Details/ViewBookDetailsModalWindow.jsx
 import RentBookModalView from "./RentBookModalView.jsx";
 import RentedUntil from "./RentedUntil.jsx";
 import "./css/RentedBooks.scss";
-function RentedBook({ book, triggerRefresh, setTriggerRefresh }) {
+function RentedBook({ book, triggerRefresh, setTriggerRefresh, refreshData }) {
   const [detailsModalOpen, setDetailsModalOpen] = useState(false);
   const [isRentModalOpen, setRentModalOpen] = useState(false);
 
@@ -12,7 +12,7 @@ function RentedBook({ book, triggerRefresh, setTriggerRefresh }) {
   const handleOpenRentModal = () => setRentModalOpen(true);
   const handleCloseRentModal = () => {
     setRentModalOpen(false);
-    setTriggerRefresh((prev) => !prev);
+    refreshData();
   };
 
   const { isAvailable, photoUrl, title, director } = book;
@@ -48,19 +48,20 @@ function RentedBook({ book, triggerRefresh, setTriggerRefresh }) {
       </div>
       {detailsModalOpen && (
         <ViewBookDetailsModalWindow
-          isModalOpen={detailsModalOpen}
-          closeModal={handleDetailsClose}
           book={book}
+          refreshData={refreshData}
+          isModalOpen={detailsModalOpen}
+          triggerRefresh={triggerRefresh}
+          closeModal={handleDetailsClose}
           setTriggerRefresh={setTriggerRefresh}
         />
       )}
       {isRentModalOpen && (
         <RentBookModalView
+          book={book}
+          refreshData={refreshData}
           isRentModalOpen={isRentModalOpen}
           handleCloseRentModal={handleCloseRentModal}
-          book={book}
-          setTriggerRefresh={setTriggerRefresh}
-          triggerRefresh={triggerRefresh}
         />
       )}
     </div>

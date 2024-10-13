@@ -27,10 +27,10 @@ import { useEffect, useMemo, useState } from "react";
 import ReviewList from "./ReviewList";
 
 function ViewBookDetailsModalWindow({
-  isModalOpen,
-  closeModal,
   book,
-  setTriggerRefresh,
+  closeModal,
+  isModalOpen,
+  refreshData,
 }) {
   const [showReviews, setShowReviews] = useState(false);
   const [recommendedBooks, setRecommendedBooks] = useState([]);
@@ -50,12 +50,21 @@ function ViewBookDetailsModalWindow({
   } = selectedBook;
 
   useEffect(() => {
+    setSelectedBook(book);
+  }, [book]);
+  console.log("Book ,, ", book);
+  console.log("Sel ,, ", selectedBook);
+  useEffect(() => {
     if (category) {
       axios
         .get(`/books/extended?category=${category}`)
         .then((res) => {
           if (res.status === 200) {
-            const shuffledBooks = shuffleArray(res.data.content);
+            const filteredBooks = res.data.content.filter(
+              (recommendedBook) => recommendedBook.id !== book.id
+            );
+            const shuffledBooks = shuffleArray(filteredBooks);
+
             setRecommendedBooks(shuffledBooks.slice(0, 3));
           }
         })
@@ -68,8 +77,8 @@ function ViewBookDetailsModalWindow({
   const shuffleArray = (array) => {
     const newArray = [...array];
     for (let i = newArray.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1)); 
-      [newArray[i], newArray[j]] = [newArray[j], newArray[i]]; 
+      const j = Math.floor(Math.random() * (i + 1));
+      [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
     }
     return newArray;
   };
@@ -116,8 +125,8 @@ function ViewBookDetailsModalWindow({
   };
 
   const handleBookClick = (recommendedBook) => {
-    setSelectedBook(recommendedBook); // Setăm noua carte selectată
-    setShowReviews(false); // Resetăm vizualizarea recenziilor
+    setSelectedBook(recommendedBook);
+    setShowReviews(false);
   };
 
   return (
@@ -169,10 +178,9 @@ function ViewBookDetailsModalWindow({
             handleToggleReviews={handleToggleReviews}
             showReviews={showReviews}
             reviewAddResponseDTOS={reviewAddResponseDTOS}
-            setTriggerRefresh={setTriggerRefresh}
+            refreshData={refreshData}
           />
         </Grid>
-        {/* Secțiunea cu Recommended Books */}
         {RecommendedBooks()}
       </Grid>
     </Dialog>
@@ -254,7 +262,7 @@ function ViewBookDetailsModalWindow({
     handleToggleReviews,
     showReviews,
     reviewAddResponseDTOS,
-    setTriggerRefresh,
+    refreshData,
   }) {
     return (
       <DialogContent sx={{ p: 0 }}>
@@ -442,7 +450,7 @@ function ViewBookDetailsModalWindow({
             reviews={reviewAddResponseDTOS}
             showReviews={showReviews}
             owner_email={owner_email}
-            setTriggerRefresh={setTriggerRefresh}
+            refreshData={refreshData}
           />
         )}
       </DialogContent>

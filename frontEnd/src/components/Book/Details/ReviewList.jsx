@@ -2,10 +2,12 @@ import { Collapse, Typography } from "@mui/material";
 import axios from "axios";
 import { useState } from "react";
 import { showError, showSuccess } from "../../../service/ToastService";
+import { useReviewsContext } from "../../../utils/context/ReviewsContext";
 import Review from "./Review";
-function ReviewList({ reviews, showReviews, owner_email, setTriggerRefresh }) {
+function ReviewList({ reviews, showReviews, owner_email, refreshData }) {
   const [replyingTo, setReplyingTo] = useState(null);
   const [replyText, setReplyText] = useState("");
+  const { refreshReviews, setrefreshReviews } = useReviewsContext();
 
   const handleReplyClick = (review) => {
     setReplyingTo(replyingTo === review.id ? null : review.id);
@@ -23,7 +25,8 @@ function ReviewList({ reviews, showReviews, owner_email, setTriggerRefresh }) {
       .post("/comments", commentAddDTO)
       .then((response) => {
         showSuccess("Successfully replied to comment");
-        setTriggerRefresh((prev) => !prev);
+        refreshData();
+        setrefreshReviews((prev) => !prev);
       })
       .catch((err) => {
         showError(err.message);
@@ -37,7 +40,8 @@ function ReviewList({ reviews, showReviews, owner_email, setTriggerRefresh }) {
       .delete(`/reviews/${reviewId}`)
       .then(() => {
         showSuccess("Successfully deleted review");
-        setTriggerRefresh((prev) => !prev);
+        refreshData();
+        setrefreshReviews((prev) => !prev);
       })
       .catch((err) => {
         showError(err.message);
@@ -55,9 +59,9 @@ function ReviewList({ reviews, showReviews, owner_email, setTriggerRefresh }) {
       <div
         style={{
           width: "100%",
-          maxHeight: "400px", // Setează înălțimea maximă pentru secțiunea scrollabilă
-          overflowY: "auto", // Permite scroll vertical
-          padding: "1rem", // Adaugă padding pentru spațiere
+          maxHeight: "400px",
+          overflowY: "auto",
+          padding: "1rem",
         }}
       >
         {reviews && reviews.length > 0 ? (
@@ -72,7 +76,7 @@ function ReviewList({ reviews, showReviews, owner_email, setTriggerRefresh }) {
               replyingTo={replyingTo}
               owner_email={owner_email}
               handleDeleteReview={handleDeleteReview}
-              setTriggerRefresh={setTriggerRefresh}
+              refreshData={refreshData}
             />
           ))
         ) : (
