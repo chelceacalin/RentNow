@@ -1,21 +1,20 @@
 import GitHubIcon from "@mui/icons-material/GitHub";
 import GoogleIcon from "@mui/icons-material/Google";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import { Box, Button } from "@mui/material";
-import Avatar from "@mui/material/Avatar";
+import {Box} from "@mui/material";
 import CssBaseline from "@mui/material/CssBaseline";
 import Grid from "@mui/material/Grid";
 import Link from "@mui/material/Link";
 import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
+import {createTheme, ThemeProvider} from "@mui/material/styles";
 import axios from "axios";
-import { GithubAuthProvider, signInWithPopup } from "firebase/auth";
-import { useContext } from "react";
-import { useNavigate } from "react-router-dom";
-import { UserLoginContext } from "../../utils/context/LoginProvider.jsx";
-import { auth, provider } from "../../utils/firebase/firebase.js";
+import {GithubAuthProvider, signInWithPopup} from "firebase/auth";
+import {useContext} from "react";
+import {useNavigate} from "react-router-dom";
+import {UserLoginContext} from "../../utils/context/LoginProvider.jsx";
+import {auth, provider} from "../../utils/firebase/firebase.js";
 import AppIconUnformatted from "../../utils/icons/AppIconUnformatted.jsx";
+
 const defaultTheme = createTheme();
 
 function Login() {
@@ -111,16 +110,20 @@ function Login() {
 
   return (
     <ThemeProvider theme={defaultTheme}>
-      <Grid container component="main" sx={{ height: "100vh" }}>
+      <Grid
+          container
+          component="main"
+          sx={{height: "100vh"}}
+          className="w-full"
+      >
         <CssBaseline />
-        <AppIconUnformatted />
         <Grid
           item
           xs={false}
           sm={4}
-          md={7}
+          md={5}
           sx={{
-            backgroundImage: 'url("/public/Images/book_rental.jpg")',
+            backgroundImage: 'url("Images/book_rental.jpg")',
             backgroundColor: (t) =>
               t.palette.mode === "light"
                 ? t.palette.grey[50]
@@ -129,7 +132,10 @@ function Login() {
             backgroundPosition: "center",
           }}
         />
-        <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
+        <Grid item xs={12} sm={8} md={7} component={Paper} elevation={6} square>
+          <div className="bg-main-color-reverse flex justify-center">
+            <AppIconUnformatted/>
+          </div>
           <Box
             sx={{
               my: 8,
@@ -139,9 +145,6 @@ function Login() {
               alignItems: "center",
             }}
           >
-            <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-              <LockOutlinedIcon />
-            </Avatar>
             <Typography component="h1" variant="h5">
               Welcome Back!
             </Typography>
@@ -157,24 +160,24 @@ function Login() {
               noValidate
               sx={{ mt: 1, width: "100%", textAlign: "center" }}
             >
-              <Button
-                variant="contained"
-                color="primary"
-                startIcon={<GoogleIcon />}
-                onClick={handleSignInWithGoogle}
-                sx={{ m: 2 }}
+              <button
+                  className="rent-button"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handleSignInWithGoogle();
+                  }}
               >
-                Sign in with Google
-              </Button>
-              <Button
-                variant="contained"
-                color="secondary"
-                startIcon={<GitHubIcon />}
-                onClick={handleSignInWithGithub}
-                sx={{ m: 2 }}
+                <GoogleIcon/> &nbsp; Sign in with Google
+              </button>
+              <button
+                  className="details-button"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handleSignInWithGithub();
+                  }}
               >
-                Sign in with GitHub
-              </Button>
+                <GitHubIcon/> &nbsp; Sign in with GitHub
+              </button>
               <Copyright sx={{ mt: 5 }} />
             </Box>
           </Box>

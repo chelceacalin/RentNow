@@ -1,7 +1,6 @@
 import {
   CalendarToday,
   CheckCircleOutline,
-  Close,
   HighlightOff,
   InfoOutlined,
   Person,
@@ -9,6 +8,7 @@ import {
   StarBorder,
   StarHalf,
 } from "@mui/icons-material";
+import CloseIcon from "@mui/icons-material/Close";
 import {
   Box,
   Button,
@@ -104,28 +104,26 @@ function ViewBookDetailsModalWindow({
         },
       }}
     >
+      {/* Butonul de close */}
       <IconButton
         edge="end"
         color="inherit"
         onClick={closeModal}
-        style={{
+        sx={{
           position: "absolute",
           top: 8,
-          right: 24,
+          right: 16,
           color: "#fff",
+          zIndex: 1,
         }}
       >
-        <Close />
+        <CloseIcon />
       </IconButton>
 
-      <DialogContent>
-        <div
-          style={{
-            position: "relative",
-            paddingTop: "56.25%",
-            marginBottom: "2rem",
-            overflow: "hidden",
-          }}
+      <DialogContent sx={{ p: 0 }}>
+        {/* Imaginea */}
+        <Box
+          sx={{ position: "relative", pt: "56.25%", mb: 2, overflow: "hidden" }}
         >
           <img
             src={photoUrl || "/default-book.jpg"}
@@ -137,73 +135,70 @@ function ViewBookDetailsModalWindow({
               width: "100%",
               height: "100%",
               objectFit: "cover",
+              borderRadius: "8px",
             }}
           />
-          <div
-            style={{
+          {/* Overlay pentru text peste imagine */}
+          <Box
+            sx={{
               position: "absolute",
               bottom: 0,
               left: 0,
               right: 0,
               background:
                 "linear-gradient(to top, rgba(20,20,20,1) 0%, rgba(20,20,20,0) 100%)",
-              padding: "2rem",
+              padding: "1rem",
             }}
           >
             <Typography
-              variant="h3"
-              style={{ marginBottom: "0.5rem", color: "rgb(255,0,0)" }}
+              variant="h4"
+              sx={{ mb: "0.5rem", color: "rgb(255,0,0)" }}
             >
               {title}
             </Typography>
-            <Typography variant="subtitle1" style={{ color: "#ccc" }}>
+            <Typography variant="subtitle1" sx={{ color: "#ccc" }}>
               Directed by <span style={{ fontWeight: "bold" }}>{director}</span>
             </Typography>
-            <Typography variant="subtitle1" style={{ color: "#ccc" }}>
+            <Typography variant="subtitle1" sx={{ color: "#ccc" }}>
               Category <span style={{ fontWeight: "bold" }}>{category}</span>
             </Typography>
 
-            <Typography style={{ color: "#FFD700" }}>
+            <Typography sx={{ color: "#FFD700" }}>
               Average Rating: {averageRating.toFixed(1)} / 5
             </Typography>
             <Box>{renderStars(averageRating)}</Box>
-          </div>
-        </div>
+          </Box>
+        </Box>
 
-        <Grid container spacing={2} height={"auto"}>
-          <Grid item xs={12} md={8} lg={12}>
+        {/* Detalii suplimentare */}
+        <Grid container spacing={2} sx={{ p: 2 }}>
+          <Grid item xs={12}>
             <Typography
               variant="body1"
-              style={{
-                marginBottom: "1rem",
+              sx={{
+                mb: 1,
                 color: "#fff",
                 display: "flex",
                 alignItems: "center",
               }}
             >
-              <InfoOutlined
-                style={{ marginRight: "0.75rem", color: "#B3B3B3" }}
-              />
-              <span>Description: {description}</span>
+              <InfoOutlined sx={{ mr: 1, color: "#B3B3B3" }} />
+              Description: {description}
             </Typography>
 
             <Typography
               variant="body1"
-              style={{
-                marginBottom: "1rem",
+              sx={{
+                mb: 1,
                 color: "#fff",
                 display: "flex",
                 alignItems: "center",
               }}
             >
               {isAvailable ? (
-                <CheckCircleOutline
-                  style={{ marginRight: "0.75rem", color: "#46d369" }}
-                />
+                <CheckCircleOutline sx={{ mr: 1, color: "#46d369" }} />
               ) : (
-                <HighlightOff
-                  style={{ marginRight: "0.75rem", color: "#e50914" }}
-                />
+                <HighlightOff sx={{ mr: 1, color: "#e50914" }} />
               )}
               <span style={{ color: "#B3B3B3" }}>Status:</span>
               <span
@@ -220,14 +215,14 @@ function ViewBookDetailsModalWindow({
               <>
                 <Typography
                   variant="body1"
-                  style={{
-                    marginBottom: "1rem",
+                  sx={{
+                    mb: 1,
                     color: "#B3B3B3",
                     display: "flex",
                     alignItems: "center",
                   }}
                 >
-                  <Person style={{ marginRight: "0.75rem", color: "#fff" }} />
+                  <Person sx={{ mr: 1, color: "#fff" }} />
                   Owned by:{" "}
                   <span style={{ color: "#fff", marginLeft: "0.25rem" }}>
                     {owner_username}
@@ -235,47 +230,39 @@ function ViewBookDetailsModalWindow({
                 </Typography>
                 <Typography
                   variant="body1"
-                  style={{
-                    marginBottom: "1rem",
+                  sx={{
+                    mb: 1,
                     color: "#B3B3B3",
                     display: "flex",
                     alignItems: "center",
                   }}
                 >
-                  <Person style={{ marginRight: "0.75rem", color: "#fff" }} />
+                  <Person sx={{ mr: 1, color: "#fff" }} />
                   Rented by:{" "}
                   <span style={{ color: "#fff", marginLeft: "0.25rem" }}>
                     {rentedBy}
-                    <Tooltip title={`Email: ${owner_email}`}>
-                      <IconButton
-                        style={{
-                          width: "1rem",
-                          height: "1rem",
-                          backgroundColor: "white",
-                          marginLeft: "5px",
-                          top: "0px",
-                          marginBottom: "2px",
-                        }}
-                      >
-                        <InfoOutlined />
-                      </IconButton>
-                    </Tooltip>
                   </span>
+                  <Tooltip title={`Email: ${owner_email}`}>
+                    <IconButton
+                      sx={{
+                        width: "1rem",
+                        height: "1rem",
+                        backgroundColor: "#fff",
+                        marginLeft: "5px",
+                      }}
+                    >
+                      <InfoOutlined />
+                    </IconButton>
+                  </Tooltip>
                 </Typography>
 
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
-                  <div style={{ display: "flex", gap: "1rem" }}>
+                  <Box sx={{ display: "flex", gap: "1rem", color: "#B3B3B3" }}>
                     <Typography
                       variant="body2"
-                      style={{
-                        color: "#B3B3B3",
-                        display: "flex",
-                        alignItems: "center",
-                      }}
+                      sx={{ display: "flex", alignItems: "center" }}
                     >
-                      <CalendarToday
-                        style={{ marginRight: "0.75rem", color: "#fff" }}
-                      />
+                      <CalendarToday sx={{ mr: 1, color: "#fff" }} />
                       Rented on:{" "}
                       <span style={{ color: "#fff", marginLeft: "0.25rem" }}>
                         {dayjs(rentedDate).format("MMMM D, YYYY")}
@@ -283,21 +270,15 @@ function ViewBookDetailsModalWindow({
                     </Typography>
                     <Typography
                       variant="body2"
-                      style={{
-                        color: "#B3B3B3",
-                        display: "flex",
-                        alignItems: "center",
-                      }}
+                      sx={{ display: "flex", alignItems: "center" }}
                     >
-                      <CalendarToday
-                        style={{ marginRight: "0.75rem", color: "#fff" }}
-                      />
+                      <CalendarToday sx={{ mr: 1, color: "#fff" }} />
                       Rented until:{" "}
                       <span style={{ color: "#fff", marginLeft: "0.25rem" }}>
                         {dayjs(rentedUntil).format("MMMM D, YYYY")}
                       </span>
                     </Typography>
-                  </div>
+                  </Box>
                 </LocalizationProvider>
               </>
             )}
@@ -305,17 +286,18 @@ function ViewBookDetailsModalWindow({
             <Button
               variant="outlined"
               onClick={handleToggleReviews}
-              style={{
-                marginBottom: "1rem",
-                marginTop: "1rem",
+              sx={{
+                mt: 2,
                 color: "#fff",
                 borderColor: "#fff",
+                "&:hover": { borderColor: "#e50914", color: "#e50914" },
               }}
             >
               {showReviews ? "Hide Reviews" : "View Reviews"}
             </Button>
           </Grid>
         </Grid>
+
         {showReviews && (
           <ReviewList
             reviews={reviewAddResponseDTOS}
@@ -325,13 +307,15 @@ function ViewBookDetailsModalWindow({
           />
         )}
       </DialogContent>
-      <div
-        style={{ padding: "1rem", display: "flex", justifyContent: "flex-end" }}
-      >
-        <button onClick={closeModal} className="close-button">
+
+      <Box sx={{ p: 2, display: "flex", justifyContent: "flex-end" }}>
+        <button
+          className="close-button"
+          onClick={closeModal}
+        >
           Close
         </button>
-      </div>
+      </Box>
     </Dialog>
   );
 }

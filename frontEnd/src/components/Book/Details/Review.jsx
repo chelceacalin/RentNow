@@ -111,7 +111,9 @@ function Review({
                       marginRight: "1rem",
                     }}
                   >
-                    {dayjs(review.created_date).format("MMMM D, YYYY, h:mm A")}
+                    {dayjs(review.created_date, "DD-MM-YYYY HH:mm:ss").format(
+                      "MMMM D, YYYY, h:mm A"
+                    ) || review.created_date}
                   </Typography>
 
                   {renderStars(review.rating)}

@@ -77,7 +77,9 @@ function Comment({
               variant="caption"
               sx={{ color: "#888", display: "block" }}
             >
-              {dayjs(createdDate).format("MMMM D, YYYY, h:mm A")}
+              {dayjs(createdDate, "DD-MM-YYYY HH:mm:ss").format(
+                "MMMM D, YYYY, h:mm A"
+              ) || createdDate}
             </Typography>
             <div style={{ display: "flex", alignItems: "center" }}>
               {(userEmail === owner_email || isAdmin) && (

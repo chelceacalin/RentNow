@@ -160,6 +160,13 @@
     }
 }
 
+.bg-main-color-reverse {
+    background-color: $main-color-hover;
+
+    &:hover {
+        background-color: $main-color;
+    }
+}
 
 
 .bg-main-color-text-white {
