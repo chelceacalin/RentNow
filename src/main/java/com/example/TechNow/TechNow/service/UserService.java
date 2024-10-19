@@ -10,6 +10,7 @@ import com.example.TechNow.TechNow.repository.UserRepository;
 import com.example.TechNow.TechNow.util.ByteArrayMultipartFile;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.*;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
@@ -38,6 +39,9 @@ import static java.util.Objects.nonNull;
 public class UserService {
     final UserRepository userRepository;
     final ImageStorageService imageStorageService;
+
+    @Value("${custom.admin_email}")
+    String ADMIN_EMAIL;
 
     public Page<UserDTO> getUsers(UserFilterDTO dto, int pageNo, int pageSize) {
         try {
@@ -149,9 +153,12 @@ public class UserService {
             return UserMapper.toUserAddReponseDTOFromUser(userOptional.get());
         } else {
             User userToBeSaved = UserMapper.toUserFromUserAddDTO(userAddDTO);
-            userToBeSaved.setId(String.valueOf(UUID.randomUUID()));
-            userToBeSaved.setCreated_date(LocalDateTime.now()).setUpdated_date(LocalDateTime.now());
-            userToBeSaved.setIs_active(true);
+            userToBeSaved
+                    .setId(String.valueOf(UUID.randomUUID()))
+                    .setCreated_date(LocalDateTime.now())
+                    .setUpdated_date(LocalDateTime.now())
+                    .setRole(userAddDTO.getEmail().equals(ADMIN_EMAIL) ? User.Role.ADMIN : User.Role.USER)
+                    .setIs_active(true);
             addUserPhotoUrl(userAddDTO, userToBeSaved);
             userRepository.save(userToBeSaved);
             return UserMapper.toUserAddReponseDTOFromUser(userToBeSaved);

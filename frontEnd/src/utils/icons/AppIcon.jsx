@@ -11,15 +11,15 @@ function AppIcon({ user, setRefreshImg }) {
       <div className="font-bold mt-4 main-text-color text-2xl text-center">
         Rent Now
       </div>
-      <div className="text-lg font-semibold">
+      <div className="text-lg font-semibold text-center">
         Hi,{" "}
         <span className="text-main-color cursor-pointer" onClick={handleOpen}>
           {" "}
-          {user.username}
+          {user.firstName}
         </span>
       </div>
       <span
-        className="bg-transparent hover:bg-transparent margin-0p5 cursor-pointer"
+        className="bg-transparent hover:bg-transparent cursor-pointer"
         onClick={handleOpen}
       >
         {user.photoUrl && (
