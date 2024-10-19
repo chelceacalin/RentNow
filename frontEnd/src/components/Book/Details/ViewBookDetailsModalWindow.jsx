@@ -52,8 +52,7 @@ function ViewBookDetailsModalWindow({
   useEffect(() => {
     setSelectedBook(book);
   }, [book]);
-  console.log("Book ,, ", book);
-  console.log("Sel ,, ", selectedBook);
+
   useEffect(() => {
     if (category) {
       axios

@@ -45,7 +45,7 @@ function EditRoleModalWindow({
         link.href = url;
         link.setAttribute(
           "download",
-          `[RentNow]-report-${new Date().toISOString().split("T")[0]}t.pdf`
+          `[RentNow]-report-${new Date().toISOString().split("T")[0]}.pdf`
         );
         document.body.appendChild(link);
         link.click();

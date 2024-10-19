@@ -13,21 +13,18 @@ Rent Now facilitates book rentals within a company, allowing you to manage and s
 - **User Roles and Permissions**: Admins can create categories, manage users and their activity, and control other users' permissions. Regular users have limited access.
 - **Notifications**: Users receive reminders one day before a book needs to be returned and daily after the return date is exceeded. Both the renter and the owner of the book are notified when a book is rented.
 - **Monitoring**: The app integrates with Grafana for monitoring, using pre-configured dashboards for visualization, and Loki for log collection.
-
-## Additional Features ✨
-
-- Request filter on the back-end and interceptor on the front-end.
+- **Reporting**: Ability to download PDF reports regarding you books
 
 ## Technologies
 
-- **Backend**: Spring Boot.
-- **Authentication**: Google Login, GitHub Login.
-- **Frontend**: React JS, Tailwind CSS, SCSS, Material UI.
-- **Database Migrations**: Flyway.
-- **Image Storage**: Minio.
-- **Monitoring**: Loki (logs), Prometheus (metrics).
-- **Dashboards**: Grafana.
-- **Email Service**: Gmail SMTP.
+- **Backend**: Spring Boot 3, Java 21
+- **Authentication**: Google Login, GitHub Login
+- **Frontend**: React JS, Tailwind CSS, SCSS, Material UI
+- **Database Migrations**: Flyway
+- **Image Storage**: Minio
+- **Monitoring**: Loki (logs), Prometheus (metrics)
+- **Dashboards**: Grafana
+- **Email Service**: Gmail SMTP
 
 ## Getting Started
 
@@ -72,6 +69,7 @@ Rent Now facilitates book rentals within a company, allowing you to manage and s
 - **Server Health**: [http://localhost:8081/actuator/health](http://localhost:8081/actuator/health)
 - **Grafana**: [http://localhost:3000](http://localhost:3000) (default credentials: admin/admin)
 - **Prometheus**: [http://localhost:9090](http://localhost:9090)
+- **Postgres Exporter**: [http://localhost:9187/](http://localhost:9187/)
 
 ### Documentation
 
@@ -83,4 +81,3 @@ Rent Now facilitates book rentals within a company, allowing you to manage and s
 
 ```plaintext
      => Integrate Chat GPT API, feed it database data, and generate book recommendations
-     => Integrate Superset for additional analytics

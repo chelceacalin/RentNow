@@ -46,7 +46,6 @@ function EditCategoryNameModalWindow({
       })
       .then((response) => {
         const { data } = response;
-        console.log("Data", data);
         showSuccess("Category edited successfully!");
         updateCategory({
           id: data.id,
