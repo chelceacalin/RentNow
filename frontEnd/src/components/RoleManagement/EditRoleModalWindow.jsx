@@ -18,6 +18,8 @@ function EditRoleModalWindow({
   const [selectedActivity, setSelectedActivity] = useState(user.is_active);
   const [imagePreviewUrl, setImagePreviewUrl] = useState(user.photoUrl || "");
   const [selectedImage, setSelectedImage] = useState("");
+  const [selectedMonth, setSelectedMonth] = useState(0);
+
   const [userDTO, setUserDTO] = useState({
     username: "",
     firstName: "",
@@ -31,10 +33,25 @@ function EditRoleModalWindow({
   const role_type = ["ADMIN", "USER"];
   const active_type = ["ACTIVE", "INACTIVE"];
   const MAX_FILE_SIZE = 2048 * 2048;
-
+  const monthOptions = [
+    { label: "All Months", value: 0 },
+    { label: "January", value: 1 },
+    { label: "February", value: 2 },
+    { label: "March", value: 3 },
+    { label: "April", value: 4 },
+    { label: "May", value: 5 },
+    { label: "June", value: 6 },
+    { label: "July", value: 7 },
+    { label: "August", value: 8 },
+    { label: "September", value: 9 },
+    { label: "October", value: 10 },
+    { label: "November", value: 11 },
+    { label: "December", value: 12 },
+  ];
   const getReport = () => {
+    const monthQuery = selectedMonth === 0 ? "" : `?month=${selectedMonth}`;
     axios
-      .get(`/reports/download-pdf/${user.email}`, {
+      .get(`/reports/download-pdf/${user.email}${monthQuery}`, {
         responseType: "blob",
       })
       .then((response) => {
@@ -45,7 +62,9 @@ function EditRoleModalWindow({
         link.href = url;
         link.setAttribute(
           "download",
-          `[RentNow]-report-${new Date().toISOString().split("T")[0]}.pdf`
+          selectedMonth === 0
+            ? `${user.email}-all-months-bookReport.pdf`
+            : `${user.email}-${selectedMonth}-bookReport.pdf`
         );
         document.body.appendChild(link);
         link.click();
@@ -53,8 +72,7 @@ function EditRoleModalWindow({
         showSuccess("PDF Report successfully downloaded.");
       })
       .catch((error) => {
-        console.error("Error downloading PDF report:", error);
-        showError("Failed to download PDF report.");
+        showError("No reports available for that month");
       });
   };
 
@@ -292,10 +310,30 @@ function EditRoleModalWindow({
               />
             </div>
 
-            <label>Get Books Report:</label>
-            <button className="details-button" onClick={getReport}>
-              Click
-            </button>
+            <div className="mt-4">
+              <label className="block mb-2">Get Books Report:</label>
+              <div className="flex items-center mb-4">
+                <label className="mr-2">Select Month:</label>
+                <select
+                  className="month-select p-2 border rounded-md"
+                  value={selectedMonth}
+                  onChange={(e) => setSelectedMonth(Number(e.target.value))}
+                >
+                  {monthOptions.map((month) => (
+                    <option key={month.value} value={month.value}>
+                      {month.label}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <button
+                className="details-button reset-width"
+                onClick={getReport}
+              >
+                Download Report
+              </button>
+            </div>
           </div>
         </div>
       </DialogContent>

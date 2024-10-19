@@ -58,16 +58,18 @@ public class ReportService {
 		return table;
 	}
 
-	private static void generatePdfHeader(Document document, UserDTO user) {
-		document.add(new Paragraph("Generation Time: " + parseDate(LocalDateTime.now())));
-		document.add(new Paragraph("Hi, " + user.getUsername()).setBold().setFontSize(12));
-		document.add(new Paragraph("Here is your book report: ").setFontSize(10));
-		document.add(new Paragraph(" "));
-	}
-
-	public byte[] generateTable(String email) {
+	public byte[] generateTable(String email, String month) {
 		UserDTO user = userService.findByEmail(email);
-		List<BookDTO> books = bookService.findBooksForUserEmail(email);
+		List<BookDTO> books;
+		if (month != null) {
+			books = bookService.findBooksForUserEmailAndMonth(email, month);
+		} else {
+			books = bookService.findBooksForUserEmail(email);
+		}
+
+		if (books.isEmpty()) {
+			throw new RuntimeException("No books available for the user");
+		}
 
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		try {
@@ -86,6 +88,13 @@ public class ReportService {
 		}
 	}
 
+
+	private static void generatePdfHeader(Document document, UserDTO user) {
+		document.add(new Paragraph("Generation Time: " + parseDate(LocalDateTime.now())));
+		document.add(new Paragraph("Hi, " + user.getUsername()).setBold().setFontSize(12));
+		document.add(new Paragraph("Here is your book report: ").setFontSize(10));
+		document.add(new Paragraph(" "));
+	}
 	private void addTablesByMonth(List<BookDTO> books, Document document) {
 		addAvailableBooks(books, document);
 		Map<String, List<BookDTO>> booksGroupedByMonth = books.stream()

@@ -2,33 +2,27 @@ package com.example.TechNow.TechNow.controller;
 
 import com.example.TechNow.TechNow.service.ReportService;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-import java.time.LocalDateTime;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/reports")
 public class ReportController extends BaseController {
 
+	private static final Logger log = LoggerFactory.getLogger(ReportController.class);
 	final ReportService reportService;
 
 	@GetMapping("/download-pdf/{email}")
-	public ResponseEntity<byte[]> downloadJson(@PathVariable(name = "email") String email) {
-		try {
-			String date = LocalDateTime.now().toString();
-			HttpHeaders headers = new HttpHeaders();
-			headers.setContentType(MediaType.APPLICATION_PDF);
-			headers.setContentDispositionFormData("attachment", "filename.pdf");
-			return ResponseEntity.ok().headers(headers).body(reportService.generateTable(email));
-		} catch (Exception e) {
-			throw new RuntimeException(e.getMessage());
-		}
+	public ResponseEntity<Object> downloadJson(@PathVariable(name = "email") String email, @RequestParam(name = "month", required = false) String month) {
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.APPLICATION_PDF);
+		headers.setContentDispositionFormData("attachment", "filename.pdf");
+		log.info("Generating report for user with email {} for month {}", email, month);
+		return buildOkResponse(reportService.generateTable(email, month), headers);
 	}
 }

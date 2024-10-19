@@ -135,6 +135,15 @@ public class BookService {
         ).toList();
     }
 
+    public List<BookDTO> findBooksForUserEmailAndMonth(String ownerEmail, String month) {
+        return bookRepository.findByOwnerEmailAndMonth(ownerEmail, month).stream().map(
+                book -> {
+                    BookHistory history = bookHistoryRepository.findBookHistoryByRentedUntilMostRecent(book.getId());
+                    return BookMapper.toDto(book, history);
+                }
+        ).toList();
+    }
+
     static Pageable getPageable(int pageNo, int pageSize, String sortField, Sort.Direction sortDirection) {
         return switch (sortField) {
             case RENTED_BY -> PageRequest.of(pageNo, pageSize, Sort.by(sortDirection, USERNAME));

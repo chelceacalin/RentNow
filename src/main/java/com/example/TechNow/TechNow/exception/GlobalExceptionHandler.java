@@ -16,31 +16,38 @@ public class GlobalExceptionHandler {
 
 	@ExceptionHandler({EntityNotFoundException.class})
 	public ResponseEntity<Object> handleNotFoundException(EntityNotFoundException exception) {
+		String message = exception.getMessage();
+		log.error("EntityNotFoundException: {}", message);
 		return ResponseEntity
 				.status(HttpStatus.NOT_FOUND)
-				.body(exception.getMessage());
+				.body(message);
 	}
 
 
 	@ExceptionHandler({RuntimeException.class})
 	public ResponseEntity<Object> handleRuntimeException(RuntimeException exception) {
+		String message = exception.getMessage();
+		log.error("RuntimeException: {}", message);
 		return ResponseEntity
-				.status(HttpStatus.BAD_REQUEST)
-				.body(exception.getMessage());
+				.status(HttpStatus.NOT_FOUND)
+				.body(message);
 	}
 
 	@ExceptionHandler({JsonParseException.class})
 	public ResponseEntity<Object> handleConversionError(JsonParseException exception) {
+		String message = exception.getMessage();
+		log.error("JsonParseException: {}", message);
 		return ResponseEntity
 				.status(HttpStatus.PROCESSING)
-				.body(exception.getMessage());
+				.body(message);
 	}
 
 	@ExceptionHandler({Exception.class})
 	public ResponseEntity<Object> handleGeneralException(Exception exception) {
-		log.error("Error: " + exception.getMessage());
+		String message = exception.getMessage();
+		log.error("Exception: {}", message);
 		return ResponseEntity
 				.status(HttpStatus.INTERNAL_SERVER_ERROR)
-				.body(exception.getMessage());
+				.body(message);
 	}
 }
