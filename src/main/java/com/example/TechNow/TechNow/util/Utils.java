@@ -17,6 +17,10 @@ public class Utils {
 		return date != null ? date.format(DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss")) : null;
 	}
 
+	public static String parseDateSimple(LocalDateTime date) {
+		return date != null ? date.format(DateTimeFormatter.ofPattern("dd-MM-yyyy")) : null;
+	}
+
 	public static <T> T getEntityOrThrow(Supplier<Optional<T>> entitySupplier, String errorMessage) {
 		return entitySupplier.get().orElseThrow(() -> new EntityNotFoundException(errorMessage));
 	}

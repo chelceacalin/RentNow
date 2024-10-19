@@ -1,8 +1,9 @@
 package com.example.TechNow.TechNow.controller;
 
+import lombok.Data;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-
 public class BaseController {
 
 	protected ResponseEntity<Object> buildOkResponse() {

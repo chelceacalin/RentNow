@@ -30,6 +30,7 @@ import static com.example.TechNow.TechNow.specification.GenericSpecification.isA
 import static com.example.TechNow.TechNow.specification.UserSpecification.hasRole;
 import static com.example.TechNow.TechNow.specification.UserSpecification.hasUsernameEquals;
 import static com.example.TechNow.TechNow.util.UserConstants.*;
+import static com.example.TechNow.TechNow.util.Utils.getEntityOrThrow;
 import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
 
@@ -118,30 +119,23 @@ public class UserService {
 
 
     public User updateUser(UserDTO userDTO, User.Role role, MultipartFile imageFile) {
-        Optional<User> userOptional = userRepository.findByEmail(userDTO.getEmail());
-        User updatedUser = new User();
-        if (userOptional.isPresent()) {
-            User user = userOptional.get();
-            user.setRole(role);
-            user.setIs_active(userDTO.getIs_active());
-            user.setUpdated_date(LocalDateTime.now());
+        User user = getEntityOrThrow(() -> userRepository.findByEmail(userDTO.getEmail()), "User not found");
+        user.setRole(role)
+                .setFirstName(userDTO.getFirstName())
+                .setLastName(userDTO.getLastName())
+                .setIs_active(userDTO.getIs_active())
+                .setUpdated_date(LocalDateTime.now());
+
             if (imageFile != null) {
                 String imageUrl = imageStorageService.uploadImage("userphotos", imageFile);
                 user.setPhotoUrl(imageUrl);
             }
-            updatedUser = userRepository.save(user);
-        }
-        return updatedUser;
+        return userRepository.save(user);
     }
 
     public UserDTO findByEmail(String email) {
-        Optional<User> userOptional = userRepository.findByEmail(email);
-        if (userOptional.isPresent()) {
-            User user = userOptional.get();
+        User user = getEntityOrThrow(() -> userRepository.findByEmail(email), "User with email " + email + " not found");
             return UserMapper.toDTO(user);
-        } else {
-            throw new RuntimeException("User with email " + email + " not found");
-        }
     }
 
     public UserAddReponseDTO addUser(UserAddDTO userAddDTO) {

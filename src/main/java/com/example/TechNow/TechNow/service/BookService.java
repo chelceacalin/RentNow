@@ -126,6 +126,15 @@ public class BookService {
         return null;
     }
 
+    public List<BookDTO> findBooksForUserEmail(String ownerEmail) {
+        return bookRepository.findByOwner_Email(ownerEmail).stream().map(
+                book -> {
+                    BookHistory history = bookHistoryRepository.findBookHistoryByRentedUntilMostRecent(book.getId());
+                    return BookMapper.toDto(book, history);
+                }
+        ).toList();
+    }
+
     static Pageable getPageable(int pageNo, int pageSize, String sortField, Sort.Direction sortDirection) {
         return switch (sortField) {
             case RENTED_BY -> PageRequest.of(pageNo, pageSize, Sort.by(sortDirection, USERNAME));
@@ -211,6 +220,7 @@ public class BookService {
         bookHistoryRepository.deleteBookHistoryByBookId(id);
         bookRepository.deleteById(id);
     }
+
 
     public String getRentedBy(UUID id) {
         BookHistory bookHistory = bookHistoryRepository.findBookHistoryByRentedUntilMostRecent(id);

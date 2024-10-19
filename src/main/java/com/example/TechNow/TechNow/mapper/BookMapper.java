@@ -8,7 +8,7 @@ import com.example.TechNow.TechNow.model.Book;
 import com.example.TechNow.TechNow.model.BookHistory;
 import com.example.TechNow.TechNow.model.Category;
 
-import static com.example.TechNow.TechNow.util.Utils.parseDate;
+import static com.example.TechNow.TechNow.util.Utils.parseDateSimple;
 
 public class BookMapper {
 	public static BookDTO toDto(Book m, BookHistory mh) {
@@ -22,11 +22,11 @@ public class BookMapper {
 				.rentedBy(mh != null && mh.getRentedBy() != null ? mh.getRentedBy().getUsername() : "available")
 				.owner_username(m.getOwner().getUsername())
 				.owner_email(m.getOwner().getEmail())
-				.rentedDate(mh != null && mh.getRentedDate() != null ? mh.getRentedDate() : null)
-				.rentedUntil(mh != null && mh.getRentedUntil() != null ? mh.getRentedUntil() : null)
+				.rentedDate(mh != null && mh.getRentedDate() != null ? parseDateSimple(mh.getRentedDate().atStartOfDay()) : null)
+				.rentedUntil(mh != null && mh.getRentedUntil() != null ? parseDateSimple(mh.getRentedUntil().atStartOfDay()) : null)
 				.photoUrl(m.getPhotoUrl() != null ? m.getPhotoUrl() : "")
-				.created_date(parseDate(m.getCreated_date()))
-				.updated_date(m.getUpdated_date() != null ? m.getUpdated_date() : null)
+				.created_date(parseDateSimple(m.getCreated_date()))
+				.updated_date(m.getUpdated_date() != null ? parseDateSimple(m.getUpdated_date()) : null)
 				.build();
 	}
 

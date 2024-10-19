@@ -22,7 +22,6 @@ function Navbar() {
   const {
     data: user,
     error,
-    loaded,
   } = useFetchData(`/users/${email}`, [refreshImg]);
 
   if (error) {
@@ -57,7 +56,13 @@ function Navbar() {
   return (
     <div className="flex w-auto navbar ">
       <div className="flex flex-col h-full space-y-3 justify-between">
-        {user && <AppIcon user={user} setRefreshImg={setRefreshImg} />}
+        {user && (
+          <AppIcon
+            isAdmin={isAdmin}
+            user={user}
+            setRefreshImg={setRefreshImg}
+          />
+        )}
 
         <div className="overflow-y-auto mt-10">
           <ul className="flex flex-col pt-2 pb-4 space-y-1 text-sm ">

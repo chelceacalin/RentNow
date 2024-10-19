@@ -6,8 +6,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Data
@@ -34,13 +32,13 @@ public class BookDTO {
 
 	String rentedBy;
 
-	LocalDate rentedDate;
+	String rentedDate;
 
-	LocalDate rentedUntil;
+	String rentedUntil;
 
 	String photoUrl;
 
 	String created_date;
 
-	LocalDateTime updated_date;
+	String updated_date;
 }

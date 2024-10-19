@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import EditRoleModalWindow from "../../components/RoleManagement/EditRoleModalWindow";
 import "../../styles/variables.scss";
-function AppIcon({ user, setRefreshImg }) {
+function AppIcon({ user, setRefreshImg, isAdmin }) {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -39,6 +39,7 @@ function AppIcon({ user, setRefreshImg }) {
           user={user}
           isCurrentUser={true}
           updateUser={null}
+          isAdmin={isAdmin}
           setRefreshImg={setRefreshImg}
         />
       )}

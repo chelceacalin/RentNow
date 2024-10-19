@@ -32,6 +32,32 @@ function EditRoleModalWindow({
   const active_type = ["ACTIVE", "INACTIVE"];
   const MAX_FILE_SIZE = 2048 * 2048;
 
+  const getReport = () => {
+    axios
+      .get(`/reports/download-pdf/${user.email}`, {
+        responseType: "blob",
+      })
+      .then((response) => {
+        const url = window.URL.createObjectURL(
+          new Blob([response.data], { type: "application/pdf" })
+        );
+        const link = document.createElement("a");
+        link.href = url;
+        link.setAttribute(
+          "download",
+          `[RentNow]-report-${new Date().toISOString().split("T")[0]}t.pdf`
+        );
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        showSuccess("PDF Report successfully downloaded.");
+      })
+      .catch((error) => {
+        console.error("Error downloading PDF report:", error);
+        showError("Failed to download PDF report.");
+      });
+  };
+
   useEffect(() => {
     if (isModalOpen) {
       setSelectedRole(user.role);
@@ -123,8 +149,18 @@ function EditRoleModalWindow({
       });
   };
 
+  const handleFirstNameChange = (event) => {
+    const updatedFirstName = event.target.value;
+    setUserDTO((prevState) => ({ ...prevState, firstName: updatedFirstName }));
+  };
+
+  const handleLastNameChange = (event) => {
+    const updatedLastName = event.target.value;
+    setUserDTO((prevState) => ({ ...prevState, lastName: updatedLastName }));
+  };
+
   return (
-    <Dialog maxWidth={"md"} open={isModalOpen} onClose={closeModal}>
+    <Dialog maxWidth={"lg"} open={isModalOpen} onClose={closeModal}>
       <FontAwesomeIcon
         className="absolute top-4 right-4 cursor-pointer"
         icon={faTimes}
@@ -138,100 +174,129 @@ function EditRoleModalWindow({
         </h2>
       </div>
       <DialogContent>
-        {isCurrentUser && (
-          <>
-            <input
-              type="file"
-              accept="image/*"
-              onChange={handleImageChange}
-              id="imageUpload"
-              className="hidden"
-            />
-            <label
-              htmlFor="imageUpload"
-              className={`rent-button reset-width w-full reset-margin-left`}
-            >
-              Upload Image
-            </label>
-            {imagePreviewUrl && (
-              <div className="mt-4">
-                <h3 className="text-lg font-semibold text-gray-700 mb-2">
-                  Image Preview
-                </h3>
-                <div className="border rounded-lg overflow-hidden w-full h-52">
-                  <img
-                    src={imagePreviewUrl}
-                    alt="Selected"
-                    className="object-cover w-full h-full"
-                  />
-                </div>
-              </div>
+        <div className="flex w-full">
+          <div className="w-2/3 pr-5">
+            {isCurrentUser && (
+              <>
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={handleImageChange}
+                  id="imageUpload"
+                  className="hidden"
+                />
+                <label
+                  htmlFor="imageUpload"
+                  className={`rent-button reset-width w-full reset-margin-left`}
+                >
+                  Upload Image
+                </label>
+                {imagePreviewUrl && (
+                  <div className="mt-4">
+                    <h3 className="text-lg font-semibold text-gray-700 mb-2">
+                      Image Preview
+                    </h3>
+                    <div className="border rounded-lg overflow-hidden w-full h-52">
+                      <img
+                        src={imagePreviewUrl}
+                        alt="Selected"
+                        className="object-cover w-full h-full"
+                      />
+                    </div>
+                  </div>
+                )}
+              </>
             )}
-          </>
-        )}
-        <div className="mt-5">
-          <TextField
-            disabled
-            id="outlined-read-only-input"
-            className="w-auto"
-            label="Name"
-            defaultValue={user.username}
-          />
-        </div>
-        <div className="mt-4 mb-4">
-          <TextField
-            id="outlined-read-only-input"
-            className="w-full"
-            label="Email"
-            defaultValue={user.email}
-            disabled
-          />
-        </div>
 
-        {isAdmin && (
-          <>
-            <div className="mt-6">
-              <Autocomplete
-                value={selectedRole}
-                onChange={(_, value) => {
-                  setSelectedRole(value);
-                }}
-                options={role_type}
-                renderInput={(params) => <TextField {...params} label="Role" />}
+            <div className="mb-4 mt-4">
+              <TextField
+                label="First Name"
+                value={userDTO.firstName}
+                onChange={handleFirstNameChange}
+                fullWidth
               />
             </div>
-            <div className="mt-6">
-              <div className="mt-6">
-                <Autocomplete
-                  value={mapToActiveType}
-                  onChange={(_, value) => {
-                    setSelectedActivity(value === "ACTIVE");
-                  }}
-                  options={active_type}
-                  renderInput={(params) => (
-                    <TextField {...params} label="Active Status" />
-                  )}
-                />
-              </div>
+            <div className="mb-4">
+              <TextField
+                label="Last Name"
+                value={userDTO.lastName}
+                onChange={handleLastNameChange}
+                fullWidth
+              />
             </div>
-          </>
-        )}
+            {isAdmin && (
+              <>
+                <div className="mt-6">
+                  <Autocomplete
+                    value={selectedRole}
+                    onChange={(_, value) => {
+                      setSelectedRole(value);
+                    }}
+                    options={role_type}
+                    renderInput={(params) => (
+                      <TextField {...params} label="Role" />
+                    )}
+                  />
+                </div>
+                <div className="mt-6">
+                  <Autocomplete
+                    value={mapToActiveType}
+                    onChange={(_, value) => {
+                      setSelectedActivity(value === "ACTIVE");
+                    }}
+                    options={active_type}
+                    renderInput={(params) => (
+                      <TextField {...params} label="Active Status" />
+                    )}
+                  />
+                </div>
+              </>
+            )}
 
-        <div className="w-full mt-5">
-          <button
-            className="details-button db-sm"
-            onClick={(_) => {
-              editUser();
-            }}
-          >
-            Save
-          </button>
-          <button
-            className="details-button details-button-red db-sm"
-            onClick={closeModal}
-          >
-            Cancel
-          </button>
+            <div className="w-full mt-5">
+              <button
+                className="details-button db-sm"
+                onClick={(_) => {
+                  editUser();
+                }}
+              >
+                Save
+              </button>
+              <button
+                className="details-button details-button-red db-sm"
+                onClick={closeModal}
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+
+          {/* Right side: First Name and Last Name Editing */}
+          <div className="w-2/3 pl-5 border-l border-gray-300">
+            <div className="mt-5">
+              <TextField
+                disabled
+                id="outlined-read-only-input"
+                className="w-full"
+                label="Name"
+                defaultValue={user.username}
+              />
+            </div>
+            <div className="mt-4 mb-4">
+              <TextField
+                id="outlined-read-only-input"
+                className="w-auto"
+                label="Email"
+                defaultValue={user.email}
+                disabled
+              />
+            </div>
+
+            <label>Get Books Report:</label>
+            <button className="details-button" onClick={getReport}>
+              Click
+            </button>
+          </div>
         </div>
       </DialogContent>
     </Dialog>
