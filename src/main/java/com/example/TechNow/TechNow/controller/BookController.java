@@ -13,7 +13,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -22,7 +21,7 @@ import java.util.UUID;
 @RequestMapping("/books")
 @RequiredArgsConstructor
 @Slf4j
-public class BookController {
+public class BookController extends BaseController {
 
     final BookService bookService;
 
@@ -35,7 +34,7 @@ public class BookController {
             return bookService.findUserBooks(dto, pageNo, pageSize);
         } catch (Exception e) {
             log.error(e.getMessage());
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+            throw new RuntimeException(e.getMessage());
         }
     }
 
@@ -49,7 +48,7 @@ public class BookController {
             return bookService.findUserBooksExt(dto, pageNo, pageSize);
         } catch (Exception e) {
             log.error(e.getMessage());
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+            throw new RuntimeException(e.getMessage());
         }
     }
 
@@ -66,11 +65,10 @@ public class BookController {
     }
 
     @PostMapping("/delete/{id}")
-    public ResponseEntity<String> deleteBook(@PathVariable UUID id) {
+    public ResponseEntity<Object> deleteBook(@PathVariable UUID id) {
         bookService.deleteBookIfNotRented(id);
-        return ResponseEntity.ok("Book can be deleted");
+        return buildOkResponse("Book can be deleted");
     }
-
 
     @GetMapping("/{id}")
     public BookAddDTO findBookById(@PathVariable UUID id) {
@@ -92,9 +90,9 @@ public class BookController {
 
         if (errorOptional.isEmpty()) {
             bookService.addBookHistory(bookHistoryDTO);
-            return new ResponseEntity<>(bookHistoryDTO, HttpStatus.CREATED);
+            return buildCreatedResponse(bookHistoryDTO);
         } else {
-            return new ResponseEntity<>(errorOptional.get(), HttpStatus.BAD_REQUEST);
+            throw new RuntimeException(errorOptional.get());
         }
     }
 

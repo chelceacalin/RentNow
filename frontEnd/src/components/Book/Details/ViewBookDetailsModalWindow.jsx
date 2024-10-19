@@ -59,14 +59,12 @@ function ViewBookDetailsModalWindow({
       axios
         .get(`/books/extended?category=${category}`)
         .then((res) => {
-          if (res.status === 200) {
-            const filteredBooks = res.data.content.filter(
-              (recommendedBook) => recommendedBook.id !== book.id
-            );
-            const shuffledBooks = shuffleArray(filteredBooks);
+          const filteredBooks = res.data.content.filter(
+            (recommendedBook) => recommendedBook.id !== book.id
+          );
+          const shuffledBooks = shuffleArray(filteredBooks);
 
-            setRecommendedBooks(shuffledBooks.slice(0, 3));
-          }
+          setRecommendedBooks(shuffledBooks.slice(0, 3));
         })
         .catch((error) => {
           console.error("Failed to fetch recommended books: ", error);

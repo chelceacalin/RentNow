@@ -13,8 +13,7 @@ import java.util.List;
 @Transactional
 public class BookHistoryService {
 
-
-    private final BookHistoryRepository bookHistoryRepository;
+    final BookHistoryRepository bookHistoryRepository;
 
     public List<BookHistory> findAll() {
         return bookHistoryRepository.findAll()

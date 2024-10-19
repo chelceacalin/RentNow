@@ -1,18 +1,18 @@
 import GitHubIcon from "@mui/icons-material/GitHub";
 import GoogleIcon from "@mui/icons-material/Google";
-import {Box} from "@mui/material";
+import { Box } from "@mui/material";
 import CssBaseline from "@mui/material/CssBaseline";
 import Grid from "@mui/material/Grid";
 import Link from "@mui/material/Link";
 import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
-import {createTheme, ThemeProvider} from "@mui/material/styles";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
 import axios from "axios";
-import {GithubAuthProvider, signInWithPopup} from "firebase/auth";
-import {useContext} from "react";
-import {useNavigate} from "react-router-dom";
-import {UserLoginContext} from "../../utils/context/LoginProvider.jsx";
-import {auth, provider} from "../../utils/firebase/firebase.js";
+import { GithubAuthProvider, signInWithPopup } from "firebase/auth";
+import { useContext } from "react";
+import { useNavigate } from "react-router-dom";
+import { UserLoginContext } from "../../utils/context/LoginProvider.jsx";
+import { auth, provider } from "../../utils/firebase/firebase.js";
 import AppIconUnformatted from "../../utils/icons/AppIconUnformatted.jsx";
 
 const defaultTheme = createTheme();
@@ -54,8 +54,9 @@ function Login() {
   };
 
   const handleUserLogin = (userDetails) => {
-    axios.post(url + "/users/addUser", userDetails).then((response) => {
-      if (response.status === 200) {
+    axios
+      .post(url + "/users/addUser", userDetails)
+      .then((response) => {
         const data = response.data;
         setUsername(userDetails.firstName);
         setEmail(userDetails.email);
@@ -64,8 +65,10 @@ function Login() {
         setIsLoggedIn(true);
         set_isActive(data.is_active);
         navigate("/");
-      }
-    });
+      })
+      .catch((e) => {
+        console.error(e);
+      });
   };
 
   const handleSignInWithGoogle = () => {
@@ -111,10 +114,10 @@ function Login() {
   return (
     <ThemeProvider theme={defaultTheme}>
       <Grid
-          container
-          component="main"
-          sx={{height: "100vh"}}
-          className="w-full"
+        container
+        component="main"
+        sx={{ height: "100vh" }}
+        className="w-full"
       >
         <CssBaseline />
         <Grid
@@ -134,7 +137,7 @@ function Login() {
         />
         <Grid item xs={12} sm={8} md={7} component={Paper} elevation={6} square>
           <div className="bg-main-color-reverse flex justify-center">
-            <AppIconUnformatted/>
+            <AppIconUnformatted />
           </div>
           <Box
             sx={{
@@ -161,22 +164,22 @@ function Login() {
               sx={{ mt: 1, width: "100%", textAlign: "center" }}
             >
               <button
-                  className="rent-button"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    handleSignInWithGoogle();
-                  }}
+                className="rent-button"
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleSignInWithGoogle();
+                }}
               >
-                <GoogleIcon/> &nbsp; Sign in with Google
+                <GoogleIcon /> &nbsp; Sign in with Google
               </button>
               <button
-                  className="details-button"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    handleSignInWithGithub();
-                  }}
+                className="details-button"
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleSignInWithGithub();
+                }}
               >
-                <GitHubIcon/> &nbsp; Sign in with GitHub
+                <GitHubIcon /> &nbsp; Sign in with GitHub
               </button>
               <Copyright sx={{ mt: 5 }} />
             </Box>

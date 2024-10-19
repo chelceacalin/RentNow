@@ -1,16 +1,12 @@
 package com.example.TechNow.TechNow.controller;
 
 
-import com.example.TechNow.TechNow.dto.Category.CategoryAddResponseDTO;
 import com.example.TechNow.TechNow.dto.Category.CategoryDTO;
 import com.example.TechNow.TechNow.dto.Category.CategoryFilterDTO;
-import com.example.TechNow.TechNow.model.Category;
 import com.example.TechNow.TechNow.service.CategoryService;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Page;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,47 +16,60 @@ import java.util.UUID;
 @RequiredArgsConstructor
 @RequestMapping("/category")
 @Slf4j
-public class CategoryController {
+public class CategoryController extends BaseController {
 
 	final CategoryService categoryService;
 
 	@GetMapping()
-	public Page<CategoryDTO> getCategories(@ModelAttribute CategoryFilterDTO dto,
+	public ResponseEntity<Object> getCategories(@ModelAttribute CategoryFilterDTO dto,
 										   @RequestParam(defaultValue = "0", required = false) int pageNo,
 										   @RequestParam(defaultValue = "15", required = false) int pageSize) {
-		return categoryService.getCategories(dto, pageNo, pageSize);
+		try {
+			return buildOkResponse(categoryService.getCategories(dto, pageNo, pageSize));
+		} catch (Exception e) {
+			log.error("Get categories error: {}", e.getMessage());
+			throw new RuntimeException(e.getMessage());
+		}
 	}
 
 	@GetMapping("/{name}")
-	public CategoryDTO findCategoryByName(@PathVariable String name) {
-		return categoryService.findCategoryByName(name);
+	public ResponseEntity<Object> findCategoryByName(@PathVariable String name) {
+		try {
+			return buildOkResponse(categoryService.findCategoryByName(name));
+		} catch (Exception e) {
+			log.error("Find category error: {}", e.getMessage());
+			throw new RuntimeException(e.getMessage());
+		}
 	}
 
 	@PostMapping("/create")
-	public ResponseEntity<Category> createCategory(@RequestBody final CategoryDTO categoryDTO) {
-		return new ResponseEntity<>(categoryService.createCategory(categoryDTO), HttpStatus.OK);
+	public ResponseEntity<Object> createCategory(@RequestBody final CategoryDTO categoryDTO) {
+		try {
+			return buildCreatedResponse(categoryService.createCategory(categoryDTO));
+		} catch (Exception e) {
+			log.error("Create category error: {}", e.getMessage());
+			throw new RuntimeException(e.getMessage());
+		}
 	}
 
 	@PostMapping("/update/{id}")
-	public ResponseEntity<CategoryAddResponseDTO> updateCategory(@RequestBody CategoryDTO categoryDTO,
-																 @PathVariable("id") @NotNull UUID id) {
+	public ResponseEntity<Object> updateCategory(@RequestBody CategoryDTO categoryDTO, @PathVariable("id") @NotNull UUID id) {
 		try {
-			return new ResponseEntity<>(categoryService.updateCategory(categoryDTO, id), HttpStatus.OK);
+			return buildOkResponse(categoryService.updateCategory(categoryDTO, id));
 		} catch (Exception e) {
-			log.error(e.getMessage());
-			throw new RuntimeException("Error updating category ");
+			log.error("Update category error: {}", e.getMessage());
+			throw new RuntimeException(e.getMessage());
 		}
 	}
 
-
 	@PostMapping("/delete/{id}")
-	public ResponseEntity<String> deleteCategory(@PathVariable UUID id) {
+	public ResponseEntity<Object> deleteCategory(@PathVariable UUID id) {
 		try {
 			categoryService.deleteCategory(id);
+			return buildOkResponse();
 		} catch (Exception e) {
-			log.error("Delete Category Error {}", e.getMessage());
-			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+			log.error("Delete category error: {}", e.getMessage());
+			throw new RuntimeException(e.getMessage());
 		}
-		return ResponseEntity.ok("Category was deleted successfully");
 	}
 }

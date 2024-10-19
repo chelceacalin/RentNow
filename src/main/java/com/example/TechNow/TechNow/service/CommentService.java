@@ -83,7 +83,6 @@ public class CommentService {
 	public String deleteById(UUID id) {
 		try {
 			Comment comment = getEntityOrThrow(() -> commentRepository.findById(id), "Comment not found with id " + id);
-
 			if (comment.getParentComment() != null) {
 				Comment parentComment = comment.getParentComment();
 				parentComment.getChildren().remove(comment);

@@ -19,7 +19,6 @@ public class ReviewController {
 
     final ReviewService reviewService;
 
-
     @GetMapping("/book/{id}")
     public List<ReviewAddResponseDTO> getReviewsByBookId(@PathVariable(name = "id") UUID bookId) {
         return reviewService.findAllByBookId(bookId);
@@ -30,7 +29,7 @@ public class ReviewController {
         try {
             return reviewService.addReview(reviewAddDTO);
         } catch (Exception e) {
-            log.error(e.getMessage());
+            log.error("Add review error: {}", e.getMessage());
             throw new RuntimeException(e.getMessage());
         }
     }

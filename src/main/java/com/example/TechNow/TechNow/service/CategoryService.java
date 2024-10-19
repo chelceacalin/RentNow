@@ -22,6 +22,7 @@ import java.util.UUID;
 
 import static com.example.TechNow.TechNow.specification.CategorySpecification.getCategoryLike;
 import static com.example.TechNow.TechNow.util.CategoryConstants.NAME;
+import static com.example.TechNow.TechNow.util.Utils.getEntityOrThrow;
 import static java.util.Objects.nonNull;
 
 @Service
@@ -53,7 +54,7 @@ public class CategoryService {
 		Optional<String> errorOptional = validateCategoryCaseInsensitive(categoryDTO);
 
 		if (errorOptional.isPresent()) {
-			throw new RuntimeException("Not Found");
+			throw new RuntimeException(errorOptional.get());
 		}
 
 		Category categoryToBeSaved = Category.builder()
@@ -115,9 +116,7 @@ public class CategoryService {
 	}
 
 	public void deleteCategory(UUID id) {
-		Category categoryFound = categoryRepository.findById(id)
-				.orElseThrow(() -> new RuntimeException("Category was already deleted by another user"));
-
+		Category categoryFound = getEntityOrThrow(() -> categoryRepository.findById(id), "Category was already deleted by another user");
 		if (!categoryFound.getBookList().isEmpty()) {
 			throw new RuntimeException("Cannot delete a category associated with a book");
 		}
@@ -125,12 +124,7 @@ public class CategoryService {
 	}
 
 	public CategoryDTO findCategoryByName(String name) {
-		Optional<Category> categoryOptional = categoryRepository.findByNameIgnoreCase(name);
-		if (categoryOptional.isPresent()) {
-			Category category = categoryOptional.get();
+		Category category = getEntityOrThrow(() -> categoryRepository.findByNameIgnoreCase(name), "Category not found");
 			return CategoryMapper.toDTO(category);
-		} else {
-			throw new RuntimeException("Category not found");
-		}
 	}
 }

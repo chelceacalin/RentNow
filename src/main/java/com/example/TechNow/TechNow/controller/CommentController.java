@@ -1,7 +1,6 @@
 package com.example.TechNow.TechNow.controller;
 
 import com.example.TechNow.TechNow.dto.Comment.CommentAddDTO;
-import com.example.TechNow.TechNow.dto.Comment.CommentAddResponseDTO;
 import com.example.TechNow.TechNow.service.CommentService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -14,14 +13,14 @@ import java.util.UUID;
 @Slf4j
 @RequiredArgsConstructor
 @RequestMapping("/comments")
-public class CommentController {
+public class CommentController extends BaseController {
 
 
 	final CommentService commentService;
 
 	@PostMapping
-	public ResponseEntity<CommentAddResponseDTO> addComment(@RequestBody CommentAddDTO commentAddDTO) {
-		return ResponseEntity.ok(commentService.addComment(commentAddDTO));
+	public ResponseEntity<Object> addComment(@RequestBody CommentAddDTO commentAddDTO) {
+		return buildCreatedResponse(commentService.addComment(commentAddDTO));
 	}
 
 	@DeleteMapping("/{id}")

@@ -181,23 +181,16 @@ public class BookService {
     }
 
     public BookAddDTO findBookByID(UUID id) {
-        Optional<Book> bookOptional = bookRepository.findById(id);
-        if (bookOptional.isPresent()) {
-            Book book = bookOptional.get();
+        Book book = getEntityOrThrow(() -> bookRepository.findById(id), "Book with id " + id + " not found");
             return BookMapper.toBookAddDto(book);
-        } else {
-            throw new RuntimeException("Book with id " + id + " not found");
-        }
     }
 
     public void updateBook(UUID id, BookAddDTO bookDTO, MultipartFile imageFile) {
-        Optional<Book> optionalBook = bookRepository.findById(id);
-        if (optionalBook.isPresent()) {
-            Book foundBook = optionalBook.get();
-            Optional<Category> categoryOptional = categoryRepository.findByNameIgnoreCase(bookDTO.getCategory());
-            if (categoryOptional.isPresent()) {
-                foundBook.setCategory(
-                                categoryOptional.get())
+        Book foundBook = getEntityOrThrow(() -> bookRepository.findById(id), "Category not found");
+
+        Category categoryFound = getEntityOrThrow(() -> categoryRepository.findByNameIgnoreCase(bookDTO.getCategory()), "Category not found");
+        foundBook
+                .setCategory(categoryFound)
                         .setTitle(bookDTO.getTitle())
                         .setDirector(bookDTO.getDirector())
                         .setDescription(bookDTO.getDescription());
@@ -206,17 +199,10 @@ public class BookService {
                     foundBook.setPhotoUrl(imageUrl);
                 }
                 bookRepository.save(foundBook);
-            } else {
-                throw new RuntimeException("Category not found");
-            }
-        } else {
-            throw new RuntimeException("Book Not Found");
-        }
     }
 
     public void deleteBookIfNotRented(UUID id) {
-        Book bookFound = bookRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Book to be deleted does not exist"));
+        Book bookFound = getEntityOrThrow(() -> bookRepository.findById(id), "Book with id " + id + " not found");
         if (!bookFound.isAvailable()) {
             String userName = getRentedBy(id);
             throw new RuntimeException("Book is being watched by: " + userName
@@ -272,20 +258,13 @@ public class BookService {
             BookHistory bookHistory = toBookHistory(bookHistoryDTO);
             bookHistoryRepository.save(bookHistory);
         });
-
-
     }
 
     public Optional<String> validateBookHistory(BookHistoryDTO bookHistoryDTO) {
-        Optional<Book> bookOptional = bookRepository.findById(bookHistoryDTO.getBookId());
-        if (bookOptional.isEmpty()) {
-            return Optional.of("Book not found");
-        }
-        if (!bookOptional.get().isAvailable()) {
+        Book book = getEntityOrThrow(() -> bookRepository.findById(bookHistoryDTO.getBookId()), "Book not found");
+        if (!book.isAvailable()) {
             return Optional.of("Book is not available, was rented by another user");
         }
-
-
         Optional<User> user = userRepository.findById(String.valueOf(bookHistoryDTO.getUserId()));
         if (user.isEmpty()) {
             return Optional.of("User not found");
@@ -309,16 +288,9 @@ public class BookService {
 
 
     public void changeRentedBookStatus(UUID id, EmailDTO emailDTO) {
-        Optional<Book> bookOptional = bookRepository.findById(id);
-        if (bookOptional.isPresent()) {
-            Book book = bookOptional.get();
+        Book book = getEntityOrThrow(() -> bookRepository.findById(id), "Book is not found");
             book.setAvailable(true);
             bookRepository.save(book);
             emailSenderService.sendEmail(emailDTO.getOwnerEmail(), String.format("Your book %s has been returned", emailDTO.getBookTitle()), getEmailBody(emailDTO));
-        } else {
-            throw new RuntimeException("Book is not found");
-        }
     }
-
-
 }

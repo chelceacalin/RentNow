@@ -1,7 +1,6 @@
 package com.example.TechNow.TechNow.controller;
 
 import com.example.TechNow.TechNow.dto.User.UserAddDTO;
-import com.example.TechNow.TechNow.dto.User.UserAddReponseDTO;
 import com.example.TechNow.TechNow.dto.User.UserDTO;
 import com.example.TechNow.TechNow.dto.User.UserFilterDTO;
 import com.example.TechNow.TechNow.model.User;
@@ -17,7 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 @RequiredArgsConstructor
 @RequestMapping("/users")
 @Slf4j
-public class UserController {
+public class UserController extends BaseController {
 
 	final UserService userService;
 
@@ -35,9 +34,9 @@ public class UserController {
 	}
 
 	@PostMapping("/update/{role}")
-	public ResponseEntity<User> updateUser(@RequestPart("userDTO") UserDTO userDTO, @PathVariable("role") User.Role role, @RequestPart(value = "imageFile", required = false) MultipartFile imageFile) {
+	public ResponseEntity<Object> updateUser(@RequestPart("userDTO") UserDTO userDTO, @PathVariable("role") User.Role role, @RequestPart(value = "imageFile", required = false) MultipartFile imageFile) {
 		log.info("Updating user role {}", userDTO.getUsername());
-		return ResponseEntity.ok(userService.updateUser(userDTO, role, imageFile));
+		return buildOkResponse(userService.updateUser(userDTO, role, imageFile));
 	}
 
 	@GetMapping("/{email}")
@@ -47,7 +46,7 @@ public class UserController {
 
 
 	@PostMapping("/addUser")
-	public ResponseEntity<UserAddReponseDTO> addUser(@RequestBody UserAddDTO userAddDTO) {
-		return ResponseEntity.ok(userService.addUser(userAddDTO));
+	public ResponseEntity<Object> addUser(@RequestBody UserAddDTO userAddDTO) {
+		return buildCreatedResponse(userService.addUser(userAddDTO));
 	}
 }
