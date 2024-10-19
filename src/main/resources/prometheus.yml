@@ -15,3 +15,15 @@ scrape_configs:
     scrape_interval: 5s
     static_configs:
       - targets: ['host.docker.internal:8081']
+
+  - job_name: 'minio'
+    metrics_path: /minio/v2/metrics/cluster
+    scheme: http
+    scrape_interval: 5s
+    static_configs:
+      - targets: [ 'minio:9000' ]
+
+  - job_name: 'postgres'
+    scrape_interval: 5s
+    static_configs:
+      - targets: [ 'postgres_exporter:9187' ]

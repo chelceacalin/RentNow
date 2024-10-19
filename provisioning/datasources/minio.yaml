@@ -1,0 +1,9 @@
+apiVersion: 1
+
+providers:
+  - name: 'MinIO Dashboards'
+    folder: ''
+    type: file
+    url: http://minio:9000
+    options:
+      path: /var/lib/grafana/dashboards
