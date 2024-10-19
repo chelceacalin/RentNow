@@ -1,10 +1,12 @@
 package com.example.TechNow.TechNow.service;
 
+import com.example.TechNow.TechNow.dto.Category.CategoryAddResponseDTO;
 import com.example.TechNow.TechNow.dto.Category.CategoryDTO;
 import com.example.TechNow.TechNow.dto.Category.CategoryFilterDTO;
 import com.example.TechNow.TechNow.mapper.CategoryMapper;
 import com.example.TechNow.TechNow.model.Category;
 import com.example.TechNow.TechNow.repository.CategoryRepository;
+import com.example.TechNow.TechNow.util.Utils;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -64,7 +66,7 @@ public class CategoryService {
 		return categoryRepository.save(categoryToBeSaved);
 	}
 
-	public Category updateCategory(CategoryDTO categoryDTO, UUID id) {
+	public CategoryAddResponseDTO updateCategory(CategoryDTO categoryDTO, UUID id) {
 		Optional<String> errorOptional = validateCategoryCaseSensitive(categoryDTO);
 
 		if (errorOptional.isPresent()) {
@@ -80,7 +82,14 @@ public class CategoryService {
 		toUpdateCategory.setName(categoryDTO.getName());
 		toUpdateCategory.setCreated_date(toUpdateCategory.getCreated_date());
 		toUpdateCategory.setUpdated_date(LocalDateTime.now());
-		return categoryRepository.save(toUpdateCategory);
+
+		Category updatedCategory = categoryRepository.save(toUpdateCategory);
+		return new CategoryAddResponseDTO()
+				.setId(updatedCategory.getId())
+				.setName(updatedCategory.getName())
+				.setAvailable(updatedCategory.isAvailable())
+				.setUpdated_date(Utils.parseDate(updatedCategory.getUpdated_date()))
+				.setCreated_date(Utils.parseDate(updatedCategory.getCreated_date()));
 	}
 
 	public Optional<String> validateCategoryCaseSensitive(CategoryDTO categoryDTO) {

@@ -45,10 +45,14 @@ function EditCategoryNameModalWindow({
         name: newName,
       })
       .then((response) => {
+        const { data } = response;
+        console.log("Data", data);
         showSuccess("Category edited successfully!");
         updateCategory({
-          id: response.data.id,
-          name: response.data.name,
+          id: data.id,
+          name: data.name,
+          created_date: data.created_date,
+          updated_date: data.updated_date,
         });
         closeModal();
       })

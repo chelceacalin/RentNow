@@ -1,6 +1,7 @@
 package com.example.TechNow.TechNow.controller;
 
 
+import com.example.TechNow.TechNow.dto.Category.CategoryAddResponseDTO;
 import com.example.TechNow.TechNow.dto.Category.CategoryDTO;
 import com.example.TechNow.TechNow.dto.Category.CategoryFilterDTO;
 import com.example.TechNow.TechNow.model.Category;
@@ -41,8 +42,8 @@ public class CategoryController {
 	}
 
 	@PostMapping("/update/{id}")
-	public ResponseEntity<Category> updateCategory(@RequestBody CategoryDTO categoryDTO,
-											@PathVariable("id") @NotNull UUID id) {
+	public ResponseEntity<CategoryAddResponseDTO> updateCategory(@RequestBody CategoryDTO categoryDTO,
+																 @PathVariable("id") @NotNull UUID id) {
 		try {
 			return new ResponseEntity<>(categoryService.updateCategory(categoryDTO, id), HttpStatus.OK);
 		} catch (Exception e) {
