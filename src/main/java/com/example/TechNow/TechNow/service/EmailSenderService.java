@@ -6,6 +6,7 @@ import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.ByteArrayResource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
@@ -39,7 +40,7 @@ public class EmailSenderService {
         }
     }
 
-    public void sendEmail(String to, String subject, String body) {
+    public void sendEmail(String to, String subject, String body, byte[] pdfData) {
         if (!isEnabled) {
             log.warn(MAIL + "Mail service not enabled");
             return;
@@ -52,6 +53,9 @@ public class EmailSenderService {
                 helper.setTo(to);
                 helper.setSubject(subject);
                 helper.setText(body, true);
+                if (pdfData != null) {
+                    helper.addAttachment("report.pdf", new ByteArrayResource(pdfData));
+                }
                 mailSender.send(mimeMessage);
                 log.info(MAIL + "Mail sent successfully");
             } catch (Exception e) {

@@ -74,7 +74,7 @@ public class NotificationService {
                             "</html>",
                     user.getUsername(), bookTitles
             );
-            emailSenderService.sendEmail(user.getEmail(), emailSubject, emailBody);
+            emailSenderService.sendEmail(user.getEmail(), emailSubject, emailBody, null);
         });
     }
 
@@ -100,7 +100,7 @@ public class NotificationService {
                             "</html>",
                     user.getUsername(), bookTitles
             );
-            emailSenderService.sendEmail(user.getEmail(), emailSubject, emailBody);
+            emailSenderService.sendEmail(user.getEmail(), emailSubject, emailBody, null);
         });
     }
 }

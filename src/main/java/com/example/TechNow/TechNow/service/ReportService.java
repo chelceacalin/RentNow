@@ -68,7 +68,7 @@ public class ReportService {
 		}
 
 		if (books.isEmpty()) {
-			throw new RuntimeException("No books available for the user");
+			return null;
 		}
 
 		ByteArrayOutputStream out = new ByteArrayOutputStream();

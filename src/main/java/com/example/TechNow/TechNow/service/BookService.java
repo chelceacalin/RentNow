@@ -270,9 +270,9 @@ public class BookService {
             bookRepository.save(book);
 
             User user = userRepository.findById(String.valueOf(bookHistoryDTO.getUserId())).orElseThrow();
-            emailSenderService.sendEmail(user.getEmail(), RENTNOW + "You have successfully rented book " + book.getTitle(), getRentBookMessage(user, book, String.valueOf(bookHistoryDTO.getRentedUntil())));
+            emailSenderService.sendEmail(user.getEmail(), RENTNOW + "You have successfully rented book " + book.getTitle(), getRentBookMessage(user, book, String.valueOf(bookHistoryDTO.getRentedUntil())), null);
             emailSenderService.sendEmail(book.getOwner().getEmail(), RENTNOW + "Your book " + book.getTitle() + " has been rented by " + user.getEmail(),
-                    getRentBookMessageForOwner(bookHistoryDTO, book, user));
+                    getRentBookMessageForOwner(bookHistoryDTO, book, user), null);
 
             BookHistory bookHistory = toBookHistory(bookHistoryDTO);
             bookHistoryRepository.save(bookHistory);
@@ -310,6 +310,6 @@ public class BookService {
         Book book = getEntityOrThrow(() -> bookRepository.findById(id), "Book is not found");
             book.setAvailable(true);
             bookRepository.save(book);
-            emailSenderService.sendEmail(emailDTO.getOwnerEmail(), String.format("Your book %s has been returned", emailDTO.getBookTitle()), getEmailBody(emailDTO));
+        emailSenderService.sendEmail(emailDTO.getOwnerEmail(), String.format("Your book %s has been returned", emailDTO.getBookTitle()), getEmailBody(emailDTO), null);
     }
 }
