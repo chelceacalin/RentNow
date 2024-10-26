@@ -38,3 +38,10 @@ frontEnd/dist
 .idea
 .mvn
 dist
+
+
+# Python
+Rag_Service/.env
+Rag_Service/.venv
+Rag_Service/.idea
+Rag_Service/chromadb
