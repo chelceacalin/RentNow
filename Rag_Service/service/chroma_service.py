@@ -1,10 +1,9 @@
 from chromadb.api.types import IncludeEnum
 from chromadb.config import Settings
 from chromadb import Client, Collection
-import logging
 import uuid
-
-logger = logging.getLogger(__name__)
+from model.Book import Book
+from config.logger_config import logger
 
 # Initialize ChromaDB client
 client_settings = Settings(
@@ -14,6 +13,9 @@ client_settings = Settings(
 )
 
 client = Client(client_settings)
+
+# Init default collection
+collection = client.get_collection("user_books") or client.create_collection("user_books")
 
 
 def create_collection(name: str):
@@ -26,27 +28,23 @@ def create_collection(name: str):
         return client.get_collection(name)
 
 
-# Init default collection
-collection = create_collection("user_books")
-
-
 def printCollections():
     collections = client.list_collections()
     for c in collections:
         logger.info(c)
 
 
-def add_book_to_collection(user_email: str, category: str, name: str):
+def add_book_to_collection(user_email: str, book: Book):
     try:
         unique_id = f"{user_email}_{uuid.uuid4()}"
         collection.add(
-            documents = [f"Category: {category}, Name: {name}"],
+            documents = [f"Category: {book.category}, Title: {book.title}"],
             ids = [unique_id],
             metadatas = {"user_email": user_email}
         )
-        logger.info("Added book to collection {}".format(name))
+        logger.info(f"Added book to collection: {book}")
     except Exception as e:
-        logger.error("Failed to add book to collection {}".format(name))
+        logger.error(f"Failed to add book to collection: {book}, Error: {e}")
 
 
 def get_books_for_user(user_email: str):
@@ -55,8 +53,7 @@ def get_books_for_user(user_email: str):
             where = {"user_email": user_email},
             include = [IncludeEnum.metadatas, IncludeEnum.documents]
         )
-        if results and results['documents']:
-            return " ".join(results['documents'])
+        return " ".join(results['documents']) if results.get('documents') else None
     except Exception as e:
         logger.error(f"Error retrieving books for user {user_email}: {e}")
-    return None
+        return None

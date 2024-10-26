@@ -1,6 +1,7 @@
 package com.example.TechNow.TechNow.service;
 
 
+import com.example.TechNow.TechNow.config.MessageProducer;
 import com.example.TechNow.TechNow.dto.Book.*;
 import com.example.TechNow.TechNow.dto.BookHistory.BookHistoryDTO;
 import com.example.TechNow.TechNow.dto.Email.EmailDTO;
@@ -14,8 +15,10 @@ import com.example.TechNow.TechNow.model.User;
 import com.example.TechNow.TechNow.repository.*;
 import com.example.TechNow.TechNow.specification.BookSpecification;
 import com.example.TechNow.TechNow.util.ReviewRepository;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.springframework.beans.BeanUtils;
@@ -51,6 +54,7 @@ public class BookService {
     final CategoryRepository categoryRepository;
     final ImageStorageService imageStorageService;
     final BookHistoryRepository bookHistoryRepository;
+    final MessageProducer messageProducer;
 
     public Page<BookDTO> findUserBooks(BookFilterDTO bookFilter, int pageNo, int pageSize) {
         Specification<Book> specification = getSpecification(bookFilter);
@@ -306,10 +310,17 @@ public class BookService {
     }
 
 
+    @SneakyThrows
     public void changeRentedBookStatus(UUID id, EmailDTO emailDTO) {
         Book book = getEntityOrThrow(() -> bookRepository.findById(id), "Book is not found");
             book.setAvailable(true);
             bookRepository.save(book);
+        String renterEmail = emailDTO.getRenterEmail();
+
+        messageProducer.sendMessage("BOOK_RETURNED", new ObjectMapper().writeValueAsString(new BookRecord(renterEmail, book.getCategory().getName(), book.getTitle())));
         emailSenderService.sendEmail(emailDTO.getOwnerEmail(), String.format("Your book %s has been returned", emailDTO.getBookTitle()), getEmailBody(emailDTO), null);
+    }
+
+    record BookRecord(String user_email, String category, String title) {
     }
 }

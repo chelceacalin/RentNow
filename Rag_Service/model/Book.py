@@ -6,14 +6,12 @@ from typing import Any
 class Book:
     title: str
     category: str
-    author: str
 
     def __str__(self):
-        return f"{self.title} - {self.category} - {self.author}"
+        return f"{self.title} - {self.category} \n"
 
     @classmethod
     def from_dict(cls, obj: Any) -> 'Book':
         title = obj.get("title", "")
         category = obj.get("category", "")
-        author = obj.get("author", "")
-        return cls(title = title, category = category, author = author)
+        return cls(title = title, category = category)

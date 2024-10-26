@@ -38,6 +38,11 @@ spring:
   threads:
     virtual:
       enabled: true
+  #Kafka
+  kafka:
+    bootstrap-servers: localhost:9092
+    consumer:
+      group-id: cID
 
 # Cors
 custom:
@@ -48,6 +53,7 @@ custom:
   enableMailService: false
   remindersSchedulerTime: 5000
   admin_email: chelceacalin1@gmail.com
+  kafka_topics: BOOK_RETURNED
 
 # Minio
 minio:
