@@ -5,6 +5,7 @@ import com.example.TechNow.TechNow.model.Book;
 import com.example.TechNow.TechNow.model.BookHistory;
 import com.example.TechNow.TechNow.model.User;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 public class BookHistoryMapper {
@@ -22,6 +23,8 @@ public class BookHistoryMapper {
 				.rentedDate(bookHistoryDTO.getRentedDate())
 				.rentedUntil(bookHistoryDTO.getRentedUntil())
 				.book(book)
+				.created_date(LocalDateTime.now())
+				.updated_date(LocalDateTime.now())
 				.rentedBy(user)
 				.build();
 	}

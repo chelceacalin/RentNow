@@ -1,20 +1,27 @@
 package com.example.TechNow.TechNow.config;
 
 import lombok.RequiredArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
+@Slf4j
 public class MessageProducer {
 
-	private static final Logger log = LoggerFactory.getLogger(MessageProducer.class);
 	final KafkaTemplate<String, String> kafkaTemplate;
 
+	@Value("${custom.kafka.enabled}")
+	boolean kafkaEnabled;
+
 	public void sendMessage(String topic, String message) {
-		log.info("Message sent to topic " + topic + " : " + message);
+		if (!kafkaEnabled) {
+			log.info("[KAFKA] is not enabled");
+			return;
+		}
+		log.info("Message sent to topic {} : {}", topic, message);
 		kafkaTemplate.send(topic, message);
 	}
 }

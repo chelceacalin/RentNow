@@ -3,7 +3,7 @@ import { Tooltip, Typography } from "@mui/material";
 import dayjs from "dayjs";
 
 function RentedUntil({ book }) {
-  const rentedUntil = dayjs(book.rentedUntil);
+  const rentedUntil = dayjs(book.rentedUntil, "DD-MM-YYYY");
   const now = dayjs();
   const hoursUntilRented = Math.abs(rentedUntil.diff(now, "hour"));
 
@@ -28,7 +28,7 @@ function RentedUntil({ book }) {
           fontWeight: "bold",
         }}
       >
-        {rentedUntil.format("MMM D, YYYY h:mm A")}
+        {book.rentedUntil}
         <Tooltip title={`Time left: ${timeLeftText}`} arrow>
           <InfoIcon
             style={{

@@ -1,13 +1,13 @@
 package com.example.TechNow.TechNow.config;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.admin.AdminClient;
 import org.apache.kafka.clients.admin.AdminClientConfig;
 import org.apache.kafka.clients.admin.NewTopic;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.core.DefaultKafkaProducerFactory;
@@ -22,9 +22,14 @@ import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
 @Configuration
+@ConditionalOnProperty(name = "custom.kafka.enabled", havingValue = "true")
+@Slf4j
 public class KafkaProducerConfig {
 
-	private static final Logger log = LoggerFactory.getLogger(KafkaProducerConfig.class);
+	public KafkaProducerConfig() {
+		log.info("[KAFKA] KafkaProducerConfig is loaded because custom.kafka.enabled=true");
+	}
+
 	@Value("${spring.kafka.bootstrap-servers}")
 	private String bootstrapServers;
 

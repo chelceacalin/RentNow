@@ -54,6 +54,7 @@ custom:
   remindersSchedulerTime: 5000
   admin_email: chelceacalin1@gmail.com
   kafka_topics: BOOK_RETURNED
+  kafka.enabled: false
 
 # Minio
 minio:
