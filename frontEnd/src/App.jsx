@@ -18,6 +18,7 @@ import MyProfile from "./pages/MyBooks/MyProfile";
 import Books_MyRentedBooks from "./pages/MyRentedBooks/Books_MyRentedBooks.jsx";
 import NotFound from "./pages/NotFound/NotFound";
 import RoleManagement from "./pages/RoleManagement/RoleManagement";
+import Settings from "./pages/Settings/Settings.jsx";
 import LoginProvider, { UserLoginContext } from "./utils/context/LoginProvider";
 import { ReviewsProvider } from "./utils/context/ReviewsContext.jsx";
 import { UserProvider } from "./utils/context/UserContext.jsx";
@@ -91,6 +92,7 @@ function MainContent() {
                 element={<CategoryManagement />}
               />
               <Route path="/roleManagement" element={<RoleManagement />} />
+              <Route path="/settings" element={<Settings />} />
             </Route>
 
             <Route path="*" element={<NotFound />} />

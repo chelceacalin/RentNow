@@ -10,6 +10,7 @@ import CategoryManagementItem from "./CategoryManagementItem";
 import LogoutNavItem from "./LogoutNavItem";
 import ProfileNavItem from "./ProfileNavItem";
 import RoleManagementItem from "./RoleManagementItem";
+import SettingsItem from "./SettingsItem.jsx";
 import "./css/Navbar.scss";
 function Navbar() {
   let navigate = useNavigate();
@@ -19,10 +20,7 @@ function Navbar() {
   const { isAdmin, setIsAdmin, setUsername, setToken, setIsLoggedIn, email } =
     useContext(UserLoginContext);
 
-  const {
-    data: user,
-    error,
-  } = useFetchData(`/users/${email}`, [refreshImg]);
+  const { data: user, error } = useFetchData(`/users/${email}`, [refreshImg]);
 
   if (error) {
     showError(`Error: ${error.message}`);
@@ -85,6 +83,13 @@ function Navbar() {
             />
 
             <CategoryManagementItem
+              selectedItem={selectedItem}
+              handleItemClick={handleItemClick}
+              navigate={navigate}
+              isAdmin={isAdmin}
+            />
+
+            <SettingsItem
               selectedItem={selectedItem}
               handleItemClick={handleItemClick}
               navigate={navigate}
