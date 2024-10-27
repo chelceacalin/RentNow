@@ -26,7 +26,7 @@ function DeleteQaOption({
         <p>Are you sure you want to delete this Q&A option?</p>
         <div className="flex justify-end mt-4 space-x-2">
           <button className="details-button" onClick={handleDelete}>
-            Save
+            Confirm
           </button>
           <button
             className="details-button details-button-red"

@@ -1,14 +1,21 @@
-import React, { useState } from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 import AddQAOption from "../../components/Settings/AddQAOption";
 import DeleteQaOption from "../../components/Settings/DeleteQaOption";
 import EditQaOption from "../../components/Settings/EditQaOption";
 import { showError, showSuccess } from "../../service/ToastService";
-
+import { useFetchData } from "../../utils/hooks/useFetchData";
 function Settings() {
-  const [qaList, setQaList] = useState([
-    { id: 1, question: "What is your name?", answer: "John Doe" },
-    { id: 2, question: "What is your favorite color?", answer: "Blue" },
-  ]);
+  const [triggerRefresh, setTriggerRefresh] = useState(false);
+  const toggleRefresh = () => setTriggerRefresh((prev) => !prev);
+  const { data, loaded } = useFetchData("/qa", [triggerRefresh]);
+  const [qaList, setQaList] = useState([]);
+
+  useEffect(() => {
+    if (loaded && data) {
+      setQaList(data);
+    }
+  }, [data, loaded]);
 
   const [modalOpen, setModalOpen] = useState(false);
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
@@ -30,21 +37,21 @@ function Settings() {
     setCurrentQa((prev) => ({ ...prev, [field]: value }));
   };
 
-  const handleSave = () => {
+  const handleSave = async () => {
     if (!currentQa.question.trim() || !currentQa.answer.trim()) {
       showError("Question and Answer cannot be empty");
       return;
     }
 
-    setQaList((prevQaList) =>
-      prevQaList.map((qa) =>
-        qa.id === currentQa.id
-          ? { ...qa, question: currentQa.question, answer: currentQa.answer }
-          : qa
-      )
-    );
-    showSuccess("Successfully updated the Q&A");
-    handleCloseModal();
+    try {
+      await axios.put("/qa", currentQa);
+      showSuccess("Successfully updated the Q&A");
+      toggleRefresh();
+    } catch (error) {
+      showError("Failed to save Q&A option");
+    } finally {
+      handleCloseModal();
+    }
   };
 
   const handleOpenDeleteModal = (qa) => {
@@ -57,12 +64,16 @@ function Settings() {
     setCurrentQa(null);
   };
 
-  const handleDelete = () => {
-    setQaList((prevQaList) =>
-      prevQaList.filter((qa) => qa.id !== currentQa.id)
-    );
-    showSuccess("Successfully deleted the Q&A");
-    handleCloseDeleteModal();
+  const handleDelete = async () => {
+    try {
+      await axios.delete(`/qa/${currentQa.id}`);
+      showSuccess("Successfully deleted the Q&A");
+      toggleRefresh();
+    } catch (err) {
+      showError("Failed to delete the Q&A");
+    } finally {
+      handleCloseDeleteModal();
+    }
   };
 
   const handleOpenAddModal = () => {
@@ -74,18 +85,21 @@ function Settings() {
     setNewQa({ question: "", answer: "" });
   };
 
-  const handleAddNewQa = () => {
+  const handleAddNewQa = async () => {
     if (!newQa.question.trim() || !newQa.answer.trim()) {
       showError("Question and Answer cannot be empty");
       return;
     }
 
-    setQaList((prevQaList) => [
-      ...prevQaList,
-      { id: Date.now(), question: newQa.question, answer: newQa.answer },
-    ]);
-    showSuccess("Successfully added new Q&A");
-    handleCloseAddModal();
+    try {
+      await axios.post("/qa", newQa);
+      showSuccess("Successfully added a new Q&A");
+      toggleRefresh();
+    } catch (error) {
+      showError("Failed to save Q&A option");
+    } finally {
+      handleCloseAddModal();
+    }
   };
 
   return (
