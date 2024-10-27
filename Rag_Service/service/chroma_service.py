@@ -1,12 +1,14 @@
-from threading import Thread
-from flask import Flask, jsonify, request
+import uuid
+from typing import List, Dict
+
+from chromadb import Client
 from chromadb.api.types import IncludeEnum
 from chromadb.config import Settings
-from chromadb import Client, Collection
-import uuid
-from model.Book import Book
-from config.logger_config import logger
 from sentence_transformers import SentenceTransformer
+
+from config.logger_config import logger
+from model.Book import Book
+from model.Qa import Qa
 
 # Initialize the SentenceTransformer model locally
 embedding_model = SentenceTransformer('all-MiniLM-L6-v2')
@@ -34,6 +36,7 @@ def print_collections():
     except Exception as e:
         logger.error(f"Failed to retrieve collection names: {e}")
         return []
+
 
 # ----------------------------
 # Book Collection Functions
@@ -71,22 +74,25 @@ def generate_embedding(text: str):
     return embedding_model.encode(text).tolist()
 
 
-def add_qa_to_collection(question: str, answer: str):
+def add_qa_to_collection(qa: Qa):
     try:
-        unique_id = str(uuid.uuid4())
-        question_embedding = generate_embedding(question)
+        question_embedding = generate_embedding(qa.question)
         qa_collection.add(
-            documents = [f"Q: {question} A: {answer}"],
-            ids = [unique_id],
+            documents = [f"Q: {qa.question} A: {qa.answer} ID: {qa.id}"],
+            ids = [qa.id],
             embeddings = [question_embedding],
-            metadatas = {"question": question, "answer": answer}
+            metadatas = {"question": qa.question, "answer": qa.answer}
         )
-        logger.info(f"Added Q&A to collection: {question} -> {answer}")
+        logger.info(f"Added Q&A to collection: {qa.question} -> {qa.answer}")
     except Exception as e:
-        logger.error(f"Failed to add Q&A to collection: {question}, Error: {e}")
+        logger.error(f"Failed to add Q&A to collection: {qa.question}, Error: {e}")
 
 
-def retrieve_similar_qas(query: str, top_k: int = 3):
+def retrieve_similar_qas(query: str, top_k: int = 3) -> List[Dict[str, str]]:
+    """
+    Retrieve similar Q&A documents based on the provided query. Returns a list of dictionaries
+    with each dictionary containing the 'id', 'question', and 'answer' for each similar document.
+    """
     try:
         query_embedding = generate_embedding(query)
         results = qa_collection.query(
@@ -94,10 +100,17 @@ def retrieve_similar_qas(query: str, top_k: int = 3):
             n_results = top_k,
             include = [IncludeEnum.documents, IncludeEnum.metadatas]
         )
-        return [
-            {"question": res["metadata"]["question"], "answer": res["metadata"]["answer"]}
-            for res in results.get("results", [])
+
+        output = [
+            {
+                "id": result["id"],
+                "question": result["metadata"]["question"],
+                "answer": result["metadata"]["answer"]
+            }
+            for result in results.get("results", [])
         ]
+        return output
+
     except Exception as e:
         logger.error(f"Error retrieving similar Q&As: {e}")
         return []
@@ -111,10 +124,11 @@ def delete_qa_entry(unique_id: str):
         logger.error(f"Failed to delete Q&A entry with ID {unique_id}: {e}")
 
 
-def update_qa_entry(unique_id: str, new_question: str, new_answer: str):
+def update_qa_entry(qa_id: str, new_question: str, new_answer: str):
     try:
-        delete_qa_entry(unique_id)
-        add_qa_to_collection(new_question, new_answer)
-        logger.info(f"Updated Q&A entry with ID: {unique_id}")
+        delete_qa_entry(qa_id)
+        qa: Qa = Qa(qa_id, new_answer, new_answer)
+        add_qa_to_collection(qa)
+        logger.info(f"Updated Q&A entry with ID: {qa_id}")
     except Exception as e:
-        logger.error(f"Failed to update Q&A entry with ID {unique_id}: {e}")
+        logger.error(f"Failed to update Q&A entry with ID {qa_id}: {e}")

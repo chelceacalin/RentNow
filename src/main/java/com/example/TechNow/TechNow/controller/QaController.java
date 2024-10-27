@@ -1,11 +1,13 @@
 package com.example.TechNow.TechNow.controller;
 
+import com.example.TechNow.TechNow.dto.QA.QaSimilarity;
 import com.example.TechNow.TechNow.model.QA;
 import com.example.TechNow.TechNow.service.QaService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -36,6 +38,10 @@ public class QaController extends BaseController {
 		return buildOkResponse(qaService.save(qa));
 	}
 
+	@GetMapping("/similar")
+	public List<QA> findAnswers(@RequestBody QaSimilarity qaSimilarity) {
+		return qaService.getSimilarQas(qaSimilarity);
+	}
 
 	@PutMapping
 	public ResponseEntity<Object> update(@RequestBody QA qa) {
