@@ -9,6 +9,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./App.scss";
 import Deactivated from "./components/Activity/Deactivated.jsx";
+import ChatMessenger from "./components/Chat/ChatMessenger.jsx";
 import Navbar from "./components/Navbar/Navbar";
 import Books from "./pages/Books/Books.jsx";
 import CategoryManagement from "./pages/CategoryManagement/CategoryManagement";
@@ -65,6 +66,7 @@ function MainContent() {
 
   return (
     <>
+      <ChatMessenger />
       <div className="h-screen">
         <Navbar />
       </div>
