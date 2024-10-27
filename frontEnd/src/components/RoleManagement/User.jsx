@@ -22,7 +22,7 @@ function User({
         <td className={classes}>
           <div className="flex items-center">
             {isCurrentUser && (
-              <span className="h-3 w-3 bg-green-500 rounded-full inline-block mr-2"></span>
+              <span className="h-3 w-3 text-green-color rounded-full inline-block mr-2"></span>
             )}
             <span className="font-normal max-w-[200px]">{user.firstName}</span>
           </div>

@@ -198,6 +198,22 @@
     &:hover {
         background-color: $detailsButtonColorHover;
     }
+
+    &.tw {
+        color: white;
+    }
+}
+
+.bg-green-detail {
+    background-color: $text-green-color;
+
+    &:hover {
+        background-color: $text-green-colorHover;
+    }
+
+    &.tw {
+        color: white;
+    }
 }
 
 .margin-0p5 {
@@ -216,6 +232,14 @@
 
 .text-green-color {
     color: $text-green-color;
+}
+
+.text-details-color {
+    color: $detailsButtonColor;
+
+    &:hover {
+        color: $detailsButtonColorHover;
+    }
 }
 
 .modal-text {

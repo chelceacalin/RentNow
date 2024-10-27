@@ -297,7 +297,6 @@ function EditRoleModalWindow({
             </div>
           </div>
 
-          {/* Right side: First Name and Last Name Editing */}
           <div className="w-2/3 pl-5 border-l border-gray-300">
             <div className="mt-5">
               <TextField
@@ -325,7 +324,7 @@ function EditRoleModalWindow({
               <div className="flex items-center mb-4">
                 <label className="mr-4 text-gray-600">Select Month:</label>
                 <select
-                  className="month-select p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+                  className="month-select p-2 border border-gray-300 rounded-md shadow-sm"
                   value={selectedMonth}
                   onChange={(e) => setSelectedMonth(Number(e.target.value))}
                 >
@@ -339,7 +338,7 @@ function EditRoleModalWindow({
               <div className="flex items-center mb-4">
                 <span className="text-gray-600">Want copy on email?</span>
                 <input
-                  className="ml-3 h-4 w-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500"
+                  className="ml-3 h-4 w-4"
                   type="checkbox"
                   checked={wantCopyOnEmail}
                   onChange={() => {
@@ -348,7 +347,7 @@ function EditRoleModalWindow({
                 />
               </div>
               <button
-                className="details-button px-4 py-2 bg-indigo-600 text-white font-medium rounded-md hover:bg-indigo-500 transition-colors duration-200 ease-in-out"
+                className="details-button px-4 py-2 details-button reset-width transition-colors duration-200 ease-in-out"
                 onClick={getReport}
               >
                 Download Report

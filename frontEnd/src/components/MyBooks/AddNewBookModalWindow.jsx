@@ -153,7 +153,9 @@ function AddNewBookModalWindow({ isOpen, onClose, onRefresh }) {
               Upload Image
             </label>
             {formErrors.selectedImage && (
-              <p className="text-red-500 text-sm">{formErrors.selectedImage}</p>
+              <p className="text-main-color text-sm">
+                {formErrors.selectedImage}
+              </p>
             )}
           </div>
 

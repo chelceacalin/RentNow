@@ -94,7 +94,7 @@ function Settings() {
 
       <button
         onClick={handleOpenAddModal}
-        className="close-button reset-margin-left reset-width mb-4 bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
+        className="close-button reset-margin-left reset-width mb-4 text-green-color text-white px-4 py-2 rounded"
       >
         Add Q&A Option
       </button>
@@ -113,7 +113,7 @@ function Settings() {
               <div className="flex items-start justify-between">
                 <div className="flex-1 pr-6">
                   <div>
-                    <label className="block text-md font-semibold text-blue-700">
+                    <label className="block text-md font-semibold text-details-color">
                       Question:
                     </label>
                     <p className="mt-1 text-gray-800 text-sm overflow-auto">
@@ -121,7 +121,7 @@ function Settings() {
                     </p>
                   </div>
                   <div className="mt-3">
-                    <label className="block text-md font-semibold text-blue-700">
+                    <label className="block text-md font-semibold text-details-color">
                       Answer:
                     </label>
                     <p className="mt-1 text-gray-800 text-sm overflow-auto">

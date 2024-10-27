@@ -60,7 +60,7 @@ const ChatMessenger = () => {
     <div className="fixed bottom-4 right-4 z-50">
       {!isOpen && (
         <button
-          className="bg-blue-600 text-white rounded-full p-3 shadow-lg hover:bg-blue-700 transition focus:outline-none"
+          className="bg-blue-detail tw rounded-full p-3 shadow-lg  transition focus:outline-none"
           onClick={toggleChat}
         >
           <FaComments size={24} />
@@ -69,7 +69,7 @@ const ChatMessenger = () => {
 
       {isOpen && (
         <div className="w-80 h-[30rem] bg-white rounded-lg shadow-xl flex flex-col mt-4">
-          <div className="bg-blue-600 text-white px-4 py-2 flex justify-between items-center rounded-t-lg">
+          <div className="bg-blue-detail text-white px-4 py-2 flex justify-between items-center rounded-t-lg">
             <h4 className="text-lg font-semibold">Chat Assistant</h4>
             <button
               onClick={toggleChat}
@@ -99,8 +99,8 @@ const ChatMessenger = () => {
                 <div
                   className={`max-w-xs p-2 rounded-lg text-white ${
                     msg.position === "left"
-                      ? "bg-blue-500 text-white rounded-tl-none"
-                      : "bg-gray-300 text-black rounded-tr-none"
+                      ? "bg-blue-detail tw rounded-tl-none"
+                      : "bg-green-detail"
                   }`}
                 >
                   <p>{msg.text}</p>
@@ -121,11 +121,11 @@ const ChatMessenger = () => {
                   sendMessage();
                 }
               }}
-              className="flex-1 resize-none rounded-md border border-gray-300 px-3 py-2 focus:ring-2 focus:ring-blue-600 focus:outline-none"
+              className="flex-1 resize-none rounded-md border border-gray-300 px-3 py-2 focus:ring-2 focus:bg-blue-detail focus:outline-none"
             />
             <button
               onClick={sendMessage}
-              className="bg-blue-600 text-white px-4 py-2 rounded-md focus:outline-none hover:bg-blue-700 transition"
+              className="bg-blue-detail tw px-4 py-2 rounded-md focus:outline-none  transition"
             >
               Send
             </button>
