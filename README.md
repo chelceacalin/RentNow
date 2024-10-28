@@ -77,8 +77,3 @@ Rent Now facilitates book rentals within a company, allowing you to manage and s
 - **JSON API Documentation**: [http://localhost:8080/api-docs](http://localhost:8080/api-docs)
 - **UI Interface API Documentation**: [http://localhost:8080/swagger-ui/index.html](http://localhost:8080/swagger-ui/index.html)
 - **Actuator**: [http://localhost:8081/actuator](http://localhost:8081/actuator)
-
-### To-Do List
-
-```plaintext
-     => Integrate Chat GPT API, feed it database data, and generate book recommendations
