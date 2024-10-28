@@ -1,18 +1,18 @@
 package com.example.TechNow.TechNow.service;
 
 import com.example.TechNow.TechNow.config.BaseUrlRestTemplate;
+import com.example.TechNow.TechNow.dto.QA.QaResponse;
 import com.example.TechNow.TechNow.dto.QA.QaSimilarity;
 import com.example.TechNow.TechNow.model.QA;
 import com.example.TechNow.TechNow.repository.QaRepository;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
@@ -36,37 +36,39 @@ public class QaService {
 		return qaRepository.findAllQA();
 	}
 
+	public List<QaResponse> findRandomQAS() {
+		String response = pythonServiceTemplate.getForObject("/qa/random", String.class);
+
+		try {
+			return objectMapper.readValue(response, new TypeReference<>() {
+			});
+		} catch (JsonProcessingException e) {
+			return List.of();
+		}
+	}
+
 	public QA findById(UUID id) {
 		return getEntityOrThrow(() -> qaRepository.findById(id), "No QA Found");
 	}
 
-	// Revised getSimilarQas Method
-	public List<QA> getSimilarQas(QaSimilarity qaSimilarity) {
+	public QaResponse getSimilarQas(QaSimilarity qaSimilarity) {
 		try {
 			String response = pythonServiceTemplate
 					.postForEntityBody("/qa/similar", qaSimilarity, String.class);
-
 			try {
-				List<QA> similars = objectMapper.readValue(response, new TypeReference<>() {
-				});
+				QaResponse qaResponse = objectMapper.readValue(response, QaResponse.class);
+				log.info("Similar QA response: {}", qaResponse);
+				return qaResponse;
 			} catch (Exception e) {
-				log.error(e.getMessage());
+				return new QaResponse().setAnswer("No relevant response found for your question")
+						.setId(String.valueOf(UUID.randomUUID()))
+						.setQuestion("");
 			}
-
-			System.out.println(response);
-			return null;
-//			return response != null ? response.getSimilarQAs() : Collections.emptyList();
 		} catch (Exception e) {
-			System.err.println("Exception occurred: " + e.getMessage());
-			return Collections.emptyList();
+			log.error("Exception occurred: {}", e.getMessage());
+			return null;
 		}
 	}
-
-	@Data
-	class SimilarQas {
-		List<QaSimilarity> similarQas;
-	}
-
 
 	public QA save(QA qa) {
 		qa.setCreated_date(LocalDateTime.now());

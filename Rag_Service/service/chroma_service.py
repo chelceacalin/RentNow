@@ -1,10 +1,14 @@
+import random
 import uuid
-from typing import List, Dict
+from typing import Dict
 
+import numpy as np
 from chromadb import Client
 from chromadb.api.types import IncludeEnum
 from chromadb.config import Settings
+from chromadb.utils import embedding_functions
 from sentence_transformers import SentenceTransformer
+from sklearn.metrics.pairwise import cosine_similarity
 
 from config.logger_config import logger
 from model.Book import Book
@@ -12,6 +16,7 @@ from model.Qa import Qa
 
 # Initialize the SentenceTransformer model locally
 embedding_model = SentenceTransformer('all-MiniLM-L6-v2')
+default_ef = embedding_functions.DefaultEmbeddingFunction()
 
 # Initialize ChromaDB client
 client_settings = Settings(
@@ -70,50 +75,61 @@ def get_books_for_user(user_email: str):
 # Q&A Collection Functions
 # ----------------------------
 def generate_embedding(text: str):
-    # Use the locally loaded model to generate embeddings
     return embedding_model.encode(text).tolist()
 
 
 def add_qa_to_collection(qa: Qa):
     try:
         question_embedding = generate_embedding(qa.question)
+        question_embedding = [float(x) for x in question_embedding]
+
         qa_collection.add(
             documents = [f"Q: {qa.question} A: {qa.answer} ID: {qa.id}"],
             ids = [qa.id],
             embeddings = [question_embedding],
-            metadatas = {"question": qa.question, "answer": qa.answer}
+            metadatas = [{"question": qa.question, "answer": qa.answer}]
         )
+
         logger.info(f"Added Q&A to collection: {qa.question} -> {qa.answer}")
     except Exception as e:
         logger.error(f"Failed to add Q&A to collection: {qa.question}, Error: {e}")
 
 
-def retrieve_similar_qas(query: str, top_k: int = 3) -> List[Dict[str, str]]:
-    """
-    Retrieve similar Q&A documents based on the provided query. Returns a list of dictionaries
-    with each dictionary containing the 'id', 'question', and 'answer' for each similar document.
-    """
+def retrieve_similar_qas(query: str, top_k: int = 5, similarity_threshold: float = 0.6) -> Dict[str, str]:
     try:
         query_embedding = generate_embedding(query)
+        query_embedding = np.array(query_embedding).reshape(1, -1)
+
         results = qa_collection.query(
-            query_embeddings = [query_embedding],
+            query_embeddings = query_embedding.tolist(),
             n_results = top_k,
-            include = [IncludeEnum.documents, IncludeEnum.metadatas]
+            include = [IncludeEnum.documents, IncludeEnum.metadatas, IncludeEnum.embeddings]
         )
 
-        output = [
-            {
-                "id": result["id"],
-                "question": result["metadata"]["question"],
-                "answer": result["metadata"]["answer"]
-            }
-            for result in results.get("results", [])
-        ]
-        return output
+        best_match = None
+        highest_similarity = similarity_threshold
+
+        ids = results.get('ids', [[]])[0]
+        metadatas = results.get('metadatas', [[]])[0]
+        embeddings = [np.array(embed) for embed in results.get('embeddings', [[]])[0]]
+
+        for idx, metadata in enumerate(metadatas):
+            similarity = cosine_similarity(query_embedding, embeddings[idx].reshape(1, -1))[0][0]
+            if similarity >= highest_similarity:
+                highest_similarity = similarity
+                best_match = {
+                    "id": ids[idx],
+                    "question": metadata["question"],
+                    "answer": metadata["answer"]
+                }
+
+        if best_match:
+            return best_match
+        return {"message": "No relevant response found for your question"}
 
     except Exception as e:
         logger.error(f"Error retrieving similar Q&As: {e}")
-        return []
+        return {"message": "No relevant response found for your question"}
 
 
 def delete_qa_entry(unique_id: str):
@@ -127,8 +143,31 @@ def delete_qa_entry(unique_id: str):
 def update_qa_entry(qa_id: str, new_question: str, new_answer: str):
     try:
         delete_qa_entry(qa_id)
-        qa: Qa = Qa(qa_id, new_answer, new_answer)
+        qa = Qa(qa_id, new_question, new_answer)
         add_qa_to_collection(qa)
         logger.info(f"Updated Q&A entry with ID: {qa_id}")
     except Exception as e:
         logger.error(f"Failed to update Q&A entry with ID {qa_id}: {e}")
+
+
+def get_random_qas(n = 2):
+    all_qas = qa_collection.get()
+
+    ids = all_qas.get('ids', [])
+    metadatas = all_qas.get('metadatas', [])
+
+    if ids and metadatas:
+        indices = random.sample(range(len(ids)), min(n, len(ids)))
+
+        random_qas = [
+            {
+                "id": ids[i],
+                "question": metadatas[i]["question"],
+                "answer": metadatas[i]["answer"]
+            }
+            for i in indices
+        ]
+
+        return random_qas
+
+    return []

@@ -2,9 +2,10 @@ package com.example.TechNow.TechNow.dto.QA;
 
 import lombok.Data;
 
-
 @Data
-public class QaSimilarity {
-	String query;
-	int top_k = 5;
+public class QaResponse {
+
+	String id;
+	String question;
+	String answer;
 }

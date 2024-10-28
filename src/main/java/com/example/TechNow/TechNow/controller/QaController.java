@@ -7,7 +7,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -20,6 +19,11 @@ public class QaController extends BaseController {
 	@GetMapping
 	public ResponseEntity<Object> findAll() {
 		return buildOkResponse(qaService.findAll());
+	}
+
+	@GetMapping("/random")
+	public ResponseEntity<Object> findRandomQAS() {
+		return buildOkResponse(qaService.findRandomQAS());
 	}
 
 	@GetMapping("/{id}")
@@ -38,9 +42,9 @@ public class QaController extends BaseController {
 		return buildOkResponse(qaService.save(qa));
 	}
 
-	@GetMapping("/similar")
-	public List<QA> findAnswers(@RequestBody QaSimilarity qaSimilarity) {
-		return qaService.getSimilarQas(qaSimilarity);
+	@PostMapping("/similar")
+	public ResponseEntity<Object> findAnswers(@RequestBody QaSimilarity qaSimilarity) {
+		return buildOkResponse(qaService.getSimilarQas(qaSimilarity));
 	}
 
 	@PutMapping
