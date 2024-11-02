@@ -15,7 +15,7 @@ Rent Now facilitates book rentals within a company, allowing you to manage and s
 - **Monitoring**: The app integrates with Grafana for monitoring, using pre-configured dashboards for visualization, and Loki for log collection.
 - **Reporting**: Ability to download PDF reports regarding you books
 - **ChatBot**: Ability to interact with a Chat Widget that allows you to learn more information about the application. It comes with predefined answers, but the questions don't need to be accurate, and also admins can teach it on the fly!
-- **Link Utils**: Admins can create and edit utility links to redirect to internal apps
+- **Link Utils**: Admins can create and edit utility links to redirect to internal pages or to external ones that will open a new page
 ## Technologies
 
 - **Backend**: Spring Boot 3, Java 21
@@ -65,8 +65,8 @@ Rent Now facilitates book rentals within a company, allowing you to manage and s
 
 - **Backend API**: [http://localhost:8080](http://localhost:8080)
 - **React Frontend**: [http://localhost:4173](http://localhost:4173)
-- **Minio Server**: [http://localhost:9090](http://localhost:9090)
-- **Minio Console**: [http://localhost:9091](http://localhost:9091)
+- **Minio Server**: [http://localhost:9000](http://localhost:9090)
+- **Minio Console**: [http://localhost:9001](http://localhost:9001)
 - **Server Health**: [http://localhost:8081/actuator/health](http://localhost:8081/actuator/health)
 - **Grafana**: [http://localhost:3000](http://localhost:3000) (default credentials: admin/admin)
 - **Prometheus**: [http://localhost:9090](http://localhost:9090)

@@ -61,7 +61,7 @@ function LinkUtils() {
 
   const handleSave = async () => {
     if (!currentLink.name.trim() || !currentLink.url.trim()) {
-      showError("Name and url cannot be empty");
+      showError("Name or URL cannot be empty");
       return;
     }
 
@@ -148,10 +148,14 @@ function LinkUtils() {
               <th className="px-2 py-3 text-left font-semibold text-xs">
                 Name
               </th>
+
               <th className="px-2 py-3 text-left font-semibold text-xs">
                 Description
               </th>
               <th className="px-2 py-3 text-left font-semibold text-xs">URL</th>
+              <th className="px-2 py-3 text-left font-semibold text-xs">
+                URL TYPE
+              </th>
               <th className="px-2 py-3 text-left font-semibold text-xs">
                 Actions
               </th>
@@ -165,46 +169,69 @@ function LinkUtils() {
                 </td>
               </tr>
             ) : (
-              linkList.map((link) => (
-                <tr key={link.id} className="border-b hover:bg-gray-50 text-sm">
-                  <td
-                    onClick={() => window.open(link.url, "_blank")}
-                    className="px-2 py-3 text-blue-500 cursor-pointer underline"
+              linkList.map((link) => {
+                const internalLink = !link.url.includes("http");
+                return (
+                  <tr
+                    key={link.id}
+                    className="border-b hover:bg-gray-50 text-sm"
                   >
-                    {link.name}
-                  </td>
-                  <td className="px-2 py-3 text-gray-800">
-                    {link.description}
-                  </td>
-                  <td className="px-2 py-3">
-                    <button
-                      onClick={() => toggleUrlVisibility(link.id)}
-                      className="ml-2 text-xs  text-main-color font-bold underline"
+                    <td
+                      onClick={() => {
+                        window.open(
+                          link.url,
+                          internalLink ? "_self" : "_blank"
+                        );
+                      }}
+                      className="px-2 py-3 text-blue-500 cursor-pointer underline"
                     >
-                      {link.showUrl ? "Hide" : "Show"}
-                    </button>
-                    <span className="text-gray-800 ms-2">
-                      {link.showUrl ? link.url : "●●●●●●●●●●"}
-                    </span>
-                  </td>
-                  <td className="px-2 py-3">
-                    <div className="flex space-x-1">
+                      {link.name}
+                    </td>
+
+                    <td className="px-2 py-3 text-gray-800">
+                      {link.description}
+                    </td>
+                    <td className="px-2 py-3">
                       <button
-                        onClick={() => handleOpenModal(link)}
-                        className="details-button medium-sm long"
+                        onClick={() => toggleUrlVisibility(link.id)}
+                        className="ml-2 text-xs  text-main-color font-bold underline"
                       >
-                        Edit
+                        {internalLink ? "" : link.showUrl ? "Hide" : "Show"}
                       </button>
-                      <button
-                        onClick={() => handleOpenDeleteModal(link)}
-                        className="rent-button medium-sm long"
-                      >
-                        Delete
-                      </button>
-                    </div>
-                  </td>
-                </tr>
-              ))
+                      <span className="text-gray-800 ms-2">
+                        {internalLink
+                          ? link.url
+                          : link.showUrl
+                          ? link.url
+                          : "●●●●●●●●●●"}
+                      </span>
+                    </td>
+                    <td
+                      className={`px-2 py-3 font-bold ${
+                        internalLink ? "text-green-color" : "text-main-color"
+                      }`}
+                    >
+                      {internalLink ? "INTERNAL" : "EXTERNAL"}
+                    </td>
+                    <td className="px-2 py-3">
+                      <div className="flex space-x-1">
+                        <button
+                          onClick={() => handleOpenModal(link)}
+                          className="details-button medium-sm long"
+                        >
+                          Edit
+                        </button>
+                        <button
+                          onClick={() => handleOpenDeleteModal(link)}
+                          className="rent-button medium-sm long"
+                        >
+                          Delete
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                );
+              })
             )}
           </tbody>
         </table>
