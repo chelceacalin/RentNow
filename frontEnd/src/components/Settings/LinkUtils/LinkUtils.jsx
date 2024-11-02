@@ -8,6 +8,8 @@ import React, { useEffect, useState } from "react";
 import { showError, showSuccess } from "../../../service/ToastService";
 import { useFetchData } from "../../../utils/hooks/useFetchData";
 import AddLink from "./AddLink";
+import DeleteLink from "./DeleteLink";
+import EditLink from "./EditLink";
 
 function LinkUtils() {
   const [triggerRefresh, setTriggerRefresh] = useState(false);
@@ -33,7 +35,6 @@ function LinkUtils() {
     );
   };
 
-  const [showPassword, setShowPassword] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [addModalOpen, setAddModalOpen] = useState(false);
@@ -43,7 +44,6 @@ function LinkUtils() {
     description: "",
     url: "",
   });
-  const handleClickShowPassword = () => setShowPassword((show) => !show);
 
   const handleOpenModal = (link) => {
     setCurrentLink(link);
@@ -60,7 +60,7 @@ function LinkUtils() {
   };
 
   const handleSave = async () => {
-    if (!link.name.trim() || !link.url.trim()) {
+    if (!currentLink.name.trim() || !currentLink.url.trim()) {
       showError("Name and url cannot be empty");
       return;
     }
@@ -216,6 +216,20 @@ function LinkUtils() {
         addModalOpen={addModalOpen}
         handleAddNewLink={handleAddNewLink}
         handleCloseAddModal={handleCloseAddModal}
+      />
+
+      <EditLink
+        modalOpen={modalOpen}
+        handleCloseModal={handleCloseModal}
+        handleSave={handleSave}
+        currentLink={currentLink}
+        handleModalChange={handleModalChange}
+      />
+
+      <DeleteLink
+        deleteModalOpen={deleteModalOpen}
+        handleCloseDeleteModal={handleCloseDeleteModal}
+        handleDelete={handleDelete}
       />
     </Accordion>
   );

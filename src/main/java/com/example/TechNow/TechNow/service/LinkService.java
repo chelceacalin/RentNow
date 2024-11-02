@@ -1,5 +1,6 @@
 package com.example.TechNow.TechNow.service;
 
+import com.example.TechNow.TechNow.dto.Link.LinkDTO;
 import com.example.TechNow.TechNow.model.Link;
 import com.example.TechNow.TechNow.repository.LinkRepository;
 import lombok.RequiredArgsConstructor;
@@ -20,25 +21,27 @@ public class LinkService {
 
 	final LinkRepository linkRepository;
 
-	public Link save(Link link) {
-		link.setCreated_date(LocalDateTime.now());
-		link.setUpdated_date(LocalDateTime.now());
-		return linkRepository.save(link);
+	public Link save(LinkDTO link) {
+		Link newLink = new Link();
+		BeanUtils.copyProperties(link, newLink);
+		newLink.setCreated_date(LocalDateTime.now());
+		newLink.setUpdated_date(LocalDateTime.now());
+		return linkRepository.save(newLink);
 	}
 
 	public Link findById(UUID id) {
 		return getEntityOrThrow(() -> linkRepository.findById(id), "Link not found");
 	}
 
-	public Link update(Link link) {
+	public Link update(LinkDTO link) {
 		Link existing = findById(link.getId());
-		existing.setUpdated_date(LocalDateTime.now());
 		BeanUtils.copyProperties(link, existing);
+		existing.setUpdated_date(LocalDateTime.now());
 		return linkRepository.save(existing);
 	}
 
 	public List<Link> findAll() {
-		return linkRepository.findAll();
+		return linkRepository.findAllLinks();
 	}
 
 	public void deleteLink(UUID id) {

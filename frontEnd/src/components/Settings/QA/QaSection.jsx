@@ -177,6 +177,14 @@ function QaSection() {
         </div>
       </AccordionDetails>
 
+      <AddQAOption
+        addModalOpen={addModalOpen}
+        handleCloseAddModal={handleCloseAddModal}
+        setNewQa={setNewQa}
+        handleAddNewQa={handleAddNewQa}
+        newQa={newQa}
+      />
+      
       <EditQaOption
         modalOpen={modalOpen}
         handleCloseModal={handleCloseModal}
@@ -188,13 +196,6 @@ function QaSection() {
         deleteModalOpen={deleteModalOpen}
         handleCloseDeleteModal={handleCloseDeleteModal}
         handleDelete={handleDelete}
-      />
-      <AddQAOption
-        addModalOpen={addModalOpen}
-        handleCloseAddModal={handleCloseAddModal}
-        setNewQa={setNewQa}
-        handleAddNewQa={handleAddNewQa}
-        newQa={newQa}
       />
     </Accordion>
   );

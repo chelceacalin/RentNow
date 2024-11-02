@@ -1,6 +1,6 @@
 package com.example.TechNow.TechNow.controller;
 
-import com.example.TechNow.TechNow.model.Link;
+import com.example.TechNow.TechNow.dto.Link.LinkDTO;
 import com.example.TechNow.TechNow.service.LinkService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -26,12 +26,12 @@ public class LinkController extends BaseController {
 	}
 
 	@PostMapping
-	public ResponseEntity<Object> save(@RequestBody Link link) {
+	public ResponseEntity<Object> save(@RequestBody LinkDTO link) {
 		return buildCreatedResponse(linkService.save(link));
 	}
 
 	@PutMapping
-	public ResponseEntity<Object> update(@RequestBody Link link) {
+	public ResponseEntity<Object> update(@RequestBody LinkDTO link) {
 		return buildOkResponse(linkService.update(link));
 	}
 
