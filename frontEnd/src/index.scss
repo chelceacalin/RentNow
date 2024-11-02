@@ -150,6 +150,15 @@
         width: auto;
     }
 
+    &.medium-sm {
+        width: 20%;
+        height: 20%;
+
+        &.long {
+            width: 30%;
+        }
+    }
+
     &.extra-sm {
         width: 10%;
         height: 10%;
