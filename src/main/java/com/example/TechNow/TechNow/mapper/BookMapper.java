@@ -20,6 +20,7 @@ public class BookMapper {
 				.description(m.getDescription())
 				.isAvailable(m.isAvailable())
 				.rentedBy(mh != null && mh.getRentedBy() != null ? mh.getRentedBy().getUsername() : "available")
+				.renterEmail(mh != null && mh.getRentedBy() != null ? mh.getRentedBy().getEmail() : "")
 				.owner_username(m.getOwner().getUsername())
 				.owner_email(m.getOwner().getEmail())
 				.rentedDate(mh != null && mh.getRentedDate() != null ? parseDateSimple(mh.getRentedDate().atStartOfDay()) : null)
@@ -27,7 +28,8 @@ public class BookMapper {
 				.photoUrl(m.getPhotoUrl() != null ? m.getPhotoUrl() : "")
 				.created_date(parseDateSimple(m.getCreated_date()))
 				.updated_date(m.getUpdated_date() != null ? parseDateSimple(m.getUpdated_date()) : null)
-				.status(mh.getStatus().getValue() != null ? mh.getStatus().getValue() : "unavailable")
+				.status(mh != null && mh.getStatus().getValue() != null ? mh.getStatus().getValue() : "unavailable")
+				.bookHistoryId(mh != null && mh.getId() != null ? mh.getId() : null)
 				.build();
 	}
 

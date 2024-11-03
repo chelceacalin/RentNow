@@ -25,16 +25,6 @@ function MyProfileRedirectButtons() {
       </button>
       <button
         className={`p-4 w-60 border ml-1 ${
-          isActive("myRentedBooks")
-            ? "bg-main-color text-white"
-            : "bg-white-text-black"
-        }`}
-        onClick={() => navigate(`/myprofile/myRentedBooks/${email}`)}
-      >
-        My Rented Books
-      </button>
-      <button
-        className={`p-4 w-60 border ml-1 ${
           isActive("pendingBooks")
             ? "bg-main-color text-white"
             : "bg-white-text-black"

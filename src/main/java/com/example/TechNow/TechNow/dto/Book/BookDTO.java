@@ -34,6 +34,8 @@ public class BookDTO {
 
 	String rentedDate;
 
+	String renterEmail;
+
 	String rentedUntil;
 
 	String photoUrl;
@@ -43,4 +45,6 @@ public class BookDTO {
 	String updated_date;
 
 	String status;
+
+	UUID bookHistoryId;
 }

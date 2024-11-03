@@ -14,6 +14,7 @@ function Books_MyRentedBooks() {
     "Rented On",
     "Rented Until",
     "Owner",
+    "Status",
     "Actions",
   ];
 

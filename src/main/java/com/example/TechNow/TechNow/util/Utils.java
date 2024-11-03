@@ -72,4 +72,24 @@ public class Utils {
 				emailDTO.getOwnerUsername(), emailDTO.getRenterUsername(), emailDTO.getBookTitle()
 		);
 	}
+
+	public static String getRejectEmailBody(EmailDTO emailDTO) {
+		String reason = emailDTO.getRejectReason() != null && !emailDTO.getRejectReason().isEmpty()
+				? emailDTO.getRejectReason()
+				: "No specific reason was provided.";
+
+		return String.format(
+				"<div style='font-family: Arial, sans-serif; color: #333; line-height: 1.6;'>" +
+				"  <h2 style='color: #4CAF50;'>Hi %s,</h2>" +
+				"  <p>We regret to inform you that your request to rent the book <strong>%s</strong> has been <strong>rejected</strong>.</p>" +
+				"  <p>The reason is: %s</p>" +
+				"  <p>The book is now available for others to rent. We apologize for any inconvenience this may cause and appreciate your understanding.</p>" +
+				"  <footer style='margin-top: 20px; border-top: 1px solid #eaeaea; padding-top: 10px;'>" +
+				"    <p style='font-size: 0.9em; color: #888;'>Best regards,<br>TechNow Team</p>" +
+				"  </footer>" +
+				"</div>",
+				emailDTO.getRenterUsername(), emailDTO.getBookTitle(), reason
+		);
+	}
+
 }

@@ -97,6 +97,7 @@ public class BookService {
     private @NotNull BookReviewDTO toBookReviewDTO(BookDTO bookDTO) {
         BookReviewDTO bookReviewDTO = new BookReviewDTO();
         BeanUtils.copyProperties(bookDTO, bookReviewDTO);
+        bookReviewDTO.setRenterEmail(bookDTO.getRenterEmail());
         var reviews = reviewRepository.findAllByBookId(bookReviewDTO.getId());
         bookReviewDTO.setReviewAddResponseDTOS(reviews.stream().map(r -> ReviewMapper.toDTO(r, getCommentsForReview(commentRepository, r.getId()))).toList());
         return bookReviewDTO;
@@ -296,14 +297,20 @@ public class BookService {
     }
 
     public Page<BookDTO> findRentedBooksForUser(MyRentedBooksRequestDTO myRentedBooksDTO, int pageNo, int pageSize) {
-        UserDTO user = userService.findByEmail(myRentedBooksDTO.getRentEmail());
-        Pageable pageable = myRentedBooksDTO.getPageableRented(pageNo, pageSize);
 
-        Page<BookHistory> bookHistories = bookHistoryRepository.findAllByRentedBy_Id(user.getId(), pageable);
+        Pageable pageable = myRentedBooksDTO.getPageableRented(pageNo, pageSize);
+        Page<BookHistory> bookHistories;
+
+        if (myRentedBooksDTO.getRentEmail() != null && !myRentedBooksDTO.getRentEmail().isEmpty()) {
+            UserDTO user = userService.findByEmail(myRentedBooksDTO.getRentEmail());
+            bookHistories = bookHistoryRepository.findAllByRentedBy_Id(user.getId(), pageable);
+        } else {
+            bookHistories = bookHistoryRepository.findAll(pageable);
+        }
+
         List<BookDTO> rentedBooks = bookHistories.getContent().stream()
-                .distinct()
+                .sorted(Comparator.comparing(BookHistory::getUpdated_date).reversed())
                 .map(history -> BookMapper.toDto(history.getBook(), history))
-                .filter(b -> !b.getIsAvailable())
                 .toList();
 
         return new PageImpl<>(rentedBooks, pageable, bookHistories.getTotalElements());
@@ -314,12 +321,38 @@ public class BookService {
     public void changeRentedBookStatus(UUID id, EmailDTO emailDTO) {
         Book book = getEntityOrThrow(() -> bookRepository.findById(id), "Book is not found");
             book.setAvailable(true);
+        book.setUpdated_date(LocalDateTime.now());
             bookRepository.save(book);
         String renterEmail = emailDTO.getRenterEmail();
 
         messageProducer.sendMessage("BOOK_RETURNED", new ObjectMapper().writeValueAsString(new BookRecord(renterEmail, book.getCategory().getName(), book.getTitle())));
         emailSenderService.sendEmail(emailDTO.getOwnerEmail(), String.format("Your book %s has been returned", emailDTO.getBookTitle()), getEmailBody(emailDTO), null);
     }
+
+
+    @SneakyThrows
+    public void updateBookStatus(UUID id, EmailDTO emailDTO) {
+        Book book = getEntityOrThrow(() -> bookRepository.findById(id), "Book is not found");
+        BookHistory bookHistory = bookHistoryRepository.findById(emailDTO.getBookHistoryId()).orElse(null);
+
+        if ("REJECTED".equals(emailDTO.getStatus())) {
+            if (bookHistory != null) {
+                bookHistory.setStatus(BookHistory.Status.REJECTED);
+                bookHistoryRepository.save(bookHistory);
+                emailSenderService.sendEmail(emailDTO.getRenterEmail(), String.format("Your rental request for the book %s been returned", emailDTO.getBookTitle()), getRejectEmailBody(emailDTO), null);
+            }
+            book.setAvailable(true);
+            book.setUpdated_date(LocalDateTime.now());
+            bookRepository.save(book);
+            return;
+        }
+
+        if (bookHistory != null) {
+            bookHistory.setStatus(BookHistory.Status.valueOf(emailDTO.getStatus()));
+            bookHistoryRepository.save(bookHistory);
+        }
+    }
+
 
     record BookRecord(String user_email, String category, String title) {
     }

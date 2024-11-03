@@ -13,7 +13,8 @@ function Books_PendingBooks() {
     "Category",
     "Rented On",
     "Rented Until",
-    "Owner",
+    "Renter Email",
+    "Status",
     "Actions",
   ];
 
@@ -74,7 +75,6 @@ function Books_PendingBooks() {
       `category=${category}`,
       `pageNo=${pagination.pageNo - 1}`,
       `pageSize=${pagination.pageSize}`,
-      `rentEmail=${email || ""}`,
       `rentedUntil=${rentedUntil}`,
       `rentedDate=${rentedDate}`,
       `owner_username=${ownerUsername}`,
@@ -91,14 +91,13 @@ function Books_PendingBooks() {
         const response = await axios.get(url);
         const { content, totalPages } = response.data;
         setTotalPages(totalPages);
-        if (!(content.length === 0 && pagination.pageNo > 1)) {
-          setBooks(content);
-        }
+        setBooks(content.filter((b) => !b.isAvailable));
         setInitialized(true);
       } catch {
         setInitialized(true);
       }
     };
+
     fetchBooks();
   }, [
     triggerRefresh,

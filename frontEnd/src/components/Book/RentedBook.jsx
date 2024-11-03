@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { UserLoginContext } from "../../utils/context/LoginProvider.jsx";
 import ViewBookDetailsModalWindow from "./Details/ViewBookDetailsModalWindow.jsx";
 import RentBookModalView from "./RentBookModalView.jsx";
 import RentedUntil from "./RentedUntil.jsx";
@@ -14,6 +15,8 @@ function RentedBook({ book, triggerRefresh, setTriggerRefresh, refreshData }) {
     setRentModalOpen(false);
     refreshData();
   };
+
+  const { isAdmin } = useContext(UserLoginContext);
 
   const { isAvailable, photoUrl, title, director } = book;
   return (
@@ -40,9 +43,9 @@ function RentedBook({ book, triggerRefresh, setTriggerRefresh, refreshData }) {
           <button
             className={`rent-button ${!isAvailable ? "disabled" : ""}`}
             onClick={handleOpenRentModal}
-            disabled={!isAvailable}
+            disabled={!isAvailable || isAdmin}
           >
-            Rent
+            {isAdmin ? "Disabled" : "Rent"}
           </button>
         </div>
       </div>

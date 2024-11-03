@@ -110,4 +110,9 @@ public class BookController extends BaseController {
     public void changeRentedBookStatus(@PathVariable UUID id, @RequestBody EmailDTO emailDTO) {
         bookService.changeRentedBookStatus(id, emailDTO);
     }
+
+    @PutMapping("/updateStatus/{id}")
+    public void updateBookStatus(@PathVariable UUID id, @RequestBody EmailDTO emailDTO) {
+        bookService.updateBookStatus(id, emailDTO);
+    }
 }

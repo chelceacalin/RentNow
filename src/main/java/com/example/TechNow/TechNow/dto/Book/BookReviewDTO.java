@@ -35,6 +35,8 @@ public class BookReviewDTO {
 
 	String rentedBy;
 
+	String renterEmail;
+
 	String rentedDate;
 
 	String rentedUntil;

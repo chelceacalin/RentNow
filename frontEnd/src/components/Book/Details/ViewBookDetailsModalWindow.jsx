@@ -47,6 +47,7 @@ function ViewBookDetailsModalWindow({
     owner_email,
     rentedDate,
     rentedUntil,
+    renterEmail,
   } = selectedBook;
 
   useEffect(() => {
@@ -386,7 +387,7 @@ function ViewBookDetailsModalWindow({
                   <span style={{ color: "#fff", marginLeft: "0.25rem" }}>
                     {rentedBy}
                   </span>
-                  <Tooltip title={`Email: ${owner_email}`}>
+                  <Tooltip title={`Email: ${renterEmail}`}>
                     <IconButton
                       sx={{
                         width: "1rem",
