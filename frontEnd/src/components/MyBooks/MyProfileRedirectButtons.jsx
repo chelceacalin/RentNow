@@ -13,7 +13,9 @@ function MyProfileRedirectButtons() {
     <div className="flex">
       <button
         className={`p-4 w-60 border ${
-          isActive("myprofile") && !isActive("myRentedBooks")
+          isActive("myprofile") &&
+          !isActive("myRentedBooks") &&
+          !isActive("pendingBooks")
             ? "bg-main-color text-white"
             : "bg-white-text-black"
         }`}
@@ -30,6 +32,16 @@ function MyProfileRedirectButtons() {
         onClick={() => navigate(`/myprofile/myRentedBooks/${email}`)}
       >
         My Rented Books
+      </button>
+      <button
+        className={`p-4 w-60 border ml-1 ${
+          isActive("pendingBooks")
+            ? "bg-main-color text-white"
+            : "bg-white-text-black"
+        }`}
+        onClick={() => navigate(`/myprofile/pendingBooks`)}
+      >
+        Pending Books
       </button>
     </div>
   );

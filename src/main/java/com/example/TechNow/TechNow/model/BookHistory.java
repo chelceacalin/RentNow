@@ -1,10 +1,7 @@
 package com.example.TechNow.TechNow.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -31,6 +28,9 @@ public class BookHistory {
 
 	String description;
 
+	@Enumerated(EnumType.STRING)
+	Status status;
+
 	@OneToOne
 	@JoinColumn(name = "user_id", referencedColumnName = "id")
 	User rentedBy;
@@ -56,4 +56,20 @@ public class BookHistory {
 	public int hashCode() {
 		return Objects.hash(rentedBy, book);
 	}
+
+
+	@Getter
+	@ToString
+	public enum Status {
+		PENDING("PENDING"),
+		APPROVED("APPROVED"),
+		REJECTED("REJECTED");
+
+		private final String value;
+
+		Status(String value) {
+			this.value = value;
+		}
+	}
+
 }

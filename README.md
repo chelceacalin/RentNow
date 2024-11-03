@@ -13,7 +13,7 @@ Rent Now facilitates book rentals within a company, allowing you to manage and s
 - **User Roles and Permissions**: Admins can create categories, manage users and their activity, and control other users' permissions. Regular users have limited access.
 - **Notifications**: Users receive reminders one day before a book needs to be returned and daily after the return date is exceeded. Both the renter and the owner of the book are notified when a book is rented.
 - **Monitoring**: The app integrates with Grafana for monitoring, using pre-configured dashboards for visualization, and Loki for log collection.
-- **Reporting**: Ability to download PDF reports regarding you books
+- **Reporting**: Ability to download PDF reports regarding you books. Also admins can see user's reports to be able to tax them if they miss the due date
 - **ChatBot**: Ability to interact with a Chat Widget that allows you to learn more information about the application. It comes with predefined answers, but the questions don't need to be accurate, and also admins can teach it on the fly!
 - **Link Utils**: Admins can create and edit utility links to redirect to internal pages or to external ones that will open a new page
 ## Technologies

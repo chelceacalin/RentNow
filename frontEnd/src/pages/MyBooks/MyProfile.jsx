@@ -42,7 +42,7 @@ function MyProfile() {
 
   const [initialized, setInitialized] = useState(false);
   const [openAddModal, setOpenAddModal] = useState(false);
-  const { username, email } = useContext(UserLoginContext);
+  const { username, email, isAdmin } = useContext(UserLoginContext);
   const [lastClicked, setLastClicked] = useState("");
 
   const handleFilterInput = useCallback(
@@ -132,6 +132,7 @@ function MyProfile() {
                 "Director",
                 "Category",
                 "Status",
+                "Rented Date",
                 "Rented Until",
                 "Rented By",
                 "Created Date",

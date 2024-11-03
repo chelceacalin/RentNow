@@ -120,11 +120,13 @@ public class UserService {
 
     public User updateUser(UserDTO userDTO, User.Role role, MultipartFile imageFile) {
         User user = getEntityOrThrow(() -> userRepository.findByEmail(userDTO.getEmail()), "User not found");
-        user.setRole(role)
+        user
                 .setFirstName(userDTO.getFirstName())
                 .setLastName(userDTO.getLastName())
                 .setIs_active(userDTO.getIs_active())
-                .setUpdated_date(LocalDateTime.now());
+                .setUsername(userDTO.getUsername())
+                .setUpdated_date(LocalDateTime.now())
+                .setRole(role);
 
             if (imageFile != null) {
                 String imageUrl = imageStorageService.uploadImage("userphotos", imageFile);

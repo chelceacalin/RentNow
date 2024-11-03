@@ -17,6 +17,7 @@ import Login from "./pages/Login/Login";
 import MyProfile from "./pages/MyBooks/MyProfile";
 import Books_MyRentedBooks from "./pages/MyRentedBooks/Books_MyRentedBooks.jsx";
 import NotFound from "./pages/NotFound/NotFound";
+import Books_PendingBooks from "./pages/Pending Books/Books_PendingBooks.jsx";
 import RoleManagement from "./pages/RoleManagement/RoleManagement";
 import Settings from "./pages/Settings/Settings.jsx";
 import LoginProvider, { UserLoginContext } from "./utils/context/LoginProvider";
@@ -74,18 +75,32 @@ function MainContent() {
       <Routes>
         <Route element={<Authenticated />}>
           <Route path="/" element={<Books />} />
+
           <Route element={<ActiveRoute />}>
+            {/* My Rented Books Route */}
             <Route element={<MyRentedBooksRoute />}>
               <Route
                 path="/myprofile/myRentedBooks/:id"
                 element={<Books_MyRentedBooks />}
               />
+              <Route
+                path="/myRentedBooks/:id"
+                element={<Books_MyRentedBooks />}
+              />
             </Route>
 
+            {/* Profile Route */}
             <Route element={<ProfileRoute />}>
               <Route path="/myprofile/:id" element={<MyProfile />} />
             </Route>
 
+            {/* Pending Books */}
+            <Route
+              path="/myprofile/pendingBooks"
+              element={<Books_PendingBooks />}
+            />
+
+            {/* Admin Routes */}
             <Route element={<AdminRoute />}>
               <Route
                 path="/categoryManagement"
@@ -95,10 +110,12 @@ function MainContent() {
               <Route path="/settings" element={<Settings />} />
             </Route>
 
+            {/* Not Found Route */}
             <Route path="*" element={<NotFound />} />
           </Route>
         </Route>
 
+        {/* Login Route */}
         <Route path="/login" element={<Login />} />
       </Routes>
     </>

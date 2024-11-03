@@ -9,9 +9,11 @@ import BookNavItem from "./BookNavItem.jsx";
 import CategoryManagementItem from "./CategoryManagementItem";
 import LogoutNavItem from "./LogoutNavItem";
 import ProfileNavItem from "./ProfileNavItem";
+import RentedBooksNavItem from "./RentedBooksNavItem.jsx";
 import RoleManagementItem from "./RoleManagementItem";
 import SettingsItem from "./SettingsItem.jsx";
 import "./css/Navbar.scss";
+import {showError} from "../../service/ToastService.jsx";
 function Navbar() {
   let navigate = useNavigate();
   let location = useLocation();
@@ -33,8 +35,14 @@ function Navbar() {
     if (location.pathname === "/") {
       setSelectedItem("Books");
       setSelectedColor("Red");
-    } else if (location.pathname.includes("profile")) {
+    } else if (location.pathname.includes(`myprofile`)) {
       setSelectedItem("profile");
+      setSelectedColor("red");
+    } else if (
+      location.pathname.substring(1, location.pathname.length) ===
+      `myRentedBooks/${email}`
+    ) {
+      setSelectedItem("rentedBooks");
       setSelectedColor("red");
     } else {
       setSelectedItem(location.pathname.substring(1, location.pathname.length));
@@ -69,11 +77,20 @@ function Navbar() {
               handleItemClick={handleItemClick}
               navigate={navigate}
             />
-            <ProfileNavItem
-              selectedItem={selectedItem}
-              handleItemClick={handleItemClick}
-              navigate={navigate}
-            />
+            {isAdmin ? (
+              <ProfileNavItem
+                selectedItem={selectedItem}
+                handleItemClick={handleItemClick}
+                navigate={navigate}
+              />
+            ) : (
+              <RentedBooksNavItem
+                selectedItem={selectedItem}
+                handleItemClick={handleItemClick}
+                navigate={navigate}
+                email={email}
+              />
+            )}
 
             <RoleManagementItem
               selectedItem={selectedItem}

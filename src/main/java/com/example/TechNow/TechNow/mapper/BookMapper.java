@@ -27,6 +27,7 @@ public class BookMapper {
 				.photoUrl(m.getPhotoUrl() != null ? m.getPhotoUrl() : "")
 				.created_date(parseDateSimple(m.getCreated_date()))
 				.updated_date(m.getUpdated_date() != null ? parseDateSimple(m.getUpdated_date()) : null)
+				.status(mh.getStatus().getValue() != null ? mh.getStatus().getValue() : "unavailable")
 				.build();
 	}
 

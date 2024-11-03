@@ -30,7 +30,6 @@ function RoleManagement() {
   const [filterRole, setFilterRole] = useState("");
   const [is_active, setIs_Active] = useState("");
   const [refresh, setRefresh] = useState(false);
-  let [newUrl, setNewUrl] = useState("");
   let [totalUsers, setTotalUsers] = useState(0);
   const { email: myUserEmail, isAdmin } = useContext(UserLoginContext);
   const { refreshImg, setRefreshImg } = useUserContext();

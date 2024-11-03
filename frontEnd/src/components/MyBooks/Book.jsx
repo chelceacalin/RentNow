@@ -22,7 +22,7 @@ function Book({ book, onRefresh, classes }) {
       >
         {book.isAvailable ? "Available" : "Unavailable"}
       </td>
-
+      <td className={classes}>{book.rentedDate || "N/A"}</td>
       <td className={classes}>{book.rentedUntil || "N/A"}</td>
       <td className={classes}>
         {book.rentedBy !== "available" ? book.rentedBy : ""}

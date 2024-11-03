@@ -1,12 +1,12 @@
 import { Container } from "@mui/material";
 import axios from "axios";
 import { useContext, useEffect, useState } from "react";
-import MyProfileRedirectButtons from "../../components/MyBooks/MyProfileRedirectButtons";
+import MyProfileRedirectButtons from "../../components/MyBooks/MyProfileRedirectButtons.jsx";
 import MyRentedBooks from "../../components/MyRentedBooks/MyRentedBooks.jsx";
-import Pagination from "../../components/Pagination/Pagination";
-import { UserLoginContext } from "../../utils/context/LoginProvider";
+import Pagination from "../../components/Pagination/Pagination.jsx";
+import { UserLoginContext } from "../../utils/context/LoginProvider.jsx";
 import { usePagination } from "../../utils/hooks/usePagination.jsx";
-function Books_MyRentedBooks() {
+function Books_PendingBooks() {
   const TABLE_HEAD = [
     "Title",
     "Director",
@@ -187,4 +187,4 @@ function Books_MyRentedBooks() {
   );
 }
 
-export default Books_MyRentedBooks;
+export default Books_PendingBooks;

@@ -41,4 +41,6 @@ public class BookDTO {
 	String created_date;
 
 	String updated_date;
+
+	String status;
 }

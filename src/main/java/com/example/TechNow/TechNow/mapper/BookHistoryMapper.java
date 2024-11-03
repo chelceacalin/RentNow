@@ -26,6 +26,7 @@ public class BookHistoryMapper {
 				.created_date(LocalDateTime.now())
 				.updated_date(LocalDateTime.now())
 				.rentedBy(user)
+				.status(BookHistory.Status.PENDING)
 				.build();
 	}
 }

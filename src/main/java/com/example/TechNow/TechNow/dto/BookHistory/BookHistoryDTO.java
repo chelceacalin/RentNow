@@ -29,4 +29,6 @@ public class BookHistoryDTO {
 	UUID bookId;
 
 	UUID userId;
+
+	String status;
 }
