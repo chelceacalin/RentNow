@@ -65,7 +65,8 @@ def get_books_for_user(user_email: str):
             where = {"user_email": user_email},
             include = [IncludeEnum.metadatas, IncludeEnum.documents]
         )
-        return " ".join(results['documents']) if results.get('documents') else None
+        out = " ".join(results['documents']) if results.get('documents') else None
+        return out
     except Exception as e:
         logger.error(f"Error retrieving books for user {user_email}: {e}")
         return None

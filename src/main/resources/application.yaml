@@ -50,7 +50,7 @@ custom:
     app-url: ${FRONTEND_URL:http://localhost:4173}
   default_buckets: photos, userphotos
   fromEmail: ${FROM_EMAIL}
-  enableMailService: false
+  enableMailService: true
   remindersSchedulerTime: 5000
   admin_email: chelceacalin1@gmail.com
   kafka_topics: BOOK_RETURNED

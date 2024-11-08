@@ -1,9 +1,14 @@
 from threading import Thread
-from flask_cors import CORS
+
+import numpy as np
 from chromadb.api.types import IncludeEnum
 from flask import Flask, jsonify, request
-from service.kafka_service import kafka_listener
+from flask_cors import CORS
+from model.Book import Book
+from config.logger_config import logger
+from model.Qa import Qa
 from service.ai_service import generate_recommendations_from_ai
+from service.chroma_service import client
 from service.chroma_service import (
     get_books_for_user,
     add_qa_to_collection,
@@ -13,11 +18,7 @@ from service.chroma_service import (
     print_collections,
     get_random_qas
 )
-import numpy as np
-from config.logger_config import logger
-from model.Qa import Qa
-from service.chroma_service import client, qa_collection
-from service.data_loader_service import load_data
+from service.kafka_service import kafka_listener
 
 app = Flask(__name__)
 CORS(app, origins = ["http://localhost:4173"], supports_credentials = True)
@@ -28,7 +29,7 @@ CORS(app, origins = ["http://localhost:4173"], supports_credentials = True)
 def get_recommendations(userEmail: str):
     books_read = get_books_for_user(userEmail)
     recommendations = generate_recommendations_from_ai(books_read)
-    return jsonify({"bookRecommendations": recommendations})
+    return jsonify(recommendations)
 
 
 @app.route("/getCollections", methods = ['GET'])
@@ -121,7 +122,7 @@ def update_qa(qa_id: str):
 
 
 if __name__ == '__main__':
-    load_data()
+    # load_data()
     kafka_thread = Thread(target = kafka_listener, daemon = True)
     kafka_thread.start()
     app.run(port = 5000, debug = True, host = '0.0.0.0')

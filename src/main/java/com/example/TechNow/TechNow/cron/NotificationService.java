@@ -1,8 +1,10 @@
-package com.example.TechNow.TechNow.service;
+package com.example.TechNow.TechNow.cron;
 
 import com.example.TechNow.TechNow.model.Book;
 import com.example.TechNow.TechNow.model.BookHistory;
 import com.example.TechNow.TechNow.model.User;
+import com.example.TechNow.TechNow.service.BookHistoryService;
+import com.example.TechNow.TechNow.service.EmailSenderService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;

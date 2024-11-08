@@ -192,5 +192,9 @@ public class UserService {
         user.setUpdated_date(LocalDateTime.now());
         userRepository.save(user);
     }
+
+    public List<User> findAll(){
+        return userRepository.findAll();
+    }
 }
 
