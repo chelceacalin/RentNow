@@ -3,6 +3,7 @@ package com.example.TechNow.TechNow.controller;
 import com.example.TechNow.TechNow.dto.User.UserAddDTO;
 import com.example.TechNow.TechNow.dto.User.UserDTO;
 import com.example.TechNow.TechNow.dto.User.UserFilterDTO;
+import com.example.TechNow.TechNow.dto.User.UserPreferencesDTO;
 import com.example.TechNow.TechNow.model.User;
 import com.example.TechNow.TechNow.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -48,5 +49,11 @@ public class UserController extends BaseController {
 	@PostMapping("/addUser")
 	public ResponseEntity<Object> addUser(@RequestBody UserAddDTO userAddDTO) {
 		return buildCreatedResponse(userService.addUser(userAddDTO));
+	}
+
+	@PutMapping("/preferences/{email}")
+	public ResponseEntity<Object> updateUserPreferences(@PathVariable String email, @RequestBody UserPreferencesDTO userDTO) {
+		userService.updateUserPreferences(email, userDTO);
+		return buildOkResponse();
 	}
 }

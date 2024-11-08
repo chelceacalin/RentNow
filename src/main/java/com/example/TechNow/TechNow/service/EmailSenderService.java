@@ -1,5 +1,7 @@
 package com.example.TechNow.TechNow.service;
 
+import com.example.TechNow.TechNow.model.User;
+import com.example.TechNow.TechNow.repository.UserRepository;
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;
 import jakarta.mail.internet.MimeMessage;
@@ -16,12 +18,14 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 import static com.example.TechNow.TechNow.util.EmailConstants.MAIL;
+import static com.example.TechNow.TechNow.util.Utils.getEntityOrThrow;
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
 public class EmailSenderService {
     final JavaMailSender mailSender;
+    final UserRepository userRepository;
 
     @Value("${custom.fromEmail}")
     String fromEmail;
@@ -43,6 +47,11 @@ public class EmailSenderService {
     public void sendEmail(String to, String subject, String body, byte[] pdfData) {
         if (!isEnabled) {
             log.warn(MAIL + "Mail service not enabled");
+            return;
+        }
+
+        User user = getEntityOrThrow(() -> userRepository.findByEmail(fromEmail), "User not found");
+        if (!user.isMailNotificationsEnabled()) {
             return;
         }
         executorService.submit(() -> {

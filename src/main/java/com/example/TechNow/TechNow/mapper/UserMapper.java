@@ -18,6 +18,8 @@ public class UserMapper {
 				.email(user.getEmail())
 				.is_active(user.getIs_active())
 				.photoUrl(user.getPhotoUrl())
+				.mailNotificationsEnabled(user.isMailNotificationsEnabled())
+				.subscribedToNewsletter(user.isSubscribedToNewsletter())
 				.build();
 	}
 

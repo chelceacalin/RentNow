@@ -27,4 +27,8 @@ public class UserDTO {
 	Boolean is_active;
 
 	String photoUrl;
+
+	boolean mailNotificationsEnabled;
+
+	boolean subscribedToNewsletter;
 }

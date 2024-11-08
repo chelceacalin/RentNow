@@ -46,6 +46,10 @@ function MyRentedBooks({
         return "text-yellow-700";
       case "APPROVED":
         return "text-green-700";
+      case "FAILED_RETURNING":
+        return "text-green-900";
+      case "RETURNED":
+        return "text-green-900";
       case "REJECTED":
         return "text-red-700";
       default:
@@ -109,6 +113,7 @@ function MyRentedBooks({
               isModalOpen={returnModalOpen}
               closeModal={handleReturnClose}
               title={title}
+              bookHistoryId={bookHistoryId}
               triggerRefresh={triggerRefresh}
               setTriggerRefresh={setTriggerRefresh}
               owner={owner}

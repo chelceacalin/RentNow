@@ -37,6 +37,10 @@ public class User {
 
 	LocalDateTime updated_date;
 
+	boolean mailNotificationsEnabled;
+
+	boolean subscribedToNewsletter;
+
 	@Column
 	@Enumerated(value = EnumType.STRING)
 	Role role;

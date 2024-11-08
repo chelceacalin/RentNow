@@ -25,6 +25,7 @@ function ReturnBookModal({
   triggerRefresh,
   owner,
   user,
+  bookHistoryId
 }) {
   const [rating, setRating] = useState(5);
   const [state, setState] = useState(5);
@@ -45,6 +46,7 @@ function ReturnBookModal({
       bookTitle: title,
       ownerEmail: owner.email,
       ownerUsername: owner.username,
+      bookHistoryId: bookHistoryId
     };
 
     axios

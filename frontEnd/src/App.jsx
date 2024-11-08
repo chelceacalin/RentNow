@@ -11,15 +11,15 @@ import "./App.scss";
 import Deactivated from "./components/Activity/Deactivated.jsx";
 import ChatMessenger from "./components/Chat/ChatMessenger.jsx";
 import Navbar from "./components/Navbar/Navbar";
+import Books_PendingBooks from "./pages/Admin-PendingBooks/Books_PendingBooks.jsx";
 import Books from "./pages/Books/Books.jsx";
 import CategoryManagement from "./pages/CategoryManagement/CategoryManagement";
 import Login from "./pages/Login/Login";
 import MyProfile from "./pages/MyBooks/MyProfile";
-import Books_MyRentedBooks from "./pages/MyRentedBooks/Books_MyRentedBooks.jsx";
 import NotFound from "./pages/NotFound/NotFound";
-import Books_PendingBooks from "./pages/Pending Books/Books_PendingBooks.jsx";
 import RoleManagement from "./pages/RoleManagement/RoleManagement";
 import Settings from "./pages/Settings/Settings.jsx";
+import Books_MyRentedBooks from "./pages/USER-RentedBooks/Books_MyRentedBooks.jsx";
 import LoginProvider, { UserLoginContext } from "./utils/context/LoginProvider";
 import { ReviewsProvider } from "./utils/context/ReviewsContext.jsx";
 import { UserProvider } from "./utils/context/UserContext.jsx";
@@ -107,13 +107,13 @@ function MainContent() {
                 element={<CategoryManagement />}
               />
               <Route path="/roleManagement" element={<RoleManagement />} />
-              <Route path="/settings" element={<Settings />} />
             </Route>
 
             {/* Not Found Route */}
             <Route path="*" element={<NotFound />} />
           </Route>
         </Route>
+        <Route path="/settings" element={<Settings />} />
 
         {/* Login Route */}
         <Route path="/login" element={<Login />} />

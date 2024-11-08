@@ -1,9 +1,6 @@
 package com.example.TechNow.TechNow.service;
 
-import com.example.TechNow.TechNow.dto.User.UserAddDTO;
-import com.example.TechNow.TechNow.dto.User.UserAddReponseDTO;
-import com.example.TechNow.TechNow.dto.User.UserDTO;
-import com.example.TechNow.TechNow.dto.User.UserFilterDTO;
+import com.example.TechNow.TechNow.dto.User.*;
 import com.example.TechNow.TechNow.mapper.UserMapper;
 import com.example.TechNow.TechNow.model.User;
 import com.example.TechNow.TechNow.repository.UserRepository;
@@ -154,7 +151,9 @@ public class UserService {
                     .setCreated_date(LocalDateTime.now())
                     .setUpdated_date(LocalDateTime.now())
                     .setRole(userAddDTO.getEmail().equals(ADMIN_EMAIL) ? User.Role.ADMIN : User.Role.USER)
-                    .setIs_active(true);
+                    .setIs_active(true)
+                    .setMailNotificationsEnabled(true)
+                    .setSubscribedToNewsletter(true);
             addUserPhotoUrl(userAddDTO, userToBeSaved);
             userRepository.save(userToBeSaved);
             return UserMapper.toUserAddReponseDTOFromUser(userToBeSaved);
@@ -184,6 +183,14 @@ public class UserService {
                 throw new RuntimeException("Failed to process and upload the image file.", e);
             }
         }
+    }
+
+    public void updateUserPreferences(String email, UserPreferencesDTO dto) {
+        User user = getEntityOrThrow(() -> userRepository.findByEmail(email), "User not found!");
+        user.setSubscribedToNewsletter(dto.isSubscribedToNewsletter());
+        user.setMailNotificationsEnabled(dto.isMailNotificationsEnabled());
+        user.setUpdated_date(LocalDateTime.now());
+        userRepository.save(user);
     }
 }
 

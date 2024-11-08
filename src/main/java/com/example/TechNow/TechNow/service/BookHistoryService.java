@@ -7,6 +7,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -18,5 +20,14 @@ public class BookHistoryService {
     public List<BookHistory> findAll() {
         return bookHistoryRepository.findAll()
                 .stream().distinct().toList();
+    }
+
+    public Map<String, Long> countByUserEmailAndStatus(String email) {
+        var bookHistories = bookHistoryRepository.findAllByRentedByEmail(email);
+        return bookHistories.stream().collect(Collectors.groupingBy(bookHistory -> bookHistory.getStatus().getValue(), Collectors.counting()));
+    }
+
+    public BookHistory save(BookHistory bookHistory) {
+        return bookHistoryRepository.save(bookHistory);
     }
 }

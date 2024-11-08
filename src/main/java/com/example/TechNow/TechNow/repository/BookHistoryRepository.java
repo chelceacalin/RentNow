@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.UUID;
 
 @Repository
@@ -18,4 +19,7 @@ public interface BookHistoryRepository extends JpaRepository<BookHistory, UUID> 
     void deleteBookHistoryByBookId(UUID uuid);
 
     Page<BookHistory> findAllByRentedBy_Id(String userId, Pageable pageable);
+
+    List<BookHistory> findAllByRentedByEmail(String email);
+
 }

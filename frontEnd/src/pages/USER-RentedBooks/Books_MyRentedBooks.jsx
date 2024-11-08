@@ -1,11 +1,13 @@
-import { Container } from "@mui/material";
+import { Card, CardContent, Container, Grid, Typography } from "@mui/material";
 import axios from "axios";
 import { useContext, useEffect, useState } from "react";
-import MyProfileRedirectButtons from "../../components/MyBooks/MyProfileRedirectButtons";
+import MyProfileRedirectButtons from "../../components/MyBooks/MyProfileRedirectButtons.jsx";
 import MyRentedBooks from "../../components/MyRentedBooks/MyRentedBooks.jsx";
-import Pagination from "../../components/Pagination/Pagination";
-import { UserLoginContext } from "../../utils/context/LoginProvider";
+import Pagination from "../../components/Pagination/Pagination.jsx";
+import { UserLoginContext } from "../../utils/context/LoginProvider.jsx";
+import { useFetchData } from "../../utils/hooks/useFetchData.jsx";
 import { usePagination } from "../../utils/hooks/usePagination.jsx";
+
 function Books_MyRentedBooks() {
   const TABLE_HEAD = [
     "Title",
@@ -57,6 +59,7 @@ function Books_MyRentedBooks() {
         return field;
     }
   };
+
   const buildUrl = () => {
     const {
       category,
@@ -110,9 +113,28 @@ function Books_MyRentedBooks() {
     direction,
   ]);
 
+  const { data } = useFetchData(`/bookHistory/count/${email}`);
+  console.log("data ", data);
+
   return (
     <Container maxWidth="xl">
-      <div className="bg-grey-texture w-full mt-20">
+      <Grid container spacing={2} className="mt-4">
+        {data &&
+          Object.entries(data).map(([status, count]) => (
+            <Grid item xs={12} sm={4} md={2} key={status}>
+              <Card>
+                <CardContent>
+                  <Typography variant="h6" color="textSecondary" gutterBottom>
+                    {status.replace(/_/g, " ")}
+                  </Typography>
+                  <Typography variant="h4">{count}</Typography>
+                </CardContent>
+              </Card>
+            </Grid>
+          ))}
+      </Grid>
+
+      <div className="bg-grey-texture w-full mt-8">
         {isAdmin && <MyProfileRedirectButtons />}
         <div className="w-full flex flex-col bg-white justify-between border-2">
           <div className="overflow-y-auto">

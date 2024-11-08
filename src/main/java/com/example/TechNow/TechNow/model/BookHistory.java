@@ -63,7 +63,9 @@ public class BookHistory {
 	public enum Status {
 		PENDING("PENDING"),
 		APPROVED("APPROVED"),
-		REJECTED("REJECTED");
+		REJECTED("REJECTED"),
+		RETURNED("RETURNED"),
+		FAILED_RETURNING("FAILED RETURNING");
 
 		private final String value;
 

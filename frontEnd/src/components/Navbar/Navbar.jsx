@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import { showError } from "../../service/ToastService.jsx";
 import { UserLoginContext } from "../../utils/context/LoginProvider";
 import { useUserContext } from "../../utils/context/UserContext.jsx";
 import { useFetchData } from "../../utils/hooks/useFetchData.jsx";
@@ -13,7 +14,6 @@ import RentedBooksNavItem from "./RentedBooksNavItem.jsx";
 import RoleManagementItem from "./RoleManagementItem";
 import SettingsItem from "./SettingsItem.jsx";
 import "./css/Navbar.scss";
-import {showError} from "../../service/ToastService.jsx";
 function Navbar() {
   let navigate = useNavigate();
   let location = useLocation();
@@ -60,8 +60,8 @@ function Navbar() {
   };
 
   return (
-    <div className="flex w-auto navbar ">
-      <div className="flex flex-col h-full space-y-3 justify-between">
+    <div className="flex w-auto navbar">
+      <div className="flex flex-col h-full w-52 space-y-3 justify-between">
         {user && (
           <AppIcon
             isAdmin={isAdmin}
@@ -105,12 +105,10 @@ function Navbar() {
               navigate={navigate}
               isAdmin={isAdmin}
             />
-
             <SettingsItem
               selectedItem={selectedItem}
               handleItemClick={handleItemClick}
               navigate={navigate}
-              isAdmin={isAdmin}
             />
           </ul>
         </div>

@@ -13,7 +13,7 @@ Rent Now facilitates book rentals within a company, allowing you to manage and s
 - **Reading Recommendations**  
   Receive personalized book recommendations based on the categories you've read.
 - **Book Reviews and Comments**  
-  After returning a book, users can leave reviews, add comments, and reply to other users' recursively.
+  After returning a book, users can leave reviews, add ratings, comments, and reply to other users' recursively.
 - **Filtering, Pagination, and Sorting**  
   Supports server-side filtering, pagination, and sorting via the *Specification API*, optimizing data retrieval and browsing performance.
 - **User Roles and Permissions**  
@@ -24,6 +24,10 @@ Rent Now facilitates book rentals within a company, allowing you to manage and s
    - Daily overdue reminders after the return date has passed.
    - Notifications to both the renter and owner upon rental confirmation.
    - Email notifications with rejection reasons if a rental request is denied.
+- **Configurations**: Users can update preferences regarding receiving email notifications or the newsletter
+  subscription
+- **Cleanup Jobs**: Cron Jobs that run in the background and send newsletter emails to users, they delete the pending
+  requests that have been sitting for more than 24 hours
 - **Monitoring**  
   Integration with Grafana for monitoring using pre-configured dashboards. Log collection is managed via Loki and Prometheus, providing efficient visualization and tracking.
 - **Reporting**  
@@ -31,12 +35,13 @@ Rent Now facilitates book rentals within a company, allowing you to manage and s
 - **ChatBot**  
   A Chat Widget using the RAG Architecture. The chatbot includes predefined answers and allows admins to add custom responses dynamically.
 - **Link Utils**  
-  Admins can create and edit utility links to redirect users to internal pages or external sites, which will open in a new window.
+  Admins can create and edit utility links to redirect users to internal pages or external sites
 ## Technologies
 
-- **Backend**: Spring Boot 3, Java 21
+- **Backend**: Spring Boot 3, Java 21, Python
 - **Authentication**: Google Login, GitHub Login
 - **Frontend**: React JS, Tailwind CSS, SCSS, Material UI
+- **Databases**: Postgres, ChromaDB
 - **Database Migrations**: Flyway
 - **Image Storage**: Minio
 - **Monitoring**: Loki (logs), Prometheus (metrics)
@@ -75,6 +80,12 @@ Rent Now facilitates book rentals within a company, allowing you to manage and s
     npm i
     cd src
     npm run start
+    ```
+5. **Start the python app**
+    ```
+    cd .\Rag_Service\
+    docker compose up
+    python main.py
     ```
 
 ### Access Points (local)

@@ -1,6 +1,0 @@
-Flask~=3.0.3
-chromadb~=0.5.15
-openai~=1.52.1
-marshmallow~=3.23.0
-uuid~=1.30
-numpy~=1.26.4

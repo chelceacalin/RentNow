@@ -280,6 +280,7 @@ public class BookService {
                     getRentBookMessageForOwner(bookHistoryDTO, book, user), null);
 
             BookHistory bookHistory = toBookHistory(bookHistoryDTO);
+            bookHistory.setUpdated_date(LocalDateTime.now());
             bookHistoryRepository.save(bookHistory);
         });
     }
@@ -309,10 +310,14 @@ public class BookService {
         }
 
         List<BookDTO> rentedBooks = bookHistories.getContent().stream()
-                .sorted(Comparator.comparing(BookHistory::getUpdated_date).reversed())
+                .sorted(((o1, o2) -> {
+                    if (o1.getUpdated_date() != null && o2.getUpdated_date() != null) {
+                        return o2.getUpdated_date().compareTo(o1.getUpdated_date());
+                    }
+                    return 0;
+                }))
                 .map(history -> BookMapper.toDto(history.getBook(), history))
                 .toList();
-
         return new PageImpl<>(rentedBooks, pageable, bookHistories.getTotalElements());
     }
 
@@ -320,9 +325,15 @@ public class BookService {
     @SneakyThrows
     public void changeRentedBookStatus(UUID id, EmailDTO emailDTO) {
         Book book = getEntityOrThrow(() -> bookRepository.findById(id), "Book is not found");
-            book.setAvailable(true);
-        book.setUpdated_date(LocalDateTime.now());
-            bookRepository.save(book);
+        book
+                .setAvailable(true)
+                .setUpdated_date(LocalDateTime.now());
+        bookRepository.save(book);
+
+        BookHistory bookHistory = getEntityOrThrow(() -> bookHistoryRepository.findById(emailDTO.getBookHistoryId()), "Book not found");
+        bookHistory.setUpdated_date(LocalDateTime.now());
+        bookHistory.setStatus(BookHistory.Status.RETURNED);
+        bookHistoryRepository.save(bookHistory);
         String renterEmail = emailDTO.getRenterEmail();
 
         messageProducer.sendMessage("BOOK_RETURNED", new ObjectMapper().writeValueAsString(new BookRecord(renterEmail, book.getCategory().getName(), book.getTitle())));
@@ -338,6 +349,7 @@ public class BookService {
         if ("REJECTED".equals(emailDTO.getStatus())) {
             if (bookHistory != null) {
                 bookHistory.setStatus(BookHistory.Status.REJECTED);
+                bookHistory.setUpdated_date(LocalDateTime.now());
                 bookHistoryRepository.save(bookHistory);
                 emailSenderService.sendEmail(emailDTO.getRenterEmail(), String.format("Your rental request for the book %s been returned", emailDTO.getBookTitle()), getRejectEmailBody(emailDTO), null);
             }
@@ -348,11 +360,15 @@ public class BookService {
         }
 
         if (bookHistory != null) {
+            bookHistory.setUpdated_date(LocalDateTime.now());
             bookHistory.setStatus(BookHistory.Status.valueOf(emailDTO.getStatus()));
             bookHistoryRepository.save(bookHistory);
         }
     }
 
+    public Book save(Book book) {
+        return bookRepository.save(book);
+    }
 
     record BookRecord(String user_email, String category, String title) {
     }
