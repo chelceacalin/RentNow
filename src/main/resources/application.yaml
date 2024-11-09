@@ -38,11 +38,6 @@ spring:
   threads:
     virtual:
       enabled: true
-  #Kafka
-  kafka:
-    bootstrap-servers: localhost:9092
-    consumer:
-      group-id: cID
 
 # Cors
 custom:
@@ -50,11 +45,9 @@ custom:
     app-url: ${FRONTEND_URL:http://localhost:4173}
   default_buckets: photos, userphotos
   fromEmail: ${FROM_EMAIL}
-  enableMailService: true
+  enableMailService: false
   remindersSchedulerTime: 5000
   admin_email: chelceacalin1@gmail.com
-  kafka_topics: BOOK_RETURNED
-  kafka.enabled: true
   python-url: ${PYTHON_URL:http://localhost:5000}
   newsletter-secret: ${NEWSLETTER_SECRET:test}
 

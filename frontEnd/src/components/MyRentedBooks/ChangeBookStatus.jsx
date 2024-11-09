@@ -27,10 +27,18 @@ function ChangeBookStatus({
   user,
   bookHistoryId,
 }) {
-  const [status, setStatus] = useState("PENDING");
+  const [status, setStatus] = useState("");
   const [rejectReason, setRejectReason] = useState("");
+  const [statusError, setStatusError] = useState(false);
 
   const updateBookStatus = () => {
+    if (!status) {
+      setStatusError(true);
+      showError("Please select a status.");
+      return;
+    }
+    setStatusError(false);
+
     const url = `/books/updateStatus/${id}`;
 
     const emailDTO = {
@@ -83,19 +91,28 @@ function ChangeBookStatus({
         </div>
 
         <Box component="form" sx={{ mt: 2 }}>
-          <FormControl fullWidth margin="normal">
+          <FormControl fullWidth margin="normal" error={statusError}>
             <InputLabel>Status</InputLabel>
             <Select
               value={status}
               label="Status"
-              onChange={(e) => setStatus(e.target.value)}
+              onChange={(e) => {
+                setStatus(e.target.value);
+                setStatusError(false); // Clear error when a selection is made
+              }}
+              required
             >
               <MenuItem value="APPROVED">APPROVED</MenuItem>
               <MenuItem value="REJECTED">REJECTED</MenuItem>
+              <MenuItem value="RETURNED">RETURNED</MenuItem>
             </Select>
+            {statusError && (
+              <Typography color="error" variant="body2">
+                Status is required.
+              </Typography>
+            )}
           </FormControl>
 
-          {/* Conditionally render the reject reason field */}
           {status === "REJECTED" && (
             <TextField
               label="Reason for Rejection"
@@ -111,12 +128,19 @@ function ChangeBookStatus({
         </Box>
 
         <div className="w-full mt-5">
-          <button className="details-button db-sm" onClick={updateBookStatus}>
+          <button
+            className="details-button db-sm"
+            onClick={updateBookStatus}
+            disabled={!status || status.length < 3}
+          >
             Confirm
           </button>
           <button
             className="details-button details-button-red db-sm"
-            onClick={closeModal}
+            onClick={() => {
+              setStatus(" ");
+              closeModal();
+            }}
           >
             Cancel
           </button>

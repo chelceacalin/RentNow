@@ -91,7 +91,7 @@ function Books_PendingBooks() {
         const response = await axios.get(url);
         const { content, totalPages } = response.data;
         setTotalPages(totalPages);
-        setBooks(content.filter((b) => !b.isAvailable));
+        setBooks(content.filter((b) => b.status === "PENDING"));
         setInitialized(true);
       } catch {
         setInitialized(true);

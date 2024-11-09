@@ -16,9 +16,9 @@ from service.chroma_service import (
     delete_qa_entry,
     update_qa_entry,
     print_collections,
-    get_random_qas
+    get_random_qas,
+    add_book_to_collection,
 )
-from service.kafka_service import kafka_listener
 
 app = Flask(__name__)
 CORS(app, origins = ["http://localhost:4173"], supports_credentials = True)
@@ -121,8 +121,28 @@ def update_qa(qa_id: str):
     return jsonify({"message": f"Q&A with ID {qa_id} updated successfully"}), 200
 
 
+@app.route('/book/book_returned', methods = ['POST'])
+def book_returned():
+    try:
+        data = request.get_json()
+        logger.info(f"Request received: {data}")
+        user_email = data.get('user_email')
+        category = data.get('category')
+        title = data.get('title')
+        if not all([user_email, category, title]):
+            return jsonify({'error': 'Missing fields in the request'}), 400
+
+        book = Book(title, category)
+        add_book_to_collection(user_email, book)
+
+        logger.info(f"Book added for user {user_email}: {book}")
+        return jsonify({'message': f"Book '{title}' added for user {user_email}"}), 200
+
+    except Exception as e:
+        logger.error(f"Error processing request: {e}")
+        return jsonify({'error': 'Internal server error'}), 500
+
+
 if __name__ == '__main__':
     # load_data()
-    kafka_thread = Thread(target = kafka_listener, daemon = True)
-    kafka_thread.start()
     app.run(port = 5000, debug = True, host = '0.0.0.0')

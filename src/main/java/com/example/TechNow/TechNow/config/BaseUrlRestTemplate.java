@@ -1,6 +1,8 @@
 package com.example.TechNow.TechNow.config;
 
 import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
@@ -23,9 +25,12 @@ public class BaseUrlRestTemplate {
 		return restTemplate.getForObject(baseUrl + endpoint, responseType);
 	}
 
-	public <T, R> void postForEntity(String endpoint, R requestBody, Class<T> responseType) {
-		CompletableFuture.supplyAsync(() -> {
-			HttpEntity<R> requestEntity = new HttpEntity<>(requestBody);
+
+	public <T, R> CompletableFuture<ResponseEntity<T>> postForEntity(String endpoint, R requestBody, Class<T> responseType) {
+		return CompletableFuture.supplyAsync(() -> {
+			HttpHeaders headers = new HttpHeaders();
+			headers.setContentType(MediaType.APPLICATION_JSON);
+			HttpEntity<R> requestEntity = new HttpEntity<>(requestBody, headers);
 			return restTemplate.postForEntity(baseUrl + endpoint, requestEntity, responseType);
 		}, executorService);
 	}
@@ -44,8 +49,6 @@ public class BaseUrlRestTemplate {
 	}
 
 	public CompletableFuture<Void> deleteForEntityAsync(String endpoint) {
-		return CompletableFuture.runAsync(() -> {
-			restTemplate.delete(baseUrl + endpoint);
-		}, executorService);
+		return CompletableFuture.runAsync(() -> restTemplate.delete(baseUrl + endpoint), executorService);
 	}
 }

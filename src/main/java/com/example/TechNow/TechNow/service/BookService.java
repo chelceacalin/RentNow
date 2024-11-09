@@ -1,7 +1,7 @@
 package com.example.TechNow.TechNow.service;
 
 
-import com.example.TechNow.TechNow.config.MessageProducer;
+import com.example.TechNow.TechNow.config.BaseUrlRestTemplate;
 import com.example.TechNow.TechNow.dto.Book.*;
 import com.example.TechNow.TechNow.dto.BookHistory.BookHistoryDTO;
 import com.example.TechNow.TechNow.dto.Email.EmailDTO;
@@ -17,13 +17,17 @@ import com.example.TechNow.TechNow.specification.BookSpecification;
 import com.example.TechNow.TechNow.util.ReviewRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.transaction.Transactional;
-import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.*;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -42,7 +46,7 @@ import static java.util.Objects.nonNull;
 
 @Service
 @Transactional
-@RequiredArgsConstructor
+@Slf4j
 public class BookService {
 
     final UserService userService;
@@ -54,7 +58,29 @@ public class BookService {
     final CategoryRepository categoryRepository;
     final ImageStorageService imageStorageService;
     final BookHistoryRepository bookHistoryRepository;
-    final MessageProducer messageProducer;
+    final BaseUrlRestTemplate baseUrlRestTemplate;
+
+    public BookService(@Qualifier("pythonServiceTemplate") BaseUrlRestTemplate baseUrlRestTemplate,
+                       BookHistoryRepository bookHistoryRepository,
+                       BookRepository bookRepository,
+                       CategoryRepository categoryRepository,
+                       CommentRepository commentRepository,
+                       EmailSenderService emailSenderService,
+                       ImageStorageService imageStorageService,
+                       ReviewRepository reviewRepository,
+                       UserRepository userRepository,
+                       UserService userService) {
+        this.baseUrlRestTemplate = baseUrlRestTemplate;
+        this.bookHistoryRepository = bookHistoryRepository;
+        this.bookRepository = bookRepository;
+        this.categoryRepository = categoryRepository;
+        this.commentRepository = commentRepository;
+        this.emailSenderService = emailSenderService;
+        this.imageStorageService = imageStorageService;
+        this.reviewRepository = reviewRepository;
+        this.userRepository = userRepository;
+        this.userService = userService;
+    }
 
     public Page<BookDTO> findUserBooks(BookFilterDTO bookFilter, int pageNo, int pageSize) {
         Specification<Book> specification = getSpecification(bookFilter);
@@ -310,12 +336,6 @@ public class BookService {
         }
 
         List<BookDTO> rentedBooks = bookHistories.getContent().stream()
-                .sorted(((o1, o2) -> {
-                    if (o1.getUpdated_date() != null && o2.getUpdated_date() != null) {
-                        return o2.getUpdated_date().compareTo(o1.getUpdated_date());
-                    }
-                    return 0;
-                }))
                 .map(history -> BookMapper.toDto(history.getBook(), history))
                 .toList();
         return new PageImpl<>(rentedBooks, pageable, bookHistories.getTotalElements());
@@ -335,8 +355,12 @@ public class BookService {
         bookHistory.setStatus(BookHistory.Status.RETURNED);
         bookHistoryRepository.save(bookHistory);
         String renterEmail = emailDTO.getRenterEmail();
-
-        messageProducer.sendMessage("BOOK_RETURNED", new ObjectMapper().writeValueAsString(new BookRecord(renterEmail, book.getCategory().getName(), book.getTitle())));
+        try {
+            String json = new ObjectMapper().writeValueAsString(new BookRecord(renterEmail, book.getCategory().getName(), book.getTitle()));
+            baseUrlRestTemplate.postForEntity("/book/book_returned", json, String.class);
+        } catch (Exception e) {
+            log.error("Error sending message to python api {}", e.getMessage());
+        }
         emailSenderService.sendEmail(emailDTO.getOwnerEmail(), String.format("Your book %s has been returned", emailDTO.getBookTitle()), getEmailBody(emailDTO), null);
     }
 
