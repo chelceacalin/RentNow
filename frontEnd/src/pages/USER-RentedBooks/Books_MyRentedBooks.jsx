@@ -1,5 +1,4 @@
 import { Card, CardContent, Container, Grid, Typography } from "@mui/material";
-import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import MyProfileRedirectButtons from "../../components/MyBooks/MyProfileRedirectButtons.jsx";
 import MyRentedBooks from "../../components/MyRentedBooks/MyRentedBooks.jsx";
@@ -88,43 +87,28 @@ function Books_MyRentedBooks() {
     return `/books/rented?${params.join("&")}`;
   };
 
+  const { data: uBooks, loaded } = useFetchData(buildUrl());
+
   useEffect(() => {
-    const fetchBooks = async () => {
-      try {
-        const url = buildUrl();
-        const response = await axios.get(url);
-        const { content, totalPages } = response.data;
-        setTotalPages(totalPages);
-        if (!(content.length === 0 && pagination.pageNo > 1)) {
-          setBooks(content);
-        }
-        setInitialized(true);
-      } catch {
-        setInitialized(true);
-      }
-    };
-    fetchBooks();
-  }, [
-    triggerRefresh,
-    filterParams,
-    pagination.pageNo,
-    pagination.pageSize,
-    sortField,
-    direction,
-  ]);
+    if (loaded) {
+      const { content, totalPages } = uBooks || {};
+      console.log("Content ", content);
+      setBooks(content || []);
+      setTotalPages(totalPages || 1);
+    }
+  }, [uBooks, loaded]);
 
   const { data } = useFetchData(`/bookHistory/count/${email}`);
-  console.log("data ", data);
 
   return (
     <Container maxWidth="xl">
       <Grid container spacing={2} className="mt-4">
         {data &&
           Object.entries(data).map(([status, count]) => (
-            <Grid item xs={12} sm={4} md={2} key={status}>
+            <Grid item xs={4} sm={4} md={2} key={status}>
               <Card>
                 <CardContent>
-                  <Typography variant="h6" color="textSecondary" gutterBottom>
+                  <Typography variant="h8" color="textSecondary" gutterBottom>
                     {status.replace(/_/g, " ")}
                   </Typography>
                   <Typography variant="h4">{count}</Typography>
@@ -173,7 +157,7 @@ function Books_MyRentedBooks() {
               <tbody className="text-blue-marine">
                 {books.map((book, index) => (
                   <MyRentedBooks
-                    key={book.id}
+                    key={book.id + "-" + book.bookHistoryId}
                     book={book}
                     triggerRefresh={triggerRefresh}
                     setTriggerRefresh={setTriggerRefresh}

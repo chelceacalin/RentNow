@@ -240,6 +240,7 @@ function EditRoleModalWindow({
                 value={userDTO.firstName}
                 onChange={handleFirstNameChange}
                 fullWidth
+                disabled={!isCurrentUser}
               />
             </div>
             <div className="mb-4">
@@ -248,6 +249,7 @@ function EditRoleModalWindow({
                 value={userDTO.lastName}
                 onChange={handleLastNameChange}
                 fullWidth
+                disabled={!isCurrentUser}
               />
             </div>
             {isAdmin && (

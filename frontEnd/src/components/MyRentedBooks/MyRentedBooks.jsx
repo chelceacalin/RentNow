@@ -43,30 +43,30 @@ function MyRentedBooks({
   const getStatusColorClass = (status) => {
     switch (status) {
       case "PENDING":
-        return "text-yellow-700";
+        return "text-yellow-700 font-bold";
       case "APPROVED":
-        return "text-green-700";
+        return "text-green-color font-bold";
       case "FAILED_RETURNING":
-        return "text-green-900";
+        return "text-green-900 font-bold";
+      case "PENDING_CONFIRMATION":
+        return "text-details-color font-bold";
       case "RETURNED":
-        return "text-green-900";
+        return "text-green-color font-bold";
       case "REJECTED":
-        return "text-red-700";
+        return "text-main-color font-bold";
       default:
-        return "text-gray-700";
+        return "text-gray-700 font-bold";
     }
   };
 
   return (
     <tr key={title} className={`${owner.email !== email ? "" : "bg-gray-100"}`}>
-      {/* Common fields */}
       <td className={classes}>{title}</td>
       <td className={classes}>{director}</td>
       <td className={classes}>{category}</td>
       <td className={classes}>{rentedDate || "N/A"}</td>
       <td className={classes}>{rentedUntil || "N/A"}</td>
 
-      {/* Conditional rendering for Admin and User */}
       {isAdmin ? (
         <>
           <td className={classes}>{renterEmail}</td>

@@ -1,41 +1,83 @@
 # Rent Now
 
-Rent Now facilitates book rentals within a company, allowing you to manage and share your book collection with colleagues.
+A comprehensive system for managing book rentals, categories, and user interactions within a corporate environment. This
+application supports personalized recommendations, reviews, notifications, and more, making it easy for users to rent,
+review, and discover books while providing admins with extensive management capabilities.
 
 ## Features
 
-- **Book Management**  
-  Manage book details and availability. Admins can add, edit, and organize books, setting availability and updating information as needed.
-- **Category Management**  
-  Organize books into categories, enabling users to easily browse and read based on specific categories.
-- **Book Rental**  
-  Admins create books they are responsible for. Users can request to rent books, while admins have the authority to approve or reject these requests, with the option to specify a rejection reason.
-- **Reading Recommendations**  
-  Receive personalized book recommendations based on the categories you've read.
-- **Book Reviews and Comments**  
-  After returning a book, users can leave reviews, add ratings, comments, and reply to other users' recursively.
-- **Filtering, Pagination, and Sorting**  
-  Supports server-side filtering, pagination, and sorting via the *Specification API*, optimizing data retrieval and browsing performance.
-- **User Roles and Permissions**  
-  Role-based access control allows admins to manage users, categories, and permissions. Admins can create categories, add books, deactivate user accounts, and approve or reject book rental requests.
-- **Notifications**  
-  Users receive notifications for:
-   - Book return reminders one day before the due date.
-   - Daily overdue reminders after the return date has passed.
-   - Notifications to both the renter and owner upon rental confirmation.
-   - Email notifications with rejection reasons if a rental request is denied.
-- **Configurations**: Users can update preferences regarding receiving email notifications or the newsletter
-  subscription
-- **Cleanup Jobs**: Cron Jobs that run in the background and send newsletter emails to users, they delete the pending
-  requests that have been sitting for more than 24 hours
-- **Monitoring**  
-  Integration with Grafana for monitoring using pre-configured dashboards. Log collection is managed via Loki and Prometheus, providing efficient visualization and tracking.
-- **Reporting**  
-  Generate PDF reports on rented books. Admins can access users' reports to apply penalties if they miss the return due date.
-- **ChatBot**  
-  A Chat Widget using the RAG Architecture. The chatbot includes predefined answers and allows admins to add custom responses dynamically.
-- **Link Utils**  
-  Admins can create and edit utility links to redirect users to internal pages or external sites
+### 1. Book Management
+
+- Admins can manage book details, including adding, editing, and organizing books.
+- Set book availability and update information as needed.
+
+### 2. Category Management
+
+- Organize books into categories, allowing users to easily browse and explore based on specific interests.
+
+### 3. Book Rental
+
+- Admins add books they oversee, which users can request to rent.
+- Admins can approve or reject rental requests, with the option to provide a reason for rejection.
+- Also they are able to confirm book returns
+
+### 4. Reading Recommendations
+
+- Users receive personalized book recommendations based on their reading history.
+
+### 5. Book Reviews and Comments
+
+- Users can leave reviews, add ratings, and comment on books after returning them.
+- Comment threads support recursive replies, allowing interaction with other users.
+
+### 6. Filtering, Pagination, and Sorting
+
+- Supports server-side filtering, pagination, and sorting using the **Specification API**, enhancing data retrieval
+  efficiency.
+
+### 7. User Roles and Permissions
+
+- Role-based access control enables admins to manage users, categories, and permissions.
+- Admins can create categories, add books, deactivate user accounts, generate reports and handle rental requests.
+
+### 8. Notifications
+
+Users receive various notifications:
+
+- **Return Reminder**: Notified one day before the return due date.
+- **Overdue Reminder**: Daily notifications for overdue books.
+- **Rental Confirmation**: Both the renter and owner are notified upon rental approval.
+- **Rejection Notification**: Email notification with rejection reasons if a rental request is denied.
+- **Newsletter Notification**: Weekly notifications with book recommendations
+
+### 9. Configurations
+
+- Users can set preferences for receiving email notifications and managing newsletter subscriptions.
+
+### 10. Cleanup Jobs
+
+- Background cron jobs send newsletter emails to users.
+- Automatically deletes pending rental requests older than 24 hours.
+
+### 11. Monitoring
+
+- Integrated with **Grafana** for real-time monitoring using pre-configured dashboards.
+- Log collection is managed via **Loki** and **Prometheus**, providing efficient visualization and tracking.
+
+### 12. Reporting
+
+- Generate PDF reports on rented books.
+- Admins can view reports to apply penalties for missed return deadlines.
+
+### 13. ChatBot
+
+- A Chat Widget powered by **RAG Architecture** (Retrieval-Augmented Generation).
+- The chatbot includes predefined answers and allows admins to add custom responses dynamically.
+
+### 14. Link Utils
+
+- Admins can create and edit utility links, directing users to internal pages or external sites.
+
 ## Technologies
 
 - **Backend**: Spring Boot 3, Java 21, Python

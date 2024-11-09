@@ -85,8 +85,8 @@ function ChangeBookStatus({
         <div className="w-full break-normal text-center mb-5 mt-10">
           <p>
             Please select the status for returning the book
-            <span className="font-bold text-red-800"> {title}</span> to
-            <span className="font-bold text-red-800"> {owner.username}</span>.
+            <span className="font-bold text-main-color"> {title}</span> to
+            <span className="font-bold text-main-color"> {owner.username}</span>
           </p>
         </div>
 
@@ -105,6 +105,7 @@ function ChangeBookStatus({
               <MenuItem value="APPROVED">APPROVED</MenuItem>
               <MenuItem value="REJECTED">REJECTED</MenuItem>
               <MenuItem value="RETURNED">RETURNED</MenuItem>
+              <MenuItem value="FAILED_RETURNING">FAILED RETURNING</MenuItem>
             </Select>
             {statusError && (
               <Typography color="error" variant="body2">

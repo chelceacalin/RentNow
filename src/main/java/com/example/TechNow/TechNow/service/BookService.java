@@ -25,9 +25,6 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.*;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -346,13 +343,12 @@ public class BookService {
     public void changeRentedBookStatus(UUID id, EmailDTO emailDTO) {
         Book book = getEntityOrThrow(() -> bookRepository.findById(id), "Book is not found");
         book
-                .setAvailable(true)
                 .setUpdated_date(LocalDateTime.now());
         bookRepository.save(book);
 
         BookHistory bookHistory = getEntityOrThrow(() -> bookHistoryRepository.findById(emailDTO.getBookHistoryId()), "Book not found");
         bookHistory.setUpdated_date(LocalDateTime.now());
-        bookHistory.setStatus(BookHistory.Status.RETURNED);
+        bookHistory.setStatus(BookHistory.Status.PENDING_CONFIRMATION);
         bookHistoryRepository.save(bookHistory);
         String renterEmail = emailDTO.getRenterEmail();
         try {
@@ -368,27 +364,27 @@ public class BookService {
     @SneakyThrows
     public void updateBookStatus(UUID id, EmailDTO emailDTO) {
         Book book = getEntityOrThrow(() -> bookRepository.findById(id), "Book is not found");
-        BookHistory bookHistory = bookHistoryRepository.findById(emailDTO.getBookHistoryId()).orElse(null);
+        BookHistory bookHistory = bookHistoryRepository.findById(emailDTO.getBookHistoryId())
+                .orElseThrow(() -> new IllegalArgumentException("Book history not found"));
+
+        BookHistory.Status newStatus = BookHistory.Status.valueOf(emailDTO.getStatus());
+        bookHistory.setStatus(newStatus);
+        bookHistory.setUpdated_date(LocalDateTime.now());
+
+        boolean isBookAvailable = "REJECTED".equals(emailDTO.getStatus()) || "RETURNED".equals(emailDTO.getStatus());
+        book.setAvailable(isBookAvailable);
+        book.setUpdated_date(LocalDateTime.now());
 
         if ("REJECTED".equals(emailDTO.getStatus())) {
-            if (bookHistory != null) {
-                bookHistory.setStatus(BookHistory.Status.REJECTED);
-                bookHistory.setUpdated_date(LocalDateTime.now());
-                bookHistoryRepository.save(bookHistory);
-                emailSenderService.sendEmail(emailDTO.getRenterEmail(), String.format("Your rental request for the book %s been returned", emailDTO.getBookTitle()), getRejectEmailBody(emailDTO), null);
-            }
-            book.setAvailable(true);
-            book.setUpdated_date(LocalDateTime.now());
-            bookRepository.save(book);
-            return;
+            String subject = String.format("Your rental request for the book %s has been denied", emailDTO.getBookTitle());
+            emailSenderService.sendEmail(emailDTO.getRenterEmail(), subject, getRejectEmailBody(emailDTO), null);
         }
 
-        if (bookHistory != null) {
-            bookHistory.setUpdated_date(LocalDateTime.now());
-            bookHistory.setStatus(BookHistory.Status.valueOf(emailDTO.getStatus()));
-            bookHistoryRepository.save(bookHistory);
-        }
+        bookHistoryRepository.save(bookHistory);
+        bookRepository.save(book);
     }
+
+
 
     public Book save(Book book) {
         return bookRepository.save(book);
