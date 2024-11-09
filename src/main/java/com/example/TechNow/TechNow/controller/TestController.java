@@ -1,6 +1,6 @@
 package com.example.TechNow.TechNow.controller;
 
-import com.example.TechNow.TechNow.cron.NewsLetter;
+import com.example.TechNow.TechNow.cron.NewsLetterCron;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 public class TestController {
 
-	final NewsLetter newsLetter;
+	final NewsLetterCron newsLetter;
 
 	@GetMapping("/newsLetter")
 	public void newsLetter() {

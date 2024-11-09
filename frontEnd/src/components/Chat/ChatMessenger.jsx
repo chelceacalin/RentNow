@@ -30,13 +30,14 @@ const ChatMessenger = () => {
     setIsOpen(!isOpen);
   };
 
-  // Funcție pentru a obține întrebări aleatorii
   const fetchSuggestedQuestions = async () => {
-    try {
-      const response = await axios.get("/qa/random");
-      setSuggestedQuestions(response.data);
-    } catch (error) {
-      console.error("Error fetching random questions:", error);
+    if (isOpen) {
+      try {
+        const response = await axios.get("/qa/random");
+        setSuggestedQuestions(response.data);
+      } catch (error) {
+        console.error("Error fetching random questions:", error);
+      }
     }
   };
 

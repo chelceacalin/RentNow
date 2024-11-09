@@ -1,3 +1,2 @@
 ALTER TABLE users
-    ADD COLUMN mail_Notifications_Enabled BOOLEAN,
-    ADD COLUMN subscribed_To_Newsletter BOOLEAN;
+    ADD COLUMN mail_notifications_enabled BOOLEAN

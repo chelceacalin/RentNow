@@ -37,6 +37,7 @@ import static java.util.Objects.nonNull;
 public class UserService {
     final UserRepository userRepository;
     final ImageStorageService imageStorageService;
+    final NewsletterService newsletterService;
 
     @Value("${custom.admin_email}")
     String ADMIN_EMAIL;
@@ -48,7 +49,7 @@ public class UserService {
                     && isNull(dto.getSortField()) && isNull(dto.getDirection());
 
             if (isRequestEmpty) {
-                return userRepository.findAll(PageRequest.of(pageNo, pageSize)).map(UserMapper::toDTO);
+                return userRepository.findAll(PageRequest.of(pageNo, pageSize)).map(u -> UserMapper.toDTO(u, newsletterService.findByUserEmail(dto.getEmail())));
             }
 
             Specification<User> specification = getSpecification(dto);
@@ -60,7 +61,7 @@ public class UserService {
             } else if (dto.getSortField().equals("is_active")) {
                 pageable = PageRequest.of(pageNo, pageSize);
 
-                var users = userRepository.findAll(specification, pageable).map(UserMapper::toDTO).getContent();
+                var users = userRepository.findAll(specification, pageable).map(u -> UserMapper.toDTO(u, newsletterService.findByUserEmail(dto.getEmail()))).getContent();
                 List<UserDTO> sortedUsers;
                 if (!dto.getDirection().equals("ASC")) {
                     sortedUsers = users.stream()
@@ -76,7 +77,7 @@ public class UserService {
                 pageable = PageRequest.of(pageNo, pageSize, Sort.by(sortDirection, dto.getSortField()));
             }
 
-            return userRepository.findAll(specification, pageable).map(UserMapper::toDTO);
+            return userRepository.findAll(specification, pageable).map(u -> UserMapper.toDTO(u, newsletterService.findByUserEmail(dto.getEmail())));
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
         }
@@ -134,7 +135,7 @@ public class UserService {
 
     public UserDTO findByEmail(String email) {
         User user = getEntityOrThrow(() -> userRepository.findByEmail(email), "User with email " + email + " not found");
-            return UserMapper.toDTO(user);
+        return UserMapper.toDTO(user, newsletterService.findByUserEmail(user.getEmail()));
     }
 
     public UserAddReponseDTO addUser(UserAddDTO userAddDTO) {
@@ -143,7 +144,7 @@ public class UserService {
         }
         Optional<User> userOptional = userRepository.findByEmail(userAddDTO.getEmail());
         if (userOptional.isPresent()) {
-            return UserMapper.toUserAddReponseDTOFromUser(userOptional.get());
+            return UserMapper.toUserAddReponseDTOFromUser(userOptional.get(), newsletterService.findByUserEmail(userAddDTO.getEmail()));
         } else {
             User userToBeSaved = UserMapper.toUserFromUserAddDTO(userAddDTO);
             userToBeSaved
@@ -152,11 +153,13 @@ public class UserService {
                     .setUpdated_date(LocalDateTime.now())
                     .setRole(userAddDTO.getEmail().equals(ADMIN_EMAIL) ? User.Role.ADMIN : User.Role.USER)
                     .setIs_active(true)
-                    .setMailNotificationsEnabled(true)
-                    .setSubscribedToNewsletter(true);
+                    .setMailNotificationsEnabled(true);
             addUserPhotoUrl(userAddDTO, userToBeSaved);
+
             userRepository.save(userToBeSaved);
-            return UserMapper.toUserAddReponseDTOFromUser(userToBeSaved);
+            newsletterService.subscribeToNewsletter(userToBeSaved);
+
+            return UserMapper.toUserAddReponseDTOFromUser(userToBeSaved, newsletterService.findByUserEmail(userAddDTO.getEmail()));
         }
     }
 
@@ -187,7 +190,7 @@ public class UserService {
 
     public void updateUserPreferences(String email, UserPreferencesDTO dto) {
         User user = getEntityOrThrow(() -> userRepository.findByEmail(email), "User not found!");
-        user.setSubscribedToNewsletter(dto.isSubscribedToNewsletter());
+        newsletterService.updateNewsLetterStatus(user, dto.isSubscribedToNewsletter());
         user.setMailNotificationsEnabled(dto.isMailNotificationsEnabled());
         user.setUpdated_date(LocalDateTime.now());
         userRepository.save(user);

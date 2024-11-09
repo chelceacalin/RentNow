@@ -39,8 +39,6 @@ public class User {
 
 	boolean mailNotificationsEnabled;
 
-	boolean subscribedToNewsletter;
-
 	@Column
 	@Enumerated(value = EnumType.STRING)
 	Role role;

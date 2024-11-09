@@ -20,7 +20,7 @@ public class GlobalExceptionHandler {
 		log.error("EntityNotFoundException: {}", message);
 		return ResponseEntity
 				.status(HttpStatus.NOT_FOUND)
-				.body(message);
+				.body(exception);
 	}
 
 
@@ -48,6 +48,6 @@ public class GlobalExceptionHandler {
 		log.error("Exception: {}", message);
 		return ResponseEntity
 				.status(HttpStatus.INTERNAL_SERVER_ERROR)
-				.body(message);
+				.body(exception);
 	}
 }

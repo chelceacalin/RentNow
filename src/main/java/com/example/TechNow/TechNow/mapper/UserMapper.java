@@ -4,11 +4,12 @@ package com.example.TechNow.TechNow.mapper;
 import com.example.TechNow.TechNow.dto.User.UserAddDTO;
 import com.example.TechNow.TechNow.dto.User.UserAddReponseDTO;
 import com.example.TechNow.TechNow.dto.User.UserDTO;
+import com.example.TechNow.TechNow.model.NewsLetterSubscription;
 import com.example.TechNow.TechNow.model.User;
 
 public class UserMapper {
 
-	public static UserDTO toDTO(User user) {
+	public static UserDTO toDTO(User user, NewsLetterSubscription newsLetterSubscription) {
 		return UserDTO.builder()
 				.id(user.getId())
 				.role(user.getRole())
@@ -19,7 +20,7 @@ public class UserMapper {
 				.is_active(user.getIs_active())
 				.photoUrl(user.getPhotoUrl())
 				.mailNotificationsEnabled(user.isMailNotificationsEnabled())
-				.subscribedToNewsletter(user.isSubscribedToNewsletter())
+				.subscribedToNewsletter(newsLetterSubscription != null && newsLetterSubscription.isSubscribed())
 				.build();
 	}
 
@@ -48,7 +49,7 @@ public class UserMapper {
 				.build();
 	}
 
-	public static UserAddReponseDTO toUserAddReponseDTOFromUser(User user) {
+	public static UserAddReponseDTO toUserAddReponseDTOFromUser(User user, NewsLetterSubscription newsLetterSubscription) {
 		return UserAddReponseDTO.builder()
 				.id(user.getId())
 				.email(user.getEmail())
@@ -58,6 +59,8 @@ public class UserMapper {
 				.role(user.getRole() != null ? user.getRole().toString() : User.Role.USER.toString())
 				.photoUrl(user.getPhotoUrl())
 				.is_active(user.getIs_active())
+				.mailNotificationsEnabled(user.isMailNotificationsEnabled())
+				.subscribedToNewsletter(newsLetterSubscription != null && newsLetterSubscription.isSubscribed())
 				.build();
 	}
 }
