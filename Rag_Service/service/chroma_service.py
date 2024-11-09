@@ -9,7 +9,7 @@ from chromadb.config import Settings
 from chromadb.utils import embedding_functions
 from sentence_transformers import SentenceTransformer
 from sklearn.metrics.pairwise import cosine_similarity
-
+from typing import List
 from config.logger_config import logger
 from model.Book import Book
 from model.Qa import Qa
@@ -46,6 +46,57 @@ def print_collections():
 # ----------------------------
 # Book Collection Functions
 # ----------------------------
+def get_recommendations_for_user(user_email: str, limit: int = 3) -> List[Dict[str, str]]:
+    try:
+        results = book_collection.get(
+            where = {"user_email": user_email},
+            include = [IncludeEnum.documents, IncludeEnum.metadatas]
+        )
+
+        user_books = [
+            {
+                "title": doc.split(", Title: ")[-1],
+                "category": doc.split("Category: ")[-1].split(", Title: ")[0]
+            }
+            for doc in results.get("documents", [])
+        ]
+
+        if len(user_books) < limit:
+            additional_books = get_random_books(limit - len(user_books))
+            user_books.extend(additional_books)
+
+        return user_books[:limit]
+
+    except Exception as e:
+        logger.error(f"Error retrieving recommendations for user {user_email}: {e}")
+        return []
+
+
+def get_random_books(n: int) -> List[Dict[str, str]]:
+    try:
+        all_books = book_collection.get(include = [IncludeEnum.documents, IncludeEnum.metadatas])
+
+        documents = all_books.get('documents', [])
+        if documents:
+            indices = random.sample(range(len(documents)), min(n, len(documents)))
+
+            random_books = [
+                {
+                    "title": doc.split(", Title: ")[-1],
+                    "category": doc.split("Category: ")[-1].split(", Title: ")[0]
+                }
+                for i in indices
+                for doc in [documents[i]]
+            ]
+
+            return random_books
+        return []
+
+    except Exception as e:
+        logger.error(f"Error retrieving random books: {e}")
+        return []
+
+
 def add_book_to_collection(user_email: str, book: Book):
     try:
         unique_id = f"{user_email}_{uuid.uuid4()}"

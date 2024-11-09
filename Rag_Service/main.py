@@ -1,16 +1,12 @@
-from threading import Thread
-
 import numpy as np
 from chromadb.api.types import IncludeEnum
 from flask import Flask, jsonify, request
 from flask_cors import CORS
-from model.Book import Book
+
 from config.logger_config import logger
+from model.Book import Book
 from model.Qa import Qa
-from service.ai_service import generate_recommendations_from_ai,generate_recommendations_using_local_model
-from service.chroma_service import client
 from service.chroma_service import (
-    get_books_for_user,
     add_qa_to_collection,
     retrieve_similar_qas,
     delete_qa_entry,
@@ -18,7 +14,9 @@ from service.chroma_service import (
     print_collections,
     get_random_qas,
     add_book_to_collection,
+    get_recommendations_for_user
 )
+from service.chroma_service import client
 
 app = Flask(__name__)
 CORS(app, origins = ["http://localhost:4173"], supports_credentials = True)
@@ -27,8 +25,8 @@ CORS(app, origins = ["http://localhost:4173"], supports_credentials = True)
 # Book Recommendations API
 @app.route('/get_recommendations/<userEmail>', methods = ['GET'])
 def get_recommendations(userEmail: str):
-    books_read = get_books_for_user(userEmail)
-    return jsonify(generate_recommendations_using_local_model(books_read))
+    books_read = get_recommendations_for_user(userEmail)
+    return jsonify(books_read)
 
 
 @app.route("/getCollections", methods = ['GET'])
