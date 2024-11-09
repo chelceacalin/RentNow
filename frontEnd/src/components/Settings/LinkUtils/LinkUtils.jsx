@@ -108,7 +108,6 @@ function LinkUtils() {
   };
 
   const handleAddNewLink = async () => {
-    console.log(newLink);
     if (!newLink.name.trim() || !newLink.url.trim()) {
       showError("Name and URL cannot be empty!");
       return;

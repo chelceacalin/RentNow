@@ -16,6 +16,7 @@ import Books from "./pages/Books/Books.jsx";
 import CategoryManagement from "./pages/CategoryManagement/CategoryManagement";
 import Login from "./pages/Login/Login";
 import MyProfile from "./pages/MyBooks/MyProfile";
+import NewsLetter from "./pages/NewsLetter.jsx";
 import NotFound from "./pages/NotFound/NotFound";
 import RoleManagement from "./pages/RoleManagement/RoleManagement";
 import Settings from "./pages/Settings/Settings.jsx";
@@ -57,6 +58,7 @@ function MainContent() {
     return (
       <Routes>
         <Route path="/login" element={<Login />} />
+        <Route path="/subscriptions/unsubscribe/:id" element={<NewsLetter />} />
         <Route path="*" element={<Navigate to="/login" />} />
       </Routes>
     );
@@ -112,8 +114,8 @@ function MainContent() {
             {/* Not Found Route */}
             <Route path="*" element={<NotFound />} />
           </Route>
+          <Route path="/settings" element={<Settings />} />
         </Route>
-        <Route path="/settings" element={<Settings />} />
 
         {/* Login Route */}
         <Route path="/login" element={<Login />} />

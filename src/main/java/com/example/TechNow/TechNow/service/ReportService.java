@@ -58,14 +58,23 @@ public class ReportService {
 		return table;
 	}
 
-	public byte[] generateTable(String email, String month) {
+	public byte[] generateTable(String email, String month, boolean isAdmin) {
 		UserDTO user = userService.findByEmail(email);
 		List<BookDTO> books;
-		if (month != null) {
-			books = bookService.findBooksForUserEmailAndMonth(email, month);
+		if (isAdmin) {
+			if (month != null) {
+				books = bookService.findBooksForUserEmailAndMonth(email, month);
+			} else {
+				books = bookService.findBooksForUserEmail(email);
+			}
 		} else {
-			books = bookService.findBooksForUserEmail(email);
+			if (month != null) {
+				books = bookService.findBooksHistoriesForUserEmailAndMonth(email, month);
+			} else {
+				books = bookService.findBooksHistoriesForUserEmail(email);
+			}
 		}
+
 
 		if (books.isEmpty()) {
 			return null;
@@ -162,7 +171,7 @@ public class ReportService {
 		if (rentedUntil == null) {
 			overdueCell.add(new Paragraph("N/A")).setBackgroundColor(GREEN);
 		} else if (rentedUntil.isEqual(now)) {
-			overdueCell.add(new Paragraph("YES")).setBackgroundColor(ORANGE);
+			overdueCell.add(new Paragraph("ALMOST")).setBackgroundColor(ORANGE);
 		} else if (rentedUntil.isBefore(now)) {
 			overdueCell.add(new Paragraph("YES")).setBackgroundColor(RED);
 		} else {

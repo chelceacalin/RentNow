@@ -13,12 +13,12 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 import static com.example.TechNow.TechNow.util.EmailConstants.MAIL;
-import static com.example.TechNow.TechNow.util.Utils.getEntityOrThrow;
 
 @Slf4j
 @Service
@@ -50,10 +50,14 @@ public class EmailSenderService {
             return;
         }
 
-        User user = getEntityOrThrow(() -> userRepository.findByEmail(fromEmail), "User not found");
-        if (!user.isMailNotificationsEnabled()) {
-            return;
+        Optional<User> userOptional = userRepository.findByEmail(fromEmail);
+        if (userOptional.isPresent()) {
+            User user = userOptional.get();
+            if (!user.isMailNotificationsEnabled()) {
+                return;
+            }
         }
+
         executorService.submit(() -> {
             try {
                 MimeMessage mimeMessage = mailSender.createMimeMessage();

@@ -54,10 +54,16 @@ function EditRoleModalWindow({
       monthQuery === ""
         ? `?wantCopyOnEmail=${wantCopyOnEmail}`
         : `&wantCopyOnEmail=${wantCopyOnEmail}`;
+    const userAdmin = user.role === "ADMIN";
+    const adminQuery =
+      wantEmail === "" ? `?isAdmin=${userAdmin}` : `&isAdmin=${userAdmin}`;
     axios
-      .get(`/reports/download-pdf/${user.email}${monthQuery}${wantEmail}`, {
-        responseType: "blob",
-      })
+      .get(
+        `/reports/download-pdf/${user.email}${monthQuery}${wantEmail}${adminQuery}`,
+        {
+          responseType: "blob",
+        }
+      )
       .then((response) => {
         if (response.data.size === 0) {
           showError("No book report available");

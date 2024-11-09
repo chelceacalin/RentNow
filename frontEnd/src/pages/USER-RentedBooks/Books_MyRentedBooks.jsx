@@ -92,7 +92,6 @@ function Books_MyRentedBooks() {
   useEffect(() => {
     if (loaded) {
       const { content, totalPages } = uBooks || {};
-      console.log("Content ", content);
       setBooks(content || []);
       setTotalPages(totalPages || 1);
     }

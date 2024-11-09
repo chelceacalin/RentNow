@@ -5,6 +5,7 @@ import com.example.TechNow.TechNow.model.User;
 import com.example.TechNow.TechNow.repository.NewsletterSubscriberRepository;
 import com.example.TechNow.TechNow.util.TokenUtils;
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -12,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.Optional;
 
 @Service
@@ -62,17 +64,37 @@ public class NewsletterService {
 	}
 
 	public void unsubscribe(String token) {
+		Claims claims;
+		try {
+			claims = Jwts.parser()
+					.setSigningKey(tokenUtils.SECRET_KEY)
+					.parseClaimsJws(token)
+					.getBody();
+		} catch (ExpiredJwtException e) {
+			throw new IllegalArgumentException("Token has expired.");
+		}
 
-		Claims claims = Jwts.parser()
-				.setSigningKey(tokenUtils.SECRET_KEY)
-				.parseClaimsJws(token).getBody();
 		String email = claims.getSubject();
+		Date expirationDate = claims.getExpiration();
+
+		if (expirationDate.before(new Date())) {
+			throw new IllegalArgumentException("Token has expired.");
+		}
+
 		Optional<NewsLetterSubscription> subscriptionOpt = newsletterSubscriberRepository.findByUserEmail(email);
 
 		if (subscriptionOpt.isPresent()) {
 			NewsLetterSubscription subscription = subscriptionOpt.get();
-			subscription.setSubscribed(false);
-			newsletterSubscriberRepository.save(subscription);
+			if (subscription.getToken().equals(token)) {
+				subscription.setSubscribed(false);
+				newsletterSubscriberRepository.save(subscription);
+			} else {
+				throw new RuntimeException("Invalid token");
+			}
 		}
+	}
+
+	public NewsLetterSubscription save(NewsLetterSubscription newsLetterSubscription) {
+		return newsletterSubscriberRepository.save(newsLetterSubscription);
 	}
 }

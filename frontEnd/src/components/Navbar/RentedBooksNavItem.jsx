@@ -6,7 +6,6 @@ const RentedBooksNavItem = ({
   navigate,
   email,
 }) => {
-  console.log("se ", selectedItem);
   return (
     <li className="rounded-sm">
       <a

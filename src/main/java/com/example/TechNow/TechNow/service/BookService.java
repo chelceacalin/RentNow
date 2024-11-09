@@ -163,6 +163,26 @@ public class BookService {
         ).toList();
     }
 
+    public List<BookDTO> findBooksHistoriesForUserEmail(String ownerEmail) {
+        return bookHistoryRepository.findAllByRentedByEmail(ownerEmail)
+                .stream()
+                .map(bh -> {
+                    Book book = bh.getBook();
+                    return BookMapper.toDto(book, bh);
+                }).toList();
+    }
+
+    public List<BookDTO> findBooksHistoriesForUserEmailAndMonth(String ownerEmail, String month) {
+        return bookHistoryRepository.findAllByRentedByEmailAndRentedDateMonth(ownerEmail, Integer.parseInt(month))
+                .stream()
+                .map(bh -> {
+                    Book book = bh.getBook();
+                    return BookMapper.toDto(book, bh);
+                }).toList();
+    }
+
+
+
     public List<BookDTO> findBooksForUserEmailAndMonth(String ownerEmail, String month) {
         return bookRepository.findByOwnerEmailAndMonth(ownerEmail, month).stream().map(
                 book -> {

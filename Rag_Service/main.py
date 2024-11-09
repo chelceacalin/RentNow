@@ -7,7 +7,7 @@ from flask_cors import CORS
 from model.Book import Book
 from config.logger_config import logger
 from model.Qa import Qa
-from service.ai_service import generate_recommendations_from_ai
+from service.ai_service import generate_recommendations_from_ai,generate_recommendations_using_local_model
 from service.chroma_service import client
 from service.chroma_service import (
     get_books_for_user,
@@ -28,8 +28,7 @@ CORS(app, origins = ["http://localhost:4173"], supports_credentials = True)
 @app.route('/get_recommendations/<userEmail>', methods = ['GET'])
 def get_recommendations(userEmail: str):
     books_read = get_books_for_user(userEmail)
-    recommendations = generate_recommendations_from_ai(books_read)
-    return jsonify(recommendations)
+    return jsonify(generate_recommendations_using_local_model(books_read))
 
 
 @app.route("/getCollections", methods = ['GET'])

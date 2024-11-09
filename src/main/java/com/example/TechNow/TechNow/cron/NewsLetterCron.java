@@ -16,6 +16,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -29,7 +30,7 @@ public class NewsLetterCron {
 	final BaseUrlRestTemplate pythonServiceTemplate;
 	final ObjectMapper objectMapper;
 	final TokenUtils tokenUtils;
-	private final NewsletterService newsletterService;
+	final NewsletterService newsletterService;
 
 	@Value("${custom.frontend.app-url}")
 	String frontEndUrl;
@@ -44,7 +45,7 @@ public class NewsLetterCron {
 		this.newsletterService = newsletterService;
 	}
 
-	@Scheduled(fixedRate = 15, timeUnit = TimeUnit.SECONDS)
+	@Scheduled(fixedRate = 10000, timeUnit = TimeUnit.SECONDS)
 	public void sendNewsletter() {
 		try {
 			log.info("{}: Starting sending newsletter notifications ", LocalDate.now());
@@ -59,10 +60,14 @@ public class NewsLetterCron {
 						List<BookDtoSuggestion> suggestions = objectMapper.readValue(ans, new TypeReference<>() {
 						});
 
-						String body = generateNewsLetterBody(suggestions, userEmail);
+						String token = tokenUtils.generateToken(userEmail);
+						subscription.setToken(token);
+						subscription.setUpdated_date(LocalDateTime.now());
+						newsletterService.save(subscription);
+						String body = generateNewsLetterBody(suggestions, token);
 						emailSenderService.sendEmail(userEmail, "[RentNow] Weekly Newsletter", body, null);
 					} catch (Exception e) {
-						log.error("Error parsing reponse");
+						log.error("Error parsing response");
 					}
 				}
 			});
@@ -72,7 +77,7 @@ public class NewsLetterCron {
 		}
 	}
 
-	private String generateNewsLetterBody(List<BookDtoSuggestion> suggestions, String userEmail) {
+	private String generateNewsLetterBody(List<BookDtoSuggestion> suggestions, String token) {
 		StringBuilder str = new StringBuilder();
 		str.append("<html>");
 		str.append("<body style='font-family: Arial, sans-serif; background-color: #f4f4f4; padding: 20px;'>");
@@ -81,6 +86,7 @@ public class NewsLetterCron {
 		str.append("<h2 style='text-align: center; color: #333333;'>📚 Book Recommendations Just for You! 📚</h2>");
 		str.append("<p style='text-align: center; color: #666666;'>Dive into these handpicked books we think you'll love. Happy reading!</p>");
 		str.append("<hr style='border: none; height: 1px; background-color: #e0e0e0;'>");
+
 		for (BookDtoSuggestion suggestion : suggestions) {
 			str.append("<div style='padding: 10px 0;'>");
 			str.append("<h3 style='color: #0056b3; margin: 0;'>").append(suggestion.title()).append("</h3>");
@@ -93,7 +99,7 @@ public class NewsLetterCron {
 		str.append("<p style='text-align: center; color: #666666; font-size: 12px;'>If you wish to unsubscribe, please <a href='")
 				.append(frontEndUrl)
 				.append("/subscriptions/unsubscribe/")
-				.append(tokenUtils.generateToken(userEmail))
+				.append(token)
 				.append("' target='_blank' style='color: #0056b3;'>click here</a>.</p>");
 
 		str.append("</div>");
