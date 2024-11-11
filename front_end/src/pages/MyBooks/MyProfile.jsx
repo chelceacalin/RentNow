@@ -32,6 +32,8 @@ function MyProfile() {
         return "rentedBy";
       case "createddate":
         return "created_date";
+      case "renteddate":
+        return "rentedDate";
       default:
         return field;
     }

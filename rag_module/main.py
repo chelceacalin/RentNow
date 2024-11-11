@@ -6,6 +6,7 @@ from flask_cors import CORS
 from config.logger_config import logger
 from model.Book import Book
 from model.Qa import Qa
+from service.data_loader_service import load_data
 from service.chroma_service import (
     add_qa_to_collection,
     retrieve_similar_qas,
@@ -141,5 +142,6 @@ def book_returned():
 
 
 if __name__ == '__main__':
-    # load_data()
     app.run(port = 5000, debug = True, host = '0.0.0.0')
+    load_data()
+    
