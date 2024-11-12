@@ -141,7 +141,5 @@ def book_returned():
         return jsonify({'error': 'Internal server error'}), 500
 
 
-if __name__ == '__main__':
-    app.run(port = 5000, debug = True, host = '0.0.0.0')
-    load_data()
-    
+load_data()
+app.run(port = 5000, debug = False, host = '0.0.0.0', use_reloader = False)

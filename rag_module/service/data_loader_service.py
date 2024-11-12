@@ -6,6 +6,7 @@ from config.logger_config import logger
 
 
 def load_initial_data(path: str):
+    logger.info("Start loading initial data")
     try:
         with open(path, "r", encoding = "utf-8") as file:
             data = json.load(file)

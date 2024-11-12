@@ -121,16 +121,11 @@
   },
   {
     "id": "en_q25",
-    "question": "Can you recommend me a book?",
-    "answer": "Of course! Just let me know your interests, and I can suggest some books you might like."
-  },
-  {
-    "id": "en_q26",
     "question": "How can I contact support?",
     "answer": "If you need further help, you can reach out to our support team through the 'Contact Us' section in the app."
   },
   {
-    "id": "en_q27",
+    "id": "en_q26",
     "question": "How does the notification system work?",
     "answer": "If a book you're interested in is already rented, you can enable notifications, and I'll let you know as soon as it becomes available."
   }
