@@ -1,10 +1,9 @@
-package  com.example.RentNow.util;
+package com.example.RentNow.util;
 
-import  com.example.RentNow.dto.BookHistory.BookHistoryDTO;
-import  com.example.RentNow.dto.Email.EmailDTO;
-import  com.example.RentNow.model.Book;
-import  com.example.RentNow.model.User;
-import jakarta.persistence.EntityNotFoundException;
+import com.example.RentNow.dto.BookHistory.BookHistoryDTO;
+import com.example.RentNow.dto.Email.EmailDTO;
+import com.example.RentNow.model.Book;
+import com.example.RentNow.model.User;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -22,7 +21,7 @@ public class Utils {
 	}
 
 	public static <T> T getEntityOrThrow(Supplier<Optional<T>> entitySupplier, String errorMessage) {
-		return entitySupplier.get().orElseThrow(() -> new EntityNotFoundException(errorMessage));
+		return entitySupplier.get().orElseThrow(() -> new RuntimeException(errorMessage));
 	}
 
 	public static String getRentBookMessage(User user, Book book, String rentedUntil) {

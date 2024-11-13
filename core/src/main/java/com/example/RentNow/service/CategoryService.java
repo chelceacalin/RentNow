@@ -6,7 +6,7 @@ import  com.example.RentNow.dto.Category.CategoryFilterDTO;
 import  com.example.RentNow.mapper.CategoryMapper;
 import  com.example.RentNow.model.Category;
 import  com.example.RentNow.repository.CategoryRepository;
-import  com.example.RentNow.util.Utils;
+import com.example.RentNow.util.Utils;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;

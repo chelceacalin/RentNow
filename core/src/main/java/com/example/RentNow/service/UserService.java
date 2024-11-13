@@ -4,7 +4,7 @@ import  com.example.RentNow.dto.User.*;
 import  com.example.RentNow.mapper.UserMapper;
 import  com.example.RentNow.model.User;
 import  com.example.RentNow.repository.UserRepository;
-import  com.example.RentNow.util.ByteArrayMultipartFile;
+import com.example.RentNow.util.ByteArrayMultipartFile;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;

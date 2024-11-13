@@ -6,7 +6,7 @@ import  com.example.RentNow.dto.Review.ReviewAddResponseDTO;
 import  com.example.RentNow.model.Book;
 import  com.example.RentNow.model.Review;
 import  com.example.RentNow.model.User;
-import  com.example.RentNow.util.Utils;
+import com.example.RentNow.util.Utils;
 import org.springframework.beans.BeanUtils;
 
 import java.time.LocalDateTime;

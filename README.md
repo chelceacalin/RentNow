@@ -79,6 +79,7 @@ Users receive various notifications:
 
 ### 15. Microservices
 - The app is split into 3 microservices: core ( most of the logic ), notification_service ( for sending emails to users), rag_module ( for chatbot and book recommendations )
+- Then we have the front end, and common module
 
 ## Technologies
 
