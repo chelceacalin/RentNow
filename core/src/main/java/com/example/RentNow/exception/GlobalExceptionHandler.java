@@ -9,6 +9,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
@@ -25,29 +28,34 @@ public class GlobalExceptionHandler {
 
 
 	@ExceptionHandler({RuntimeException.class})
-	public ResponseEntity<Object> handleRuntimeException(RuntimeException exception) {
-		String message = exception.getMessage();
+	public ResponseEntity<Object> handleRuntimeException(RuntimeException ex) {
+		Map<String, Object> errorDetails = new HashMap<>();
+		errorDetails.put("error", ex.getMessage());
+		errorDetails.put("timestamp", System.currentTimeMillis());
+		String message = ex.getMessage();
 		log.error("RuntimeException: {}", message);
 		return ResponseEntity
 				.status(HttpStatus.NOT_FOUND)
-				.body(message);
+				.body(errorDetails);
 	}
 
 	@ExceptionHandler({JsonParseException.class})
-	public ResponseEntity<Object> handleConversionError(JsonParseException exception) {
-		String message = exception.getMessage();
-		log.error("JsonParseException: {}", message);
+	public ResponseEntity<Object> handleConversionError(JsonParseException ex) {
+		Map<String, Object> errorDetails = new HashMap<>();
+		errorDetails.put("error", ex.getMessage());
+		errorDetails.put("timestamp", System.currentTimeMillis());
+		log.error("JsonParseException: {}", ex.getMessage());
 		return ResponseEntity
 				.status(HttpStatus.PROCESSING)
-				.body(message);
+				.body(errorDetails);
 	}
 
-	@ExceptionHandler({Exception.class})
-	public ResponseEntity<Object> handleGeneralException(Exception exception) {
-		String message = exception.getMessage();
-		log.error("Exception: {}", message);
-		return ResponseEntity
-				.status(HttpStatus.INTERNAL_SERVER_ERROR)
-				.body(exception);
+	@ExceptionHandler(Exception.class)
+	public ResponseEntity<Object> handleGeneralException(Exception ex) {
+		Map<String, Object> errorDetails = new HashMap<>();
+		errorDetails.put("error", ex.getMessage());
+		errorDetails.put("timestamp", System.currentTimeMillis());
+
+		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorDetails);
 	}
 }
