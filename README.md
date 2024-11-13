@@ -75,8 +75,10 @@ Users receive various notifications:
 - The chatbot includes predefined answers and allows admins to add custom responses dynamically.
 
 ### 14. Link Utils
-
 - Admins can create and edit utility links, directing users to internal pages or external sites.
+
+### 15. Microservices
+- The app is split into 3 microservices: core ( most of the logic ), notification_service ( for sending emails to users), rag_module ( for chatbot and book recommendations )
 
 ## Technologies
 
@@ -106,19 +108,22 @@ Users receive various notifications:
     cd RentNow
     ```
 
-2. **Start the services** using Docker Compose:
+2. **Start the core service** using Docker Compose:
     ```bash
+    cd core
     docker-compose up
+   ./mvnw spring-boot:run
     ```
 
-3. **Start the back-end**:
+3. **Start the notification_service**:
     ```bash
+    cd notification_service
     ./mvnw spring-boot:run
     ```
 
 4. **Start the front-end**:
     ```bash
-    cd frontEnd
+    cd front_end
     npm install --legacy-peer-deps
     npm install @mui/material @emotion/react @emotion/styled --legacy-peer-deps
     npm install @fortawesome/fontawesome-svg-core @fortawesome/react-fontawesome --legacy-peer-deps
