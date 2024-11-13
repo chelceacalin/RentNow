@@ -22,7 +22,6 @@ const ChatMessenger = () => {
   const [isSuggestionsOpen, setIsSuggestionsOpen] = useState(false);
   const { email } = useContext(UserLoginContext);
   const { data, loaded } = useFetchData(`/users?email=${email}`);
-  console.log("data", data);
   const user =
     loaded && data.content && data.content.length > 0
       ? data.content[0]

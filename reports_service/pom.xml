@@ -9,11 +9,10 @@
         <version>1.0.0</version>
     </parent>
 
-    <artifactId>common</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <artifactId>reports_service</artifactId>
     <packaging>jar</packaging>
-    <name>RentNow Common Module</name>
-    <description>Common Functionality Module</description>
+    <name>Reports Module</name>
+    <description>Module for generating pdfs</description>
 
     <properties>
         <maven.compiler.source>21</maven.compiler.source>
@@ -26,18 +25,23 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
+
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <optional>true</optional>
         </dependency>
-
-        <!--Mail Sender-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-mail</artifactId>
-            <version>3.1.5</version>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <!-- JSON TO PDF -->
+        <dependency>
+            <groupId>com.itextpdf</groupId>
+            <artifactId>itext7-core</artifactId>
+            <version>7.1.15</version>
+            <type>pom</type>
         </dependency>
     </dependencies>
-
 </project>

@@ -89,6 +89,7 @@ function MyRentedBooks({
               triggerRefresh={triggerRefresh}
               setTriggerRefresh={setTriggerRefresh}
               owner={owner}
+              renterEmail={renterEmail}
               user={user}
               bookHistoryId={bookHistoryId}
             />

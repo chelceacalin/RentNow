@@ -16,6 +16,7 @@
 		<module>rag_module</module>
         <module>notification_service</module>
 		<module>common</module>
+        <module>reports_service</module>
     </modules>
 
 	<properties>

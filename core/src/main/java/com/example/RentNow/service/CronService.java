@@ -6,6 +6,7 @@ import com.example.RentNow.model.Book;
 import com.example.RentNow.model.BookHistory;
 import com.example.RentNow.model.NewsLetterSubscription;
 import com.example.RentNow.model.User;
+import com.example.RentNow.util.EmailSenderService;
 import com.example.RentNow.util.TokenUtils;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;

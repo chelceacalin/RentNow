@@ -26,11 +26,11 @@ function ChangeBookStatus({
   owner,
   user,
   bookHistoryId,
+  renterEmail,
 }) {
   const [status, setStatus] = useState("");
   const [rejectReason, setRejectReason] = useState("");
   const [statusError, setStatusError] = useState(false);
-
   const updateBookStatus = () => {
     if (!status) {
       setStatusError(true);
@@ -40,10 +40,9 @@ function ChangeBookStatus({
     setStatusError(false);
 
     const url = `/books/updateStatus/${id}`;
-
     const emailDTO = {
       renterUsername: user.username,
-      renterEmail: user.email,
+      renterEmail: renterEmail,
       bookTitle: title,
       ownerEmail: owner.email,
       ownerUsername: owner.username,

@@ -1,7 +1,7 @@
 package  com.example.RentNow.controller;
 
-import  com.example.RentNow.service.EmailSenderService;
 import  com.example.RentNow.service.ReportService;
+import com.example.RentNow.util.EmailSenderService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;

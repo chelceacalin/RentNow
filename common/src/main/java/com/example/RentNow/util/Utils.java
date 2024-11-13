@@ -1,8 +1,8 @@
 package com.example.RentNow.util;
 
-import com.example.RentNow.dto.BookHistory.BookHistoryDTO;
 import com.example.RentNow.dto.Email.EmailDTO;
 import com.example.RentNow.model.Book;
+import com.example.RentNow.model.BookHistory;
 import com.example.RentNow.model.User;
 
 import java.time.LocalDateTime;
@@ -40,7 +40,7 @@ public class Utils {
 		);
 	}
 
-	public static String getRentBookMessageForOwner(BookHistoryDTO bookHistoryDTO, Book book, User user) {
+	public static String getRentBookMessageForOwner(BookHistory bookHistory, Book book, User user) {
 		return String.format(
 				"<div style='font-family: Arial, sans-serif; color: #333; max-width: 600px; margin: 0 auto; padding: 20px; background-color: #f9f9f9; border-radius: 8px;'>" +
 				"  <p style='font-size: 0.8em; color: #999; text-align: right;'>%s</p>" +
@@ -53,11 +53,11 @@ public class Utils {
 				"    <p style='margin: 5px 0 0;'>The RentNow Team</p>" +
 				"  </footer>" +
 				"</div>",
-				bookHistoryDTO.getRentedDate(),
+				bookHistory.getRentedDate(),
 				book.getTitle(),
 				user.getEmail(),
 				user.getEmail(),
-				bookHistoryDTO.getRentedUntil()
+				bookHistory.getRentedUntil()
 		);
 	}
 

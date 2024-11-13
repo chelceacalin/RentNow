@@ -1,20 +1,21 @@
 package  com.example.RentNow.service;
 
 
-import  com.example.RentNow.config.BaseUrlRestTemplate;
-import  com.example.RentNow.dto.Book.*;
-import  com.example.RentNow.dto.BookHistory.BookHistoryDTO;
-import  com.example.RentNow.dto.Email.EmailDTO;
-import  com.example.RentNow.dto.User.UserDTO;
-import  com.example.RentNow.mapper.BookMapper;
-import  com.example.RentNow.mapper.ReviewMapper;
-import  com.example.RentNow.model.Book;
-import  com.example.RentNow.model.BookHistory;
-import  com.example.RentNow.model.Category;
-import  com.example.RentNow.model.User;
-import  com.example.RentNow.repository.*;
-import  com.example.RentNow.specification.BookSpecification;
-import  com.example.RentNow.util.ReviewRepository;
+import com.example.RentNow.config.BaseUrlRestTemplate;
+import com.example.RentNow.dto.Book.*;
+import com.example.RentNow.dto.BookHistory.BookHistoryDTO;
+import com.example.RentNow.dto.Email.EmailDTO;
+import com.example.RentNow.dto.User.UserDTO;
+import com.example.RentNow.mapper.BookMapper;
+import com.example.RentNow.mapper.ReviewMapper;
+import com.example.RentNow.model.Book;
+import com.example.RentNow.model.BookHistory;
+import com.example.RentNow.model.Category;
+import com.example.RentNow.model.User;
+import com.example.RentNow.repository.*;
+import com.example.RentNow.specification.BookSpecification;
+import com.example.RentNow.util.EmailSenderService;
+import com.example.RentNow.util.ReviewRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.transaction.Transactional;
 import lombok.SneakyThrows;
@@ -31,14 +32,14 @@ import org.springframework.web.multipart.MultipartFile;
 import java.time.LocalDateTime;
 import java.util.*;
 
-import static  com.example.RentNow.mapper.BookHistoryMapper.toBookHistory;
-import static  com.example.RentNow.service.CommentService.getCommentsForReview;
-import static  com.example.RentNow.specification.BookSpecification.*;
-import static  com.example.RentNow.specification.GenericSpecification.fieldNameLike;
-import static  com.example.RentNow.specification.GenericSpecification.isAvailable;
-import static  com.example.RentNow.util.BookConstants.*;
-import static  com.example.RentNow.util.EmailConstants.RENTNOW;
-import static  com.example.RentNow.util.Utils.*;
+import static com.example.RentNow.mapper.BookHistoryMapper.toBookHistory;
+import static com.example.RentNow.service.CommentService.getCommentsForReview;
+import static com.example.RentNow.specification.BookSpecification.*;
+import static com.example.RentNow.specification.GenericSpecification.fieldNameLike;
+import static com.example.RentNow.specification.GenericSpecification.isAvailable;
+import static com.example.RentNow.util.BookConstants.*;
+import static com.example.RentNow.util.EmailConstants.RENTNOW;
+import static com.example.RentNow.util.Utils.*;
 import static java.util.Objects.nonNull;
 
 @Service
@@ -316,12 +317,6 @@ public class BookService {
         bookOptional.ifPresent(book -> {
             book.setAvailable(false);
             bookRepository.save(book);
-
-            User user = userRepository.findById(String.valueOf(bookHistoryDTO.getUserId())).orElseThrow();
-            emailSenderService.sendEmail(user.getEmail(), RENTNOW + "You have successfully rented book " + book.getTitle(), getRentBookMessage(user, book, String.valueOf(bookHistoryDTO.getRentedUntil())), null);
-            emailSenderService.sendEmail(book.getOwner().getEmail(), RENTNOW + "Your book " + book.getTitle() + " has been rented by " + user.getEmail(),
-                    getRentBookMessageForOwner(bookHistoryDTO, book, user), null);
-
             BookHistory bookHistory = toBookHistory(bookHistoryDTO);
             bookHistory.setUpdated_date(LocalDateTime.now());
             bookHistoryRepository.save(bookHistory);
@@ -398,6 +393,11 @@ public class BookService {
         if ("REJECTED".equals(emailDTO.getStatus())) {
             String subject = String.format("Your rental request for the book %s has been denied", emailDTO.getBookTitle());
             emailSenderService.sendEmail(emailDTO.getRenterEmail(), subject, getRejectEmailBody(emailDTO), null);
+        } else if ("APPROVED".equals(emailDTO.getStatus())) {
+            User user = userRepository.findById(String.valueOf(bookHistory.getRentedBy().getId())).orElseThrow();
+            emailSenderService.sendEmail(user.getEmail(), RENTNOW + "You have successfully rented book " + book.getTitle(), getRentBookMessage(user, book, String.valueOf(bookHistory.getRentedUntil())), null);
+            emailSenderService.sendEmail(book.getOwner().getEmail(), RENTNOW + "Your book " + book.getTitle() + " has been rented by " + user.getEmail(),
+                    getRentBookMessageForOwner(bookHistory, book, user), null);
         }
 
         bookHistoryRepository.save(bookHistory);
