@@ -1,7 +1,7 @@
 package  com.example.RentNow.controller;
 
-import  com.example.RentNow.dto.Comment.CommentAddDTO;
-import  com.example.RentNow.service.CommentService;
+import com.example.RentNow.dto.Comment.CommentAddDTO;
+import com.example.RentNow.service.CommentService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;

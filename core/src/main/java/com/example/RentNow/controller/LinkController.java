@@ -1,7 +1,7 @@
 package com.example.RentNow.controller;
 
-import  com.example.RentNow.dto.Link.LinkDTO;
-import  com.example.RentNow.service.LinkService;
+import com.example.RentNow.dto.Link.LinkDTO;
+import com.example.RentNow.service.LinkService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

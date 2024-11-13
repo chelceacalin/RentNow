@@ -1,11 +1,11 @@
 package  com.example.RentNow.controller;
 
-import  com.example.RentNow.dto.User.UserAddDTO;
-import  com.example.RentNow.dto.User.UserDTO;
-import  com.example.RentNow.dto.User.UserFilterDTO;
-import  com.example.RentNow.dto.User.UserPreferencesDTO;
-import  com.example.RentNow.model.User;
-import  com.example.RentNow.service.UserService;
+import com.example.RentNow.dto.User.UserAddDTO;
+import com.example.RentNow.dto.User.UserDTO;
+import com.example.RentNow.dto.User.UserFilterDTO;
+import com.example.RentNow.dto.User.UserPreferencesDTO;
+import com.example.RentNow.model.User;
+import com.example.RentNow.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -20,7 +20,6 @@ import org.springframework.web.multipart.MultipartFile;
 public class UserController extends BaseController {
 
 	final UserService userService;
-
 
 	@GetMapping
 	public Page<UserDTO> getUsers(@ModelAttribute UserFilterDTO dto,

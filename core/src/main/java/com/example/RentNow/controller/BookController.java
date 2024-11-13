@@ -1,6 +1,5 @@
 package com.example.RentNow.controller;
 
-import com.example.RentNow.controller.BaseController;
 import com.example.RentNow.dto.Book.*;
 import com.example.RentNow.dto.BookHistory.BookHistoryDTO;
 import com.example.RentNow.dto.Email.EmailDTO;
@@ -115,5 +114,29 @@ public class BookController extends BaseController {
     @PutMapping("/updateStatus/{id}")
     public void updateBookStatus(@PathVariable UUID id, @RequestBody EmailDTO emailDTO) {
         bookService.updateBookStatus(id, emailDTO);
+    }
+
+
+    //PDF
+    @GetMapping("/users/{email}/books")
+    public ResponseEntity<Object> findBooksForUserEmail(
+            @PathVariable String email,
+            @RequestParam(required = false) String month) {
+        if (month != null) {
+            return buildOkResponse(bookService.findBooksForUserEmailAndMonth(email, month));
+        } else {
+            return buildOkResponse(bookService.findBooksForUserEmail(email));
+        }
+    }
+
+    @GetMapping("/users/{email}/book-history")
+    public ResponseEntity<Object> findBooksHistoriesForUserEmail(
+            @PathVariable String email,
+            @RequestParam(required = false) String month) {
+        if (month != null) {
+            return buildOkResponse(bookService.findBooksHistoriesForUserEmailAndMonth(email, month));
+        } else {
+            return buildOkResponse(bookService.findBooksHistoriesForUserEmail(email));
+        }
     }
 }

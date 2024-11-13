@@ -43,5 +43,16 @@
             <version>7.1.15</version>
             <type>pom</type>
         </dependency>
+        <!--Common-->
+        <dependency>
+            <groupId>com.example.RentNow</groupId>
+            <artifactId>common</artifactId>
+        </dependency>
+        <!-- Healh and metrics -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+
     </dependencies>
 </project>

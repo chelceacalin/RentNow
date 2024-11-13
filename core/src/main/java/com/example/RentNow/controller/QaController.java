@@ -1,8 +1,8 @@
 package  com.example.RentNow.controller;
 
-import  com.example.RentNow.dto.QA.QaSimilarity;
-import  com.example.RentNow.model.QA;
-import  com.example.RentNow.service.QaService;
+import com.example.RentNow.dto.QA.QaSimilarity;
+import com.example.RentNow.model.QA;
+import com.example.RentNow.service.QaService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

@@ -1,9 +1,9 @@
 package  com.example.RentNow.controller;
 
-import  com.example.RentNow.dto.Review.ReviewAddDTO;
-import  com.example.RentNow.dto.Review.ReviewAddResponseDTO;
-import  com.example.RentNow.model.Review;
-import  com.example.RentNow.service.ReviewService;
+import com.example.RentNow.dto.Review.ReviewAddDTO;
+import com.example.RentNow.dto.Review.ReviewAddResponseDTO;
+import com.example.RentNow.model.Review;
+import com.example.RentNow.service.ReviewService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;

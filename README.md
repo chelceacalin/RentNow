@@ -78,8 +78,8 @@ Users receive various notifications:
 - Admins can create and edit utility links, directing users to internal pages or external sites.
 
 ### 15. Microservices
-- The app is split into 3 microservices: core ( most of the logic ), notification_service ( for sending emails to users), rag_module ( for chatbot and book recommendations )
-- Then we have the front end, and common module
+- The app is split into 4 microservices: core ( most of the logic ), notification_service ( for sending emails to users), reports_service( for generating user reports ) and rag_module ( for chatbot and book recommendations )
+- Then we have the front_end, and common module
 
 ## Technologies
 
