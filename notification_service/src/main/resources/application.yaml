@@ -1,0 +1,11 @@
+spring:
+  application:
+    name: notification-service
+
+server:
+  port: 8091
+
+
+custom:
+  core-url: http://localhost:8080
+  remindersSchedulerTime: 5000

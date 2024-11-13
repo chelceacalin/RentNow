@@ -119,7 +119,9 @@ Users receive various notifications:
 4. **Start the front-end**:
     ```bash
     cd frontEnd
-    npm i
+    npm install --legacy-peer-deps
+    npm install @mui/material @emotion/react @emotion/styled --legacy-peer-deps
+    npm install @fortawesome/fontawesome-svg-core @fortawesome/react-fontawesome --legacy-peer-deps
     cd src
     npm run start
     ```
@@ -127,6 +129,7 @@ Users receive various notifications:
     ```
     cd .\Rag_Service\
     docker compose up
+    pip install -r requirements.txt
     python main.py
     ```
 

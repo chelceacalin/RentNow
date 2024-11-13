@@ -33,15 +33,21 @@ build/
 .vscode/
 
 # Node modules
-frontEnd/node_modules
-frontEnd/dist
 .idea
 .mvn
 dist
 
+# Frong end
+front_end/node_modules
+front_end/dist
 
-# Python
-Rag_Service/.env
-Rag_Service/.venv
-Rag_Service/.idea
-Rag_Service/chromadb
+# Rag Module
+rag_module/.env
+rag_module/.venv
+rag_module/.idea
+rag_module/chromadb
+rag_module/chroma;C
+
+
+# Core module
+core/target
