@@ -373,6 +373,7 @@ public class BookService {
             log.error("Error sending message to python api {}", e.getMessage());
         }
         emailSenderService.sendEmail(emailDTO.getOwnerEmail(), String.format("Your book %s has been returned", emailDTO.getBookTitle()), getEmailBody(emailDTO), null);
+        emailSenderService.sendEmail(emailDTO.getRenterEmail(), String.format("You have successfully returned book %s", emailDTO.getBookTitle()), getReturnBookMessage(emailDTO.getRenterUsername(), book), null);
     }
 
 

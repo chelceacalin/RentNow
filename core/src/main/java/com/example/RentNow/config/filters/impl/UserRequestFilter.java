@@ -17,7 +17,7 @@ public class UserRequestFilter {
 
 
 	@Bean
-	public FilterRegistrationBean<ParameterNameValidationFilter> usersFilter() {
+	FilterRegistrationBean<ParameterNameValidationFilter> usersFilter() {
 		FilterRegistrationBean<ParameterNameValidationFilter> registrationBean = new FilterRegistrationBean<>();
 		registrationBean.setFilter(new ParameterNameValidationFilter(USER_PARAMS));
 		registrationBean.addUrlPatterns("/users");

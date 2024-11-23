@@ -14,7 +14,7 @@ public class CategoriesRequestFilter {
 	final Set<String> categoryParams = new HashSet<>(Arrays.asList("name", "pageNo", "pageSize", "direction"));
 
 	@Bean
-	public FilterRegistrationBean<ParameterNameValidationFilter> categoriesFilter() {
+	FilterRegistrationBean<ParameterNameValidationFilter> categoriesFilter() {
 		FilterRegistrationBean<ParameterNameValidationFilter> registrationBean = new FilterRegistrationBean<>();
 		registrationBean.setFilter(new ParameterNameValidationFilter(categoryParams));
 		registrationBean.addUrlPatterns("/categories");

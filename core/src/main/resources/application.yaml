@@ -1,7 +1,7 @@
 # Spring
 spring:
   application:
-    name: TechNow
+    name: core
   datasource:
     url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/technow}
     username: ${SPRING_DATASOURCE_USERNAME:technow}
@@ -10,7 +10,10 @@ spring:
     multipart:
       max-file-size: 2MB
       max-request-size: 2MB
-# Mail
+  cloud:
+    discovery:
+      enabled: true
+  # Mail
   mail:
     host: smtp.gmail.com
     port: 587
@@ -44,11 +47,13 @@ custom:
   frontend:
     app-url: ${FRONTEND_URL:http://localhost:4173}
   default_buckets: photos, userphotos
-  fromEmail: ${FROM_EMAIL}
-  enableMailService: false
+  fromEmail: ${FROM_EMAIL:chelceacalin20@stud.ase.ro}
+  enableMailService: true
   admin_email: chelceacalin1@gmail.com
   python-url: ${PYTHON_URL:http://localhost:5000}
-  newsletter-secret: ${NEWSLETTER_SECRET:test}
+  newsletter-secret: ${NEWSLETTER_SECRET:htyxmhnBw46wPMFafDw2FE43ffj9G6sT}
+  report-service:
+    app-url: http://localhost:8092/reporting
 
 # Minio
 minio:
@@ -63,6 +68,7 @@ minio:
 springdoc:
   api-docs:
     path: /api-docs
+    enabled: true
 
 
 # Actuator config
@@ -92,10 +98,16 @@ management:
             requests: 5s
 
 
+
 # Logging
 logging:
   level:
     com:
       example: info
 
-
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+server:
+  port: 8080

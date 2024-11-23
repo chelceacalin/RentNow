@@ -27,12 +27,12 @@ public class QaController extends BaseController {
 	}
 
 	@GetMapping("/{id}")
-	public ResponseEntity<Object> findById(@PathVariable(name = "id") UUID id) {
+	public ResponseEntity<Object> findById(@PathVariable UUID id) {
 		return buildOkResponse(qaService.findById(id));
 	}
 
 	@DeleteMapping("/{id}")
-	public ResponseEntity<Object> delete(@PathVariable(name = "id") UUID id) {
+	public ResponseEntity<Object> delete(@PathVariable UUID id) {
 		qaService.deleteById(id);
 		return buildOkResponse();
 	}

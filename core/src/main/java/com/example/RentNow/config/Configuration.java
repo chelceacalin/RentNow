@@ -14,19 +14,19 @@ public class Configuration {
 	String pythonUrl;
 
 	@Bean
-	public ObjectMapper objectMapper() {
+	ObjectMapper objectMapper() {
 		ObjectMapper objectMapper = new ObjectMapper();
 		objectMapper.registerModule(new JavaTimeModule());
 		return objectMapper;
 	}
 
 	@Bean(name = "pythonRestTemplate")
-	public RestTemplate pythonRestTemplate() {
+	RestTemplate pythonRestTemplate() {
 		return new RestTemplate();
 	}
 
 	@Bean(name = "pythonServiceTemplate")
-	public BaseUrlRestTemplate pythonServiceTemplate(@Qualifier("pythonRestTemplate") RestTemplate restTemplate) {
+	BaseUrlRestTemplate pythonServiceTemplate(@Qualifier("pythonRestTemplate") RestTemplate restTemplate) {
 		return new BaseUrlRestTemplate(restTemplate, pythonUrl);
 	}
 }

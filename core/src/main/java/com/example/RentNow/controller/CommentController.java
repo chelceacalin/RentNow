@@ -24,7 +24,7 @@ public class CommentController extends BaseController {
 	}
 
 	@DeleteMapping("/{id}")
-	public String deleteById(@PathVariable(name = "id") UUID id) {
+	public String deleteById(@PathVariable UUID id) {
 		return commentService.deleteById(id);
 	}
 }

@@ -27,8 +27,8 @@ public class BookController extends BaseController {
 
     @GetMapping
     public Page<BookDTO> findUserBooks(@ModelAttribute BookFilterDTO dto,
-                                       @RequestParam(name = "pageNo", defaultValue = "0") int pageNo,
-                                       @RequestParam(name = "pageSize", defaultValue = "1000") int pageSize) {
+                                       @RequestParam(defaultValue = "0") int pageNo,
+                                       @RequestParam(defaultValue = "1000") int pageSize) {
         try {
             log.info("Books searched with {}", dto);
             return bookService.findUserBooks(dto, pageNo, pageSize);
@@ -41,8 +41,8 @@ public class BookController extends BaseController {
 
     @GetMapping("/extended")
     public Page<BookReviewDTO> findUserBooksExtended(@ModelAttribute BookFilterDTO dto,
-                                       @RequestParam(name = "pageNo", defaultValue = "0") int pageNo,
-                                       @RequestParam(name = "pageSize", defaultValue = "1000") int pageSize) {
+                                       @RequestParam(defaultValue = "0") int pageNo,
+                                       @RequestParam(defaultValue = "1000") int pageSize) {
         try {
             log.info("Books with reviews searched with {}", dto);
             return bookService.findUserBooksExt(dto, pageNo, pageSize);
@@ -99,8 +99,8 @@ public class BookController extends BaseController {
     @GetMapping("/rented")
     public Page<BookDTO> findRentedBooksForUser(
             @ModelAttribute MyRentedBooksRequestDTO myRentedBooksRequestDTO,
-            @RequestParam(name = "pageNo", defaultValue = "0") int pageNo,
-            @RequestParam(name = "pageSize", defaultValue = "15") int pageSize
+            @RequestParam(defaultValue = "0") int pageNo,
+            @RequestParam(defaultValue = "15") int pageSize
 
     ) {
         return bookService.findRentedBooksForUser(myRentedBooksRequestDTO, pageNo, pageSize);

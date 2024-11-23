@@ -4,6 +4,7 @@ import com.example.RentNow.dto.Report.ReportRequest;
 import com.example.RentNow.util.EmailSenderService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -18,23 +19,23 @@ public class ReportController extends BaseController {
 
 	final EmailSenderService emailSenderService;
 	final RestTemplate restTemplate;
-
-	final String reportingServiceUrl = "http://localhost:8092/reports/generate";
+	@Value("${custom.report-service.app-url}")
+	String reportingServiceUrl;
 
 
 	@GetMapping("/download-pdf/{email}")
-	public ResponseEntity<Object> downloadJson(@PathVariable(name = "email") String email,
-											   @RequestParam(name = "month", required = false) String month,
-											   @RequestParam(name = "wantCopyOnEmail", required = false) boolean wantCopyOnEmail,
-											   @RequestParam(name = "isAdmin", required = false) boolean isAdmin) {
-		log.info("Generating report for " + email);
+	public ResponseEntity<Object> downloadJson(@PathVariable String email,
+											   @RequestParam(required = false) String month,
+											   @RequestParam(required = false) boolean wantCopyOnEmail,
+											   @RequestParam(required = false) boolean isAdmin) {
+		log.info("Generating report for {}", email);
 		ReportRequest request = new ReportRequest();
 		request.setEmail(email);
 		request.setMonth(month);
 		request.setWantCopyOnEmail(wantCopyOnEmail);
 		request.setAdmin(isAdmin);
 
-		ResponseEntity<byte[]> entity = restTemplate.postForEntity(reportingServiceUrl, request, byte[].class);
+		ResponseEntity<byte[]> entity = restTemplate.postForEntity(reportingServiceUrl + "/reports/generate", request, byte[].class);
 		byte[] pdfData = entity.getBody();
 
 		HttpHeaders headers = new HttpHeaders();

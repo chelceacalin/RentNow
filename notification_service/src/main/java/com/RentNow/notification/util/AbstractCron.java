@@ -1,4 +1,4 @@
-package com.RentNow.notification.cron;
+package com.RentNow.notification.util;
 
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -8,9 +8,9 @@ import org.springframework.web.client.RestTemplate;
 @Component
 public abstract class AbstractCron {
 
-	final RestTemplate restTemplate;
-	@Value("${custom.core-url:http://localhost:8081}")
-	String coreUrl;
+	public final RestTemplate restTemplate;
+	@Value("${custom.core-url:http://localhost:8080}")
+	public String coreUrl;
 
 	public AbstractCron(@Qualifier(value = "coreMicroservice") RestTemplate restTemplate) {
 		this.restTemplate = restTemplate;

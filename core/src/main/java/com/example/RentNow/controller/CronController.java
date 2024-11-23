@@ -27,7 +27,7 @@ public class CronController extends BaseController {
 	@GetMapping("/sendNewsletter")
 	public ResponseEntity<Object> sendNewsletter() {
 		cronService.sendNewsLetterNotification();
-		return buildOkResponse(mailNotificationMessage() + "Successfully sent newsletter, mail notification enabled");
+		return buildOkResponse(mailNotificationMessage() + "Successfully sent newsletter, mail notification");
 	}
 
 	@GetMapping("/sendLateBooksNotificaton")

@@ -40,6 +40,23 @@ public class Utils {
 		);
 	}
 
+	public static String getReturnBookMessage(String username, Book book) {
+		return String.format(
+				"<div style='font-family: Arial, sans-serif; color: #333; max-width: 600px; margin: 0 auto; padding: 20px; background-color: #f9f9f9; border-radius: 8px;'>" +
+				"  <h2 style='color: #4CAF50; font-size: 1.5em; margin-bottom: 10px;'>Thank You!</h2>" +
+				"  <p style='font-size: 1.1em; color: #555; line-height: 1.6;'>Dear %s,</p>" +
+				"  <p style='font-size: 1em; color: #555; line-height: 1.6;'>You have successfully returned the book titled <strong style='color: #333;'>%s</strong>.</p>" +
+				"  <p style='font-size: 1em; color: #555; line-height: 1.6;'>We hope you enjoyed reading it! If you're interested in renting more books, feel free to browse our collection.</p>" +
+				"  <footer style='margin-top: 30px; padding-top: 15px; border-top: 1px solid #eaeaea; text-align: center; color: #888; font-size: 0.9em;'>" +
+				"    <p style='margin: 0;'>Best regards,</p>" +
+				"    <p style='margin: 5px 0 0;'>The RentNow Team</p>" +
+				"  </footer>" +
+				"</div>",
+				username, book.getTitle()
+		);
+	}
+
+
 	public static String getRentBookMessageForOwner(BookHistory bookHistory, Book book, User user) {
 		return String.format(
 				"<div style='font-family: Arial, sans-serif; color: #333; max-width: 600px; margin: 0 auto; padding: 20px; background-color: #f9f9f9; border-radius: 8px;'>" +

@@ -34,7 +34,7 @@ public class UserController extends BaseController {
 	}
 
 	@PostMapping("/update/{role}")
-	public ResponseEntity<Object> updateUser(@RequestPart("userDTO") UserDTO userDTO, @PathVariable("role") User.Role role, @RequestPart(value = "imageFile", required = false) MultipartFile imageFile) {
+	public ResponseEntity<Object> updateUser(@RequestPart("userDTO") UserDTO userDTO, @PathVariable User.Role role, @RequestPart(value = "imageFile", required = false) MultipartFile imageFile) {
 		log.info("Updating user {}", userDTO);
 		return buildOkResponse(userService.updateUser(userDTO, role, imageFile));
 	}

@@ -13,5 +13,6 @@
     <artifactId>front-end</artifactId>
     <version>1.0.0</version>
     <packaging>pom</packaging>
+    <name>Front End</name>
     <description>Front-end module</description>
 </project>

@@ -1,0 +1,93 @@
+server:
+  port: 8079
+core-url: http://localhost:8080
+front-end-url: http://localhost:4173
+spring:
+  application:
+    name: ApiGateway
+  cloud:
+    gateway:
+      default-filters:
+        - DedupeResponseHeader=Access-Control-Allow-Credentials Access-Control-Allow-Origin
+        - AddResponseHeader=Access-Control-Allow-Origin, *
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowedOrigins: "${front-end-url}"
+            allowedMethods:
+              - GET
+              - POST
+              - PUT
+              - DELETE
+              - OPTIONS
+            allowedHeaders:
+              - "*"
+            allowCredentials: true
+      routes:
+        - id: core
+          uri: ${core-url}/core
+          predicates:
+            - Path=/core/**
+          filters:
+            - StripPrefix=1
+            - AddRequestHeader=Origin, http://localhost:8079
+            - AddRequestHeader=Referer, http://localhost:8079
+        - id: notification-service
+          uri: lb://notification-service
+          predicates:
+            - Path=/notification/**
+          filters:
+            - StripPrefix=1
+        - id: report-service
+          uri: lb://report-service
+          predicates:
+            - Path=/reporting/**
+          filters:
+            - StripPrefix=1
+
+  threads:
+    virtual:
+      enabled: true
+
+  # Swagger Aggregation Configuration
+springdoc:
+  api-docs:
+    enabled: true
+    path: /v3/api-docs
+  swagger-ui:
+    urls:
+      - name: Core Service
+        url: http://localhost:8080/api-docs
+      - name: Reporting Service
+        url: http://localhost:8092/reporting/api-docs
+      - name: Notification Service
+        url: http://localhost:8091/notification/api-docs
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+
+# Actuator config
+management:
+  server:
+    port: 8079
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  metrics:
+    distribution:
+      percentiles-histogram:
+        http:
+          server:
+            requests: true
+      maximum-expected-value:
+        http:
+          server:
+            requests: 5s
+
+logging:
+  level:
+    org.springframework.cloud.gateway: INFO
+

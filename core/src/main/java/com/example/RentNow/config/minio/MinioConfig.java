@@ -17,7 +17,7 @@ public class MinioConfig {
 	String minioUrl;
 
 	@Bean
-	public MinioClient minioClient() {
+	MinioClient minioClient() {
 		return MinioClient.builder()
 				.endpoint(minioUrl)
 				.credentials(accessKey, secretKey)

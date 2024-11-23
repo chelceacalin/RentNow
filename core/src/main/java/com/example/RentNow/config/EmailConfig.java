@@ -32,7 +32,7 @@ public class EmailConfig {
 	private Boolean isEnabled;
 
 	@Bean
-	public JavaMailSender mailSender() {
+	JavaMailSender mailSender() {
 		JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
 		mailSender.setHost(host);
 		mailSender.setPort(port);
@@ -47,7 +47,7 @@ public class EmailConfig {
 	}
 
 	@Bean
-	public EmailSenderService emailSenderService() {
+	EmailSenderService emailSenderService() {
 		return new EmailSenderService(mailSender(), fromEmail, isEnabled);
 	}
 }

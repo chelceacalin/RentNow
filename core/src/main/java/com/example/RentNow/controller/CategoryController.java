@@ -53,7 +53,7 @@ public class CategoryController extends BaseController {
 	}
 
 	@PostMapping("/update/{id}")
-	public ResponseEntity<Object> updateCategory(@RequestBody CategoryDTO categoryDTO, @PathVariable("id") @NotNull UUID id) {
+	public ResponseEntity<Object> updateCategory(@RequestBody CategoryDTO categoryDTO, @PathVariable @NotNull UUID id) {
 		try {
 			return buildOkResponse(categoryService.updateCategory(categoryDTO, id));
 		} catch (Exception e) {

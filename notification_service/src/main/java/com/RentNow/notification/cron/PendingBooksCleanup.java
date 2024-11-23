@@ -1,29 +1,21 @@
 package com.RentNow.notification.cron;
 
+import com.RentNow.notification.service.NotificationService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
-import org.springframework.web.client.RestTemplate;
 
 import java.util.concurrent.TimeUnit;
 
 @Component
 @Slf4j
-public class PendingBooksCleanup extends AbstractCron {
+@RequiredArgsConstructor
+public class PendingBooksCleanup {
 
-	public PendingBooksCleanup(RestTemplate restTemplate) {
-		super(restTemplate);
-	}
-
+	final NotificationService notificationService;
 	@Scheduled(fixedRate = 24, timeUnit = TimeUnit.HOURS)
 	public void makeAvailablePendingBooks() {
-		try {
-			ResponseEntity<String> ans = restTemplate.getForEntity(coreUrl + "/cron/cleanPendingBooks", String.class);
-			log.info("[PendingBooksCleanup]: {}", ans.getBody());
-		} catch (Exception e) {
-			log.error("Could not clean up");
-			log.error(e.getMessage());
-		}
+		notificationService.makeAvailablePendingBooks();
 	}
 }

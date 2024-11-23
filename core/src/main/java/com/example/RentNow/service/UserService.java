@@ -1,9 +1,9 @@
 package  com.example.RentNow.service;
 
-import  com.example.RentNow.dto.User.*;
-import  com.example.RentNow.mapper.UserMapper;
-import  com.example.RentNow.model.User;
-import  com.example.RentNow.repository.UserRepository;
+import com.example.RentNow.dto.User.*;
+import com.example.RentNow.mapper.UserMapper;
+import com.example.RentNow.model.User;
+import com.example.RentNow.repository.UserRepository;
 import com.example.RentNow.util.ByteArrayMultipartFile;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -22,12 +22,12 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import static  com.example.RentNow.specification.GenericSpecification.fieldNameLike;
-import static  com.example.RentNow.specification.GenericSpecification.isActive;
-import static  com.example.RentNow.specification.UserSpecification.hasRole;
-import static  com.example.RentNow.specification.UserSpecification.hasUsernameEquals;
-import static  com.example.RentNow.util.UserConstants.*;
-import static  com.example.RentNow.util.Utils.getEntityOrThrow;
+import static com.example.RentNow.specification.GenericSpecification.fieldNameLike;
+import static com.example.RentNow.specification.GenericSpecification.isActive;
+import static com.example.RentNow.specification.UserSpecification.hasRole;
+import static com.example.RentNow.specification.UserSpecification.hasUsernameEquals;
+import static com.example.RentNow.util.UserConstants.*;
+import static com.example.RentNow.util.Utils.getEntityOrThrow;
 import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
 
@@ -155,10 +155,8 @@ public class UserService {
                     .setIs_active(true)
                     .setMailNotificationsEnabled(true);
             addUserPhotoUrl(userAddDTO, userToBeSaved);
-
             userRepository.save(userToBeSaved);
             newsletterService.subscribeToNewsletter(userToBeSaved);
-
             return UserMapper.toUserAddReponseDTOFromUser(userToBeSaved, newsletterService.findByUserEmail(userAddDTO.getEmail()));
         }
     }

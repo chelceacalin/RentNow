@@ -78,8 +78,16 @@ Users receive various notifications:
 - Admins can create and edit utility links, directing users to internal pages or external sites.
 
 ### 15. Microservices
-- The app is split into 4 microservices: core ( most of the logic ), notification_service ( for sending emails to users), reports_service( for generating user reports ) and rag_module ( for chatbot and book recommendations )
-- Then we have the front_end, and common module
+- The app is split into multiple microservices: 
+  - Core: Most of the logic of the application
+  - Notification_Service: Used for sending email notifications to users
+  - Reports_Service: Used for generating PDF reports for users
+  - Rag_Module: Used for chatbot and book recommendations
+  - Front_End: Front end of application
+- Utils:
+  - Api_Server - Eureka Server to which microservices connect
+  - Api_Gateway - Entrypoint of every request from front end and redirected to the proper microservice
+  - Common - Common code for multiple microservices
 
 ## Technologies
 
@@ -89,9 +97,10 @@ Users receive various notifications:
 - **Databases**: Postgres, ChromaDB
 - **Database Migrations**: Flyway
 - **Image Storage**: Minio
-- **Monitoring**: Loki (logs), Prometheus (metrics)
+- **Monitoring**: Loki (logs), Prometheus (metrics), Swagger
 - **Dashboards**: Grafana
 - **Email Service**: Gmail SMTP
+- **Gateway**: Eureka Gateway
 
 ## Getting Started
 
@@ -100,6 +109,7 @@ Users receive various notifications:
 - Java 21
 - Docker and Docker Compose
 - NodeJs
+- Python 3
 
 ### Running the App
 
@@ -109,20 +119,37 @@ Users receive various notifications:
     cd RentNow
     ```
 
-2. **Start the core service** using Docker Compose:
+2. **Start the api_server** using Docker Compose:
+    ```bash
+    cd api_server
+   ./mvnw spring-boot:run
+    ```
+3. **Start the api_gateway** using Docker Compose:
+    ```bash
+    cd api_gateway
+   ./mvnw spring-boot:run
+    ```
+
+4. **Start the core service** using Docker Compose:
     ```bash
     cd core
     docker-compose up
    ./mvnw spring-boot:run
     ```
 
-3. **Start the notification_service**:
+5. **Start the notification_service**:
     ```bash
     cd notification_service
     ./mvnw spring-boot:run
     ```
 
-4. **Start the front-end**:
+6. **Start the reports_service**:
+    ```bash
+    cd reports_service
+    ./mvnw spring-boot:run
+    ```
+   
+7. **Start the front_end**:
     ```bash
     cd front_end
     npm install --legacy-peer-deps
@@ -131,9 +158,9 @@ Users receive various notifications:
     cd src
     npm run start
     ```
-5. **Start the python app**
+8. **Start the rag_module service**
     ```
-    cd .\Rag_Service\
+    cd .\rag_module\
     docker compose up
     pip install -r requirements.txt
     python main.py
@@ -149,9 +176,9 @@ Users receive various notifications:
 - **Grafana**: [http://localhost:3000](http://localhost:3000) (default credentials: admin/admin)
 - **Prometheus**: [http://localhost:9090](http://localhost:9090)
 - **Postgres Exporter**: [http://localhost:9187/](http://localhost:9187/)
+- **Eureka Server**: [http://localhost:8761/](http://localhost:8761/)
 
 ### Documentation
 
-- **JSON API Documentation**: [http://localhost:8080/api-docs](http://localhost:8080/api-docs)
-- **UI Interface API Documentation**: [http://localhost:8080/swagger-ui/index.html](http://localhost:8080/swagger-ui/index.html)
-- **Actuator**: [http://localhost:8081/actuator](http://localhost:8081/actuator)
+- **UI Interface API Documentation**: [http://localhost:8079/webjars/swagger-ui/index.html](http://localhost:8079/webjars/swagger-ui/index.html)
+- **Actuator**: [http://localhost:8079/actuator](http://localhost:8081/actuator)

@@ -7,7 +7,7 @@ import com.example.RentNow.model.BookHistory;
 import com.example.RentNow.model.NewsLetterSubscription;
 import com.example.RentNow.model.User;
 import com.example.RentNow.util.EmailSenderService;
-import com.example.RentNow.util.TokenUtils;
+import com.example.RentNow.util.JwtUtils;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
@@ -39,7 +39,6 @@ public class CronService {
 	final EmailSenderService emailSenderService;
 	final BaseUrlRestTemplate pythonServiceTemplate;
 	final ObjectMapper objectMapper;
-	final TokenUtils tokenUtils;
 	final NewsletterService newsletterService;
 
 	@Value("${custom.frontend.app-url}")
@@ -48,13 +47,12 @@ public class CronService {
 
 	public CronService(EmailSenderService emailSenderService, ObjectMapper objectMapper,
 					   @Qualifier("pythonServiceTemplate") BaseUrlRestTemplate pythonServiceTemplate,
-					   UserService userService, TokenUtils tokenUtils, NewsletterService newsletterService,
+					   UserService userService, NewsletterService newsletterService,
 					   BookHistoryService bookHistoryService, BookService bookService) {
 		this.emailSenderService = emailSenderService;
 		this.objectMapper = objectMapper;
 		this.pythonServiceTemplate = pythonServiceTemplate;
 		this.userService = userService;
-		this.tokenUtils = tokenUtils;
 		this.newsletterService = newsletterService;
 		this.bookHistoryService = bookHistoryService;
 		this.bookService = bookService;
@@ -130,8 +128,8 @@ public class CronService {
 					try {
 						List<BookDtoSuggestion> suggestions = objectMapper.readValue(ans, new TypeReference<>() {
 						});
-
-						String token = tokenUtils.generateToken(userEmail);
+						JwtUtils jwtUtils = new JwtUtils();
+						String token = jwtUtils.generateToken(userEmail);
 						subscription.setToken(token);
 						subscription.setUpdated_date(LocalDateTime.now());
 						newsletterService.save(subscription);
@@ -144,7 +142,7 @@ public class CronService {
 			});
 			log.info("{}: Finished sending newsletter notifications ", LocalDate.now());
 		} catch (Exception e) {
-			log.error("{}: Error sending newsletter notifications", LocalDate.now());
+			log.error("{}: Error sending newsletter notifications", LocalDate.now(), e);
 		}
 	}
 
@@ -177,7 +175,7 @@ public class CronService {
 					.map(Book::getTitle)
 					.collect(Collectors.joining(", "));
 
-			String emailSubject = String.format("%s You have 1 more day to return the rented books", RENTNOW);
+			String emailSubject = "%s You have 1 more day to return the rented books".formatted(RENTNOW);
 
 			String emailBody = String.format(
 					"<html>" +
@@ -204,7 +202,7 @@ public class CronService {
 					.map(Book::getTitle)
 					.collect(Collectors.joining(", "));
 
-			String emailSubject = String.format("%s You have exceeded the time limit to return your rented books", RENTNOW);
+			String emailSubject = "%s You have exceeded the time limit to return your rented books".formatted(RENTNOW);
 
 			String emailBody = String.format(
 					"<html>" +
