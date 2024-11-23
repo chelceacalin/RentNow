@@ -48,7 +48,7 @@ custom:
     app-url: ${FRONTEND_URL:http://localhost:4173}
   default_buckets: photos, userphotos
   fromEmail: ${FROM_EMAIL:chelceacalin20@stud.ase.ro}
-  enableMailService: true
+  enableMailService: false
   admin_email: chelceacalin1@gmail.com
   python-url: ${PYTHON_URL:http://localhost:5000}
   newsletter-secret: ${NEWSLETTER_SECRET:htyxmhnBw46wPMFafDw2FE43ffj9G6sT}
