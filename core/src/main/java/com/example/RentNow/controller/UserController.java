@@ -40,8 +40,13 @@ public class UserController extends BaseController {
 	}
 
 	@GetMapping("/{email}")
-	public UserDTO findByUsername(@PathVariable String email) {
+	public UserDTO findByEmail(@PathVariable String email) {
 		return userService.findByEmail(email);
+	}
+
+	@GetMapping("/{email}/settings")
+	public UserDTO findByEmailWithSettings(@PathVariable String email) {
+		return userService.findByEmailWithSettings(email);
 	}
 
 

@@ -6,7 +6,7 @@ import Pagination from "../../components/Pagination/Pagination.jsx";
 import { UserLoginContext } from "../../utils/context/LoginProvider.jsx";
 import { useFetchData } from "../../utils/hooks/useFetchData.jsx";
 import { usePagination } from "../../utils/hooks/usePagination.jsx";
-
+import NoMatchingResultsFound from "../NotFound/NoMatchingResultsFound.jsx";
 function Books_MyRentedBooks() {
   const TABLE_HEAD = [
     "Title",
@@ -172,11 +172,7 @@ function Books_MyRentedBooks() {
           </div>
 
           <div className="w-auto">
-            {!books.length && initialized && (
-              <p className="text-center text-2xl notFoundText bg-white p-2 m-auto justify-center flex">
-                No matching results found
-              </p>
-            )}
+            {!books.length && initialized && <NoMatchingResultsFound />}
             {books.length > 0 && (
               <Pagination
                 pageNo={pagination.pageNo}

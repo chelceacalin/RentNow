@@ -135,8 +135,8 @@ function AddNewBookModalWindow({ isOpen, onClose, onRefresh }) {
   };
   return (
     <Dialog open={isOpen} onClose={onClose} maxWidth="sm" fullWidth>
-      <div className="p-6 text-white">
-        <h2 className="text-2xl text-black mb-4">Add New Book</h2>
+      <div className="p-6 text-white reverseColors">
+        <h2 className="text-2xl text-black mb-4 reverseColors">Add New Book</h2>
         <div className="flex flex-col space-y-4 mt-4 mb-6">
           <div className="relative">
             <input
@@ -184,8 +184,8 @@ function AddNewBookModalWindow({ isOpen, onClose, onRefresh }) {
             required
             error={!!formErrors.title}
             helperText={formErrors.title}
-            InputLabelProps={{ className: "text-white" }}
-            InputProps={{ className: "text-white" }}
+            InputLabelProps={{ className: "text-white reverseColors" }}
+            InputProps={{ className: "text-white reverseColors" }}
           />
           <TextField
             fullWidth
@@ -196,8 +196,8 @@ function AddNewBookModalWindow({ isOpen, onClose, onRefresh }) {
             required
             error={!!formErrors.director}
             helperText={formErrors.director}
-            InputLabelProps={{ className: "text-white" }}
-            InputProps={{ className: "text-white" }}
+            InputLabelProps={{ className: "text-white reverseColors" }}
+            InputProps={{ className: "text-white reverseColors" }}
           />
           <Autocomplete
             fullWidth
@@ -211,8 +211,11 @@ function AddNewBookModalWindow({ isOpen, onClose, onRefresh }) {
                 variant="outlined"
                 error={!!formErrors.category}
                 helperText={formErrors.category}
-                InputLabelProps={{ className: "text-white" }}
-                InputProps={{ ...params.InputProps, className: "text-white" }}
+                InputLabelProps={{ className: "text-white reverseColors" }}
+                InputProps={{
+                  ...params.InputProps,
+                  className: "text-white reverseColors",
+                }}
               />
             )}
           />
@@ -227,8 +230,8 @@ function AddNewBookModalWindow({ isOpen, onClose, onRefresh }) {
             rows={5}
             error={!!formErrors.description}
             helperText={formErrors.description}
-            InputLabelProps={{ className: "text-white" }}
-            InputProps={{ className: "text-white" }}
+            InputLabelProps={{ className: "text-white reverseColors" }}
+            InputProps={{ className: "text-white reverseColors" }}
           />
         </div>
         <div className="mt-6 flex justify-end space-x-4">

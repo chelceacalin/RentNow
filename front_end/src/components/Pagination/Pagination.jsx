@@ -13,7 +13,7 @@ const Pagination = ({
   onPageSizeChange,
 }) => {
   return (
-    <Box className="pagination">
+    <Box className="pagination ">
       <div className="flex items-center">
         <span className="mr-2">Results per page:</span>
         <Select

@@ -24,7 +24,7 @@ function DeleteBookModalView({ isModalOpen, book, onRefresh, closeModal }) {
 
   return (
     <Dialog open={isModalOpen} onClose={closeModal} maxWidth={"sm"}>
-      <div className="header-container">
+      <div className="header-container reverseColors">
         <FontAwesomeIcon
           className="absolute top-4 right-4 cursor-pointer"
           icon={faTimes}

@@ -22,8 +22,11 @@ function AddQAOption({
           p: 4,
           borderRadius: 2,
         }}
+        className="reverseColors"
       >
-        <h2 className="text-xl font-semibold mb-4">Add New Q&A Option</h2>
+        <h2 className="text-xl font-semibold mb-4 reverseColors">
+          Add New Q&A Option
+        </h2>
         <TextField
           fullWidth
           variant="outlined"
@@ -32,6 +35,8 @@ function AddQAOption({
           required
           onChange={(e) => setNewQa({ ...newQa, question: e.target.value })}
           className="mb-4"
+          InputLabelProps={{ className: "text-white reverseColors" }}
+          InputProps={{ className: "text-white reverseColors" }}
         />
         <TextField
           fullWidth
@@ -41,7 +46,10 @@ function AddQAOption({
           style={{ marginTop: 20 }}
           value={newQa.answer}
           onChange={(e) => setNewQa({ ...newQa, answer: e.target.value })}
+          InputLabelProps={{ className: "text-white reverseColors" }}
+          InputProps={{ className: "text-white reverseColors" }}
         />
+
         <div className="flex justify-end gap-2 mt-4">
           <button className="details-button" onClick={handleAddNewQa}>
             Save

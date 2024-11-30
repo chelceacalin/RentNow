@@ -1,3 +1,4 @@
+import { dark } from "@mui/material/styles/createPalette.js";
 import { useContext, useEffect, useState } from "react";
 import {
   Navigate,
@@ -48,7 +49,8 @@ function App() {
 
 function MainContent() {
   const [initialized, setInitialized] = useState(false);
-  const { isLoggedIn, is_active } = useContext(UserLoginContext);
+  const { isLoggedIn, is_active, darkModeEnabled } =
+    useContext(UserLoginContext);
   useEffect(() => {
     setInitialized(true);
   }, []);
@@ -64,6 +66,12 @@ function MainContent() {
     );
   }
 
+  console.log("dark ", darkModeEnabled);
+  if (darkModeEnabled) {
+    document.body.classList.add("dark-mode");
+  } else {
+    document.body.classList.remove("dark-mode");
+  }
   if (!is_active || is_active === "false") {
     return <Deactivated />;
   }

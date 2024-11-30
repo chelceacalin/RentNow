@@ -15,6 +15,8 @@ function LoginProvider({ children }) {
   const [id, setID] = useSessionStorageState("id", "");
   const [photoUrl, setPhotoUrl] = useSessionStorageState("photoUrl", "");
   const [is_active, set_isActive] = useSessionStorageState("is_active", "");
+  const [darkModeEnabled, setDarkModeEnabled] =
+    useSessionStorageState("darkModeEnabled");
 
   return (
     <UserLoginContext.Provider
@@ -35,6 +37,8 @@ function LoginProvider({ children }) {
         setPhotoUrl,
         is_active,
         set_isActive,
+        darkModeEnabled,
+        setDarkModeEnabled,
       }}
     >
       {children}

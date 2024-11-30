@@ -48,16 +48,18 @@ function CreateCategoryModalWindow({
 
   return (
     <Dialog open={isModalOpen} onClose={closeModal}>
-      <div className="w-full">
+      <div className="w-full reverseColors">
         <FontAwesomeIcon
           className="absolute top-4 right-4 cursor-pointer"
           icon={faTimes}
           size="xl"
           onClick={closeModal}
         />
-        <div className="ml-4 mt-2.5 modal-text">Add new category</div>
+        <div className="ml-4 mt-2.5 modal-text reverseColors">
+          Add new category
+        </div>
       </div>
-      <DialogContent>
+      <DialogContent className="reverseColors">
         <div className="mt-5">
           <TextField
             className="w-full"
@@ -78,6 +80,8 @@ function CreateCategoryModalWindow({
               );
               setCategoryDTO(e.target.value);
             }}
+            InputLabelProps={{ className: "text-white reverseColors" }}
+            InputProps={{ className: "text-white reverseColors" }}
           />
         </div>
         <div className="flex gap-x-2 mt-6">

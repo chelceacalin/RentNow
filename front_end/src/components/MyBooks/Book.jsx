@@ -9,7 +9,7 @@ function Book({ book, onRefresh, classes }) {
   const closeDetailsModal = () => setDetailsModalOpen(false);
   const closeDeleteModal = () => setDeleteModalOpen(false);
   return (
-    <tr className="shadow-sm shadow-slate-300">
+    <tr className="shadow-sm shadow-slate-300 reverseColors">
       <td className={classes}>{book.title} </td>
       <td className={classes}>{book.director}</td>
       <td className={classes}>{book.category}</td>

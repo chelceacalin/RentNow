@@ -31,4 +31,6 @@ public class UserDTO {
 	boolean mailNotificationsEnabled;
 
 	boolean subscribedToNewsletter;
+
+	boolean darkModeEnabled;
 }

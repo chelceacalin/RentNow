@@ -28,6 +28,7 @@ function Login() {
     setID,
     setEmail,
     set_isActive,
+    setDarkModeEnabled,
   } = useContext(UserLoginContext);
 
   const getUserDetails = (userData, providerName = "google") => {
@@ -64,6 +65,7 @@ function Login() {
         setIsAdmin(data.role === "ADMIN");
         setIsLoggedIn(true);
         set_isActive(data.is_active);
+        setDarkModeEnabled(data.darkModeEnabled);
         navigate("/");
       })
       .catch((e) => {

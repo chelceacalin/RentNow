@@ -30,4 +30,6 @@ public class UserAddReponseDTO {
 	boolean mailNotificationsEnabled;
 
 	boolean subscribedToNewsletter;
+
+	boolean darkModeEnabled;
 }

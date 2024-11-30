@@ -125,7 +125,7 @@ function LinkUtils() {
   };
 
   return (
-    <Accordion>
+    <Accordion className="reverseColors">
       <AccordionSummary
         expandIcon={<ArrowDownwardIcon />}
         aria-controls="panel1-content"
@@ -141,9 +141,9 @@ function LinkUtils() {
           Add Link
         </button>
 
-        <table className="bg-gray-50 w-full border-collapse border border-gray-300 rounded-lg shadow-md">
-          <thead>
-            <tr className="bg-gray-100 border-b">
+        <table className="bg-gray-50 w-full border-collapse border border-gray-300 rounded-lg shadow-md reverseColors">
+          <thead className="reverseColors">
+            <tr className="bg-gray-100 border-b reverseColors">
               <th className="px-2 py-3 text-left font-semibold text-xs">
                 Name
               </th>
@@ -163,7 +163,10 @@ function LinkUtils() {
           <tbody>
             {linkList.length === 0 ? (
               <tr>
-                <td colSpan="4" className="text-gray-500 text-center py-4">
+                <td
+                  colSpan="4"
+                  className="text-gray-500 text-center py-4 reverseColors"
+                >
                   No links available.
                 </td>
               </tr>

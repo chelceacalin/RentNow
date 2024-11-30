@@ -1,5 +1,6 @@
 package  com.example.RentNow.service;
 
+import com.example.RentNow.dto.Settings.SettingsAddDto;
 import com.example.RentNow.dto.User.*;
 import com.example.RentNow.mapper.UserMapper;
 import com.example.RentNow.model.User;
@@ -38,6 +39,7 @@ public class UserService {
     final UserRepository userRepository;
     final ImageStorageService imageStorageService;
     final NewsletterService newsletterService;
+    final SettingsService settingsService;
 
     @Value("${custom.admin_email}")
     String ADMIN_EMAIL;
@@ -138,6 +140,13 @@ public class UserService {
         return UserMapper.toDTO(user, newsletterService.findByUserEmail(user.getEmail()));
     }
 
+
+    public UserDTO findByEmailWithSettings(String email) {
+        User user = getEntityOrThrow(() -> userRepository.findByEmail(email), "User with email " + email + " not found");
+        return UserMapper.toDTOWithSettings(user, newsletterService.findByUserEmail(user.getEmail()), settingsService.findByUserEmail(user.getEmail()));
+    }
+
+
     public UserAddReponseDTO addUser(UserAddDTO userAddDTO) {
         if (userAddDTO.getEmail() == null || userAddDTO.getEmail().isEmpty()) {
             return null;
@@ -155,8 +164,9 @@ public class UserService {
                     .setIs_active(true)
                     .setMailNotificationsEnabled(true);
             addUserPhotoUrl(userAddDTO, userToBeSaved);
-            userRepository.save(userToBeSaved);
-            newsletterService.subscribeToNewsletter(userToBeSaved);
+            userToBeSaved = userRepository.save(userToBeSaved);
+            // newsletterService.subscribeToNewsletter(userToBeSaved);
+            settingsService.saveByUser(userToBeSaved, new SettingsAddDto().setDarkModeEnabled(true));
             return UserMapper.toUserAddReponseDTOFromUser(userToBeSaved, newsletterService.findByUserEmail(userAddDTO.getEmail()));
         }
     }
@@ -189,6 +199,7 @@ public class UserService {
     public void updateUserPreferences(String email, UserPreferencesDTO dto) {
         User user = getEntityOrThrow(() -> userRepository.findByEmail(email), "User not found!");
         newsletterService.updateNewsLetterStatus(user, dto.isSubscribedToNewsletter());
+        settingsService.updateByUserUser(user, new SettingsAddDto().setDarkModeEnabled(dto.isDarkModeEnabled()));
         user.setMailNotificationsEnabled(dto.isMailNotificationsEnabled());
         user.setUpdated_date(LocalDateTime.now());
         userRepository.save(user);

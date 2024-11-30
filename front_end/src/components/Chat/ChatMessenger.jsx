@@ -23,7 +23,7 @@ const ChatMessenger = () => {
   const { email } = useContext(UserLoginContext);
   const { data, loaded } = useFetchData(`/users?email=${email}`);
   const user =
-    loaded && data.content && data.content.length > 0
+    loaded && data != null && data.content && data.content.length > 0
       ? data.content[0]
       : { photoUrl: "/Images/user_icon.png" };
 
@@ -124,7 +124,7 @@ const ChatMessenger = () => {
             </button>
           </div>
 
-          <div className="flex-1 overflow-y-auto p-4 space-y-3 bg-gray-100">
+          <div className="flex-1 overflow-y-auto p-4 space-y-3 bg-gray-100 reverseColors">
             {messages.map((msg, index) => (
               <div
                 key={index}
@@ -154,7 +154,7 @@ const ChatMessenger = () => {
             ))}
 
             {isTyping && (
-              <div className="flex items-center space-x-2 justify-start">
+              <div className="flex items-center space-x-2 justify-start reverseColors">
                 <img
                   src="/Images/bot_icon.png"
                   alt="avatar"
@@ -169,17 +169,16 @@ const ChatMessenger = () => {
             <div ref={messagesEndRef} />
           </div>
 
-          {/* Secțiunea pliabilă cu întrebări sugerate și buton de refresh */}
-          <div className="bg-gray-100 border-t">
+          <div className="bg-gray-100 border-t reverseColors">
             <button
               onClick={() => setIsSuggestionsOpen(!isSuggestionsOpen)}
-              className="ps-2 font-semibold hover:underline focus:outline-none"
+              className="ps-2 font-semibold hover:underline focus:outline-none reverseColors"
             >
               {isSuggestionsOpen ? "Hide Suggestions" : "Show Suggestions"}
             </button>
 
             {isSuggestionsOpen && (
-              <div className="ps-2 flex items-center space-x-2 flex-wrap">
+              <div className="ps-2 flex items-center space-x-2 flex-wrap ">
                 {suggestedQuestions.slice(0, 2).map((question, index) => (
                   <button
                     key={index}
@@ -199,7 +198,7 @@ const ChatMessenger = () => {
             )}
           </div>
 
-          <div className="p-4 bg-gray-100 border-t flex items-center space-x-2">
+          <div className="p-4 bg-gray-100 border-t flex items-center space-x-2 reverseColors">
             <textarea
               rows="2"
               placeholder="Type a message..."
@@ -212,7 +211,7 @@ const ChatMessenger = () => {
                 }
               }}
               style={{ minHeight: "2.5rem" }}
-              className="flex-1 resize-none rounded-md border border-gray-300 px-3 py-2 focus:ring-2 focus:bg-blue-detail focus:outline-none overflow-auto"
+              className="flex-1 resize-none rounded-md border border-gray-300 px-3 py-2 focus:ring-2 focus:bg-blue-detail reverseColors focus:outline-none overflow-auto"
             />
             <button
               onClick={() => sendMessage(inputText)}

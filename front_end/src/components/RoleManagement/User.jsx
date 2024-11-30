@@ -16,7 +16,7 @@ function User({
   function UserRow({ isCurrentUser }) {
     return (
       <tr
-        className={isCurrentUser ? "bg-gray-200" : "bg-white"}
+        className={isCurrentUser ? "bg-gray-200" : "reverseColors"}
         key={user.name}
       >
         <td className={classes}>

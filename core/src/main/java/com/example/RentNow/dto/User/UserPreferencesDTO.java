@@ -15,4 +15,6 @@ public class UserPreferencesDTO {
 	boolean mailNotificationsEnabled;
 
 	boolean subscribedToNewsletter;
+
+	boolean darkModeEnabled;
 }

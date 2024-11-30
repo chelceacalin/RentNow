@@ -30,7 +30,7 @@ function Category({
   };
 
   return (
-    <tr className="z-0">
+    <tr className="z-0 reverseColors">
       <td className={classes}>
         <div
           variant="small"

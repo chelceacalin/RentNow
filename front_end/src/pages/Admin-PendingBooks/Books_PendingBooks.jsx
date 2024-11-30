@@ -6,6 +6,7 @@ import MyRentedBooks from "../../components/MyRentedBooks/MyRentedBooks.jsx";
 import Pagination from "../../components/Pagination/Pagination.jsx";
 import { UserLoginContext } from "../../utils/context/LoginProvider.jsx";
 import { usePagination } from "../../utils/hooks/usePagination.jsx";
+import NoMatchingResultsFound from "../NotFound/NoMatchingResultsFound.jsx";
 function Books_PendingBooks() {
   const TABLE_HEAD = [
     "Title",
@@ -114,17 +115,17 @@ function Books_PendingBooks() {
 
   return (
     <Container maxWidth="xl">
-      <div className="bg-grey-texture w-full mt-20">
+      <div className="bg-grey-texture w-full mt-20 ">
         {isAdmin && <MyProfileRedirectButtons />}
         <div className="w-full flex flex-col bg-white justify-between border-2">
           <div className="overflow-y-auto">
-            <table className="w-full min-w-max border-b-2 table-auto text-left">
+            <table className="w-full min-w-max border-b-2 table-auto text-left ">
               <thead className="sticky top-0 z-30 thead-style">
                 <tr>
                   {TABLE_HEAD.map((elem) => (
                     <th
                       key={elem}
-                      className="table-th"
+                      className="table-th "
                       onClick={(_) => {
                         if (elem !== "Actions") {
                           handleClick(elem.toLowerCase());
@@ -150,7 +151,7 @@ function Books_PendingBooks() {
                   ))}
                 </tr>
               </thead>
-              <tbody className="text-blue-marine">
+              <tbody className="text-blue-marine ">
                 {books.map((book, index) => (
                   <MyRentedBooks
                     key={book.id}
@@ -169,11 +170,7 @@ function Books_PendingBooks() {
           </div>
 
           <div className="w-auto">
-            {!books.length && initialized && (
-              <p className="text-center text-2xl notFoundText bg-white p-2 m-auto justify-center flex">
-                No matching results found
-              </p>
-            )}
+            {!books.length && initialized && <NoMatchingResultsFound />}
             {books.length > 0 && (
               <Pagination
                 pageNo={pagination.pageNo}

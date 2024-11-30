@@ -131,7 +131,7 @@ function DetailsBookModalView({ isModalOpen, book, onRefresh, closeModal }) {
 
   return (
     <Dialog open={isModalOpen} onClose={closeModal} maxWidth="sm" fullWidth>
-      <div className="modal-content wider-modal">
+      <div className="modal-content wider-modal reverseColors">
         <div className="header-container">
           <FontAwesomeIcon
             className="absolute top-4 right-4 cursor-pointer"
@@ -190,6 +190,8 @@ function DetailsBookModalView({ isModalOpen, book, onRefresh, closeModal }) {
               error={!!formErrors.title}
               helperText={formErrors.title}
               disabled={!formData.isAvailable}
+              InputLabelProps={{ className: "text-white reverseColors" }}
+              InputProps={{ className: "text-white reverseColors" }}
             />
 
             <TextField
@@ -201,6 +203,8 @@ function DetailsBookModalView({ isModalOpen, book, onRefresh, closeModal }) {
               error={!!formErrors.director}
               helperText={formErrors.director}
               disabled={!formData.isAvailable}
+              InputLabelProps={{ className: "text-white reverseColors" }}
+              InputProps={{ className: "text-white reverseColors" }}
             />
 
             <Autocomplete
@@ -208,11 +212,21 @@ function DetailsBookModalView({ isModalOpen, book, onRefresh, closeModal }) {
               value={formData.category}
               options={availableCategories.map((c) => c.name)}
               renderInput={(params) => (
-                <TextField {...params} label="Category" />
+                <TextField
+                  {...params}
+                  label="Category"
+                  InputLabelProps={{ className: "text-white reverseColors" }}
+                  InputProps={{
+                    ...params.InputProps,
+                    className: "text-white reverseColors",
+                  }}
+                />
               )}
               error={!!formErrors.category}
               helperText={formErrors.category}
               disabled={!formData.isAvailable}
+              InputLabelProps={{ className: "text-white reverseColors" }}
+              InputProps={{ className: "text-white reverseColors" }}
             />
 
             <TextField
@@ -226,6 +240,8 @@ function DetailsBookModalView({ isModalOpen, book, onRefresh, closeModal }) {
               error={!!formErrors.description}
               helperText={formErrors.description}
               disabled={!formData.isAvailable}
+              InputLabelProps={{ className: "text-white reverseColors" }}
+              InputProps={{ className: "text-white reverseColors" }}
             />
           </div>
 

@@ -8,10 +8,10 @@ function AppIcon({ user, setRefreshImg, isAdmin }) {
 
   return (
     <div className=" space-y-4 m-auto justify-center">
-      <div className="font-bold mt-4 main-text-color text-2xl text-center">
+      <div className="font-bold mt-4 main-text-color text-2xl text-center darkModeWhiteText">
         Rent Now
       </div>
-      <div className="text-lg font-semibold text-center">
+      <div className="text-lg font-semibold text-center darkModeWhiteText">
         Hi,{" "}
         <span className="text-main-color cursor-pointer" onClick={handleOpen}>
           {" "}

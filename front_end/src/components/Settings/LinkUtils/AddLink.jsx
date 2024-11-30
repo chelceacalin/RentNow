@@ -22,8 +22,11 @@ function AddLink({
           p: 4,
           borderRadius: 2,
         }}
+        className="reverseColors"
       >
-        <h2 className="text-xl font-semibold mb-4">Add New Link</h2>
+        <h2 className="text-xl font-semibold mb-4 reverseColors">
+          Add New Link
+        </h2>
         <TextField
           fullWidth
           variant="outlined"
@@ -32,6 +35,8 @@ function AddLink({
           required
           onChange={(e) => setNewLink({ ...newLink, name: e.target.value })}
           className="mb-4"
+          InputLabelProps={{ className: "text-white reverseColors" }}
+          InputProps={{ className: "text-white reverseColors" }}
         />
         <TextField
           fullWidth
@@ -43,6 +48,8 @@ function AddLink({
           onChange={(e) =>
             setNewLink({ ...newLink, description: e.target.value })
           }
+          InputLabelProps={{ className: "text-white reverseColors" }}
+          InputProps={{ className: "text-white reverseColors" }}
         />
         <TextField
           fullWidth
@@ -52,6 +59,8 @@ function AddLink({
           style={{ marginTop: 20 }}
           value={newLink.url}
           onChange={(e) => setNewLink({ ...newLink, url: e.target.value })}
+          InputLabelProps={{ className: "text-white reverseColors" }}
+          InputProps={{ className: "text-white reverseColors" }}
         />
         <div className="flex justify-end gap-2 mt-4">
           <button className="details-button" onClick={handleAddNewLink}>

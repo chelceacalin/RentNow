@@ -199,14 +199,14 @@ function EditRoleModalWindow({
         size="xl"
         onClick={closeModal}
       />
-      <div className="w-full">
-        <h2 className="modal-text ms-6 mt-2">
+      <div className="w-full reverseColors">
+        <h2 className="modal-text ms-6 mt-2 reverseColors">
           Edit{" "}
           {isCurrentUser ? <span>account info</span> : <span>user info</span>}
         </h2>
       </div>
-      <DialogContent>
-        <div className="flex w-full">
+      <DialogContent className="reverseColors">
+        <div className="flex w-full ">
           <div className="w-2/3 pr-5">
             {isCurrentUser && (
               <>
@@ -224,8 +224,8 @@ function EditRoleModalWindow({
                   Upload Image
                 </label>
                 {imagePreviewUrl && (
-                  <div className="mt-4">
-                    <h3 className="text-lg font-semibold text-gray-700 mb-2">
+                  <div className="mt-4 ">
+                    <h3 className="text-lg font-semibold text-gray-700 mb-2 reverseColors">
                       Image Preview
                     </h3>
                     <div className="border rounded-lg overflow-hidden w-full h-52">
@@ -247,6 +247,8 @@ function EditRoleModalWindow({
                 onChange={handleFirstNameChange}
                 fullWidth
                 disabled={!isCurrentUser}
+                InputLabelProps={{ className: "text-white reverseColors" }}
+                InputProps={{ className: "text-white reverseColors" }}
               />
             </div>
             <div className="mb-4">
@@ -256,6 +258,8 @@ function EditRoleModalWindow({
                 onChange={handleLastNameChange}
                 fullWidth
                 disabled={!isCurrentUser}
+                InputLabelProps={{ className: "text-white reverseColors" }}
+                InputProps={{ className: "text-white reverseColors" }}
               />
             </div>
             {isAdmin && (
@@ -268,7 +272,14 @@ function EditRoleModalWindow({
                     }}
                     options={role_type}
                     renderInput={(params) => (
-                      <TextField {...params} label="Role" />
+                      <TextField
+                        {...params}
+                        label="Role"
+                        InputLabelProps={{
+                          className: "text-white reverseColors",
+                        }}
+                        InputProps={{ className: "text-white reverseColors" }}
+                      />
                     )}
                   />
                 </div>
@@ -280,7 +291,14 @@ function EditRoleModalWindow({
                     }}
                     options={active_type}
                     renderInput={(params) => (
-                      <TextField {...params} label="Active Status" />
+                      <TextField
+                        {...params}
+                        label="Active Status"
+                        InputLabelProps={{
+                          className: "text-white reverseColors",
+                        }}
+                        InputProps={{ className: "text-white reverseColors" }}
+                      />
                     )}
                   />
                 </div>
@@ -305,34 +323,40 @@ function EditRoleModalWindow({
             </div>
           </div>
 
-          <div className="w-2/3 pl-5 border-l border-gray-300">
-            <div className="mt-5">
+          <div className="w-2/3 pl-5 border-l border-gray-300 reverseColors">
+            <div className="mt-5 reverseColors">
               <TextField
-                disabled
-                id="outlined-read-only-input"
-                className="w-full"
                 label="Name"
                 defaultValue={user.username}
+                onChange={handleFirstNameChange}
+                fullWidth
+                disabled
+                InputLabelProps={{ className: "text-white reverseColors" }}
+                InputProps={{ className: "text-white reverseColors" }}
               />
             </div>
-            <div className="mt-4 mb-4">
+            <div className="mt-4 mb-4 reverseColors">
               <TextField
                 id="outlined-read-only-input"
                 className="w-auto"
                 label="Email"
                 defaultValue={user.email}
                 disabled
+                InputLabelProps={{ className: "text-white reverseColors" }}
+                InputProps={{ className: "text-white reverseColors" }}
               />
             </div>
 
-            <div className="mt-6 p-4 bg-white border-2 border-gray-300 rounded-lg shadow-lg">
-              <label className="block text-lg font-semibold text-gray-700 mb-4">
+            <div className="mt-6 p-4 bg-white border-2 border-gray-300 rounded-lg shadow-lg reverseColors">
+              <label className="block text-lg font-semibold text-gray-700 mb-4 reverseColors">
                 Get Books Report:
               </label>
               <div className="flex items-center mb-4">
-                <label className="mr-4 text-gray-600">Select Month:</label>
+                <label className="mr-4 text-gray-600 reverseColors">
+                  Select Month:
+                </label>
                 <select
-                  className="month-select p-2 border border-gray-300 rounded-md shadow-sm"
+                  className="month-select p-2 border border-gray-300 rounded-md shadow-sm reverseColors"
                   value={selectedMonth}
                   onChange={(e) => setSelectedMonth(Number(e.target.value))}
                 >
@@ -343,8 +367,10 @@ function EditRoleModalWindow({
                   ))}
                 </select>
               </div>
-              <div className="flex items-center mb-4">
-                <span className="text-gray-600">Want copy on email?</span>
+              <div className="flex items-center mb-4 reverseColors">
+                <span className="text-gray-600 reverseColors">
+                  Want copy on email?
+                </span>
                 <input
                   className="ml-3 h-4 w-4"
                   type="checkbox"

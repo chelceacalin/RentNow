@@ -67,8 +67,8 @@ function EditCategoryNameModalWindow({
 
   return (
     <Dialog maxWidth={"sm"} open={isModalOpen} onClose={closeModal}>
-      <div className="w-full flex justify-between p-4">
-        <div className="modal-text ms-2">Edit Category</div>
+      <div className="w-full flex justify-between p-4 reverseColors">
+        <div className="modal-text ms-2 reverseColors">Edit Category</div>
         <FontAwesomeIcon
           className="cursor-pointer"
           icon={faTimes}
@@ -76,8 +76,8 @@ function EditCategoryNameModalWindow({
           onClick={closeModal}
         />
       </div>
-      <DialogContent>
-        <div>
+      <DialogContent className="reverseColors">
+        <div className="">
           <TextField
             className="w-full"
             id="outlined-read-only-input"
@@ -96,6 +96,8 @@ function EditCategoryNameModalWindow({
             }}
             error={!!errorMessage}
             helperText={errorMessage}
+            InputLabelProps={{ className: "text-white reverseColors" }}
+            InputProps={{ className: "text-white reverseColors" }}
           />
         </div>
         <div className="w-full mt-5">

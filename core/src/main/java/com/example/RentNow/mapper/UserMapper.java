@@ -1,11 +1,12 @@
 package  com.example.RentNow.mapper;
 
 
-import  com.example.RentNow.dto.User.UserAddDTO;
-import  com.example.RentNow.dto.User.UserAddReponseDTO;
-import  com.example.RentNow.dto.User.UserDTO;
-import  com.example.RentNow.model.NewsLetterSubscription;
-import  com.example.RentNow.model.User;
+import com.example.RentNow.dto.User.UserAddDTO;
+import com.example.RentNow.dto.User.UserAddReponseDTO;
+import com.example.RentNow.dto.User.UserDTO;
+import com.example.RentNow.model.NewsLetterSubscription;
+import com.example.RentNow.model.Settings;
+import com.example.RentNow.model.User;
 
 public class UserMapper {
 
@@ -21,6 +22,22 @@ public class UserMapper {
 				.photoUrl(user.getPhotoUrl())
 				.mailNotificationsEnabled(user.isMailNotificationsEnabled())
 				.subscribedToNewsletter(newsLetterSubscription != null && newsLetterSubscription.isSubscribed())
+				.build();
+	}
+
+	public static UserDTO toDTOWithSettings(User user, NewsLetterSubscription newsLetterSubscription, Settings settingsAddDto) {
+		return UserDTO.builder()
+				.id(user.getId())
+				.role(user.getRole())
+				.username(user.getUsername())
+				.firstName(user.getFirstName())
+				.lastName(user.getLastName())
+				.email(user.getEmail())
+				.is_active(user.getIs_active())
+				.photoUrl(user.getPhotoUrl())
+				.mailNotificationsEnabled(user.isMailNotificationsEnabled())
+				.subscribedToNewsletter(newsLetterSubscription != null && newsLetterSubscription.isSubscribed())
+				.darkModeEnabled(settingsAddDto.isDarkModeEnabled())
 				.build();
 	}
 
@@ -61,6 +78,7 @@ public class UserMapper {
 				.is_active(user.getIs_active())
 				.mailNotificationsEnabled(user.isMailNotificationsEnabled())
 				.subscribedToNewsletter(newsLetterSubscription != null && newsLetterSubscription.isSubscribed())
+				.darkModeEnabled(true)
 				.build();
 	}
 }

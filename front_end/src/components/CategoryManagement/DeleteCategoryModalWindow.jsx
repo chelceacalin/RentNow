@@ -45,7 +45,7 @@ function DeleteCategoryModalWindow({
           size="xl"
           onClick={closeEditModal}
         />
-        <DialogContent>
+        <DialogContent className="reverseColors">
           <div className="break-normal text-center mt-10 text-xl">
             <p>
               Are you sure you want to permanently remove category
