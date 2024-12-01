@@ -4,6 +4,13 @@ export const useSessionStorageState = (key, defaultValue) => {
   const [state, setState] = useState(() => {
     const storedValue = sessionStorage.getItem(key);
 
+    if (storedValue === "true") {
+      return true;
+    }
+    if (storedValue === "false") {
+      return false;
+    }
+
     if (key === "isLoggedIn" || key === "isAdmin") {
       return storedValue === "true";
     }

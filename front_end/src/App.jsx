@@ -25,6 +25,7 @@ import Books_MyRentedBooks from "./pages/USER-RentedBooks/Books_MyRentedBooks.js
 import LoginProvider, { UserLoginContext } from "./utils/context/LoginProvider";
 import { ReviewsProvider } from "./utils/context/ReviewsContext.jsx";
 import { UserProvider } from "./utils/context/UserContext.jsx";
+import { useSessionStorageState } from "./utils/hooks/UseSessionStorage.jsx";
 import ActiveRoute from "./utils/protected/ActiveRoute.jsx";
 import AdminRoute from "./utils/protected/AdminRoute";
 import Authenticated from "./utils/protected/Authenticated";
@@ -48,11 +49,25 @@ function App() {
 }
 
 function MainContent() {
+  const { isLoggedIn, is_active } = useContext(UserLoginContext);
   const [initialized, setInitialized] = useState(false);
-  const { isLoggedIn, is_active, darkModeEnabled } =
-    useContext(UserLoginContext);
+
+  const [darkModeEnabled, setDarkModeEnabled] = useSessionStorageState(
+    "darkModeEnabled",
+    false
+  );
+
   useEffect(() => {
     setInitialized(true);
+  }, []);
+
+  useEffect(() => {
+    console.log("Dark mode enabled:", darkModeEnabled);
+    if (darkModeEnabled) {
+      document.body.classList.add("dark-mode");
+    } else {
+      document.body.classList.remove("dark-mode");
+    }
   }, []);
 
   if (!initialized) return null;
@@ -66,12 +81,6 @@ function MainContent() {
     );
   }
 
-  console.log("dark ", darkModeEnabled);
-  if (darkModeEnabled) {
-    document.body.classList.add("dark-mode");
-  } else {
-    document.body.classList.remove("dark-mode");
-  }
   if (!is_active || is_active === "false") {
     return <Deactivated />;
   }

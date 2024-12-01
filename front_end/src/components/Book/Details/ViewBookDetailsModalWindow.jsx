@@ -223,7 +223,6 @@ function ViewBookDetailsModalWindow({
                   src={recommendedBook.photoUrl || "/default-book.jpg"}
                   alt={recommendedBook.title}
                   style={{
-                    width: "100%",
                     height: "150px",
                     objectFit: "cover",
                     borderRadius: "4px",
@@ -262,6 +261,21 @@ function ViewBookDetailsModalWindow({
     reviewAddResponseDTOS,
     refreshData,
   }) {
+    let [toggleDescription, setToggleDescription] = useState(
+      description != null && description.length > 400
+    );
+    const [isImageModalOpen, setIsImageModalOpen] = useState(false);
+    const [selectedImage, setSelectedImage] = useState(null);
+
+    const handleImageClick = (imageUrl) => {
+      setSelectedImage(imageUrl);
+      setIsImageModalOpen(true);
+    };
+
+    const handleCloseImageModal = () => {
+      setIsImageModalOpen(false);
+      setSelectedImage(null);
+    };
     return (
       <DialogContent sx={{ p: 0 }}>
         <Box
@@ -281,10 +295,12 @@ function ViewBookDetailsModalWindow({
               left: 0,
               width: "100%",
               height: "100%",
-              objectFit: "cover",
+              objectFit: "contain",
               borderRadius: "8px",
             }}
+            onClick={() => handleImageClick(photoUrl || "/default-book.jpg")}
           />
+
           <Box
             sx={{
               position: "absolute",
@@ -297,8 +313,9 @@ function ViewBookDetailsModalWindow({
             }}
           >
             <Typography
-              variant="h4"
-              sx={{ mb: "0.5rem", color: "rgb(255,0,0)" }}
+              variant="h6"
+              sx={{ mb: "0rem", color: "rgb(255,0,0)" }}
+              className="flex max-w-max bg-black bg-opacity-10 w-2/5"
             >
               {title}
             </Typography>
@@ -318,6 +335,37 @@ function ViewBookDetailsModalWindow({
 
         <Grid container spacing={2} sx={{ p: 2 }}>
           <Grid item xs={12}>
+            <div className="flex">
+              <InfoOutlined
+                className="text-gray-400 hover:text-gray-600"
+                sx={{ mr: 1, color: "#B3B3B3" }}
+                onClick={() => setToggleDescription((prev) => !prev)}
+              />
+
+              {!toggleDescription ? (
+                <Box
+                  sx={{
+                    width: "auto",
+                    maxHeight: 200,
+                    overflow: "auto",
+                    whiteSpace: "pre-wrap",
+                    wordWrap: "break-word",
+                  }}
+                >
+                  Description: {description}
+                </Box>
+              ) : (
+                <span
+                  onClick={() => {
+                    setToggleDescription((prev) => !prev);
+                  }}
+                  className="text-gray-400 hover:text-gray-600"
+                >
+                  Show description
+                </span>
+              )}
+            </div>
+
             <Typography
               variant="body1"
               sx={{
@@ -326,10 +374,7 @@ function ViewBookDetailsModalWindow({
                 display: "flex",
                 alignItems: "center",
               }}
-            >
-              <InfoOutlined sx={{ mr: 1, color: "#B3B3B3" }} />
-              Description: {description}
-            </Typography>
+            ></Typography>
 
             <Typography
               variant="body1"
@@ -430,7 +475,11 @@ function ViewBookDetailsModalWindow({
 
             <Button
               variant="outlined"
-              onClick={handleToggleReviews}
+              onClick={(event) => {
+                console.log(toggleDescription);
+                event.stopPropagation();
+                handleToggleReviews();
+              }}
               sx={{
                 mt: 2,
                 color: "#fff",
@@ -451,6 +500,41 @@ function ViewBookDetailsModalWindow({
             refreshData={refreshData}
           />
         )}
+
+        <div>
+          <Dialog
+            open={isImageModalOpen}
+            onClose={handleCloseImageModal}
+            maxWidth="md"
+            fullWidth
+          >
+            <DialogContent sx={{ padding: 0 }}>
+              <IconButton
+                edge="end"
+                color="inherit"
+                onClick={handleCloseImageModal}
+                sx={{
+                  position: "absolute",
+                  top: 8,
+                  right: 16,
+                  color: "#fff",
+                }}
+              >
+                <CloseIcon />
+              </IconButton>
+              <img
+                src={selectedImage}
+                alt={title}
+                style={{
+                  width: "100%",
+                  height: "auto",
+                  objectFit: "contain",
+                  borderRadius: "8px",
+                }}
+              />
+            </DialogContent>
+          </Dialog>
+        </div>
       </DialogContent>
     );
   }

@@ -28,7 +28,7 @@ create table if not exists book
     id           uuid not null
         constraint book_pkey
             primary key,
-    description  varchar(255),
+    description varchar(4000),
     director     varchar(255),
     is_available boolean,
     title        varchar(255),
@@ -44,7 +44,7 @@ create table if not exists book
 create table if not exists book_history
 (
     id           uuid not null,
-    description  varchar(255),
+    description  varchar(4000),
     rating       integer,
     rented_date  date,
     rented_until date,

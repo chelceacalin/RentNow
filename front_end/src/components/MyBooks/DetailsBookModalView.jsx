@@ -1,6 +1,14 @@
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Autocomplete, Dialog, DialogContent, TextField } from "@mui/material";
+import {
+  Autocomplete,
+  Box,
+  Dialog,
+  DialogContent,
+  IconButton,
+  TextField,
+  Typography,
+} from "@mui/material";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { showError, showSuccess } from "../../service/ToastService";
@@ -131,119 +139,151 @@ function DetailsBookModalView({ isModalOpen, book, onRefresh, closeModal }) {
 
   return (
     <Dialog open={isModalOpen} onClose={closeModal} maxWidth="sm" fullWidth>
-      <div className="modal-content wider-modal reverseColors">
-        <div className="header-container">
-          <FontAwesomeIcon
-            className="absolute top-4 right-4 cursor-pointer"
-            icon={faTimes}
-            size="xl"
-            onClick={closeModal}
-          />
-          <h2 className="ml-8 mt-6 text-2xl">Edit Book</h2>
-        </div>
-        <DialogContent className="modal-body ml-2 mr-2">
-          <div className="flex flex-col space-y-4 mb-6">
-            <input
-              type="file"
-              accept="image/*"
-              onChange={handleImageChange}
-              id="imageUpload"
-              disabled={!formData.isAvailable}
-              className="hidden"
-            />
-            <label
-              htmlFor="imageUpload"
-              className={`rent-button -sm ${
-                formData.isAvailable ? "" : "disabled"
-              }`}
-            >
-              Upload Image
-            </label>
+      <Box
+        sx={{
+          borderRadius: 2,
+          overflow: "hidden",
+          position: "relative",
+          padding: 2,
+        }}
+        className="reverseColors"
+      >
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            paddingBottom: 2,
+          }}
+          className="reverseColors"
+        >
+          <Typography
+            variant="h6"
+            sx={{ color: "black", fontWeight: 600 }}
+            className="reverseColors"
+          >
+            Edit Book
+          </Typography>
+          <IconButton onClick={closeModal} sx={{ color: "black" }}>
+            <FontAwesomeIcon icon={faTimes} size="lg" />
+          </IconButton>
+        </Box>
 
-            {formErrors.selectedImage && (
-              <p className="bg-main-color text-sm">
-                {formErrors.selectedImage}
-              </p>
-            )}
+        <DialogContent sx={{ padding: 0 }}>
+          <Box sx={{ display: "flex", gap: 1 }}>
+            <Box sx={{ width: "70%" }}>
+              <input
+                type="file"
+                accept="image/*"
+                onChange={handleImageChange}
+                id="imageUpload"
+                disabled={!formData.isAvailable}
+                className="hidden"
+              />
+              <label
+                htmlFor="imageUpload"
+                className={`rent-button reset-width ${
+                  formData.isAvailable ? "" : "disabled"
+                }`}
+                style={{
+                  cursor: formData.isAvailable ? "pointer" : "not-allowed",
+                }}
+              >
+                Upload Image
+              </label>
 
-            {imagePreviewUrl && (
-              <div className="mt-4">
-                <h3 className="text-lg font-semibold text-gray-700 mb-2">
-                  Image Preview
-                </h3>
-                <div className="border rounded-lg overflow-hidden w-full h-52">
-                  <img
-                    src={imagePreviewUrl}
-                    alt="Selected"
-                    className="object-cover w-full h-full"
-                  />
-                </div>
-              </div>
-            )}
-
-            <TextField
-              fullWidth
-              label="Title"
-              value={formData.title}
-              onChange={handleInputChange("title")}
-              variant="outlined"
-              error={!!formErrors.title}
-              helperText={formErrors.title}
-              disabled={!formData.isAvailable}
-              InputLabelProps={{ className: "text-white reverseColors" }}
-              InputProps={{ className: "text-white reverseColors" }}
-            />
-
-            <TextField
-              fullWidth
-              label="Director"
-              value={formData.director}
-              onChange={handleInputChange("director")}
-              variant="outlined"
-              error={!!formErrors.director}
-              helperText={formErrors.director}
-              disabled={!formData.isAvailable}
-              InputLabelProps={{ className: "text-white reverseColors" }}
-              InputProps={{ className: "text-white reverseColors" }}
-            />
-
-            <Autocomplete
-              onChange={handleInputChange("category")}
-              value={formData.category}
-              options={availableCategories.map((c) => c.name)}
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  label="Category"
-                  InputLabelProps={{ className: "text-white reverseColors" }}
-                  InputProps={{
-                    ...params.InputProps,
-                    className: "text-white reverseColors",
-                  }}
-                />
+              {formErrors.selectedImage && (
+                <Typography
+                  sx={{ color: "red", fontSize: "0.875rem", marginTop: 1 }}
+                >
+                  {formErrors.selectedImage}
+                </Typography>
               )}
-              error={!!formErrors.category}
-              helperText={formErrors.category}
-              disabled={!formData.isAvailable}
-              InputLabelProps={{ className: "text-white reverseColors" }}
-              InputProps={{ className: "text-white reverseColors" }}
-            />
 
-            <TextField
-              fullWidth
-              label="Description"
-              value={formData.description}
-              onChange={handleInputChange("description")}
-              variant="outlined"
-              multiline
-              rows={4}
-              error={!!formErrors.description}
-              helperText={formErrors.description}
-              disabled={!formData.isAvailable}
-              InputLabelProps={{ className: "text-white reverseColors" }}
-              InputProps={{ className: "text-white reverseColors" }}
-            />
-          </div>
+              {imagePreviewUrl && (
+                <Box sx={{ marginTop: 2 }}>
+                  <Typography
+                    variant="subtitle1"
+                    sx={{ color: "black", marginBottom: 1 }}
+                    className="reverseColors"
+                  >
+                    Image Preview
+                  </Typography>
+                  <Box sx={{ borderRadius: 1, overflow: "hidden" }}>
+                    <img
+                      src={imagePreviewUrl}
+                      alt="Selected"
+                      className="object-cover w-full h-full"
+                      style={{
+                        borderRadius: "8px",
+                        objectFit: "cover",
+                      }}
+                    />
+                  </Box>
+                </Box>
+              )}
+            </Box>
+
+            <Box sx={{ flexGrow: 1, padding: 2 }}>
+              <TextField
+                fullWidth
+                label="Title"
+                value={formData.title}
+                onChange={handleInputChange("title")}
+                variant="outlined"
+                error={!!formErrors.title}
+                helperText={formErrors.title}
+                disabled={!formData.isAvailable}
+                InputLabelProps={{ className: "reverseColors" }}
+                InputProps={{ className: "reverseColors mb-4" }}
+              />
+
+              <TextField
+                fullWidth
+                label="Author"
+                value={formData.director}
+                onChange={handleInputChange("director")}
+                variant="outlined"
+                error={!!formErrors.director}
+                helperText={formErrors.director}
+                disabled={!formData.isAvailable}
+                InputLabelProps={{ className: "reverseColors" }}
+                InputProps={{ className: "reverseColors mb-4" }}
+              />
+
+              <Autocomplete
+                onChange={handleInputChange("category")}
+                value={formData.category}
+                options={availableCategories.map((c) => c.name)}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    label="Category"
+                    error={!!formErrors.category}
+                    helperText={formErrors.category}
+                    disabled={!formData.isAvailable}
+                    InputLabelProps={{ className: " reverseColors" }}
+                    InputProps={{ className: " reverseColors mb-4" }}
+                  />
+                )}
+              />
+
+              <TextField
+                fullWidth
+                label="Description"
+                value={formData.description}
+                onChange={handleInputChange("description")}
+                variant="outlined"
+                multiline
+                rows={10}
+                error={!!formErrors.description}
+                helperText={formErrors.description}
+                disabled={!formData.isAvailable}
+                InputLabelProps={{ className: " reverseColors" }}
+                InputProps={{ className: " reverseColors mb-4 max-h-96" }}
+              />
+            </Box>
+          </Box>
 
           <div className="mt-6 flex justify-end space-x-4">
             <button
@@ -263,7 +303,7 @@ function DetailsBookModalView({ isModalOpen, book, onRefresh, closeModal }) {
             </button>
           </div>
         </DialogContent>
-      </div>
+      </Box>
     </Dialog>
   );
 }

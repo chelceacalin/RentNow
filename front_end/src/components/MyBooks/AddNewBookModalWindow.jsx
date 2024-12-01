@@ -161,10 +161,10 @@ function AddNewBookModalWindow({ isOpen, onClose, onRefresh }) {
 
           {formData.selectedImage && (
             <div className="mt-4">
-              <h3 className="text-lg font-semibold text-gray-700 mb-2">
+              <h3 className="text-lg font-semibold text-gray-700 mb-2 reverseColors">
                 Image Preview
               </h3>
-              <div className="border rounded-lg overflow-hidden w-full h-52">
+              <div className="border rounded-lg overflow-hidden justify-center align-middle">
                 <img
                   src={URL.createObjectURL(formData.selectedImage)}
                   alt="Selected"
@@ -191,7 +191,7 @@ function AddNewBookModalWindow({ isOpen, onClose, onRefresh }) {
             fullWidth
             label="Director"
             value={formData.director}
-            onChange={handleInputChange("director")}
+            onChange={handleInputChange("Author")}
             variant="outlined"
             required
             error={!!formErrors.director}

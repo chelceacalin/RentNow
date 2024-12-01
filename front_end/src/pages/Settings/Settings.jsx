@@ -54,6 +54,7 @@ function Settings() {
       .put(`/users/preferences/${email}`, userDto)
       .then((res) => {
         showSuccess("User preferences updated successfully");
+        sessionStorage.setItem("darkModeEnabled", darkModeEnabled);
       })
       .catch((e) => {
         console.error(e);
