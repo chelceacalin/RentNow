@@ -177,7 +177,7 @@ Users receive various notifications:
 - **Prometheus**: [http://localhost:9090](http://localhost:9090)
 - **Postgres Exporter**: [http://localhost:9187/](http://localhost:9187/)
 - **Eureka Server**: [http://localhost:8761/](http://localhost:8761/)
-
+- **Zipkin**: [http://localhost:9411/](http://localhost:9411/)
 ### Documentation
 
 - **UI Interface API Documentation**: [http://localhost:8079/webjars/swagger-ui/index.html](http://localhost:8079/webjars/swagger-ui/index.html)

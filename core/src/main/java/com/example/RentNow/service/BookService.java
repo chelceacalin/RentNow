@@ -357,8 +357,7 @@ public class BookService {
     @SneakyThrows
     public void changeRentedBookStatus(UUID id, EmailDTO emailDTO) {
         Book book = getEntityOrThrow(() -> bookRepository.findById(id), "Book is not found");
-        book
-                .setUpdated_date(LocalDateTime.now());
+        book.setUpdated_date(LocalDateTime.now());
         bookRepository.save(book);
 
         BookHistory bookHistory = getEntityOrThrow(() -> bookHistoryRepository.findById(emailDTO.getBookHistoryId()), "Book not found");
@@ -372,8 +371,6 @@ public class BookService {
         } catch (Exception e) {
             log.error("Error sending message to python api {}", e.getMessage());
         }
-        emailSenderService.sendEmail(emailDTO.getOwnerEmail(), String.format("Your book %s has been returned", emailDTO.getBookTitle()), getEmailBody(emailDTO), null);
-        emailSenderService.sendEmail(emailDTO.getRenterEmail(), String.format("You have successfully returned book %s", emailDTO.getBookTitle()), getReturnBookMessage(emailDTO.getRenterUsername(), book), null);
     }
 
 
@@ -386,21 +383,27 @@ public class BookService {
         BookHistory.Status newStatus = BookHistory.Status.valueOf(emailDTO.getStatus());
         bookHistory.setStatus(newStatus);
         bookHistory.setUpdated_date(LocalDateTime.now());
-
         boolean isBookAvailable = "REJECTED".equals(emailDTO.getStatus()) || "RETURNED".equals(emailDTO.getStatus());
         book.setAvailable(isBookAvailable);
         book.setUpdated_date(LocalDateTime.now());
-
-        if ("REJECTED".equals(emailDTO.getStatus())) {
-            String subject = String.format("Your rental request for the book %s has been denied", emailDTO.getBookTitle());
-            emailSenderService.sendEmail(emailDTO.getRenterEmail(), subject, getRejectEmailBody(emailDTO), null);
-        } else if ("APPROVED".equals(emailDTO.getStatus())) {
-            User user = userRepository.findById(String.valueOf(bookHistory.getRentedBy().getId())).orElseThrow();
-            emailSenderService.sendEmail(user.getEmail(), RENTNOW + "You have successfully rented book " + book.getTitle(), getRentBookMessage(user, book, String.valueOf(bookHistory.getRentedUntil())), null);
-            emailSenderService.sendEmail(book.getOwner().getEmail(), RENTNOW + "Your book " + book.getTitle() + " has been rented by " + user.getEmail(),
-                    getRentBookMessageForOwner(bookHistory, book, user), null);
+        switch (emailDTO.getStatus()) {
+            case "REJECTED" -> {
+                String subject = String.format("Your rental request for the book %s has been denied", emailDTO.getBookTitle());
+                emailSenderService.sendEmail(emailDTO.getRenterEmail(), subject, getRejectEmailBody(emailDTO), null);
+            }
+            case "APPROVED" -> {
+                User user = userRepository.findById(String.valueOf(bookHistory.getRentedBy().getId())).orElseThrow();
+                emailSenderService.sendEmail(user.getEmail(), RENTNOW + "You have successfully rented book " + book.getTitle(),
+                        getRentBookMessage(user, book, String.valueOf(bookHistory.getRentedUntil())), null);
+                emailSenderService.sendEmail(book.getOwner().getEmail(), RENTNOW + "Your book " + book.getTitle() + " has been rented by " + user.getEmail(),
+                        getRentBookMessageForOwner(bookHistory, book, user), null);
+            }
+            case "RETURNED" -> {
+                emailSenderService.sendEmail(emailDTO.getOwnerEmail(), String.format("Your book %s has been returned", emailDTO.getBookTitle()), getEmailBody(emailDTO), null);
+                emailSenderService.sendEmail(emailDTO.getRenterEmail(), String.format("You have successfully returned book %s",
+                        emailDTO.getBookTitle()), getReturnBookMessage(emailDTO.getRenterUsername(), book), null);
+            }
         }
-
         bookHistoryRepository.save(bookHistory);
         bookRepository.save(book);
     }

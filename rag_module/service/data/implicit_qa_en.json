@@ -128,5 +128,40 @@
     "id": "en_q26",
     "question": "How does the notification system work?",
     "answer": "If a book you're interested in is already rented, you can enable notifications, and I'll let you know as soon as it becomes available."
+  },
+  {
+    "id": "en_q27",
+    "question": "Can I renew a rented book?",
+    "answer": "Currently, the application does not support book renewal. Once the return date is reached, the book must be returned before it can be rented again."
+  },
+  {
+    "id": "en_q29",
+    "question": "What happens if I miss the return date?",
+    "answer": "If you miss the return date, you will receive daily overdue notifications. You may also incur late fees depending on the library's policy."
+  },
+  {
+    "id": "en_q30",
+    "question": "Can I view books in multiple categories?",
+    "answer": "No, a book can only be part of one category at a time"
+  },
+  {
+    "id": "en_q31",
+    "question": "How can I reset my password?",
+    "answer": "Since the app uses Google and Github authentication, you need to reset your password from your login provider"
+  },
+  {
+    "id": "en_q32",
+    "question": "How do I change my account information?",
+    "answer": "You can update your account information by visiting the Profile section and clicking on 'Edit Profile.' From there, you can change your details like profile picture or username."
+  },
+  {
+    "id": "en_q33",
+    "question": "Can I view the book history?",
+    "answer": "Yes, you can view the history of books you've rented or reviewed in the 'Rented Books' section."
+  },
+  {
+    "id": "en_q34",
+    "question": "Is there a mobile app version of Rent Now?",
+    "answer": "Currently, Rent Now is a web-based application, but a mobile app version may be released in the future."
   }
 ]

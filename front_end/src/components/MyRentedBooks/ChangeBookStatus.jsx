@@ -83,9 +83,8 @@ function ChangeBookStatus({
         />
         <div className="w-full break-normal text-center mb-5 mt-10">
           <p>
-            Please select the status for returning the book
-            <span className="font-bold text-main-color"> {title}</span> to
-            <span className="font-bold text-main-color"> {owner.username}</span>
+            Please select the status for the book
+            <span className="font-bold text-main-color"> {title}</span> 
           </p>
         </div>
 

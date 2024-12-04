@@ -52,7 +52,7 @@ function ReturnBookModal({
     axios
       .post(url, emailDTO)
       .then(() => {
-        showSuccess(`The book ${title} has been returned!`);
+        showSuccess(`A request to return book ${title} has been submitted!`);
         setTriggerRefresh(!triggerRefresh);
         closeModal();
       })
