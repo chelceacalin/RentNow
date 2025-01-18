@@ -2,7 +2,7 @@ FROM openjdk:21-jdk-slim
 
 WORKDIR /app
 
-COPY target/core-0.0.1.jar app.jar
+COPY target/gateway-0.0.1.jar app.jar
 
 EXPOSE 8080
 

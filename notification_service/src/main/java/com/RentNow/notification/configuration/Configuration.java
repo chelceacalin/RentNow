@@ -8,6 +8,6 @@ import org.springframework.web.client.RestTemplate;
 public class Configuration {
 	@Bean(name = "coreMicroservice")
 	public RestTemplate coreRestTemplate(RestTemplateBuilder builder) {
-		return builder.rootUri("http://localhost:8080/").build();
+		return builder.rootUri("http://core:8080/").build();
 	}
 }

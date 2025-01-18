@@ -9,7 +9,7 @@ import org.springframework.web.client.RestTemplate;
 public abstract class AbstractCron {
 
 	public final RestTemplate restTemplate;
-	@Value("${custom.core-url:http://localhost:8080}")
+	@Value("${custom.core-url:http://core:8080}")
 	public String coreUrl;
 
 	public AbstractCron(@Qualifier(value = "coreMicroservice") RestTemplate restTemplate) {
