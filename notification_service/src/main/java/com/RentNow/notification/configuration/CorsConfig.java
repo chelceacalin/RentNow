@@ -8,7 +8,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 public class CorsConfig implements WebMvcConfigurer {
 
-	@Value("${custom.coreUrl:http://core:8080}")
+	@Value("${custom.coreUrl:http://localhost:8080}")
 	String coreUrl;
 
 	@Override

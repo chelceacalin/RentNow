@@ -65,7 +65,7 @@ springdoc:
 eureka:
   client:
     serviceUrl:
-      defaultZone: http://api-server:8761/eureka/
+      defaultZone: http://localhost:8761/eureka/
 
 # Actuator config
 management:
