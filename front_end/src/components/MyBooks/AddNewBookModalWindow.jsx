@@ -189,9 +189,9 @@ function AddNewBookModalWindow({ isOpen, onClose, onRefresh }) {
           />
           <TextField
             fullWidth
-            label="Director"
+            label="Author"
             value={formData.director}
-            onChange={handleInputChange("Author")}
+            onChange={handleInputChange("director")}
             variant="outlined"
             required
             error={!!formErrors.director}

@@ -113,43 +113,45 @@ Users receive various notifications:
 
 ### Running the App
 
-1. **Clone the repository**:
-    ```bash
-    git clone https://github.com/chelceacalin/RentNow.git
-    cd RentNow
-    ```
+### Option 1:
+ ```bash
+ cd run
+ ./run.sh
+ ```
 
-2. **Start the api_server** using Docker Compose:
+### Option 2:
+
+1. **Start the api_server** using Docker Compose:
     ```bash
     cd api_server
    ./mvnw spring-boot:run
     ```
-3. **Start the api_gateway** using Docker Compose:
+2. **Start the api_gateway** using Docker Compose:
     ```bash
     cd api_gateway
    ./mvnw spring-boot:run
     ```
 
-4. **Start the core service** using Docker Compose:
+3. **Start the core service** using Docker Compose:
     ```bash
     cd core
     docker-compose up
    ./mvnw spring-boot:run
     ```
 
-5. **Start the notification_service**:
+4. **Start the notification_service**:
     ```bash
     cd notification_service
     ./mvnw spring-boot:run
     ```
 
-6. **Start the reports_service**:
+5. **Start the reports_service**:
     ```bash
     cd reports_service
     ./mvnw spring-boot:run
     ```
    
-7. **Start the front_end**:
+6. **Start the front_end**:
     ```bash
     cd front_end
     npm install --legacy-peer-deps
@@ -158,7 +160,7 @@ Users receive various notifications:
     cd src
     npm run start
     ```
-8. **Start the rag_module service**
+7. **Start the rag_module service**
     ```
     cd .\rag_module\
     docker compose up

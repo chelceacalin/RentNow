@@ -9,6 +9,8 @@ services:
       - POSTGRES_DB=technow
       - POSTGRES_USER=technow
       - POSTGRES_PASSWORD=technow
+    networks:
+      - minionetwork
 
   postgres_exporter:
     image: prometheuscommunity/postgres-exporter
@@ -46,15 +48,15 @@ services:
       - '3000:3000'
     volumes:
       - grafana_data:/var/lib/grafana
-      - ./provisioning/datasources:/etc/grafana/provisioning/datasources
-      - ./provisioning/dashboards:/etc/grafana/provisioning/dashboards
-      - ./provisioning/dashboards/sources:/var/lib/grafana/dashboards
-    links:
+      - ./core/provisioning/datasources:/etc/grafana/provisioning/datasources
+      - ./core/provisioning/dashboards:/etc/grafana/provisioning/dashboards
+      - ./core/provisioning/dashboards/sources:/var/lib/grafana/dashboards
+    depends_on:
       - prometheus
-    networks:
-      - minionetwork
     environment:
       - DS_PROMETHEUS=http://prometheus:9090
+    networks:
+      - minionetwork
 
   prometheus:
     image: prom/prometheus
@@ -65,8 +67,8 @@ services:
     networks:
       - minionetwork
     volumes:
-      - ./src/main/resources/prometheus.yml:/etc/prometheus/prometheus.yml
-    # Grafana binding: http://prometheus:9090
+      - ./core/src/main/resources/prometheus.yml:/etc/prometheus/prometheus.yml
+      # Grafana binding: http://prometheus:9090
 
   loki:
     container_name: loki
@@ -81,7 +83,7 @@ services:
     container_name: promtail
     image: grafana/promtail:latest
     volumes:
-      - ./promtail-config.yaml:/etc/promtail/promtail-config.yaml
+      - ./core/promtail-config.yaml:/etc/promtail/promtail-config.yaml
     depends_on:
       - loki
 
@@ -93,6 +95,19 @@ services:
     networks:
       - minionetwork
 
+    # Chroma Server
+  server:
+    image: ghcr.io/chroma-core/chroma:latest
+    container_name: chroma_server
+    environment:
+      - IS_PERSISTENT=TRUE
+    volumes:
+      - chroma-data:/chroma/chroma/
+    ports:
+      - 8000:8000
+    networks:
+      - minionetwork
+
 networks:
   minionetwork:
     driver: bridge
@@ -101,4 +116,6 @@ volumes:
   minio_data:
     driver: local
   grafana_data:
+    driver: local
+  chroma-data:
     driver: local
