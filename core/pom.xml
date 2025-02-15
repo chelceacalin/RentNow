@@ -12,7 +12,7 @@
     <artifactId>core</artifactId>
     <version>0.0.1</version>
     <packaging>jar</packaging>
-    <name>RentNow Core Module</name>
+    <name>Core Module</name>
     <description>Core Module</description>
 
     <properties>
@@ -167,26 +167,6 @@
                         </manifest>
                     </archive>
                 </configuration>
-            </plugin>
-
-            <!-- Rewrite Maven Plugin -->
-            <plugin>
-                <groupId>org.openrewrite.maven</groupId>
-                <artifactId>rewrite-maven-plugin</artifactId>
-                <version>5.45.0</version>
-                <configuration>
-                    <exportDatatables>true</exportDatatables>
-                    <activeRecipes>
-                        <recipe>org.openrewrite.java.spring.boot3.UpgradeSpringBoot_3_3</recipe>
-                    </activeRecipes>
-                </configuration>
-                <dependencies>
-                    <dependency>
-                        <groupId>org.openrewrite.recipe</groupId>
-                        <artifactId>rewrite-spring</artifactId>
-                        <version>5.23.0</version>
-                    </dependency>
-                </dependencies>
             </plugin>
         </plugins>
     </build>

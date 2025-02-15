@@ -12,7 +12,7 @@
     <artifactId>notification</artifactId>
     <version>0.0.1</version>
     <packaging>jar</packaging>
-    <name>RentNow Notification Module</name>
+    <name>Notification Module</name>
     <description>Core Notification</description>
 
     <properties>

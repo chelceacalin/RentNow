@@ -52,3 +52,5 @@ rag_module/chroma;C
 
 # Core module
 core/target
+/rag_module/venv/
+/venv/lib64/

@@ -124,31 +124,30 @@ Users receive various notifications:
 1. **Start the api_server** using Docker Compose:
     ```bash
     cd api_server
-   ./mvnw spring-boot:run
+    mvn spring-boot:run
     ```
 2. **Start the api_gateway** using Docker Compose:
     ```bash
     cd api_gateway
-   ./mvnw spring-boot:run
+    mvn spring-boot:run
     ```
 
 3. **Start the core service** using Docker Compose:
     ```bash
     cd core
-    docker-compose up
-   ./mvnw spring-boot:run
+    mvn spring-boot:run
     ```
 
 4. **Start the notification_service**:
     ```bash
     cd notification_service
-    ./mvnw spring-boot:run
+    mvn spring-boot:run
     ```
 
 5. **Start the reports_service**:
     ```bash
     cd reports_service
-    ./mvnw spring-boot:run
+    mvn spring-boot:run
     ```
    
 6. **Start the front_end**:
@@ -163,9 +162,10 @@ Users receive various notifications:
 7. **Start the rag_module service**
     ```
     cd .\rag_module\
-    docker compose up
+    python3 -m venv venv
+    source venv/bin/activate
     pip install -r requirements.txt
-    python main.py
+    python3 main.py
     ```
 
 ### Access Points (local)
