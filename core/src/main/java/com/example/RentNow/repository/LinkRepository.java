@@ -13,4 +13,6 @@ public interface LinkRepository extends JpaRepository<Link, UUID> {
 
 	@Query("select l from Link l order by l.updated_date desc")
 	List<Link> findAllLinks();
+
+	boolean existsByName(String name);
 }

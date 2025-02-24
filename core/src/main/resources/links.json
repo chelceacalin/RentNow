@@ -1,0 +1,74 @@
+[
+  {
+    "id": "6f9619ff-8b86-d011-b42d-00cf4fc964ff",
+    "name": "Minio Console",
+    "description": "Web UI for Minio server",
+    "url": "http://localhost:9001",
+    "created_date": "2024-02-24T10:15:30",
+    "updated_date": "2024-02-25T12:30:45"
+  },
+  {
+    "id": "7284a4bc-9e3c-11ed-a8fc-0242ac120002",
+    "name": "Server Health",
+    "description": "Spring Boot Actuator health check",
+    "url": "http://localhost:8081/actuator/health",
+    "created_date": "2024-02-24T10:15:30",
+    "updated_date": "2024-02-25T12:30:45"
+  },
+  {
+    "id": "ff24b47a-9e3c-11ed-a8fc-0242ac120002",
+    "name": "Grafana",
+    "description": "Monitoring and observability dashboard",
+    "url": "http://localhost:3000",
+    "created_date": "2024-02-24T10:15:30",
+    "updated_date": "2024-02-25T12:30:45"
+  },
+  {
+    "id": "e91792c2-9e3d-11ed-a8fc-0242ac120002",
+    "name": "Prometheus",
+    "description": "Metrics monitoring and alerting toolkit",
+    "url": "http://localhost:9090",
+    "created_date": "2024-02-24T10:15:30",
+    "updated_date": "2024-02-25T12:30:45"
+  },
+  {
+    "id": "fc75efae-9e3d-11ed-a8fc-0242ac120002",
+    "name": "Postgres Exporter",
+    "description": "Metrics exporter for PostgreSQL database",
+    "url": "http://localhost:9187/",
+    "created_date": "2024-02-24T10:15:30",
+    "updated_date": "2024-02-25T12:30:45"
+  },
+  {
+    "id": "138d9bd2-9e3e-11ed-a8fc-0242ac120002",
+    "name": "Eureka Server",
+    "description": "Service discovery for microservices",
+    "url": "http://localhost:8761/",
+    "created_date": "2024-02-24T10:15:30",
+    "updated_date": "2024-02-25T12:30:45"
+  },
+  {
+    "id": "208e34d6-9e3e-11ed-a8fc-0242ac120002",
+    "name": "Zipkin",
+    "description": "Distributed tracing system",
+    "url": "http://localhost:9411/",
+    "created_date": "2024-02-24T10:15:30",
+    "updated_date": "2024-02-25T12:30:45"
+  },
+  {
+    "id": "302d15ba-9e3e-11ed-a8fc-0242ac120002",
+    "name": "UI Interface API Documentation",
+    "description": "Swagger UI for API documentation",
+    "url": "http://localhost:8079/webjars/swagger-ui/index.html",
+    "created_date": "2024-02-24T10:15:30",
+    "updated_date": "2024-02-25T12:30:45"
+  },
+  {
+    "id": "3f80c6ea-9e3e-11ed-a8fc-0242ac120002",
+    "name": "Actuator",
+    "description": "Spring Boot Actuator for monitoring",
+    "url": "http://localhost:8079/actuator",
+    "created_date": "2024-02-24T10:15:30",
+    "updated_date": "2024-02-25T12:30:45"
+  }
+]
