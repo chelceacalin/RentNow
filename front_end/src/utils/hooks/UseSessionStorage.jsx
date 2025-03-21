@@ -20,7 +20,7 @@ export const useSessionStorageState = (key, defaultValue) => {
   const setSessionStorageState = useCallback(
     (value) => {
       setState(value);
-      sessionStorage.setItem(key, value);
+      sessionStorage.setItem(key, value.toString());
     },
     [key]
   );

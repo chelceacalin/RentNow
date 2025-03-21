@@ -31,6 +31,7 @@ import AdminRoute from "./utils/protected/AdminRoute";
 import Authenticated from "./utils/protected/Authenticated";
 import MyRentedBooksRoute from "./utils/protected/MyRentedBooksRoute.jsx";
 import ProfileRoute from "./utils/protected/ProfileRoute";
+import axios from "axios";
 function App() {
   return (
     <div className="app-container">
@@ -49,26 +50,13 @@ function App() {
 }
 
 function MainContent() {
-  const { isLoggedIn, is_active } = useContext(UserLoginContext);
+  const { isLoggedIn, is_active, email } = useContext(UserLoginContext);
   const [initialized, setInitialized] = useState(false);
-
-  const [darkModeEnabled, setDarkModeEnabled] = useSessionStorageState(
-    "darkModeEnabled",
-    false
-  );
 
   useEffect(() => {
     setInitialized(true);
   }, []);
 
-  useEffect(() => {
-    console.log("Dark mode enabled:", darkModeEnabled);
-    if (darkModeEnabled) {
-      document.body.classList.add("dark-mode");
-    } else {
-      document.body.classList.remove("dark-mode");
-    }
-  }, []);
 
   if (!initialized) return null;
   if (!isLoggedIn) {
@@ -79,6 +67,18 @@ function MainContent() {
         <Route path="*" element={<Navigate to="/login" />} />
       </Routes>
     );
+  }
+
+  if (initialized) {
+    axios.get(`/users/${email}/settings`).then((response) => {
+      const data = response.data;
+      if (data.darkModeEnabled === "true") {
+        document.body.classList.add("dark-mode");
+      } else {
+        document.body.classList.remove("dark-mode");
+      }
+
+    });
   }
 
   if (!is_active || is_active === "false") {

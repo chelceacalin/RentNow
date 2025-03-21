@@ -18,7 +18,7 @@ function Settings() {
   const toggleTheme = () => {
     setIsDarkMode((prevMode) => !prevMode);
   };
-  const [darkModeEnabled, setDarkModeEnabled] = useState(false);
+  const [darkModeEnabled, setDarkModeEnabled] = useState(true);
 
   const [mailNotificationsEnabled, setMailNotificationsEnabled] =
     useState(false);
@@ -33,11 +33,12 @@ function Settings() {
   }, [darkModeEnabled]);
 
   useEffect(() => {
-    if (loaded) {
-      setMailNotificationsEnabled(user.mailNotificationsEnabled);
-      setSubscribedToNewsletter(user.subscribedToNewsletter);
-      setDarkModeEnabled(user.darkModeEnabled);
-    }
+      if (loaded && user) {
+        setMailNotificationsEnabled(user?.mailNotificationsEnabled ?? false);
+        setSubscribedToNewsletter(user?.subscribedToNewsletter ?? false);
+        setDarkModeEnabled(user?.darkModeEnabled ?? true);
+      }
+    
   }, [loaded, user]);
 
   if (!loaded) {

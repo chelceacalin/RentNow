@@ -59,6 +59,7 @@ function Login() {
       .post(url + "/users/addUser", userDetails)
       .then((response) => {
         const data = response.data;
+        console.log(data)
         setUsername(userDetails.firstName);
         setEmail(userDetails.email);
         setID(data.id);
