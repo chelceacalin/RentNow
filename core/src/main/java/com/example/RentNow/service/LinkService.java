@@ -31,6 +31,10 @@ public class LinkService {
 
     @PostConstruct
     void init() {
+        loadLinks();
+    }
+
+    public void loadLinks() {
         log.info("LinkService init...");
         Resource resource = new ClassPathResource("links.json");
 
@@ -42,6 +46,7 @@ public class LinkService {
 
             jsonData.forEach(link -> {
                 if (!linkRepository.existsByName(link.getName())) {
+                    linkRepository.deleteLinkByName(link.getName());
                     linkRepository.save(link);
                 }
             });

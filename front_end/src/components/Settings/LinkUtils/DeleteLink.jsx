@@ -17,6 +17,7 @@ function DeleteLink({ deleteModalOpen, handleCloseDeleteModal, handleDelete }) {
           p: 4,
           borderRadius: 2,
         }}
+         className="reverseColors"
       >
         <h2 className="text-xl font-semibold mb-4">Confirm Delete</h2>
         <p>Are you sure you want to delete this link?</p>

@@ -1,6 +1,6 @@
-package  com.example.RentNow.repository;
+package com.example.RentNow.repository;
 
-import  com.example.RentNow.model.Link;
+import com.example.RentNow.model.Link;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -11,8 +11,10 @@ import java.util.UUID;
 @Repository
 public interface LinkRepository extends JpaRepository<Link, UUID> {
 
-	@Query("select l from Link l order by l.updated_date desc")
-	List<Link> findAllLinks();
+    @Query("select l from Link l order by l.updated_date desc")
+    List<Link> findAllLinks();
 
-	boolean existsByName(String name);
+    boolean existsByName(String name);
+
+    void deleteLinkByName(String name);
 }

@@ -65,17 +65,10 @@ function Settings() {
 
   return (
     <div className="w-full m-2 ">
-      <h1 className="text-3xl font-semibold mb-6 text-gray-800 darkModeWhiteText">
+      <h1 className="text-3xl ml-4 font-semibold mb-6 text-gray-800 darkModeWhiteText">
         Settings
       </h1>
-      <div className="m-2 flex flex-col gap-4">
-        {isAdmin && (
-          <div className="m-2 flex flex-col gap-4">
-            <QaSection />
-            <LinkUtils />
-          </div>
-        )}
-        <div className="bg-white p-6 rounded-lg w-80 border border-gray-200 shadow-md reverseColors">
+      <div className="bg-white ml-4 p-6 rounded-lg w-80 border border-gray-200 shadow-md reverseColors">
           <h2 className="text-lg font-semibold text-gray-800 mb-4 reverseColors">
             User Options
           </h2>
@@ -130,6 +123,13 @@ function Settings() {
             </div>
           </FormGroup>
         </div>
+      <div className="m-2 flex flex-col gap-4">
+        {isAdmin && (
+          <div className="m-2 flex flex-col gap-4">
+            <QaSection />
+            <LinkUtils />
+          </div>
+        )}
       </div>
     </div>
   );

@@ -113,9 +113,9 @@ function MyProfile() {
         <MyProfileRedirectButtons />
         <button
           onClick={() => setOpenAddModal(true)}
-          className="close-button reset-width"
+          className="close-button reset-width font-bold"
         >
-          Add New
+          Add new book
         </button>
         <AddNewBookModalWindow
           isOpen={openAddModal}

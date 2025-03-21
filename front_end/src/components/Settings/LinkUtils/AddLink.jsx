@@ -24,7 +24,7 @@ function AddLink({
         }}
         className="reverseColors"
       >
-        <h2 className="text-xl font-semibold mb-4 reverseColors">
+        <h2 className="text-xl font-bold mb-4 reverseColors">
           Add New Link
         </h2>
         <TextField

@@ -72,7 +72,7 @@ function MainContent() {
   if (initialized) {
     axios.get(`/users/${email}/settings`).then((response) => {
       const data = response.data;
-      if (data.darkModeEnabled === "true") {
+      if (data.darkModeEnabled ) {
         document.body.classList.add("dark-mode");
       } else {
         document.body.classList.remove("dark-mode");

@@ -13,31 +13,36 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class LinkController extends BaseController {
 
-	final LinkService linkService;
+    final LinkService linkService;
 
-	@GetMapping
-	public ResponseEntity<Object> get() {
-		return buildOkResponse(linkService.findAll());
-	}
+    @GetMapping
+    public ResponseEntity<Object> get() {
+        return buildOkResponse(linkService.findAll());
+    }
 
-	@GetMapping("/{id}")
-	public ResponseEntity<Object> getById(@PathVariable UUID id) {
-		return buildOkResponse(linkService.findById(id));
-	}
+    @GetMapping("/{id}")
+    public ResponseEntity<Object> getById(@PathVariable UUID id) {
+        return buildOkResponse(linkService.findById(id));
+    }
 
-	@PostMapping
-	public ResponseEntity<Object> save(@RequestBody LinkDTO link) {
-		return buildCreatedResponse(linkService.save(link));
-	}
+    @PostMapping
+    public ResponseEntity<Object> save(@RequestBody LinkDTO link) {
+        return buildCreatedResponse(linkService.save(link));
+    }
 
-	@PutMapping
-	public ResponseEntity<Object> update(@RequestBody LinkDTO link) {
-		return buildOkResponse(linkService.update(link));
-	}
+    @PutMapping
+    public ResponseEntity<Object> update(@RequestBody LinkDTO link) {
+        return buildOkResponse(linkService.update(link));
+    }
 
-	@DeleteMapping("/{id}")
-	public ResponseEntity<Object> delete(@PathVariable UUID id) {
-		linkService.deleteLink(id);
-		return buildOkResponse();
-	}
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Object> delete(@PathVariable UUID id) {
+        linkService.deleteLink(id);
+        return buildOkResponse();
+    }
+
+    @GetMapping("/load")
+    public void loadLinks() {
+        linkService.loadLinks();
+    }
 }

@@ -8,7 +8,7 @@ function EditLink({
   handleModalChange,
 }) {
   return (
-    <Modal open={modalOpen} onClose={handleCloseModal}>
+    <Modal open={modalOpen} onClose={handleCloseModal} >
       <Box
         sx={{
           position: "absolute",
@@ -16,13 +16,13 @@ function EditLink({
           left: "50%",
           transform: "translate(-50%, -50%)",
           width: 400,
-          bgcolor: "background.paper",
           boxShadow: 24,
           p: 4,
           borderRadius: 2,
         }}
+        className="reverseColors"
       >
-        <h2 className="text-xl font-semibold mb-4">Edit Link</h2>
+        <h2 className="text-xl font-semibold mb-4 ">Edit Link</h2>
         <TextField
           fullWidth
           variant="outlined"
@@ -30,7 +30,9 @@ function EditLink({
           required
           value={currentLink ? currentLink.name : ""}
           onChange={(e) => handleModalChange("name", e.target.value)}
-          className="mb-4"
+          className="mb-4 "
+          InputLabelProps={{ className: "text-white reverseColors" }}
+          InputProps={{ className: "text-white reverseColors" }}
         />
         <TextField
           fullWidth
@@ -39,6 +41,8 @@ function EditLink({
           style={{ marginTop: 20 }}
           value={currentLink ? currentLink.description : ""}
           onChange={(e) => handleModalChange("description", e.target.value)}
+          InputLabelProps={{ className: "text-white reverseColors" }}
+          InputProps={{ className: "text-white reverseColors" }}
         />
         <TextField
           fullWidth
@@ -48,6 +52,8 @@ function EditLink({
           style={{ marginTop: 20 }}
           value={currentLink ? currentLink.url : ""}
           onChange={(e) => handleModalChange("url", e.target.value)}
+          InputLabelProps={{ className: "text-white reverseColors" }}
+          InputProps={{ className: "text-white reverseColors" }}
         />
 
         <div className="flex gap-x-2 mt-6">

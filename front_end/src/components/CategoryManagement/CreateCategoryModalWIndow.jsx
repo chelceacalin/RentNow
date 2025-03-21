@@ -55,7 +55,7 @@ function CreateCategoryModalWindow({
           size="xl"
           onClick={closeModal}
         />
-        <div className="ml-4 mt-2.5 modal-text reverseColors">
+        <div className="ml-4 mt-2.5 modal-text font-bold reverseColors">
           Add new category
         </div>
       </div>

@@ -88,9 +88,9 @@ function CategoryManagement() {
       <div className="m-0">
         <button
           onClick={handleOpen}
-          className="close-button reset-margin-left reset-width"
+          className="close-button reset-margin-left reset-width font-bold"
         >
-          Add new
+          Add new category
         </button>
         <CreateCategoryModalWindow
           isModalOpen={open}

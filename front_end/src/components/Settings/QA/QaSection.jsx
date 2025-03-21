@@ -125,7 +125,9 @@ function QaSection() {
           Add Q&A Option
         </button>
 
-        <div className="bg-gray-50 p-4 rounded-lg shadow-md border border-gray-300 w-full flex flex-col space-y-4 reverseColors">
+
+
+        <div className="bg-gray-50 p-4 rounded-lg shadow-md  border-gray-300 w-full flex flex-col space-y-4 reverseColors">
           {qaList.length === 0 ? (
             <p className="text-gray-500 text-center py-4 reverseColors">
               No Q&A options available.

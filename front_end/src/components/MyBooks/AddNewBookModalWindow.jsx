@@ -136,7 +136,7 @@ function AddNewBookModalWindow({ isOpen, onClose, onRefresh }) {
   return (
     <Dialog open={isOpen} onClose={onClose} maxWidth="sm" fullWidth>
       <div className="p-6 text-white reverseColors">
-        <h2 className="text-2xl text-black mb-4 reverseColors">Add New Book</h2>
+        <h2 className="text-2xl text-black mb-4 font-bold reverseColors">Add New Book</h2>
         <div className="flex flex-col space-y-4 mt-4 mb-6">
           <div className="relative">
             <input

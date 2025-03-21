@@ -24,7 +24,7 @@ function AddQAOption({
         }}
         className="reverseColors"
       >
-        <h2 className="text-xl font-semibold mb-4 reverseColors">
+        <h2 className="text-xl mb-4 font-bold reverseColors">
           Add New Q&A Option
         </h2>
         <TextField

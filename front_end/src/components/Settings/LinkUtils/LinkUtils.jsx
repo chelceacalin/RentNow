@@ -10,6 +10,7 @@ import { useFetchData } from "../../../utils/hooks/useFetchData";
 import AddLink from "./AddLink";
 import DeleteLink from "./DeleteLink";
 import EditLink from "./EditLink";
+import RefreshIcon from '@mui/icons-material/Refresh';
 
 function LinkUtils() {
   const [triggerRefresh, setTriggerRefresh] = useState(false);
@@ -76,6 +77,17 @@ function LinkUtils() {
     }
   };
 
+  const handleRefreshLinks=()=>{
+    axios.get("/links/load")
+    .then((data)=>{
+      showSuccess("Successfully refreshed default links");
+     
+    })
+    .catch((error)=>{
+      showError("Failed to refresh default links");
+    })
+  }
+
   const handleOpenDeleteModal = (link) => {
     setCurrentLink(link);
     setDeleteModalOpen(true);
@@ -132,15 +144,19 @@ function LinkUtils() {
         id="panel1-header"
       >
         <Typography>Show/Hide Util Links Section</Typography>
+
+       
       </AccordionSummary>
       <AccordionDetails>
+        <div className="flex justify-between w-full">
         <button
           onClick={handleOpenAddModal}
           className="close-button reset-margin-left reset-width mb-4 text-green-color text-white px-4 py-2 rounded"
         >
           Add Link
         </button>
-
+        <RefreshLinks handleRefreshLinks={handleRefreshLinks}/>
+        </div>
         <table className="bg-gray-50 w-full border-collapse border border-gray-300 rounded-lg shadow-md reverseColors">
           <thead className="reverseColors">
             <tr className="bg-gray-100 border-b reverseColors">
@@ -185,22 +201,22 @@ function LinkUtils() {
                           internalLink ? "_self" : "_blank"
                         );
                       }}
-                      className="px-2 py-3 text-blue-500 cursor-pointer underline"
+                      className="px-2 py-3 text-blue-500 font-bold cursor-pointer underline"
                     >
                       {link.name}
                     </td>
 
-                    <td className="px-2 py-3 text-gray-800">
-                      {link.description}
+                    <td className="px-2 py-3 ">
+                      <span className="reverseColors">  {link.description}</span>
                     </td>
                     <td className="px-2 py-3">
                       <button
                         onClick={() => toggleUrlVisibility(link.id)}
-                        className="ml-2 text-xs  text-main-color font-bold underline"
+                        className="ml-2 text-xs  reverseColors font-bold underline"
                       >
                         {internalLink ? "" : link.showUrl ? "Hide" : "Show"}
                       </button>
-                      <span className="text-gray-800 ms-2">
+                      <span className="reverseColors ms-2">
                         {internalLink
                           ? link.url
                           : link.showUrl
@@ -261,6 +277,19 @@ function LinkUtils() {
         handleDelete={handleDelete}
       />
     </Accordion>
+  );
+}
+
+function RefreshLinks({handleRefreshLinks}) {
+
+  return (
+    <div className="flex items-center" onClick={handleRefreshLinks}>
+      <RefreshIcon 
+        onClick={() => {  }} 
+        style={{ cursor: 'pointer' }} 
+      />
+      <span style={{ marginRight: '8px' }}>Refresh</span>
+    </div>
   );
 }
 
