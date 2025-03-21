@@ -199,7 +199,7 @@ function EditRoleModalWindow({
         size="xl"
         onClick={closeModal}
       />
-      <div className="w-full reverseColors">
+      <div className="w-full reverseColors p-4">
         <h2 className="modal-text ms-6 mt-2 reverseColors">
           Edit{" "}
           {isCurrentUser ? <span>account info</span> : <span>user info</span>}
@@ -240,16 +240,16 @@ function EditRoleModalWindow({
               </>
             )}
 
-            <div className="mb-4 mt-4">
-              <TextField
-                label="First Name"
-                value={userDTO.firstName}
-                onChange={handleFirstNameChange}
-                fullWidth
-                disabled={!isCurrentUser}
-                InputLabelProps={{ className: "text-white reverseColors" }}
-                InputProps={{ className: "text-white reverseColors" }}
-              />
+            <div className="mb-4 mt-4 ">
+                <TextField
+                  label="First Name"
+                  value={userDTO.firstName}
+                  onChange={handleFirstNameChange}
+                  fullWidth
+                  disabled={!isCurrentUser}
+                  InputLabelProps={{ className: "text-white reverseColors" }}
+                  InputProps={{ className: "text-white reverseColors" }}
+                />
             </div>
             <div className="mb-4">
               <TextField

@@ -163,5 +163,15 @@
     "id": "en_q34",
     "question": "Is there a mobile app version of Rent Now?",
     "answer": "Currently, Rent Now is a web-based application, but a mobile app version may be released in the future."
+  },
+  {
+    "id": "en_q35",
+    "question": "Who is the author of the application",
+    "answer": "The author is Chelcea Calin"
+  },
+  {
+    "id": "en_q36",
+    "question": "What techonologies are used for this application",
+    "answer": "The technologies for this app include Java, Spring Boot, React Js, Flyway, Postgres, Python, Chroma db"
   }
 ]

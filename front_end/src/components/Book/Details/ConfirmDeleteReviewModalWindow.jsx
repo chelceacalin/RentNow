@@ -19,16 +19,16 @@ function ConfirmDeleteReviewModalWindow({
       aria-labelledby="delete-dialog-title"
       aria-describedby="delete-dialog-description"
     >
-      <DialogTitle id="delete-dialog-title">{"Confirm Deletion"}</DialogTitle>
-      <DialogContent>
-        <DialogContentText id="delete-dialog-description">
+      <DialogTitle id="delete-dialog-title" className="reverseColors">{"Confirm Deletion"}</DialogTitle>
+      <DialogContent className="reverseColors">
+        <DialogContentText id="delete-dialog-description" className="reverseColors">
          {description}
         </DialogContentText>
       </DialogContent>
-      <DialogActions>
+      <DialogActions className="reverseColors">
         <div className="flex gap-x-2 mt-6">
           <button
-            className="details-button"
+            className="details-button " 
             variant="contained"
             onClick={confirmDelete}
           >

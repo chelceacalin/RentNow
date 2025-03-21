@@ -10,6 +10,7 @@ import {
   Select,
   TextField,
   Typography,
+  Tooltip
 } from "@mui/material";
 import axios from "axios";
 import { useState } from "react";
@@ -84,7 +85,7 @@ function ChangeBookStatus({
         <div className="w-full break-normal text-center mb-5 mt-10">
           <p>
             Please select the status for the book
-            <span className="font-bold text-main-color"> {title}</span> 
+            <span className="font-bold text-main-color"> {title}</span>
           </p>
         </div>
 
@@ -96,14 +97,33 @@ function ChangeBookStatus({
               label="Status"
               onChange={(e) => {
                 setStatus(e.target.value);
-                setStatusError(false); // Clear error when a selection is made
+                setStatusError(false);
               }}
               required
             >
-              <MenuItem value="APPROVED">APPROVED</MenuItem>
-              <MenuItem value="REJECTED">REJECTED</MenuItem>
-              <MenuItem value="RETURNED">RETURNED</MenuItem>
-              <MenuItem value="FAILED_RETURNING">FAILED RETURNING</MenuItem>
+              <MenuItem value="APPROVED">
+                <Tooltip title="Approve book rental request" arrow>
+                  <span>APPROVED</span>
+                </Tooltip>
+              </MenuItem>
+
+              <MenuItem value="REJECTED">
+                <Tooltip title="Reject book rental request" arrow>
+                  <span>REJECTED</span>
+                </Tooltip>
+              </MenuItem>
+
+              <MenuItem value="RETURNED">
+                <Tooltip title="Approve book return" arrow>
+                  <span>RETURNED</span>
+                </Tooltip>
+              </MenuItem>
+
+              <MenuItem value="FAILED_RETURNING">
+                <Tooltip title="Book was lost/destroyed" arrow>
+                  <span>FAILED RETURNING</span>
+                </Tooltip>
+              </MenuItem>
             </Select>
             {statusError && (
               <Typography color="error" variant="body2">

@@ -5,7 +5,7 @@ import "react-chat-elements/dist/main.css";
 import { FaComments } from "react-icons/fa";
 import { UserLoginContext } from "../../utils/context/LoginProvider";
 import { useFetchData } from "../../utils/hooks/useFetchData";
-
+import { showError } from "../../service/ToastService";
 const ChatMessenger = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState(
@@ -54,7 +54,6 @@ const ChatMessenger = () => {
   }, [messages]);
 
   useEffect(() => {
-    // Obține întrebările sugerate la montarea componentelor
     fetchSuggestedQuestions();
   }, []);
 
@@ -94,7 +93,7 @@ const ChatMessenger = () => {
         position: "left",
         date: new Date(),
       };
-
+      showError(errorMessage.text);
       setMessages((prevMessages) => [...prevMessages, errorMessage]);
     } finally {
       setIsTyping(false);
@@ -183,7 +182,7 @@ const ChatMessenger = () => {
                   <button
                     key={index}
                     onClick={() => sendMessage(question.question)}
-                    className="bg-gray-200 text-gray-700 px-2 py-1 rounded hover:bg-gray-300 w-auto my-1"
+                    className="bg-gray-200 text-gray-700 px-1 py-1 text-wrap text-sm rounded hover:bg-gray-300 w-auto my-1"
                   >
                     {question.question}
                   </button>

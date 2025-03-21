@@ -476,7 +476,6 @@ function ViewBookDetailsModalWindow({
             <Button
               variant="outlined"
               onClick={(event) => {
-                console.log(toggleDescription);
                 event.stopPropagation();
                 handleToggleReviews();
               }}

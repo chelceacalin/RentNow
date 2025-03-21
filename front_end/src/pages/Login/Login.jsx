@@ -14,6 +14,7 @@ import { useNavigate } from "react-router-dom";
 import { UserLoginContext } from "../../utils/context/LoginProvider.jsx";
 import { auth, provider } from "../../utils/firebase/firebase.js";
 import AppIconUnformatted from "../../utils/icons/AppIconUnformatted.jsx";
+import { showError } from "../../service/ToastService.jsx";
 
 const defaultTheme = createTheme();
 
@@ -59,7 +60,6 @@ function Login() {
       .post(url + "/users/addUser", userDetails)
       .then((response) => {
         const data = response.data;
-        console.log(data)
         setUsername(userDetails.firstName);
         setEmail(userDetails.email);
         setID(data.id);
@@ -71,6 +71,7 @@ function Login() {
       })
       .catch((e) => {
         console.error(e);
+        showError("Error logging in. Please try again.");
       });
   };
 

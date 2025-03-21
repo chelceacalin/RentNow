@@ -5,7 +5,7 @@ import { showError, showSuccess } from "../../service/ToastService";
 import { UserLoginContext } from "../../utils/context/LoginProvider";
 
 function AddNewBookModalWindow({ isOpen, onClose, onRefresh }) {
-  const MAX_FILE_SIZE = 2 * 1024 * 1024; // 2MB
+  const MAX_FILE_SIZE = 2 * 1024 * 1024; 
   const [formData, setFormData] = useState({
     title: "",
     director: "",
