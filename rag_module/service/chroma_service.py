@@ -13,15 +13,20 @@ from typing import List
 from config.logger_config import logger
 from model.Book import Book
 from model.Qa import Qa
+import os
+
+is_docker = os.environ.get('IS_DOCKER', 'false').lower() == 'true'
+logger.info("Is docker" + str(is_docker))
 
 # Initialize the SentenceTransformer model locally
 embedding_model = SentenceTransformer('all-MiniLM-L6-v2')
 default_ef = embedding_functions.DefaultEmbeddingFunction()
+chroma_host = "chroma_server" if is_docker else "localhost"
 
 # Initialize ChromaDB client
 client_settings = Settings(
     chroma_api_impl = "chromadb.api.fastapi.FastAPI",
-    chroma_server_host = "localhost",
+    chroma_server_host = chroma_host,
     chroma_server_http_port = 8000
 )
 
@@ -34,8 +39,7 @@ qa_collection = client.get_or_create_collection("qa_pairs")
 
 def print_collections():
     try:
-        collections = client.list_collections()
-        collection_names = [collection.name for collection in collections]
+        collection_names = client.list_collections()
         logger.info(f"Retrieved collections: {collection_names}")
         return collection_names
     except Exception as e:

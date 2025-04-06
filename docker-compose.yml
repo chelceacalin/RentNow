@@ -108,6 +108,16 @@ services:
     networks:
       - minionetwork
 
+  rag_module:
+    image: calinmarius/rag_module:1.0
+    container_name: rag_module
+    environment:
+      - IS_DOCKER=TRUE
+    ports:
+      - 5000:5000
+    networks:
+      - minionetwork
+
 networks:
   minionetwork:
     driver: bridge
