@@ -32,7 +32,7 @@ sleep 5ls -l run.sh services/
 start_service "Reports Service" "./services/reports.sh"
 start_service "Notification Service" "./services/notification.sh"
 start_service "Front-End Service" "./services/front-end.sh"
-start_service "RAG Module Service" "./services/rag_module.sh"
+#start_service "RAG Module Service" "./services/rag_module.sh"
 
 # Trap to clean up processes on exit
 trap "echo 'Stopping all services...'; kill ${SERVICE_PIDS[*]}; echo 'All services stopped'; exit" SIGINT SIGTERM
