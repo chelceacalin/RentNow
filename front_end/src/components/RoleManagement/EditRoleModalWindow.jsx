@@ -1,6 +1,6 @@
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Autocomplete, Dialog, DialogContent, TextField } from "@mui/material";
+import { Autocomplete, Dialog, DialogContent, TextField, InputLabel, MenuItem, FormControl, Select } from "@mui/material";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { showError, showSuccess } from "../../service/ToastService";
@@ -241,15 +241,15 @@ function EditRoleModalWindow({
             )}
 
             <div className="mb-4 mt-4 ">
-                <TextField
-                  label="First Name"
-                  value={userDTO.firstName}
-                  onChange={handleFirstNameChange}
-                  fullWidth
-                  disabled={!isCurrentUser}
-                  InputLabelProps={{ className: "text-white reverseColors" }}
-                  InputProps={{ className: "text-white reverseColors" }}
-                />
+              <TextField
+                label="First Name"
+                value={userDTO.firstName}
+                onChange={handleFirstNameChange}
+                fullWidth
+                disabled={!isCurrentUser}
+                InputLabelProps={{ className: "text-white reverseColors" }}
+                InputProps={{ className: "text-white reverseColors" }}
+              />
             </div>
             <div className="mb-4">
               <TextField
@@ -265,42 +265,32 @@ function EditRoleModalWindow({
             {isAdmin && (
               <>
                 <div className="mt-6">
-                  <Autocomplete
-                    value={selectedRole}
-                    onChange={(_, value) => {
-                      setSelectedRole(value);
-                    }}
-                    options={role_type}
-                    renderInput={(params) => (
-                      <TextField
-                        {...params}
-                        label="Role"
-                        InputLabelProps={{
-                          className: "text-white reverseColors",
-                        }}
-                        InputProps={{ className: "text-white reverseColors" }}
-                      />
-                    )}
-                  />
+                  <FormControl fullWidth>
+                    <InputLabel id="demo-simple-select-label">Role</InputLabel>
+                    <Select
+                      value={selectedRole}
+                      label="Role"
+                      onChange={(e) => { setSelectedRole(e.target.value) }}
+                    >
+                      <MenuItem value={"ADMIN"}>ADMIN</MenuItem>
+                      <MenuItem value={"USER"}>USER</MenuItem>
+                    </Select>
+                  </FormControl>
                 </div>
                 <div className="mt-6">
-                  <Autocomplete
-                    value={mapToActiveType}
-                    onChange={(_, value) => {
-                      setSelectedActivity(value === "ACTIVE");
-                    }}
-                    options={active_type}
-                    renderInput={(params) => (
-                      <TextField
-                        {...params}
-                        label="Active Status"
-                        InputLabelProps={{
-                          className: "text-white reverseColors",
-                        }}
-                        InputProps={{ className: "text-white reverseColors" }}
-                      />
-                    )}
-                  />
+                  <FormControl fullWidth>
+                    <InputLabel id="demo-simple-select-label">Active Status</InputLabel>
+                    <Select
+                      value={mapToActiveType}
+                      label="Active Status"
+                      onChange={(e) => {
+                        setSelectedActivity(e.target.value === "ACTIVE");
+                      }}
+                    >
+                      <MenuItem value={"ACTIVE"}>ACTIVE</MenuItem>
+                      <MenuItem value={"INACTIVE"}>INACTIVE</MenuItem>
+                    </Select>
+                  </FormControl>
                 </div>
               </>
             )}
