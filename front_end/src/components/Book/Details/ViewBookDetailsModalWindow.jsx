@@ -320,7 +320,7 @@ function ViewBookDetailsModalWindow({
               {title}
             </Typography>
             <Typography variant="subtitle1" sx={{ color: "#ccc" }}>
-              Directed by <span style={{ fontWeight: "bold" }}>{director}</span>
+              Written by <span style={{ fontWeight: "bold" }}>{director}</span>
             </Typography>
             <Typography variant="subtitle1" sx={{ color: "#ccc" }}>
               Category <span style={{ fontWeight: "bold" }}>{category}</span>

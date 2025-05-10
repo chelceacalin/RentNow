@@ -8,6 +8,7 @@ import  com.example.RentNow.model.Book;
 import  com.example.RentNow.model.BookHistory;
 import  com.example.RentNow.model.Category;
 
+import static com.example.RentNow.util.Utils.parseDate;
 import static  com.example.RentNow.util.Utils.parseDateSimple;
 
 public class BookMapper {
@@ -26,8 +27,8 @@ public class BookMapper {
 				.rentedDate(mh != null && mh.getRentedDate() != null ? parseDateSimple(mh.getRentedDate().atStartOfDay()) : null)
 				.rentedUntil(mh != null && mh.getRentedUntil() != null ? parseDateSimple(mh.getRentedUntil().atStartOfDay()) : null)
 				.photoUrl(m.getPhotoUrl() != null ? m.getPhotoUrl() : "")
-				.created_date(parseDateSimple(m.getCreated_date()))
-				.updated_date(m.getUpdated_date() != null ? parseDateSimple(m.getUpdated_date()) : null)
+				.created_date(parseDate(m.getCreated_date()))
+				.updated_date(m.getUpdated_date() != null ? parseDate(m.getUpdated_date()) : null)
 				.status(mh != null && mh.getStatus().getValue() != null ? mh.getStatus().getValue() : "unavailable")
 				.bookHistoryId(mh != null && mh.getId() != null ? mh.getId() : null)
 				.build();

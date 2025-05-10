@@ -18,12 +18,11 @@ function RentedBook({ book, triggerRefresh, setTriggerRefresh, refreshData }) {
 
   const { isAdmin } = useContext(UserLoginContext);
 
-  const { isAvailable, photoUrl, title, director } = book;
+  const { isAvailable, photoUrl, title, director, category } = book;
   return (
     <div
-      className={`rented-book-card ${
-        !isAvailable ? "unavailable" : "available"
-      }`}
+      className={`rented-book-card ${!isAvailable ? "unavailable" : "available"
+        }`}
     >
       <img
         src={photoUrl || "/default-book.jpg"}
@@ -32,8 +31,12 @@ function RentedBook({ book, triggerRefresh, setTriggerRefresh, refreshData }) {
       />
       <div className="book-info">
         <div className="book-details">
-          <h2 className="book-title">{title}</h2>
-          <p className="book-detail">Director: {director}</p>
+          <span className="flex justify-between">
+            <h2 className="book-title">{title}</h2>
+            <p className="text-red-600 font-extrabold"> {category}</p>
+          </span>
+          <p className="book-detail">Author: {director}</p>
+
           {!isAvailable && <RentedUntil book={book} />}
         </div>
         <div className="book-actions">

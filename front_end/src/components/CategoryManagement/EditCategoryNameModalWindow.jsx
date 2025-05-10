@@ -91,7 +91,7 @@ function EditCategoryNameModalWindow({
                 setErrorMessage,
                 startsWithUppercase,
                 "Should start with an uppercase!",
-                250
+                500
               );
             }}
             error={!!errorMessage}

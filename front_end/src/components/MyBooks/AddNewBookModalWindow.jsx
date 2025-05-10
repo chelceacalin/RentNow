@@ -85,7 +85,7 @@ function AddNewBookModalWindow({ isOpen, onClose, onRefresh }) {
     const titleError = validateTextField(title, "Title");
     if (titleError) errors.title = titleError;
 
-    const directorError = validateTextField(director, "Director");
+    const directorError = validateTextField(director, "Author");
     if (directorError) errors.director = directorError;
 
     if (!category) errors.category = "Please select a category";

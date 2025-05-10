@@ -14,7 +14,10 @@ import { useEffect, useState } from "react";
 import { showError, showSuccess } from "../../service/ToastService";
 
 function DetailsBookModalView({ isModalOpen, book, onRefresh, closeModal }) {
+  const [isImageExpanded, setIsImageExpanded] = useState(false);
   const MAX_FILE_SIZE = 2048 * 2048;
+
+  console.log(book)
 
   const [availableCategories, setAvailableCategories] = useState([]);
   const [imagePreviewUrl, setImagePreviewUrl] = useState(book.photoUrl || "");
@@ -64,7 +67,7 @@ function DetailsBookModalView({ isModalOpen, book, onRefresh, closeModal }) {
     } else {
       setFormErrors((prev) => ({
         ...prev,
-        selectedImage: "Invalid image file",
+        selectedImage: "Please select a JPEG or PNG image under 4MB",
       }));
       setImagePreviewUrl(null);
     }
@@ -80,7 +83,7 @@ function DetailsBookModalView({ isModalOpen, book, onRefresh, closeModal }) {
       title.charAt(0) !== title.charAt(0).toUpperCase()
     ) {
       errors.title =
-        "Title should have at least 2 characters and start with an uppercase letter";
+        "Please enter a title starting with a capital letter (min. 2 characters)";
     }
     if (
       !director ||
@@ -88,11 +91,11 @@ function DetailsBookModalView({ isModalOpen, book, onRefresh, closeModal }) {
       director.charAt(0) !== director.charAt(0).toUpperCase()
     ) {
       errors.director =
-        "Director should have at least 2 characters and start with an uppercase letter";
+        "Please enter an author name starting with a capital letter";
     }
     if (!category) errors.category = "Please select a category";
-    if (!description) errors.description = "Description should not be empty";
-    if (!selectedImage) errors.selectedImage = "Please select an image";
+    if (!description) errors.description = "Please add a book description";
+    if (!selectedImage) errors.selectedImage = "Please select a cover image";
 
     setFormErrors(errors);
     return Object.keys(errors).length === 0;
@@ -100,7 +103,7 @@ function DetailsBookModalView({ isModalOpen, book, onRefresh, closeModal }) {
 
   const handleSave = () => {
     if (!validateForm()) {
-      showError("Please fix the errors in the form");
+      showError("Please complete all required fields");
       return;
     }
 
@@ -128,38 +131,42 @@ function DetailsBookModalView({ isModalOpen, book, onRefresh, closeModal }) {
         },
       })
       .then(() => {
-        showSuccess("Book edited successfully!");
+        showSuccess("Book updated successfully!");
         onRefresh();
         closeModal();
       })
       .catch((err) => {
-        showError("Error editing book: " + err.message);
+        showError("Error updating book: " + err.message);
       });
   };
 
   return (
-    <Dialog open={isModalOpen} onClose={closeModal} maxWidth="sm" fullWidth>
-      <Box
-        sx={{
-          borderRadius: 2,
-          overflow: "hidden",
-          position: "relative",
-          padding: 2,
-        }}
-        className="reverseColors"
-      >
+    <Dialog 
+      open={isModalOpen} 
+      onClose={closeModal} 
+      maxWidth="md" 
+      fullWidth
+      PaperProps={{
+        style: { 
+          borderRadius: '8px', 
+          overflow: 'hidden',
+        }
+      }}
+    >
+      <Box sx={{ position: "relative", padding: 2 }} className="reverseColors">
         <Box
           sx={{
             display: "flex",
             justifyContent: "space-between",
             alignItems: "center",
             paddingBottom: 2,
+            borderBottom: "1px solid rgba(0,0,0,0.1)",
+            marginBottom: 2
           }}
-          className="reverseColors"
         >
           <Typography
             variant="h6"
-            sx={{ color: "black", fontWeight: 600 }}
+            sx={{ fontWeight: 600 }}
             className="reverseColors"
           >
             Edit Book
@@ -170,8 +177,17 @@ function DetailsBookModalView({ isModalOpen, book, onRefresh, closeModal }) {
         </Box>
 
         <DialogContent sx={{ padding: 0 }}>
-          <Box sx={{ display: "flex", gap: 1 }}>
-            <Box sx={{ width: "70%" }}>
+          <Box sx={{ display: "flex", flexDirection: {xs: 'column', md: 'row'}, gap: 3 }}>
+            {/* Left side - Image section */}
+            <Box sx={{ width: {xs: '100%', md: '40%'} }}>
+              <Typography 
+                variant="subtitle2" 
+                sx={{ marginBottom: 1, fontWeight: 500 }}
+                className="reverseColors"
+              >
+                Book Cover
+              </Typography>
+              
               <input
                 type="file"
                 accept="image/*"
@@ -182,11 +198,14 @@ function DetailsBookModalView({ isModalOpen, book, onRefresh, closeModal }) {
               />
               <label
                 htmlFor="imageUpload"
-                className={`rent-button reset-width ${
-                  formData.isAvailable ? "" : "disabled"
-                }`}
+                className={`rent-button reset-width ${formData.isAvailable ? "" : "disabled"}`}
                 style={{
                   cursor: formData.isAvailable ? "pointer" : "not-allowed",
+                  display: "inline-block",
+                  marginBottom: "12px",
+                  width: "100%",
+                  textAlign: "center",
+                  padding: "8px 16px",
                 }}
               >
                 Upload Image
@@ -194,29 +213,51 @@ function DetailsBookModalView({ isModalOpen, book, onRefresh, closeModal }) {
 
               {formErrors.selectedImage && (
                 <Typography
-                  sx={{ color: "red", fontSize: "0.875rem", marginTop: 1 }}
+                  sx={{ color: "red", fontSize: "0.75rem", marginBottom: 1 }}
                 >
                   {formErrors.selectedImage}
                 </Typography>
               )}
 
               {imagePreviewUrl && (
-                <Box sx={{ marginTop: 2 }}>
+                <Box 
+                  sx={{ 
+                    marginTop: 1,
+                    border: "1px solid rgba(0,0,0,0.1)",
+                    borderRadius: 1,
+                    padding: 1,
+                    height: "280px",
+                    display: "flex",
+                    flexDirection: "column"
+                  }}
+                >
                   <Typography
-                    variant="subtitle1"
-                    sx={{ color: "black", marginBottom: 1 }}
+                    variant="caption"
+                    sx={{ marginBottom: 1 }}
                     className="reverseColors"
                   >
                     Image Preview
                   </Typography>
-                  <Box sx={{ borderRadius: 1, overflow: "hidden" }}>
+                  <Box 
+                    sx={{ 
+                      borderRadius: 1, 
+                      overflow: "hidden",
+                      flex: 1,
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      cursor: "pointer"
+                    }}
+                    onClick={() => setIsImageExpanded(true)}
+                  >
                     <img
                       src={imagePreviewUrl}
-                      alt="Selected"
-                      className="object-cover w-full h-full"
+                      alt="Book cover"
                       style={{
-                        borderRadius: "8px",
-                        objectFit: "cover",
+                        maxWidth: "100%",
+                        maxHeight: "100%",
+                        objectFit: "contain",
+                        borderRadius: "4px"
                       }}
                     />
                   </Box>
@@ -224,68 +265,123 @@ function DetailsBookModalView({ isModalOpen, book, onRefresh, closeModal }) {
               )}
             </Box>
 
-            <Box sx={{ flexGrow: 1, padding: 2 }}>
-              <TextField
-                fullWidth
-                label="Title"
-                value={formData.title}
-                onChange={handleInputChange("title")}
-                variant="outlined"
-                error={!!formErrors.title}
-                helperText={formErrors.title}
-                disabled={!formData.isAvailable}
-                InputLabelProps={{ className: "reverseColors" }}
-                InputProps={{ className: "reverseColors mb-4" }}
-              />
+            {/* Right side - Form fields */}
+            <Box sx={{ flex: 1 }}>
+              <Box sx={{ marginBottom: 2 }}>
+                <Typography 
+                  variant="subtitle2" 
+                  sx={{ marginBottom: 1, fontWeight: 500 }}
+                  className="reverseColors"
+                >
+                  Title
+                </Typography>
+                <TextField
+                  fullWidth
+                  placeholder="Enter book title"
+                  value={formData.title}
+                  onChange={handleInputChange("title")}
+                  variant="outlined"
+                  error={!!formErrors.title}
+                  helperText={formErrors.title}
+                  disabled={!formData.isAvailable}
+                  size="small"
+                  InputLabelProps={{ className: "reverseColors" }}
+                  InputProps={{ className: "reverseColors" }}
+                />
+              </Box>
 
-              <TextField
-                fullWidth
-                label="Author"
-                value={formData.director}
-                onChange={handleInputChange("director")}
-                variant="outlined"
-                error={!!formErrors.director}
-                helperText={formErrors.director}
-                disabled={!formData.isAvailable}
-                InputLabelProps={{ className: "reverseColors" }}
-                InputProps={{ className: "reverseColors mb-4" }}
-              />
+              <Box sx={{ marginBottom: 2 }}>
+                <Typography 
+                  variant="subtitle2" 
+                  sx={{ marginBottom: 1, fontWeight: 500 }}
+                  className="reverseColors"
+                >
+                  Author
+                </Typography>
+                <TextField
+                  fullWidth
+                  placeholder="Enter author name"
+                  value={formData.director}
+                  onChange={handleInputChange("director")}
+                  variant="outlined"
+                  error={!!formErrors.director}
+                  helperText={formErrors.director}
+                  disabled={!formData.isAvailable}
+                  size="small"
+                  InputLabelProps={{ className: "reverseColors" }}
+                  InputProps={{ className: "reverseColors" }}
+                />
+              </Box>
 
-              <Autocomplete
-                onChange={handleInputChange("category")}
-                value={formData.category}
-                options={availableCategories.map((c) => c.name)}
-                renderInput={(params) => (
-                  <TextField
-                    {...params}
-                    label="Category"
-                    error={!!formErrors.category}
-                    helperText={formErrors.category}
-                    disabled={!formData.isAvailable}
-                    InputLabelProps={{ className: " reverseColors" }}
-                    InputProps={{ className: " reverseColors mb-4" }}
-                  />
-                )}
-              />
+              <Box sx={{ marginBottom: 2 }}>
+                <Typography 
+                  variant="subtitle2" 
+                  sx={{ marginBottom: 1, fontWeight: 500 }}
+                  className="reverseColors"
+                >
+                  Category
+                </Typography>
+                <Autocomplete
+                  onChange={handleInputChange("category")}
+                  value={formData.category}
+                  options={availableCategories.map((c) => c.name)}
+                  size="small"
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      placeholder="Select a category"
+                      error={!!formErrors.category}
+                      helperText={formErrors.category}
+                      disabled={!formData.isAvailable}
+                      InputLabelProps={{ className: "reverseColors" }}
+                      InputProps={{ ...params.InputProps, className: "reverseColors" }}
+                    />
+                  )}
+                />
+              </Box>
 
-              <TextField
-                fullWidth
-                label="Description"
-                value={formData.description}
-                onChange={handleInputChange("description")}
-                variant="outlined"
-                multiline
-                rows={10}
-                error={!!formErrors.description}
-                helperText={formErrors.description}
-                disabled={!formData.isAvailable}
-                InputLabelProps={{ className: " reverseColors" }}
-                InputProps={{ className: " reverseColors mb-4 max-h-96" }}
-              />
+              <Box sx={{ marginBottom: 2 }}>
+                <Typography 
+                  variant="subtitle2" 
+                  sx={{ marginBottom: 1, fontWeight: 500 }}
+                  className="reverseColors"
+                >
+                  Description
+                </Typography>
+                <TextField
+                  fullWidth
+                  placeholder="Enter book description"
+                  value={formData.description}
+                  onChange={handleInputChange("description")}
+                  variant="outlined"
+                  multiline
+                  rows={6}
+                  error={!!formErrors.description}
+                  helperText={formErrors.description}
+                  disabled={!formData.isAvailable}
+                  InputLabelProps={{ className: "reverseColors" }}
+                  InputProps={{ className: "reverseColors" }}
+                />
+              </Box>
             </Box>
           </Box>
 
-          <div className="mt-6 flex justify-end space-x-4">
+          <Box 
+            sx={{ 
+              marginTop: 3, 
+              display: "flex", 
+              justifyContent: "flex-end", 
+              gap: 2,
+              borderTop: "1px solid rgba(0,0,0,0.1)",
+              paddingTop: 2
+            }}
+          >
+            <button
+              onClick={closeModal}
+              className="details-button details-button-red"
+            >
+              Cancel
+            </button>
             <button
               onClick={handleSave}
               className="details-button"
@@ -293,17 +389,64 @@ function DetailsBookModalView({ isModalOpen, book, onRefresh, closeModal }) {
             >
               Save
             </button>
-            <button
-              onClick={(e) => {
-                closeModal();
-              }}
-              className="details-button details-button-red"
-            >
-              Cancel
-            </button>
-          </div>
+          </Box>
         </DialogContent>
       </Box>
+      
+      {/* Image Lightbox/Expanded View */}
+      {isImageExpanded && imagePreviewUrl && (
+        <Dialog 
+          open={isImageExpanded} 
+          onClose={() => setIsImageExpanded(false)}
+          maxWidth="lg"
+          PaperProps={{
+            style: { 
+              backgroundColor: "rgba(0,0,0,0.85)", 
+              boxShadow: "none",
+              overflow: "hidden",
+              borderRadius: "8px"
+            }
+          }}
+        >
+          <Box
+            sx={{
+              position: "relative",
+              width: "100%",
+              height: "90vh",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <IconButton 
+              onClick={() => setIsImageExpanded(false)}
+              sx={{ 
+                position: "absolute", 
+                top: 16, 
+                right: 16, 
+                color: "white",
+                bgcolor: "rgba(0,0,0,0.5)",
+                "&:hover": {
+                  bgcolor: "rgba(0,0,0,0.8)"
+                }
+              }}
+            >
+              <FontAwesomeIcon icon={faTimes} size="lg" />
+            </IconButton>
+            
+            <img
+              src={imagePreviewUrl}
+              alt="Book cover expanded view"
+              style={{
+                maxWidth: "90%",
+                maxHeight: "90%",
+                objectFit: "contain",
+                borderRadius: "4px"
+              }}
+            />
+          </Box>
+        </Dialog>
+      )}
     </Dialog>
   );
 }

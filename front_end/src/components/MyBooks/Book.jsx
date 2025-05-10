@@ -1,13 +1,15 @@
 import { useState } from "react";
 import DeleteBookModalView from "./DeleteBookModalView.jsx";
 import DetailsBookModalView from "./DetailsBookModalView.jsx";
+import CloneBookModalView from "./CloneBookModalView.jsx";
 
 function Book({ book, onRefresh, classes }) {
   const [detailsModalOpen, setDetailsModalOpen] = useState(false);
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
-
+  const [cloneModalOpen, setCloneModalOpen] = useState(false);
   const closeDetailsModal = () => setDetailsModalOpen(false);
   const closeDeleteModal = () => setDeleteModalOpen(false);
+  const closeCloneModal = () => setCloneModalOpen(false);
   return (
     <tr className="shadow-sm shadow-slate-300 reverseColors">
       <td className={classes}>{book.title} </td>
@@ -43,6 +45,13 @@ function Book({ book, onRefresh, classes }) {
             onRefresh={onRefresh}
           />
         )}
+
+        <button
+          onClick={() => setCloneModalOpen(true)}
+          className="details-button rent-button reset-width"
+        >
+          Clone
+        </button>
         <button
           onClick={() => setDeleteModalOpen(true)}
           className="details-button details-button-red reset-width"
@@ -50,6 +59,8 @@ function Book({ book, onRefresh, classes }) {
         >
           Delete
         </button>
+
+      
         {deleteModalOpen && (
           <DeleteBookModalView
             isModalOpen={deleteModalOpen}
@@ -58,6 +69,17 @@ function Book({ book, onRefresh, classes }) {
             onRefresh={onRefresh}
           />
         )}
+
+
+        {cloneModalOpen && (
+          <CloneBookModalView
+            isModalOpen={cloneModalOpen}
+            closeModal={closeCloneModal}
+            book={book}
+            onRefresh={onRefresh}
+          />
+        )}
+
       </td>
     </tr>
   );

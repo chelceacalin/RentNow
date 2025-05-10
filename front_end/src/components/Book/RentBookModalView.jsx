@@ -98,7 +98,7 @@ function RentBookModalView({
           <span style={{ color: "#fff", fontWeight: "bold" }}>
             {book.title}
           </span>{" "}
-          directed by{" "}
+          written by{" "}
           <span style={{ color: "#fff", fontWeight: "bold" }}>
             {book.director}
           </span>{" "}

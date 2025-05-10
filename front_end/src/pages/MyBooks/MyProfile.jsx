@@ -34,6 +34,8 @@ function MyProfile() {
         return "created_date";
       case "renteddate":
         return "rentedDate";
+      case "author":
+        return "director";
       default:
         return field;
     }
@@ -131,7 +133,7 @@ function MyProfile() {
             <tr>
               {[
                 "Title",
-                "Director",
+                "Author",
                 "Category",
                 "Status",
                 "Rented Date",
@@ -152,11 +154,10 @@ function MyProfile() {
                     {elem}
                     {elem !== "Actions" &&
                       lastClicked ===
-                        elem.toLowerCase().replace(/\s+/g, "") && (
+                      elem.toLowerCase().replace(/\s+/g, "") && (
                         <svg
-                          className={`ml-1 w-4 h-4 transform ${
-                            filters.direction ? "rotate-0" : "rotate-180"
-                          }`}
+                          className={`ml-1 w-4 h-4 transform ${filters.direction ? "rotate-0" : "rotate-180"
+                            }`}
                           fill="currentColor"
                           viewBox="0 0 20 20"
                         >
@@ -176,9 +177,8 @@ function MyProfile() {
                 onRefresh={() => {
                   setFilters((prev) => ({ ...prev }));
                 }}
-                classes={`p-4 ${
-                  index === books.length - 1 ? "" : "border-b-2"
-                }`}
+                classes={`p-4 ${index === books.length - 1 ? "" : "border-b-2"
+                  }`}
               />
             ))}
           </tbody>
