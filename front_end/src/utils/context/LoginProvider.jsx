@@ -11,6 +11,7 @@ function LoginProvider({ children }) {
   const [isAdmin, setIsAdmin] = useSessionStorageState("isAdmin", "false");
   const [username, setUsername] = useSessionStorageState("username", "");
   const [email, setEmail] = useSessionStorageState("email", "");
+  const [role, setRole] = useSessionStorageState("role", "");
   const [token, setToken] = useSessionStorageState("token", "");
   const [id, setID] = useSessionStorageState("id", "");
   const [photoUrl, setPhotoUrl] = useSessionStorageState("photoUrl", "");
@@ -39,6 +40,8 @@ function LoginProvider({ children }) {
         set_isActive,
         darkModeEnabled,
         setDarkModeEnabled,
+        role,
+        setRole
       }}
     >
       {children}

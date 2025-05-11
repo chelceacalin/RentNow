@@ -32,6 +32,7 @@ import Authenticated from "./utils/protected/Authenticated";
 import MyRentedBooksRoute from "./utils/protected/MyRentedBooksRoute.jsx";
 import ProfileRoute from "./utils/protected/ProfileRoute";
 import axios from "axios";
+import Sessionchecker from "./utils/protected/Sessionchecker.jsx";
 function App() {
   return (
     <div className="app-container">
@@ -92,6 +93,7 @@ function MainContent() {
         <Navbar />
       </div>
       <Routes>
+        <Route element={<Sessionchecker/>}>
         <Route element={<Authenticated />}>
           <Route path="/" element={<Books />} />
 
@@ -133,7 +135,7 @@ function MainContent() {
           </Route>
           <Route path="/settings" element={<Settings />} />
         </Route>
-
+        </Route>
         {/* Login Route */}
         <Route path="/login" element={<Login />} />
       </Routes>

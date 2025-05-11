@@ -30,6 +30,7 @@ function Login() {
     setEmail,
     set_isActive,
     setDarkModeEnabled,
+    setRole
   } = useContext(UserLoginContext);
 
   const getUserDetails = (userData, providerName = "google") => {
@@ -67,6 +68,7 @@ function Login() {
         setIsLoggedIn(true);
         set_isActive(data.is_active);
         setDarkModeEnabled(data.darkModeEnabled);
+        setRole(data.role);
         navigate("/");
       })
       .catch((e) => {
