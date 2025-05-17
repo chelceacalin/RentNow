@@ -97,7 +97,7 @@ services:
 
     # Chroma Server
   server:
-    image: ghcr.io/chroma-core/chroma:latest
+    image: ghcr.io/chroma-core/chroma:0.6.3
     container_name: chroma_server
     environment:
       - IS_PERSISTENT=TRUE
@@ -105,18 +105,16 @@ services:
       - chroma-data:/chroma/chroma/
     ports:
       - 8000:8000
-    networks:
-      - minionetwork
 
-  rag_module:
-    image: calinmarius/rag_module:1.0
-    container_name: rag_module
-    environment:
-      - IS_DOCKER=TRUE
-    ports:
-      - 5000:5000
-    networks:
-      - minionetwork
+#  rag_module:
+#    image: calinmarius/rag_module:1.0
+#    container_name: rag_module
+#    environment:
+#      - IS_DOCKER=TRUE
+#    ports:
+#      - 5000:5000
+#    networks:
+#      - minionetwork
 
 networks:
   minionetwork:

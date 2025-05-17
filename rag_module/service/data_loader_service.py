@@ -27,6 +27,4 @@ def load_initial_data(path: str):
 
 
 def load_data():
-    print("Loadingg date")
-    script_dir = os.path.dirname(__file__)
-    load_initial_data(os.path.join(script_dir, "data/implicit_qa_en.json"))
+    load_initial_data("service/data/implicit_qa_en.json")
