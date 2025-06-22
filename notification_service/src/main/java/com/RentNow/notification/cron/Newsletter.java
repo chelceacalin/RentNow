@@ -16,6 +16,8 @@ public class Newsletter {
 
 	@Scheduled(fixedRate = 10000, timeUnit = TimeUnit.SECONDS)
 	void sendNewsletter() {
+		log.info("[sendNewsletter] start");
 		notificationService.sendNewsLetterNotification();
+		log.info("[sendNewsletter] end");
 	}
 }

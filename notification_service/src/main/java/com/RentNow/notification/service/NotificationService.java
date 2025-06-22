@@ -15,31 +15,31 @@ public class NotificationService extends AbstractCron {
 
 	public void sendLateBooksNotification(){
 		try {
+			log.info("[NotificationService][sendLateBooksNotification] start");
 			ResponseEntity<String> ans = restTemplate.getForEntity(coreUrl + "/cron/sendLateBooksNotificaton", String.class);
-			log.info("[LateBooksNotification]: {}", ans.getBody());
+			log.info("[NotificationService][sendLateBooksNotification] end");
 		} catch (Exception e) {
-			log.error("Could not clean up");
-			log.error(e.getMessage());
+			log.info("[NotificationService][sendLateBooksNotification] Could not clean up {}", e.getMessage());
 		}
 	}
 
 	public void sendNewsLetterNotification(){
 		try {
+			log.info("[NotificationService][sendNewsLetterNotification] start");
 			ResponseEntity<String> ans = restTemplate.getForEntity(coreUrl + "/cron/sendNewsletter", String.class);
-			log.info("[NewsLetter]: {}", ans.getBody());
+			log.info("[NotificationService][sendNewsLetterNotification] end");
 		} catch (Exception e) {
-			log.error("Could not clean up");
-			log.error(e.getMessage());
+			log.info("[NotificationService][sendNewsLetterNotification] Could not clean up {}", e.getMessage());
 		}
 	}
 
 	public void makeAvailablePendingBooks(){
 		try {
+			log.info("[NotificationService][makeAvailablePendingBooks] start");
 			ResponseEntity<String> ans = restTemplate.getForEntity(coreUrl + "/cron/cleanPendingBooks", String.class);
-			log.info("[PendingBooksCleanup]: {}", ans.getBody());
+			log.info("[NotificationService][makeAvailablePendingBooks] end");
 		} catch (Exception e) {
-			log.error("Could not clean up");
-			log.error(e.getMessage());
+            log.info("[NotificationService][makeAvailablePendingBooks] Could not clean up {}", e.getMessage());
 		}
 	}
 }

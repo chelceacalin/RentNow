@@ -16,6 +16,8 @@ public class PendingBooksCleanup {
 	final NotificationService notificationService;
 	@Scheduled(fixedRate = 24, timeUnit = TimeUnit.HOURS)
 	public void makeAvailablePendingBooks() {
+		log.info("[makeAvailablePendingBooks] start");
 		notificationService.makeAvailablePendingBooks();
+		log.info("[makeAvailablePendingBooks] end");
 	}
 }

@@ -13,10 +13,12 @@ import java.util.concurrent.TimeUnit;
 @RequiredArgsConstructor
 public class LateBooksNotification {
 
-	final NotificationService notificationService;
+    final NotificationService notificationService;
 
-	@Scheduled(fixedRateString = "${custom.remindersSchedulerTime}", timeUnit = TimeUnit.MINUTES)
-	void sendLateBooksNotification() {
-		notificationService.sendLateBooksNotification();
-	}
+    @Scheduled(fixedRateString = "${custom.remindersSchedulerTime}", timeUnit = TimeUnit.MINUTES)
+    void sendLateBooksNotification() {
+        log.info("[sendLateBooksNotification] start");
+        notificationService.sendLateBooksNotification();
+        log.info("[sendLateBooksNotification] end");
+    }
 }

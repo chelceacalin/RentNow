@@ -2,7 +2,6 @@ import RefreshIcon from "@mui/icons-material/Refresh";
 import axios from "axios";
 import React, { useContext, useEffect, useRef, useState } from "react";
 import "react-chat-elements/dist/main.css";
-import { FaComments } from "react-icons/fa";
 import { UserLoginContext } from "../../utils/context/LoginProvider";
 import { useFetchData } from "../../utils/hooks/useFetchData";
 import { showError } from "../../service/ToastService";
@@ -107,7 +106,7 @@ const ChatMessenger = () => {
           className="bg-blue-detail tw rounded-full p-3 shadow-lg transition focus:outline-none"
           onClick={toggleChat}
         >
-          <FaComments size={24} />
+        Chat
         </button>
       )}
 
