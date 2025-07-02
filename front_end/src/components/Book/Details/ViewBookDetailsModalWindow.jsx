@@ -490,7 +490,6 @@ function ViewBookDetailsModalWindow({
             </Button>
           </Grid>
         </Grid>
-
         {showReviews && (
           <ReviewList
             reviews={reviewAddResponseDTOS}

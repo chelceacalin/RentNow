@@ -16,7 +16,7 @@ function ReviewList({ reviews, showReviews, owner_email, refreshData }) {
   const submitReply = (parentCommentId, reviewId) => {
     const commentAddDTO = {
       review_id: reviewId,
-      owner_email: owner_email,
+      owner_email: sessionStorage.getItem("email"),
       comment: replyText,
       parent_comment_id: parentCommentId,
     };

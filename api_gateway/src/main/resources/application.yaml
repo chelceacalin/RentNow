@@ -2,6 +2,7 @@ server:
   port: 8079
 core-url: http://localhost:8080
 front-end-url: http://localhost:4173
+
 spring:
   application:
     name: ApiGateway
@@ -95,4 +96,8 @@ management:
 logging:
   level:
     org.springframework.cloud.gateway: INFO
-
+  pattern:
+    console: "%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr(%5p) %clr(---){faint} %clr([%8.8t]){magenta} %clr(%-40.40logger{39}){cyan} %clr(:){faint} %m%n"
+custom:
+  headersToHide: host,content-length,user-agent,postman-token,accept-encoding,cache-control,connection,accept,sec-ch-ua-platform,sec-ch-ua,dnt,sec-fetch-site,sec-fetch-dest,sec-ch-ua-mobile,upgrade-insecure-requests,sec-fetch-user,sec-fetch-mode,cookie,accept-language,origin,referer
+  hideDefaultHeaders: true
