@@ -1,9 +1,14 @@
-FROM openjdk:21-jdk-slim
-
+# Stage 1: Build
+FROM maven:3.9.8-eclipse-temurin-21 AS build
 WORKDIR /app
+COPY pom.xml .
+COPY src ./src
+RUN mvn clean package -DskipTests
 
-COPY target/api_server-0.0.1.jar app.jar
+# Stage 2: Run
+FROM openjdk:21-jdk-slim
+WORKDIR /app
+COPY --from=build /app/target/api_server-0.0.1.jar ./api_server.jar
 
 EXPOSE 8761
-
-ENTRYPOINT ["java", "-jar", "app.jar"]
+CMD ["java", "-jar", "api_server.jar"]
